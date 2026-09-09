@@ -582,12 +582,12 @@ established; or collapse an unresolved semantic question into an implementation 
 
 If the artifact needs changing, the requirement and the evidence go back to the AUTHOR.
 
-### Role changes are explicit
+### Roles do not change
 
-One agent may occupy different roles at different times, never implicitly. Record the change
-before writing implementation. An AUTHOR that later gains execution capability still cannot
-treat its own run as independent adjudication. **Role boundaries exist to preserve
-responsibility, not model identity.**
+In this workflow the assignment is fixed by capability, not by policy. The browser model has
+no filesystem and no test runner and will not acquire them; the metered agent will not
+become free. So there is no role negotiation to manage — see *The language constraint*
+below for the thing that actually passes between them.
 
 ### Source-state discipline
 
@@ -631,3 +631,93 @@ those responsibilities.**
 > safeguard is that the opposite boundary is unusually hard: the AUTHOR holds zero
 > certification authority, cannot substitute confidence for evidence, and cannot delegate
 > unfinished thinking downstream.
+
+---
+
+## The language constraint
+
+Roles do not move in this workflow, so nothing here is about negotiating them. The browser
+model has no hands and will not acquire any; the metered agent will not become free. What
+actually passes between them is language, and that is where this workflow breaks.
+
+### Every AUTHOR response is a prompt
+
+The AUTHOR is not writing a report for a person who will weigh it. It is writing **the
+input to a weaker model that will act on it literally**. That single fact governs
+everything below.
+
+The EXECUTOR is cheap by design. Assume it will:
+
+- pattern-match on surface form rather than follow reasoning;
+- fill any gap with plausible-looking invention rather than stop;
+- read a hedge as permission to choose;
+- read an aside, an example or a piece of background as an instruction;
+- take the last thing it read as the most important thing;
+- answer a rhetorical question by doing something.
+
+**Ambiguity is a defect in the prompt, not a failure of the executor.** When a cheap agent
+behaves erratically, fix the artifact that instructed it.
+
+### Rules for writing to the EXECUTOR
+
+- **Imperative mood, one action per step.** Numbered, ordered, each independently checkable.
+- **No options.** Never "you could", "consider", "one approach would be", "if you prefer".
+  If a choice exists, the AUTHOR has already made it; a choice reaching the EXECUTOR is an
+  unfinished design.
+- **No hedges.** "Should probably", "roughly", "as appropriate", "or similar", "etc." Each
+  of these is an instruction to improvise.
+- **No conditionals the executor must judge.** A condition is valid only if a command's exit
+  code or an exact string decides it. `if the tests fail, fix them` is invalid.
+  `if exit status is non-zero, stop and return the failure packet` is valid.
+- **No rhetorical questions, and no question at the end.** Questions go to the ADJUDICATOR,
+  never downstream. A packet ending in a question will be answered with an action.
+- **Complete artifacts only.** The EXECUTOR cannot merge, adapt or infer. A diff applies or
+  the packet is wrong. No ellipses, no "rest unchanged", no fragment needing placement.
+- **Fence off anything that is not an instruction.** Rationale, background and alternatives
+  considered are useful to the ADJUDICATOR and dangerous to the EXECUTOR. Put them under an
+  explicit non-executable heading, or leave them out.
+- **Name the stop conditions positively.** "Stop if any file outside this list changed" beats
+  "be careful not to change other files".
+- **Repeat the invariant at the point of risk.** Do not rely on something stated ten steps
+  earlier still being in force in the reader's mind.
+
+Length is not the enemy; ambiguity is. A long exact packet is cheap. A short vague one costs
+a full failed iteration plus whatever the executor did to the tree on the way.
+
+### Rules for writing back to the AUTHOR
+
+The return path is the other half, and prose wastes it. A narrated failure invites the
+AUTHOR to diagnose the narration rather than the fault.
+
+- Structured fields in a fixed order, per the failure evidence contract.
+- The first causal failure, not the downstream cascade.
+- Observations only. The EXECUTOR reports what happened; it does not propose repairs, and a
+  proposed repair in the return path is how design leaks to the cheapest participant.
+- Exact strings: command, exit code, path, SHA. Never "it seemed to fail around the vault
+  loading part".
+- Bounded, with the full log on disk and referenced by path.
+
+An ADJUDICATOR brief back to the AUTHOR follows the same discipline: which acceptance
+criterion was not met, what evidence shows that, and what constraint the revision must
+respect. Not a redesign, not a hint, not a paragraph of context the AUTHOR already has.
+
+### Tell the AUTHOR what it is writing for
+
+The AUTHOR cannot calibrate its prose to a reader it has not been told about. Whoever drives
+the browser session states, in the brief:
+
+- that the output will be executed by a cheap model, not read by a person;
+- what that model may and may not do — it applies and runs, it does not design, resolve
+  conflicts, or interpret intent;
+- that anything ambiguous will be guessed at rather than queried;
+- that the packet is the only context the executor will have.
+
+An AUTHOR that believes it is advising a capable peer will write prose that a capable peer
+could use, and that is precisely the output that makes a cheap agent act erratically.
+
+### The seam, stated once
+
+**The AUTHOR thinks in whatever way it likes and emits a prompt.** Everything upstream of
+that final response — reasoning, exploration, alternatives weighed — is free and invisible.
+The response itself is machine input and is judged only by whether a weak model executing it
+literally produces the intended change.
