@@ -37,6 +37,41 @@ codes, changed files, and the first real failure — not the cascade. Full logs 
 Any fix the executor made, and whether it can *prove* the result was identical or only
 believes it. Both are allowed; pretending is not.
 
+## Watching the reviewer tab
+
+One bounded watcher against the same attached tab. Not screenshots, not refreshes, not
+mouse control, not batches of sleeps.
+
+```js
+let sawGenerating = false;
+
+while (Date.now() - startedAt < timeoutMs) {
+  const generating =
+    (await tab.playwright
+      .getByRole("button", { name: "Stop answering" })
+      .count()) > 0;
+
+  sawGenerating ||= generating;
+
+  if (sawGenerating && !generating) {
+    return "finished";
+  }
+
+  await wait(1000);
+}
+```
+
+**Both edges are required.** Seeing the button gone proves nothing on its own — it is also
+what the page looks like before generation starts. Latch that it appeared, then wait for it
+to go. Checking only for absence is how a half-written answer, or no answer at all, gets
+read as finished.
+
+Then read the completed response **once**, apply it, run the tests, and send the next
+evidence update.
+
+If a watcher is interrupted or times out, reclaim the tab and check. Never assume it
+finished while you were away.
+
 ## Two habits
 
 Commit at an accepted slice, not per edit. Keep big files out of context — read the part
