@@ -94,17 +94,29 @@ times what one dense exchange costs, and the session ends sooner having done the
 
 ## The artifact
 
-**Prefer complete file contents over diffs.**
+**Pick the cheapest form that is still unambiguous. Use judgement; there is no single
+correct format.**
 
 Your response reaches the executor as rendered text. Exact whitespace on blank context lines
-is not guaranteed to survive that, and a unified diff with computed line numbers is the most
-fragile thing you can send. A corrupt patch costs a whole round trip and produces nothing.
+is not guaranteed to survive that, so a unified diff with computed line numbers is the most
+fragile thing you can send — a corrupt patch costs a whole round trip and produces nothing.
+That is an argument against fragile diffs, **not** an instruction to dump entire files every
+time.
 
-So for any file you can reasonably reproduce in full, emit **the entire file as it should
-exist after the change**, in one fenced block per file, with the exact destination path. It
-is larger and it is unambiguous. Where a file is genuinely too large, send a diff, and pick
-anchors that do not depend on line numbers surviving transport.
+Choose:
 
+- **New file** — full contents.
+- **Small or heavily changed file** — full contents. Roughly a few hundred lines is the
+  point where this stops being sensible.
+- **Large file, localised change** — the exact replacement, anchored on a unique surrounding
+  string rather than a line number. Quote enough context to be unambiguous and no more.
+- **A file you are not changing** — say nothing about it.
+
+Emitting two thousand lines to change five is as much a defect as sending an ambiguous
+fragment. It is slow, it buries the actual change, and it invites the executor to
+reformat something you did not mean to touch. Restating unchanged code is not thoroughness.
+
+Whatever form you choose, the executor must be able to apply it without deciding anything.
 Never send pseudocode, ellipses standing for implementation, "rest unchanged", or a fragment
 that needs placing.
 
