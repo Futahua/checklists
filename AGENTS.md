@@ -8,7 +8,12 @@ Read this before adding or updating a checklist.
 
 ---
 
-## Why there is a second reviewer at all
+## Why there is a second model at all
+
+> Throughout the browser-facing sections below, "the reviewer" is the **AUTHOR** role
+> defined under *Authorship, execution, and adjudication* at the end of this file. The
+> older name is kept where it describes how the browser session is driven; the role
+> definition governs who owns what.
 
 The creator's compute is limited and long-horizon planning burns it fast. So the deep
 reading — a whole unfamiliar repository, a plugin's entire interaction surface, a
@@ -403,3 +408,226 @@ Never make the creator solve pacing by withholding useful project context.
 7. Only then, answer length.
 
 **Do not spend expensive live context on information that already has a durable home.**
+
+---
+
+## Authorship, execution, and adjudication
+
+"Reviewer" was the wrong name and it cost real money. A reviewer produces advice; advice
+has to be re-derived into intent by whoever holds the keyboard; and re-deriving intent is
+exactly the expensive thinking the arrangement exists to move off the metered agent. The
+name quietly handed authorship back to the most expensive participant.
+
+The premise is the other way round. The browser model is the abundant thinking capacity
+with no hands — no filesystem, no test runner, no network beyond raw file URLs at a pinned
+SHA, and no way to verify anything. Cheap local agents have hands and no mandate to think.
+The capable metered agent is scarce and must type the least.
+
+So three roles, named by what they **own**:
+
+- **AUTHOR** — owns the design and the implementation artifact.
+- **EXECUTOR** — owns faithful application of that artifact and faithful capture of what happened.
+- **ADJUDICATOR** — owns acceptance, safety, authority-bearing actions, and escalation.
+
+Not a hierarchy. Different kinds of responsibility. The creator remains the source of
+product intent, and no role may silently replace an explicit creator decision with its own
+preference.
+
+### The governing rule
+
+**The AUTHOR writes the implementation. The EXECUTOR does not work out what the AUTHOR
+meant. The ADJUDICATOR does not rewrite the implementation.**
+
+If either of the last two happens, authorship has silently transferred and the model has
+failed.
+
+```
+AUTHOR  writes exact implementation artifact
+   ↓
+EXECUTOR  applies it exactly, runs the exact verification
+   ↓
+   success evidence ──────────→ ADJUDICATOR decides whether the claim closes
+   │
+   failure evidence
+   ↓
+AUTHOR  diagnoses, authors the revision
+   ↓
+EXECUTOR  applies and reruns
+```
+
+The ADJUDICATOR sits out ordinary failed iterations. It **must** enter before a meaningful
+claim is declared closed, before any destructive or authority-bearing action, and whenever
+evidence or intent needs judgement. Otherwise nobody owns acceptance.
+
+### Authorship is not verification
+
+This is the crux, and the answer is deliberately uncomfortable: **the AUTHOR is
+responsible for correctness it cannot personally observe.**
+
+The AUTHOR owns the intended design, the exact code change, the correctness of the
+implementation reasoning, the verification commands, the acceptance criteria, and any
+revision execution evidence forces. It does **not** own the authority to say unexecuted
+code works. An AUTHOR artifact is an unverified implementation until execution evidence
+exists.
+
+Responsibility for "tests pass and the design is still wrong" is overlapping, not
+transferable:
+
+- **AUTHOR** owns the defect when the artifact or its acceptance criteria embody the wrong
+  design.
+- **ADJUDICATOR** owns a false closure when it declares a requirement satisfied on evidence
+  that does not establish it.
+- **EXECUTOR** owns neither, provided it applied exactly what was authored and reported
+  reality without alteration.
+
+If the creator's requirement is genuinely ambiguous, the ADJUDICATOR escalates. The AUTHOR
+must not invent product intent to make its spec feel complete.
+
+### AUTHOR output contract
+
+An executable implementation packet, never advice. In this order:
+
+1. **Basis** — repository, exact branch/SHA authored against, files actually read,
+   governing decisions, assumptions that materially affect correctness.
+2. **Intent** — the exact behavioural change, invariants that must survive, explicit
+   non-goals.
+3. **Artifact** — a unified diff that applies to the stated base, or complete contents of
+   every new or replaced file. No pseudocode, no ellipses standing in for implementation,
+   no "something like this", no TODO left for the EXECUTOR to interpret.
+4. **Execution** — exact working directory, exact commands in order, environment
+   assumptions, and any destructive or authority-bearing command marked as such.
+5. **Acceptance** — falsifiable criteria, which command or evidence proves each, expected
+   exit status, and structural assertions wherever a green test alone is insufficient.
+6. **Stop conditions** — when the EXECUTOR must halt rather than improvise, which files
+   must not change, and what unexpected output invalidates the packet.
+
+Control prose is capped at **12,000 characters** excluding the code artifact. If code or
+diff material exceeds **30,000 characters**, deliver it as separate file-scoped artifacts
+rather than burying it in narrative. Reduce prose to fit these bounds, never implementation
+completeness.
+
+### AUTHOR never-do
+
+- Claim code passes, builds, runs, applies cleanly or fixes anything without execution evidence.
+- Say "verified", "confirmed" or "green" about an operation it did not observe.
+- Produce a diff against a tree it has not read, or cite a line number in a file it has not
+  read at the stated revision.
+- Invent an API, symbol, path, selector, schema, command, dependency or runtime behaviour
+  and present it as existing.
+- Assume the tree still matches a previously read SHA.
+- Ask the EXECUTOR to "finish", "adjust", "fix as needed" or otherwise exercise
+  implementation judgement.
+- Omit hard branches, or broaden scope because a wholesale rewrite is easier to author.
+- Change, weaken, skip or delete a test to make a failure disappear — unless the test change
+  is itself part of the authored design and justified against the requirement.
+- Suppress errors, disable checks or add unconditional fallbacks to obtain green.
+- Prescribe a destructive command without naming its effect and requiring authority.
+- Conceal uncertainty behind confident wording, or treat its own acceptance criteria as
+  evidence that those criteria were met.
+
+When evidence disproves an artifact, the AUTHOR revises it. It does not reinterpret the
+failure as success.
+
+### EXECUTOR role and never-do
+
+Mechanical. Owns confirming the stated baseline, applying the artifact exactly, running the
+exact commands, keeping full logs on disk, returning bounded faithful evidence, and stopping
+when execution leaves the authored envelope.
+
+The EXECUTOR must never redesign the change, substitute its preferred implementation,
+refactor or rename for taste, add dependencies or touch lockfiles unless authored, modify
+tests unless the artifact modifies them, weaken or quarantine a failing test to get green,
+swap the verification command for one that passes, suppress warnings the acceptance criteria
+treat as meaningful, hand-edit a failed patch until it applies, fuzzy-patch, resolve a merge
+conflict by judgement, "fix forward" after a failure, retry with unrequested source changes,
+perform an authority-bearing action unauthorised, report only the successful retry while
+hiding earlier failures, or call an unexpected diff harmless on its own authority.
+
+**If the diff will not apply, a command fails, an unexpected file changes, or reality
+contradicts the packet — stop and return evidence. Do not repair it.**
+
+### Failure evidence contract
+
+Failure goes back to the AUTHOR, not into an improvised fix. At most **10,000 characters
+and 120 lines**, whichever comes first; anything larger stays on disk and is referenced by
+path, size and hash.
+
+Contains: actual branch/SHA and clean-or-dirty state before application; whether the
+artifact applied and the first rejected hunk if not; the exact failing command, working
+directory and exit code; the **first causal failure** with bounded surrounding output, not
+hundreds of downstream ones; names of files changed beyond the authored set with a compact
+diffstat; the path to the full log; and no diagnosis dressed up as a fix. If many tests
+fail, return the earliest independently actionable one plus the total count.
+
+Success evidence is bounded too — baseline, application result, commands, exit codes,
+concise test and typecheck counts, final changed-file list, unexpected-diff status, and log
+paths. **A green exit code is evidence, not acceptance.**
+
+### ADJUDICATOR role and never-do
+
+Owns judgement, not implementation, and should type the least code of the three. It decides
+whether evidence proves the authored criteria, whether those criteria are sufficient for
+what the creator actually asked, whether a change is safe to integrate, whether an
+unexpected diff is acceptable, whether a failure needs another AUTHOR iteration, and when to
+escalate.
+
+The ADJUDICATOR must never re-derive and rewrite the implementation because reading the
+artifact feels slower than rethinking it; become a second AUTHOR without an explicit role
+change; silently patch code while "reviewing"; ask the EXECUTOR to improvise; accept a
+change merely because tests are green; substitute its own product intent for an explicit
+creator decision; weaken acceptance criteria after a failure to close the gate; ignore
+unexpected files, warnings, partial failures or recovery-required outcomes; treat missing
+evidence as either failure or success; act on authority whose safety conditions are not
+established; or collapse an unresolved semantic question into an implementation detail.
+
+If the artifact needs changing, the requirement and the evidence go back to the AUTHOR.
+
+### Role changes are explicit
+
+One agent may occupy different roles at different times, never implicitly. Record the change
+before writing implementation. An AUTHOR that later gains execution capability still cannot
+treat its own run as independent adjudication. **Role boundaries exist to preserve
+responsibility, not model identity.**
+
+### Source-state discipline
+
+Every artifact is bound to the source state it was authored against. The EXECUTOR verifies
+the baseline before applying. If it differs: do not assume the diff is still valid, do not
+adapt it by hand — return the new baseline and bounded conflict evidence, and let the AUTHOR
+reread and re-author.
+
+### Tests are evidence, not obstacles
+
+A failing existing test is evidence that must be explained. No role makes a test disappear
+because it blocks progress. Changing one is valid only when the AUTHOR establishes that the
+old assertion contradicts the governing requirement, and authors the implementation and the
+test change together — and the ADJUDICATOR judges that reasoning before accepting it.
+
+### Escalation
+
+Do not escalate because one attempt failed; ordinary failures return to the AUTHOR. Escalate
+when evidence contradicts a governing requirement rather than an implementation, when source
+state makes the artifact unsafe, when the same semantic blocker survives **three** AUTHOR
+revisions, when the decision is not derivable from creator intent, when satisfying one
+requirement necessarily violates another, or when authority is required.
+
+Three is an operational guard against an endless cheap repair loop, not a proof of
+impossibility. Tune it from real traces.
+
+### The model has failed if any of this becomes normal
+
+- The EXECUTOR has to infer what implementation the AUTHOR wanted.
+- The EXECUTOR fixes failing code without a new AUTHOR artifact.
+- The ADJUDICATOR routinely rewrites the implementation.
+- The AUTHOR claims verification it could not perform.
+- Green tests are treated as proof of product correctness without adjudication.
+- The creator has to translate prose advice into implementation intent.
+
+**AUTHOR the change. EXECUTE the artifact. ADJUDICATE the evidence. Never silently exchange
+those responsibilities.**
+
+> Noted for the record: this section was drafted by the AUTHOR role about its own mandate,
+> and it said so unprompted — there is a structural incentive to define AUTHOR broadly. The
+> safeguard is that the opposite boundary is unusually hard: the AUTHOR holds zero
+> certification authority, cannot substitute confidence for evidence, and cannot delegate
+> unfinished thinking downstream.
