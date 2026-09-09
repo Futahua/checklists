@@ -2,19 +2,25 @@
 
 **AUTHOR** — the browser. Writes the change. No hands, cannot run anything.
 **EXECUTOR** — whoever writes to disk. Applies it and runs it. Does not redesign.
-**The creator** — says yes or no. Nobody else does.
+**The creator** — reviews afterwards, on their own time. Not in the loop.
 
 ```
 AUTHOR writes → EXECUTOR applies and runs → it worked?
-                                             yes → creator decides
+                                             yes → AUTHOR checks the evidence,
+                                                   EXECUTOR commits and pushes
                                              no  → back to AUTHOR
 ```
+
+**Run for hours. Do not wait for the creator.** When a slice closes, start the next one.
+Push so they can review when they choose; never block on them being there.
 
 That is the workflow. The rest of this page is the handful of things that go wrong.
 
 ## Five rules
 
-1. The creator decides what is done. Neither agent decides it.
+1. **The EXECUTOR never accepts its own work.** The AUTHOR judges the evidence against
+   the acceptance conditions it set. That separation is what survives the creator being
+   away — it is not a formality to skip when nobody is watching.
 2. The AUTHOR decides what the code means. The EXECUTOR never does.
 3. The EXECUTOR may fix *how* something was delivered — a mangled patch, a short SHA, a
    wrong path — when it can show the result is identical. Never *what* it does.
@@ -72,10 +78,28 @@ evidence update.
 If a watcher is interrupted or times out, reclaim the tab and check. Never assume it
 finished while you were away.
 
-## Two habits
+## Pushing
 
-Commit at an accepted slice, not per edit. Keep big files out of context — read the part
-you need.
+Push at accepted slice boundaries so there is something reviewable. That is allowed and
+expected; abusing it is not. Not per edit, not a stream of one-line commits, not work that
+does not pass its own acceptance conditions.
+
+Feature branches only. **These still wait for the creator, however long that takes:**
+merging to main, force-push, rewriting history, deleting branches, anything touching their
+vault or real data, and anything else that cannot be undone by checking out the previous
+commit.
+
+Keep big files out of context — read the part you need.
+
+## When something blocks
+
+Do not stop and wait. Try the other way round: reclaim the tab, restart the browser
+session, re-read the file, re-ask the AUTHOR with the failure attached. Work the problem
+with whatever the browser allows.
+
+Stop only for a decision that is genuinely the creator's — an irreversible action, a
+conflict between two things they asked for, or a question the source cannot answer. Leave
+it stated plainly and move to work that is not blocked by it.
 
 ## Elsewhere
 
