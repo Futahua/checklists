@@ -65,9 +65,16 @@ Checks that fail on their own. They are not remembered, and not restated as pros
   failure, bounded excerpt, full log by path with size and hash
 - deviation records rejected unless every required field is present
 
-Scripts to build: `packet-validate`, `artifact-apply`, `execute-packet`, `deviation-record`,
-`gate-record`, `evidence-bound`, `browser-wait`, `context-watch`, `handoff-build`,
-`public-repo-scan`.
+**A script earns its existence only after the same failure has cost a round trip twice.**
+Same test as a cultural rule, applied to code: machinery written in advance of observed
+failure is a second project competing with the first, and it does not guarantee
+productivity — it guarantees consistency, which is only worth paying for once inconsistency
+has actually cost something.
+
+Ledger, so this stays honest. Observed twice: nothing yet. Observed once: rendered-diff
+corruption (answered by the guarded-replacement format, no code), a hand-typed short SHA
+(answered by the liberty rule, no code), a substituted verification command (answered by
+running the authored one). Written so far: none, correctly.
 
 **Honest limit:** these enforce the normal path. An executor with unrestricted shell access
 can step around them. The target is not *the executor had no thoughts* — it is *the executor
