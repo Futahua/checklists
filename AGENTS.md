@@ -116,6 +116,31 @@ commit.
 
 Keep big files out of context — read the part you need.
 
+## Pace
+
+Both agents have finite capacity — Claude's five-hour window, Codex's own limits — and
+running out mid-project is the failure that matters, not the cost. Watch your own burn; the
+creator should never have to.
+
+```bash
+python "D:/Letters/MatTroiSeConMoc/Tools/claude-usage.py" --brief
+```
+
+Then measure it against the work remaining, not against the clock. A checklist with
+hundreds of boxes and a rate of two or three per session will not finish, and the answer is
+**bigger slices, not more hours**. If the pace does not reach the end, the slice size is
+wrong.
+
+So bias aggressive. Take the largest slice that still ends somewhere judgeable. Bundle
+independent changes into one packet. Ask the AUTHOR for more per exchange, not less. Round
+trips are the expensive thing — a slice that takes an hour to author and applies cleanly
+beats six that each cost an exchange.
+
+Slow down only where a mistake is expensive: anything irreversible, anything touching real
+data, anything where being wrong is discovered late. Everywhere else, speed is the safer
+choice, because the loop's failure mode is running out of capacity with the checklist
+barely touched.
+
 ## When something blocks
 
 Do not stop and wait. Try the other way round: reclaim the tab, restart the browser
