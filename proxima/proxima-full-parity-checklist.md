@@ -83,18 +83,18 @@ The current action dispatcher is synchronous and typed but only understands four
   - [ ] record mutations;
   - [ ] vault-artifact gestures.
 
-- [ ] Extend the result taxonomy so mutation callers can distinguish at minimum:
-  - [ ] `accepted`;
-  - [ ] validation refusal;
-  - [ ] not found;
-  - [ ] stale observed revision;
-  - [ ] semantic conflict;
-  - [ ] unavailable action;
-  - [ ] recovery required / ambiguous commit;
-  - [ ] storage failure.
+- [x] Extend the result taxonomy so mutation callers can distinguish at minimum:
+  - [x] `accepted`;
+  - [x] validation refusal;
+  - [x] not found;
+  - [x] stale observed revision;
+  - [x] semantic conflict;
+  - [x] unavailable action;
+  - [x] recovery required / ambiguous commit;
+  - [x] storage failure.
 
-- [ ] Preserve a unique request ID through dispatcher → semantic operation → mutation journal → result/event.
-- [ ] Include affected logical record IDs in mutation results.
+- [x] Preserve a unique request ID through dispatcher → semantic operation → mutation journal → result/event. *(dispatcher → result/event only; the journal leg arrives with the record store.)*
+- [x] Include affected logical record IDs in mutation results. *(`entityIds` is required on every result, empty rather than absent for presentation actions.)*
 - [ ] Include resulting record revision(s) where a record changed.
 - [ ] Define bulk-action results per entity so partial success can never be mistaken for complete success.
 - [ ] Make the inspection contract expose:
@@ -123,20 +123,32 @@ The current action dispatcher is synchronous and typed but only understands four
 ## Acceptance
 
 - [ ] An action submitted through the UI and the equivalent action submitted through the agent/programmatic entry point produce the same semantic operation/result shape.
-- [ ] Invalid action input performs zero durable writes.
-- [ ] Unknown action type returns a typed refusal.
-- [ ] Every action result can be runtime-validated at the boundary.
+- [x] Invalid action input performs zero durable writes.
+- [x] Unknown action type returns a typed refusal.
+- [x] Every action result can be runtime-validated at the boundary.
 - [ ] Test code can perform a real drag sequence without creator input and inspect the intermediate state.
 - [ ] Test code can wait for `settled` rather than relying on sleeps.
 - [ ] No test requires visual inspection by the creator.
 
 ## Evidence
 
-- Action parser/guard tests.
-- UI-versus-agent equivalence tests.
-- Programmatic pointer/keyboard harness tests.
-- Machine-readable inspection snapshot fixtures.
-- A test proving malformed agent requests never reach mutation storage.
+- [x] Action parser/guard tests. — `tests/actionTaxonomy.test.ts`, 14 tests, on
+  `proxima-backpack` branch `stage0-action-spine` at `da7881f`. Full suite 93 files /
+  588 tests, typecheck clean.
+- [ ] UI-versus-agent equivalence tests. *(nothing to compare yet: no action has two callers.)*
+- [ ] Programmatic pointer/keyboard harness tests.
+- [ ] Machine-readable inspection snapshot fixtures.
+- [ ] A test proving malformed agent requests never reach mutation storage. *(partially:
+  malformed input is proven to leave dispatcher state untouched; there is no mutation
+  storage to reach yet.)*
+
+### Progress
+
+Categories and outcomes exist and are enforced at the boundary. The action union itself
+still contains only presentation actions, so the local-state, record-mutation and
+artifact-mutation rows above stay open until actions of those categories are registered.
+`categoryOf` returns undefined for an unregistered type rather than defaulting, and
+`resultFor` throws rather than accept an action whose cost nobody declared.
 
 ### HARD GATE 0
 
