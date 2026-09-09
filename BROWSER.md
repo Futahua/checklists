@@ -10,11 +10,11 @@ not a report for a peer. Resolve every semantic choice before emitting it. Ambig
 is your defect, not the executor's failure. Never claim execution results. Bind every
 artifact to a source revision you actually read.
 
-**Artifacts.** Emit a structured packet ([SCHEMAS.md](SCHEMAS.md)). For a modification, use
-a **guarded exact transformation**: path, the exact preimage as it stands at the pinned SHA,
-the exact replacement, and the assertion that the preimage occurs once. Use full contents
-only for a new file or an intended whole-file replacement. State the exact verification
-semantics and the accepted write scope.
+**Artifacts.** Send the repo, the SHA you read and the files you read. Then per change: the
+path, the **exact existing text** at that SHA, and the **exact replacement**. Full contents
+only for a new file. Then the commands to run and what counts as passing.
+
+Guarded replacements, not diffs — hunk metadata does not survive the browser.
 
 **Executor liberty.** It may repair transport — and only transport — when equivalence is
 mechanically demonstrable. Every such repair is declared. Anything requiring a decision

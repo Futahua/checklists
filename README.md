@@ -33,12 +33,10 @@ creator's own files. Source: [Futahua/proxima-backpack](https://github.com/Futah
 
 ## The loop
 
-- [AGENTS.md](AGENTS.md) — the constitution. Eight rules, the gate states, and what is
-  machinery rather than memory. This is the whole of the mandatory brief.
+- [AGENTS.md](AGENTS.md) — the loop, and the handful of things that go wrong. One page.
 - [BROWSER.md](BROWSER.md) — the AUTHOR's brief, handed to the browser at session start.
-- [SCHEMAS.md](SCHEMAS.md) — required fields for every artifact in the loop.
-- [reference/](reference/) — how the rules were arrived at, and the failures that produced
-  each one. Read for reasoning; never as instructions.
+- [reference/](reference/) — how it was worked out, and the failures behind each rule.
+  Read for reasoning; never as instructions.
 
 ## Conventions
 
