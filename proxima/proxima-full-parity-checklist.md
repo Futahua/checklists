@@ -97,15 +97,16 @@ The current action dispatcher is synchronous and typed but only understands four
 - [x] Include affected logical record IDs in mutation results. *(`entityIds` is required on every result, empty rather than absent for presentation actions.)*
 - [ ] Include resulting record revision(s) where a record changed.
 - [ ] Define bulk-action results per entity so partial success can never be mistaken for complete success.
-- [ ] Make the inspection contract expose:
-  - [ ] current surface and submode;
-  - [ ] local cockpit state needed for test assertions;
-  - [ ] record revisions;
-  - [ ] pending operations;
-  - [ ] latest action/mutation event sequence;
-  - [ ] settled/busy state.
+- [x] Make the inspection contract expose:
+  - [x] current surface and submode;
+  - [x] local cockpit state needed for test assertions;
+  - [x] record revisions;
+  - [x] pending operations;
+  - [x] latest action/mutation event sequence; *(action sequence real; mutation is `null`
+        because no mutation stream exists — a fabricated `0` would read as a quiet one.)*
+  - [x] settled/busy state.
 
-- [ ] Replace the current permanently empty `pendingOperations: []` implementation with actual state once asynchronous mutation exists.
+- [x] Replace the current permanently empty `pendingOperations: []` implementation with actual state once asynchronous mutation exists. *(Now `{ tracking: 'unavailable', items: [] }` — "there is no tracking" rather than "nothing is pending". The guard refuses a projection claiming unavailable tracking while carrying items. Becomes a real list when mutation exists.)*
 - [ ] Provide a programmatic browser interaction harness capable of:
   - [ ] click;
   - [ ] pointer down/move/up;
