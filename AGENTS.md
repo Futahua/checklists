@@ -6,6 +6,14 @@ its failure modes.
 
 Read this before adding or updating a checklist.
 
+The companion document is [`BROWSER.md`](BROWSER.md) — the same workflow written for the
+AUTHOR, which reads it in a browser session and cannot read this one. Hand it that URL at
+the start of a session instead of re-explaining the rules in chat:
+
+```
+https://raw.githubusercontent.com/Futahua/checklists/main/BROWSER.md
+```
+
 ---
 
 ## Why there is a second model at all
