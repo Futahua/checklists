@@ -103,14 +103,29 @@ fragile thing you can send — a corrupt patch costs a whole round trip and prod
 That is an argument against fragile diffs, **not** an instruction to dump entire files every
 time.
 
-Choose:
+**The normal format for a modification is a preimage-guarded replacement.** For each
+actual change, supply: the target path; the exact existing block as it stands at the pinned
+SHA; the exact replacement block; and the assertion that the existing block occurs exactly
+once. The executor runs a deterministic edit that verifies the preimage appears once,
+replaces only those bytes, and refuses if it is absent or duplicated. It fails closed when
+the tree differs, it carries no computed hunk counts to be mangled in transit, and it needs
+no merging.
+
+You must have actually read every preimage you supply, at the pinned SHA. An invented or
+stale anchor is another wall — though at least one that fails without asking the executor
+to adapt.
+
+Reserve other formats for what they suit:
 
 - **New file** — full contents.
-- **Small or heavily changed file** — full contents. Roughly a few hundred lines is the
-  point where this stops being sensible.
-- **Large file, localised change** — the exact replacement, anchored on a unique surrounding
-  string rather than a line number. Quote enough context to be unambiguous and no more.
+- **Very small file, or a genuine near-total rewrite** — full contents.
 - **A file you are not changing** — say nothing about it.
+- **Unified diffs** — useful as human-readable evidence after the fact. Not as transport
+  through a rendered channel.
+
+For a sixty-line change across three medium files, guarded replacements cost a few thousand
+characters. Full files cost tens of thousands, and the metered executor pays it twice —
+once reading, once writing.
 
 Emitting two thousand lines to change five is as much a defect as sending an ambiguous
 fragment. It is slow, it buries the actual change, and it invites the executor to
@@ -119,6 +134,17 @@ reformat something you did not mean to touch. Restating unchanged code is not th
 Whatever form you choose, the executor must be able to apply it without deciding anything.
 Never send pseudocode, ellipses standing for implementation, "rest unchanged", or a fragment
 that needs placing.
+
+### Specify the result exactly; specify the mechanism only as tightly as correctness requires
+
+Be exact about the intended source postimage in the changed regions, the forbidden write
+scope, the verification semantics, and the acceptance claims. Deliberately leave the
+executor latitude over mechanically equivalent transport.
+
+That is the opposite of vague: the semantic envelope gets stricter while the delivery
+mechanism gets looser. Over-specifying unverified shell machinery — a hand-typed SHA guard,
+an exact invocation you have never run — converts a trivial authoring slip into a mandatory
+round trip. That is not rigour, it is brittleness.
 
 ## Packet structure
 

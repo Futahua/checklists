@@ -817,3 +817,86 @@ Acknowledgement is not a message. Neither is restating the plan, confirming rece
 narrating what is about to happen. Do the thing, then report what happened.
 
 The bar for an exchange is that it changes what somebody does next.
+
+---
+
+## Executor liberty, and what makes it safe
+
+Giving the AUTHOR total authority is counterproductive. It cannot run anything, so nearly
+every packet contains something mechanically wrong — a hand-typed SHA, a diff whose hunk
+counts did not survive rendering, a path spelled for the wrong shell. If every one of those
+costs a full round trip, the loop hits a brick wall every turn and nothing gets built.
+
+So the executor has liberty, bounded precisely:
+
+> **The executor may repair the representation or delivery of an authored instruction when
+> it can prove that the resulting source postimage, write scope, and verification meaning
+> are unchanged.**
+
+The test is *not* "did I change what happens, or only how it got there?" — that is too
+loose, because **verification itself has semantics**. The test is whether equivalence is
+**mechanically demonstrable** from facts already present in the packet and the tree. If the
+executor has to decide whether two things are "basically equivalent", it has crossed into
+authorship.
+
+**Permitted, given proof:** translating a malformed diff into guarded replacements that
+produce the exact authored regions; expanding a uniquely-resolving short SHA; correcting a
+path spelling to the uniquely corresponding local path; rewriting shell syntax when the same
+executable receives the same arguments and environment; replacing a failed write mechanism
+with one that writes the same bytes.
+
+**Forbidden, disclosed or not:** changing implementation logic; changing an assertion or
+expected result; adding or removing coverage; weakening validation; suppressing an error;
+changing dependency versions; choosing between two plausible target files; expanding or
+narrowing scope; deciding how an ambiguous requirement behaves; changing destructive
+semantics; substituting a different persistence strategy; or accepting a different evidence
+standard because the authored one is inconvenient.
+
+The reason disclosure does not launder these is temporal: by the time it is disclosed, the
+executor has already authored a new implementation. The creator can discover that; discovery
+does not make the act non-authorial.
+
+**"This is probably what the AUTHOR meant" is the stop signal.**
+
+### What looks like transport and is not
+
+- **Tests.** Fixing a harness can be transport. Changing an assertion is authorship.
+  Adapting a test to whatever implementation happened to compile is authorship.
+- **Commands.** Substituting a direct runner for the authored script feels mechanical but
+  can skip pretest hooks, build steps, generated fixtures or coverage gates. Equivalence
+  comes from reading `package.json`, not from familiarity.
+- **Paths.** `src/foo.ts` → `./src/foo.ts` is transport. Choosing `src/foo/index.ts` because
+  it looks like the intended target is design.
+- **Line endings.** Converting a payload so it can be written is transport only if unrelated
+  bytes are untouched. "Normalise the file while I'm here" changes the postimage.
+- **Patch conflicts.** Re-expressing an authored change against the same preimage is
+  transport. Adapting it to newer code is authorship, because the executor must work out
+  what the change was meant to preserve.
+- **Short SHAs.** Expanding one that resolves uniquely is transport. Deciding the branch
+  HEAD is close enough when the expected commit is absent is not.
+
+### A declared deviation must prove equivalence
+
+"I changed X because the original was broken" is a confession, not a report. A deviation is
+judgeable only if it carries:
+
+- **Authored operation** — the exact instruction that could not be executed.
+- **Trigger** — the objective failure: exit code, error text, path mismatch.
+- **Deviation** — exactly what mechanism changed.
+- **Equivalence basis** — the mechanical fact showing semantics and evidence were preserved.
+- **Resulting scope** — files and commands the deviation touched.
+- **Postcondition** — what was actually produced or run.
+- **Non-deviations** — authored portions deliberately left alone.
+- **Evidence** — bounded diffstat, hash, or command output supporting the claim.
+
+**Equivalence basis is the load-bearing field.** Good ones are facts:
+
+> `git rev-parse da7881f` resolved uniquely to `da7881f712…`, and HEAD was that object.
+> Outside the replaced `describe(...)` span, SHA-256 of authored content and file content matched.
+> `package.json` defines `"test": "vitest run"` with no pretest or posttest script.
+
+Bad ones are judgement wearing a fact's clothes: *the rest looked unchanged*, *this should be
+equivalent*.
+
+Every deviation stays visible in the gate evidence **even when execution succeeds**. Success
+must not erase the fact that the packet was not followed literally.
