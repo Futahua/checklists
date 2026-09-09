@@ -43,6 +43,31 @@ codes, changed files, and the first real failure — not the cascade. Full logs 
 Any fix the executor made, and whether it can *prove* the result was identical or only
 believes it. Both are allowed; pretending is not.
 
+## Attaching to the reviewer tab
+
+Claim the exact tab, then drive it by role — never by screen coordinates, never by taking
+over the mouse.
+
+1. Ask the connector for browser instances and open tabs.
+2. Tell the Chrome instances apart by browser ID or profile name.
+3. Find the reviewer by its exact title and URL.
+4. Claim that tab by the returned tab ID.
+5. Drive it through the accessibility tree.
+
+```js
+const state = await cua.getState();
+const reviewerTab = await cua.getTab("returned-tab-id", { browser: "returned-browser-id" });
+const snapshot = await reviewerTab.getAXState();
+
+reviewerTab.playwright.getByRole("textbox", { name: "Chat with ChatGPT" });
+reviewerTab.playwright.getByRole("button", { name: "Send prompt" });
+```
+
+Once the reviewer tab is selected, touch nothing else — not the other Chrome instance, not
+other tabs. Role locators also avoid a real hazard of synthetic coordinate clicks: they can
+fire page handlers you did not intend, including a copy handler that overwrites the
+creator's clipboard.
+
 ## Watching the reviewer tab
 
 One bounded watcher against the same attached tab. Not screenshots, not refreshes, not
