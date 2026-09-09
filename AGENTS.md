@@ -746,3 +746,66 @@ could use, and that is precisely the output that makes a cheap agent act erratic
 that final response — reasoning, exploration, alternatives weighed — is free and invisible.
 The response itself is machine input and is judged only by whether a weak model executing it
 literally produces the intended change.
+
+---
+
+## Orchestration and cadence
+
+The loop is expensive per exchange and cheap per unit of work inside one. Every
+Author↔Executor round trip re-reads the whole prefix, so ten small exchanges cost roughly
+ten times what one dense exchange costs, and the session ends sooner having done the same
+amount of work. Chatty progress is the most common way this workflow is wasted.
+
+### The unit of work is a slice, not a change
+
+One AUTHOR packet covers **a coherent slice that ends in a state worth judging**: it
+applies, it typechecks, its tests pass, and a claim can be closed or refused on the result.
+
+Not a line. Not a file. Not a refactoring step. If a packet can be executed and answered in
+under a minute of executor work, it was too small to be worth the exchange it cost — it
+should have been folded into the packet before or after it.
+
+Size a packet by what makes a decidable outcome, then make it as large as it can be while
+staying decidable in one run.
+
+### The executor returns once
+
+Apply the whole packet. Run every stated command. Return one report.
+
+No progress narration. No per-file confirmation. No "starting now", no "that worked, moving
+on". Intermediate state is not a message; it is a thing that will be in the final report
+anyway.
+
+If several independent questions arise, they go back in one return, together — not one
+question per exchange.
+
+### The author anticipates the obvious failures
+
+A foreseeable failure that costs a round trip is an authoring defect. If a command can
+plausibly fail in a known way, the packet says what to do about it in decidable terms, so
+the executor handles it without coming back.
+
+Reserve returns for what genuinely could not be anticipated.
+
+### Commit at the boundary, not at the edit
+
+One commit per accepted slice. Push at that point, not after every file write.
+
+A stream of one-line commits makes history unreadable, makes the gate meaningless — there
+is nothing coherent to accept — and costs an exchange each time somebody reports it.
+
+Work in progress lives in the working tree. It becomes a commit when the slice is done and
+its evidence exists.
+
+### Batch tool work inside a turn
+
+Independent reads, greps and commands that are already known go into one invocation rather
+than alternating call and reply. The constraint is only that the batch's own output stays
+bounded — a batch that returns a megabyte has traded one problem for a worse one.
+
+### Do not spend exchanges on agreement
+
+Acknowledgement is not a message. Neither is restating the plan, confirming receipt, or
+narrating what is about to happen. Do the thing, then report what happened.
+
+The bar for an exchange is that it changes what somebody does next.
