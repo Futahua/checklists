@@ -11,7 +11,7 @@ Read this before adding or updating a checklist.
 ## Why there is a second model at all
 
 > Throughout the browser-facing sections below, "the reviewer" is the **AUTHOR** role
-> defined under *Authorship, execution, and adjudication* at the end of this file. The
+> defined under *Authorship, execution, and acceptance* at the end of this file. The
 > older name is kept where it describes how the browser session is driven; the role
 > definition governs who owns what.
 
@@ -411,7 +411,7 @@ Never make the creator solve pacing by withholding useful project context.
 
 ---
 
-## Authorship, execution, and adjudication
+## Authorship, execution, and acceptance
 
 "Reviewer" was the wrong name and it cost real money. A reviewer produces advice; advice
 has to be re-derived into intent by whoever holds the keyboard; and re-deriving intent is
@@ -421,22 +421,27 @@ name quietly handed authorship back to the most expensive participant.
 The premise is the other way round. The browser model is the abundant thinking capacity
 with no hands — no filesystem, no test runner, no network beyond raw file URLs at a pinned
 SHA, and no way to verify anything. Cheap local agents have hands and no mandate to think.
-The capable metered agent is scarce and must type the least.
+The capable metered agent is scarce, and when it is the one writing to disk it is an
+EXECUTOR like any other.
 
-So three roles, named by what they **own**:
+So two roles, named by what they **own**:
 
-- **AUTHOR** — owns the design and the implementation artifact.
-- **EXECUTOR** — owns faithful application of that artifact and faithful capture of what happened.
-- **ADJUDICATOR** — owns acceptance, safety, authority-bearing actions, and escalation.
+- **AUTHOR** — the browser model. Owns the design and the implementation artifact. Free,
+  thinks without limit, has no hands.
+- **EXECUTOR** — whoever writes to disk. Owns faithful application of that artifact and
+  faithful capture of what happened. Has hands, and no mandate to think.
+
+There is no third agent. **Acceptance belongs to the creator**, and is a gate the EXECUTOR
+stops at, not a seat some model occupies.
 
 Not a hierarchy. Different kinds of responsibility. The creator remains the source of
-product intent, and no role may silently replace an explicit creator decision with its own
-preference.
+product intent, and neither role may silently replace an explicit creator decision with its
+own preference.
 
 ### The governing rule
 
 **The AUTHOR writes the implementation. The EXECUTOR does not work out what the AUTHOR
-meant. The ADJUDICATOR does not rewrite the implementation.**
+meant. Nobody rewrites the implementation except the AUTHOR.**
 
 If either of the last two happens, authorship has silently transferred and the model has
 failed.
@@ -446,7 +451,7 @@ AUTHOR  writes exact implementation artifact
    ↓
 EXECUTOR  applies it exactly, runs the exact verification
    ↓
-   success evidence ──────────→ ADJUDICATOR decides whether the claim closes
+   success evidence ──────────→ the gate: the creator decides whether the claim closes
    │
    failure evidence
    ↓
@@ -455,7 +460,7 @@ AUTHOR  diagnoses, authors the revision
 EXECUTOR  applies and reruns
 ```
 
-The ADJUDICATOR sits out ordinary failed iterations. It **must** enter before a meaningful
+The gate is not involved in ordinary failed iterations. Work **must** stop at it before a meaningful
 claim is declared closed, before any destructive or authority-bearing action, and whenever
 evidence or intent needs judgement. Otherwise nobody owns acceptance.
 
@@ -475,12 +480,12 @@ transferable:
 
 - **AUTHOR** owns the defect when the artifact or its acceptance criteria embody the wrong
   design.
-- **ADJUDICATOR** owns a false closure when it declares a requirement satisfied on evidence
-  that does not establish it.
+- **The gate** owns a false closure when a requirement is declared satisfied on evidence
+  that does not establish it — which is why the executor must never hold its own gate.
 - **EXECUTOR** owns neither, provided it applied exactly what was authored and reported
   reality without alteration.
 
-If the creator's requirement is genuinely ambiguous, the ADJUDICATOR escalates. The AUTHOR
+If the creator's requirement is genuinely ambiguous, the EXECUTOR surfaces it. The AUTHOR
 must not invent product intent to make its spec feel complete.
 
 ### AUTHOR output contract
@@ -563,24 +568,43 @@ Success evidence is bounded too — baseline, application result, commands, exit
 concise test and typecheck counts, final changed-file list, unexpected-diff status, and log
 paths. **A green exit code is evidence, not acceptance.**
 
-### ADJUDICATOR role and never-do
+### The executor is dumb by mandate, not by model
 
-Owns judgement, not implementation, and should type the least code of the three. It decides
-whether evidence proves the authored criteria, whether those criteria are sufficient for
-what the creator actually asked, whether a change is safe to integrate, whether an
-unexpected diff is acceptable, whether a failure needs another AUTHOR iteration, and when to
-escalate.
+The role is positional. Whoever holds the keyboard is the dumb one, whatever it is capable
+of, because its job is faithful execution and not design.
 
-The ADJUDICATOR must never re-derive and rewrite the implementation because reading the
-artifact feels slower than rethinking it; become a second AUTHOR without an explicit role
-change; silently patch code while "reviewing"; ask the EXECUTOR to improvise; accept a
-change merely because tests are green; substitute its own product intent for an explicit
-creator decision; weaken acceptance criteria after a failure to close the gate; ignore
-unexpected files, warnings, partial failures or recovery-required outcomes; treat missing
-evidence as either failure or success; act on authority whose safety conditions are not
-established; or collapse an unresolved semantic question into an implementation detail.
+**A capable executor is more dangerous than a genuinely limited one**, because when it
+quietly improves the artifact it does so plausibly, and the improvement survives review. An
+EXECUTOR that can design must suppress that it can. Competence is not permission.
 
-If the artifact needs changing, the requirement and the evidence go back to the AUTHOR.
+The practical test, applied to yourself before every write: *am I doing this because the
+artifact said to, or because I decided it?* The second answer means stop and return the
+question to the AUTHOR.
+
+### Acceptance is a gate, not a role
+
+Neither participant can hold it. The AUTHOR has no evidence — it cannot run anything. The
+EXECUTOR has no mandate — judging its own output is the collapse this whole structure
+exists to prevent. So acceptance belongs to the creator, and the loop **stops** at it rather
+than proceeding unjudged.
+
+The EXECUTOR runs Author↔Executor iterations freely, and must stop and surface to the
+creator when:
+
+- a meaningful claim is ready to be declared closed;
+- an action is destructive or authority-bearing — commit, push, merge, delete, overwrite,
+  migrate, deploy;
+- evidence contradicts a governing requirement rather than an implementation;
+- the same semantic blocker survives three AUTHOR revisions;
+- satisfying one requirement necessarily violates another;
+- the decision is not derivable from stated creator intent.
+
+Work that reaches a gate with nobody to hold it does not get closed on the executor's own
+authority. It queues, with the evidence already assembled so the judgement is cheap when it
+comes.
+
+The creator judges intent and safety. The creator is not asked to translate prose into
+implementation, to diagnose failures, or to manage pacing — those stay inside the loop.
 
 ### Roles do not change
 
@@ -601,7 +625,7 @@ reread and re-author.
 A failing existing test is evidence that must be explained. No role makes a test disappear
 because it blocks progress. Changing one is valid only when the AUTHOR establishes that the
 old assertion contradicts the governing requirement, and authors the implementation and the
-test change together — and the ADJUDICATOR judges that reasoning before accepting it.
+test change together — and that reasoning is judged at the gate before it is accepted.
 
 ### Escalation
 
@@ -618,13 +642,14 @@ impossibility. Tune it from real traces.
 
 - The EXECUTOR has to infer what implementation the AUTHOR wanted.
 - The EXECUTOR fixes failing code without a new AUTHOR artifact.
-- The ADJUDICATOR routinely rewrites the implementation.
+- The EXECUTOR designs because it happens to be capable of designing.
 - The AUTHOR claims verification it could not perform.
-- Green tests are treated as proof of product correctness without adjudication.
+- Green tests are treated as proof of product correctness, with no gate.
+- A gate is passed by the executor deciding it would have been passed.
 - The creator has to translate prose advice into implementation intent.
 
-**AUTHOR the change. EXECUTE the artifact. ADJUDICATE the evidence. Never silently exchange
-those responsibilities.**
+**AUTHOR the change. EXECUTE the artifact. Stop at the gate. The one writing to disk is the
+dumb one, whatever it is made of.**
 
 > Noted for the record: this section was drafted by the AUTHOR role about its own mandate,
 > and it said so unprompted — there is a structural incentive to define AUTHOR broadly. The
@@ -669,12 +694,12 @@ behaves erratically, fix the artifact that instructed it.
 - **No conditionals the executor must judge.** A condition is valid only if a command's exit
   code or an exact string decides it. `if the tests fail, fix them` is invalid.
   `if exit status is non-zero, stop and return the failure packet` is valid.
-- **No rhetorical questions, and no question at the end.** Questions go to the ADJUDICATOR,
+- **No rhetorical questions, and no question at the end.** Questions go to the creator,
   never downstream. A packet ending in a question will be answered with an action.
 - **Complete artifacts only.** The EXECUTOR cannot merge, adapt or infer. A diff applies or
   the packet is wrong. No ellipses, no "rest unchanged", no fragment needing placement.
 - **Fence off anything that is not an instruction.** Rationale, background and alternatives
-  considered are useful to the ADJUDICATOR and dangerous to the EXECUTOR. Put them under an
+  considered are useful at the gate and dangerous to the EXECUTOR. Put them under an
   explicit non-executable heading, or leave them out.
 - **Name the stop conditions positively.** "Stop if any file outside this list changed" beats
   "be careful not to change other files".
@@ -697,7 +722,7 @@ AUTHOR to diagnose the narration rather than the fault.
   loading part".
 - Bounded, with the full log on disk and referenced by path.
 
-An ADJUDICATOR brief back to the AUTHOR follows the same discipline: which acceptance
+A brief back to the AUTHOR after a gate follows the same discipline: which acceptance
 criterion was not met, what evidence shows that, and what constraint the revision must
 respect. Not a redesign, not a hint, not a paragraph of context the AUTHOR already has.
 
