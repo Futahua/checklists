@@ -31,6 +31,15 @@ creator's own files. Source: [Futahua/proxima-backpack](https://github.com/Futah
 | [Interaction parity trace](proxima/proxima-interaction-parity-trace.md) | Every click, drag, resize, modifier and hover in the original Obsidian plugin, tagged presentation / local state / data write. Defines what "feels like Proxima" means. |
 | [Full parity checklist](proxima/proxima-full-parity-checklist.md) | The sequenced plan from that trace to a working cockpit: 21 stages, 5 hard gates, 805 checkboxes. |
 
+## The loop
+
+- [AGENTS.md](AGENTS.md) — the constitution. Eight rules, the gate states, and what is
+  machinery rather than memory. This is the whole of the mandatory brief.
+- [BROWSER.md](BROWSER.md) — the AUTHOR's brief, handed to the browser at session start.
+- [SCHEMAS.md](SCHEMAS.md) — required fields for every artifact in the loop.
+- [reference/](reference/) — how the rules were arrived at, and the failures that produced
+  each one. Read for reasoning; never as instructions.
+
 ## Conventions
 
 - **Hard gates** are ordering constraints with a stated consequence. They record what
