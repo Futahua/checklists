@@ -20,9 +20,9 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage0-action-spine` @ `839d1b7` — pushed, accepted slices only |
+| Accepted branch | `stage0-action-spine` @ `7844264` — pushed, accepted slices only |
 | Unaccepted work | none |
-| Suite at `839d1b7` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 116 files / 710 tests |
+| Suite at `7844264` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 117 files / 714 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -47,6 +47,7 @@ Stage 6 slice 2, Canvas geometry preview refusal, at `4e8bed7`.
 Stage 6 slice 3, Canvas removal intent/confirmation/refusal, at `8e20d0d`.
 Stage 6 slice 4, Canvas semantic action + inspection seam, at `6f93de2`.
 Stage 6 slice 5, semantic source refresh/reload seam, at `839d1b7`.
+Stage 6 slice 6, structured diagnostic code catalog, at `7844264`.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
@@ -54,7 +55,7 @@ a second caller and the record store exist. Every ticked box names the commit th
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
 **Next operation** Ask the AUTHOR for the exact next bounded guarded packet after Stage 6
-slice 5; keep every eventual mutation typed-unavailable until record-store cutover.
+slice 6; keep every eventual mutation typed-unavailable until record-store cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
