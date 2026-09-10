@@ -8,34 +8,28 @@
 
 | | |
 | --- | --- |
-| Accepted branch | `stage0-action-spine` @ `2450828` — clean, accepted slices only |
-| Unaccepted work | `stage2-wip` @ `fb8ea27` — applied, 3 failures outstanding |
-| Suite at `2450828` | typecheck 0, `npm test` 0, 95 files / 604 tests |
-| Suite on `stage2-wip` | typecheck 0, `npm test` 1, 96 files / 611 tests, 608 passing |
+| Accepted branch | `stage0-action-spine` @ `57860d3` — pushed, accepted slices only |
+| Unaccepted work | none |
+| Suite at `57860d3` | typecheck 0, `git diff --check` 0, `npm test` 0, 96 files / 616 tests |
 
-**Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 complete at `2450828`.
-Six Stage 0 boxes stay open on purpose — record revisions, bulk-action results and
-UI-versus-agent equivalence have nothing to bite on until a second caller and the record
-store exist. Every ticked box now names the commit that closed it.
+**Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
+the non-writing Elastic execution cockpit, accepted and squashed at `57860d3`. Six Stage 0
+boxes stay open on purpose — record revisions, bulk-action results and UI-versus-agent
+equivalence have nothing to bite on until a second caller and the record store exist. Every
+ticked box names the commit that closed it.
 
-**In flight** Stage 2, the non-writing Elastic execution cockpit. Fully applied on
-`stage2-wip`. Three failures were returned to the AUTHOR as design defects and left unfixed
-by the executor:
+**In flight** Nothing. The tree is clean and the branch is pushed.
 
-1. `tests/actionTaxonomy.test.ts:137` — a Stage 0 test dispatched `task.execution.move`
-   *because* it was unregistered; registering it made the premise false.
-2. `tests/elasticCockpit.test.ts:130` — machine key `elastic-property-running-a-priority`
-   matches two elements; `renderProperties` runs twice when a quick editor is open.
-3. `tests/elasticCockpit.test.ts:160` — the datetime-local handler treats a local-time value
-   as UTC, so a 17:00 target becomes 10:00Z on a UTC+7 machine. Product bug, not a test
-   artifact.
-
-**Next operation** Get the three guarded replacements from the AUTHOR, apply them to
-`stage2-wip`, run `npm run typecheck` and `npm test`, and on green return evidence for
-acceptance. Once accepted, land Stage 2 as one commit on `stage0-action-spine`.
+**Next operation** Stage 3, Timekeeping presentation. Hand the AUTHOR
+`https://raw.githubusercontent.com/Futahua/long-horizon/main/BROWSER.md`, the branch and SHA
+above, and the Stage 3 section of this file. Stages 3–6 need no record store.
 
 **Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
 and gates the import. Stages 1–6 do not need it.
+
+**Reviewer tab, hard-won** Read a response with `element.textContent`, never `innerText` —
+`innerText` returns only the first few dozen characters and looks like a truncated answer.
+Long replies also fail outright now and then; re-ask rather than acting on a fragment.
 
 <!-- /STATUS -->
 
@@ -304,37 +298,72 @@ The current domain already contains weights, fixed/max duration and Elastic conc
 
 ### Board rendering
 
-- [ ] Restore Backlog / Running / Finished appearance.
-- [ ] Restore proportional Running-card height.
-- [ ] Restore task-property pills/chips.
-- [ ] Restore hover affordances.
-- [ ] Restore clickable task cards opening a modal.
-- [ ] Render read-only task values in that modal even before Save is enabled.
+- [x] Restore Backlog / Running / Finished appearance. — `57860d3` replaces the simplified
+  board renderer with the Elastic cockpit while retaining status-derived Backlog, Running
+  and Finished membership.
+- [x] Restore proportional Running-card height. — `57860d3` sizes Running cards from the
+  calculated execution allocation for the current target horizon rather than using one
+  fixed card height.
+- [x] Restore task-property pills/chips. — `57860d3` renders schema-labelled task properties
+  as keyed pills on Elastic cards and scopes modal copies so machine keys remain unique.
+- [x] Restore hover affordances. — `57860d3` restores an explicit interactive hover treatment
+  on Elastic task cards instead of leaving clickable/draggable cards visually inert.
+- [x] Restore clickable task cards opening a modal. — `57860d3` routes keyed Elastic card
+  clicks through the real DOM interaction boundary into the task quick-editor state.
+- [x] Render read-only task values in that modal even before Save is enabled. — `57860d3`
+  exposes current task values in the quick editor while Save and Delete remain explicitly
+  unavailable before write parity.
 
 ### Execution planning
 
-- [ ] Restore editable execution target date/time.
-- [ ] Restore default future execution horizon behavior matching old Proxima.
-- [ ] Recalculate Running allocations immediately as the target changes.
-- [ ] Restore Lock.
-- [ ] Restore Unlock.
-- [ ] Restore live elapsed-progress visualization.
-- [ ] Restore per-task allocation/progress during a locked run.
-- [ ] Lock information is **LOCAL STATE**, not task data.
-- [ ] No task JSON/legacy Markdown is touched when:
-  - [ ] target time changes;
-  - [ ] run locks;
-  - [ ] time advances;
-  - [ ] run unlocks.
+- [x] Restore editable execution target date/time. — `57860d3` adds a datetime-local execution
+  target whose browser-local wall time round-trips to the canonical instant through
+  `elastic.target.set`. An earlier draft printed UTC into that local-time field, which would
+  have mis-set the target by the machine's offset; reverting reintroduces that.
+- [x] Restore default future execution horizon behavior matching old Proxima. — `57860d3`
+  restores the four-hours-from-now default using the injected clock rather than a hard-coded
+  wall time.
+- [x] Recalculate Running allocations immediately as the target changes. — `57860d3` rerenders
+  Elastic allocation geometry from the newly dispatched target, with deterministic tests
+  proving a changed target changes allocations.
+- [x] Restore Lock. — `57860d3` adds `elastic.lock`, capturing the injected clock instant and
+  freezing target editing for the active local execution run.
+- [x] Restore Unlock. — `57860d3` adds `elastic.unlock`, clearing the local lock without
+  changing task records or the selected execution target.
+- [x] Restore live elapsed-progress visualization. — `57860d3` derives elapsed run progress
+  from lock time and target and advances the live cockpit on its one-second external-mode
+  tick.
+- [x] Restore per-task allocation/progress during a locked run. — `57860d3` exposes
+  deterministic allocation minutes and sequential per-task progress from the locked Elastic
+  timeline.
+- [x] Lock information is **LOCAL STATE**, not task data. — `57860d3` keeps target and lock
+  timestamps in dispatcher/inspection cockpit state and registers their actions as
+  `local-state`.
+- [x] No task JSON/legacy Markdown is touched when: — `57860d3` hashes the durable fixture
+  before and after the full target/lock/clock-advance/unlock/local-state lifecycle and
+  proves the bytes are identical.
+  - [x] target time changes;
+  - [x] run locks;
+  - [x] time advances;
+  - [x] run unlocks.
 
 ### Drag feel without committing data yet
 
-- [ ] Implement card pickup.
-- [ ] Correctly sized insertion placeholder.
-- [ ] Placeholder moves during drag.
-- [ ] Destination-column highlight/feedback.
-- [ ] Invalid/outside drop restores visual source state.
-- [ ] During this stage successful state-changing drop remains disabled/refused with a typed "mutation unavailable before record-store cutover" result rather than silently pretending to save.
+- [x] Implement card pickup. — `57860d3` gives keyed Elastic cards a real drag-start pickup
+  state and clears that visual state on drag completion or cancellation. Clearing is split
+  between `clearDragFeedback` (per pointer move) and `clearDragPickup` (per drag); folding
+  them back together erases the pickup state on the first move.
+- [x] Correctly sized insertion placeholder. — `57860d3` matches the original drag geometry by
+  sizing the insertion placeholder to `min(90px, dragged card height)` while preserving full
+  card geometry separately.
+- [x] Placeholder moves during drag. — `57860d3` clears the prior insertion slot and exposes
+  the newly targeted keyed slot as the pointer moves before drop.
+- [x] Destination-column highlight/feedback. — `57860d3` makes the active drag destination
+  visibly styled, not merely marked by an otherwise inert DOM class.
+- [x] Invalid/outside drop restores visual source state. — `57860d3` clears pickup, placeholder
+  and destination feedback when the drag ends outside a valid insertion slot without
+  changing task state.
+- [x] During this stage successful state-changing drop remains disabled/refused with a typed "mutation unavailable before record-store cutover" result rather than silently pretending to save. — `57860d3` routes drop through `task.execution.move` as a `record-mutation` and returns `action-not-available` before record-store cutover without mutating the task.
 
 ## Local-state actions
 
@@ -345,12 +374,21 @@ The current domain already contains weights, fixed/max duration and Elastic conc
 
 ## Acceptance
 
-- [ ] Changing target changes card allocation deterministically.
-- [ ] Lock survives ordinary rerender within the same Backpack session if local persistence is intended.
-- [ ] Destroying local state does not alter any domain record.
-- [ ] Locked run advances under injected clock.
-- [ ] Programmatic drag shows placeholder before release.
-- [ ] Pre-storage DATA WRITE drop refuses visibly rather than updating only the DOM.
+- [x] Changing target changes card allocation deterministically. — `57860d3` deterministic
+  Elastic geometry tests compare different targets and prove the resulting allocation
+  changes predictably.
+- [x] Lock survives ordinary rerender within the same Backpack session if local persistence is intended. — `57860d3` keeps lock state outside disposable render markup and proves a normal rerender preserves the active lock and target.
+- [x] Destroying local state does not alter any domain record. — `57860d3` resets/discards
+  Elastic cockpit state under before/after durable-source hashing and proves domain bytes
+  remain unchanged.
+- [x] Locked run advances under injected clock. — `57860d3` deterministic clock tests advance a
+  locked run and prove overall and per-task progress advance without wall-clock sleeps.
+- [x] Programmatic drag shows placeholder before release. — `57860d3` the real-DOM interaction
+  harness inspects the keyed insertion placeholder after drag movement and before
+  drop/release.
+- [x] Pre-storage DATA WRITE drop refuses visibly rather than updating only the DOM. —
+  `57860d3` programmatic drop receives the typed unavailable result, renders the refusal in
+  the cockpit, and leaves canonical task state unchanged.
 
 ## Evidence
 
