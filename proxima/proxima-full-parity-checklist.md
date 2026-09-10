@@ -8,21 +8,25 @@
 
 | | |
 | --- | --- |
-| Accepted branch | `stage0-action-spine` @ `760e54d` — pushed, accepted slices only |
+| Accepted branch | `stage0-action-spine` @ `fb67685` — pushed, accepted slices only |
 | Unaccepted work | none |
-| Suite at `760e54d` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 97 files / 621 tests |
+| Suite at `fb67685` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 97 files / 623 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3 slice 1, the Timekeeping composition
-shell and Deadline Calendar, at `760e54d`. Nothing so far writes a record. Six Stage 0 boxes
+shell and Deadline Calendar, at `760e54d`, and slice 2, the Timeline/Gantt panel, at
+`fb67685`. Nothing so far writes a record. Six Stage 0 boxes
 stay open on purpose — record revisions, bulk-action results and UI-versus-agent equivalence
 have nothing to bite on until a second caller and the record store exist. Every ticked box
 names the commit that closed it.
 
-**In flight** Stage 3 slice 2, Timeline/Gantt, authored and being applied.
+**In flight** Stage 3 slice 3, the Gantt interaction contract — hover and edge affordances,
+pointer drag preview, Shift edge resize, distinct start/end edge geometry, proposed dates
+during interaction, occupied-row resolution, and a final drop that is typed unavailable
+rather than silently saved. Seven boxes, deliberately one slice: split apart they leave
+intermediate states nobody can judge.
 
-**Next operation** Apply, verify and land slice 2, then slice 3 (Countdowns), then panel
-sizing. Stages 3–6 need no record store.
+**Next operation** Land slice 3, then Countdowns, then panel sizing. Stages 3–6 need no record store.
 
 **Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
 and gates the import. Stages 1–6 do not need it.
@@ -453,8 +457,13 @@ No storage migration dependency.
 
 ### Timeline/Gantt
 
-- [ ] Render task range from effective start to deadline.
-- [ ] Render row structure.
+- [x] Render task range from effective start to deadline. — `fb67685` projects truthful task
+  spans from effective start through deadline, clipped to the visible civil-day window
+  without inventing missing bounds. A task with only one bound draws a one-day milestone
+  rather than a span; reverting reintroduces the temptation to invent the other end.
+- [x] Render row structure. — `fb67685` renders machine-addressable task rows carrying span,
+  start-only and deadline-only geometry as data, plus current-day marking, the panel's own
+  month navigation and existing task-modal entry.
 - [ ] Hover/edge affordances.
 - [ ] Normal pointer drag previews a bar move.
 - [ ] Shift-modified edge manipulation previews resize.
