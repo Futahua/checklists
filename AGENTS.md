@@ -116,6 +116,25 @@ commit.
 
 Keep big files out of context — read the part you need.
 
+## What ends the run
+
+**A turn ends when you stop making tool calls and speak.** Nothing external restarts you.
+The creator's next message is the only thing that begins another turn.
+
+So the loop is not something you set up — it is something you simply do not stop. Chain
+tool calls: watch, apply, verify, watch again. The in-page watcher keeps you alive only for
+the duration of one tool call; what keeps you working is issuing the next one. Hours of work
+fit inside a single turn.
+
+**Reporting is what kills the run.** A status update hands the turn back and everything
+stops until the creator returns, which may be many hours. So report at real milestones — a
+slice accepted and pushed, a decision only they can make, a blocker with no route around it
+— and not at every step. If you find yourself writing a progress summary, ask whether the
+next tool call would serve them better.
+
+Work that must survive *across* turns needs a scheduled wakeup, not a browser script. Say so
+plainly rather than promising an autonomy the setup does not have.
+
 ## Pace
 
 Both agents have finite capacity — Claude's five-hour window, Codex's own limits — and
