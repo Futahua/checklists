@@ -8,25 +8,26 @@
 
 | | |
 | --- | --- |
-| Accepted branch | `stage0-action-spine` @ `fb67685` — pushed, accepted slices only |
+| Accepted branch | `stage0-action-spine` @ `c1f8c93` — pushed, accepted slices only |
 | Unaccepted work | none |
-| Suite at `fb67685` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 97 files / 623 tests |
+| Suite at `c1f8c93` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 97 files / 625 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3 slice 1, the Timekeeping composition
-shell and Deadline Calendar, at `760e54d`, and slice 2, the Timeline/Gantt panel, at
-`fb67685`. Nothing so far writes a record. Six Stage 0 boxes
+shell and Deadline Calendar, at `760e54d`, slice 2, the Timeline/Gantt panel, at
+`fb67685`, and slice 3, the Gantt interaction contract, at `c1f8c93`, which completes the
+Timeline/Gantt section. Nothing so far writes a record. Six Stage 0 boxes
 stay open on purpose — record revisions, bulk-action results and UI-versus-agent equivalence
 have nothing to bite on until a second caller and the record store exist. Every ticked box
 names the commit that closed it.
 
-**In flight** Stage 3 slice 3, the Gantt interaction contract — hover and edge affordances,
-pointer drag preview, Shift edge resize, distinct start/end edge geometry, proposed dates
-during interaction, occupied-row resolution, and a final drop that is typed unavailable
-rather than silently saved. Seven boxes, deliberately one slice: split apart they leave
-intermediate states nobody can judge.
+**In flight** Stage 3 slice 4, Countdowns — five buckets, live progression, automatic
+movement between buckets as the clock advances, and click-through to the task editor. The
+last substantive Stage 3 surface.
 
-**Next operation** Land slice 3, then Countdowns, then panel sizing. Stages 3–6 need no record store.
+**Next operation** Land slice 4, then judge the five Stage 3 acceptance rows against the
+accumulated Calendar, Gantt and Countdown evidence — several should close without further
+implementation. Panel sizing is genuine separate work and stays open. Stages 3–6 need no record store.
 
 **Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
 and gates the import. Stages 1–6 do not need it.
@@ -464,13 +465,30 @@ No storage migration dependency.
 - [x] Render row structure. — `fb67685` renders machine-addressable task rows carrying span,
   start-only and deadline-only geometry as data, plus current-day marking, the panel's own
   month navigation and existing task-modal entry.
-- [ ] Hover/edge affordances.
-- [ ] Normal pointer drag previews a bar move.
-- [ ] Shift-modified edge manipulation previews resize.
-- [ ] Start-edge and end-edge geometry are distinct.
-- [ ] Proposed date values visible during interaction.
-- [ ] Occupied row resolution matches the old continuous behavior rather than producing unnecessary modal errors.
-- [ ] No canonical write yet; final drop is typed unavailable until cutover.
+- [x] Hover/edge affordances. — `c1f8c93` gives the start and end boundaries separate
+  machine-addressable 8px resize handles with 2px boundary rules and a col-resize
+  affordance.
+- [x] Normal pointer drag previews a bar move. — `c1f8c93` previews horizontal whole-day
+  movement and vertical row movement live before release, with the picked bar following the
+  gesture rather than jumping on drop.
+- [x] Shift-modified edge manipulation previews resize. — `c1f8c93`; Shift is latched at
+  pointer-down, so releasing the key mid-gesture does not silently turn a resize into a move.
+- [x] Start-edge and end-edge geometry are distinct. — `c1f8c93` start-edge resize moves the
+  start column and inversely changes width; end-edge resize holds the start column and
+  changes width alone.
+- [x] Proposed date values visible during interaction. — `c1f8c93` shows the proposed start and
+  deadline beside the provisional geometry, before any semantic write is emitted.
+- [x] Occupied row resolution matches the old continuous behavior rather than producing unnecessary modal errors. — `c1f8c93` resolves a drag into an occupied row to that row's
+  insertion index and highlights it. **This is the box most likely to be undone by accident:
+  the obvious-looking "fix" is to refuse the drop as invalid, and that is exactly the
+  error-dialog behaviour the original did not have.** Continuous resolution is the parity
+  requirement, not a convenience.
+- [x] No canonical write yet; final drop is typed unavailable until cutover. — `c1f8c93` a valid
+  release emits exactly one typed `task.timeline.change` record mutation and receives
+  `action-not-available`. **Inverted or sub-one-day geometry emits zero write intents at
+  all** — not a refused one — and restores the original geometry, so an invalid drag leaves
+  no durable trace and nothing downstream ever sees a proposal the cockpit already knew was
+  impossible.
 
 ### Countdowns
 
