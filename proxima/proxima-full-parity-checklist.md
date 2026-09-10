@@ -8,9 +8,9 @@
 
 | | |
 | --- | --- |
-| Accepted branch | `stage0-action-spine` @ `37e722b` — pushed, accepted slices only |
+| Accepted branch | `stage0-action-spine` @ `7357b4d` — pushed, accepted slices only |
 | Unaccepted work | none |
-| Suite at `37e722b` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 97 files / 629 tests |
+| Suite at `7357b4d` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 98 files / 634 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3 slice 1, the Timekeeping composition
@@ -18,26 +18,23 @@ shell and Deadline Calendar, at `760e54d`, slice 2, the Timeline/Gantt panel, at
 `fb67685`, slice 3, the Gantt interaction contract, at `c1f8c93`, and
 slice 4, Countdowns, at `2b8a145`, and slice 5, the two acceptance proofs, at `37e722b`.
 All four Timekeeping surfaces are in, none of them writes a record, and **Stage 3 is
-complete except panel sizing/layout**. Nothing so far writes a record. Six Stage 0 boxes
+complete except panel sizing/layout**. Stage 4 slice 1, Schedule Day/4-Day/Week, at
+`7357b4d`. Nothing so far writes a record. Six Stage 0 boxes
 stay open on purpose — record revisions, bulk-action results and UI-versus-agent equivalence
 have nothing to bite on until a second caller and the record store exist. Every ticked box
 names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 4, Schedule. Slice 1 is Day, 4-Day and Week together: one geometry
-family, timed events on the same vertical time-of-day grid differing only in how many civil
-day columns are visible. Month, Year and Agenda are materially different representations and
-come later. Panel sizing/layout is the one Stage 3 item still open.
+**Next operation** Stage 4 slice 2: the Schedule interaction contract — drag preview
+following the pointer, cross-day drag in multi-day modes, 15-minute snapping, bottom-edge
+resize with live preview, and a final drop that stays typed-unavailable until cutover.
 
-**Schedule's snapping contract, stated before the work rather than discovered from a test**
-One civil day is 96 equal 15-minute slots; position and height derive from minutes since
-local midnight; interaction snaps to the nearest 15 minutes with exact ties rounding away
-from zero; a move preserves duration, a start-edge resize changes only the start and an
-end-edge only the end; geometry clamps to valid bounds and never silently creates a negative
-duration. Multi-day views change width, never the vertical scale. **This is deliberately not
-the Gantt's model** — that one is 42 whole-day columns. Two different snapping models now
-live in this codebase and confusing them will produce plausible, wrong geometry. Stages 3–6 need no record store.
+**I owe one thing from slice 1, and it was my error.** I briefed the AUTHOR that an
+empty-slot click must not create anything. That is right for Elastic and the Deadline
+Calendar and *wrong* for this stage: the checklist asks that an empty cell seed the event
+editor with the clicked time and propose a one-hour event. Slice 1 therefore made empty slots
+deliberately inert. Two boxes are owed as a result and are marked with why.
 
 **Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
 and gates the import. Stages 1–6 do not need it.
@@ -563,9 +560,10 @@ No record migration dependency.
 
 ### Shared navigation
 
-- [ ] Day.
-- [ ] 4-Day.
-- [ ] Week.
+- [x] Day. — `7357b4d`; one civil-day column.
+- [x] 4-Day. — `7357b4d`; four adjacent civil-day columns.
+- [x] Week. — `7357b4d`; seven. All three are one geometry family over the same vertical grid,
+  differing only in column count.
 - [ ] Month.
 - [ ] Year.
 - [ ] Agenda.
@@ -576,12 +574,21 @@ No record migration dependency.
 
 ### Day / 4-Day / Week
 
-- [ ] 24-hour time grid.
-- [ ] Correct event vertical placement.
-- [ ] Correct duration height.
-- [ ] Empty-cell click seeds event editor with clicked time.
-- [ ] Default one-hour event proposal.
-- [ ] Event click opens editor.
+- [x] 24-hour time grid. — `7357b4d`; 96 equal 15-minute slots per day, the same scale in all
+  three modes. **This is not the Gantt's model** — that one is 42 whole-day columns. Two
+  snapping models now coexist and confusing them yields plausible, wrong geometry.
+- [x] Correct event vertical placement. — `7357b4d`; position derives from local minutes since
+  midnight, and an event crossing midnight is segmented truthfully at the civil-day boundary
+  rather than drawn as one impossible bar or dropped.
+- [x] Correct duration height. — `7357b4d`; height is duration over the 1440-minute day.
+- [ ] Empty-cell click seeds event editor with clicked time. *(**not built, and my fault**:
+  I briefed the AUTHOR that empty-slot click must NOT create, which is what the Elastic and
+  Deadline Calendar surfaces require but the opposite of what this row asks. `7357b4d` renders
+  empty slots deliberately inert. Seeding the editor from the clicked time is real work and
+  is now owed.)*
+- [ ] Default one-hour event proposal. *(same mis-brief; goes with the row above.)*
+- [x] Event click opens editor. — `7357b4d`; a read-only local event editor, the first modal in
+  the codebase that is not the task modal.
 - [ ] Drag preview follows pointer.
 - [ ] Cross-day drag preview in multi-day modes.
 - [ ] 15-minute snap during drag.
@@ -2142,6 +2149,16 @@ This must be answered before real migration activation.
 > What concrete backing store/location satisfies one-JSON-file-per-record, restart durability, no recurring owner click, no Obsidian co-writer and agent access only through Proxima?
 
 Must close before real import.
+
+### Durable all-day intent
+
+> `CalendarEvent` has no all-day flag. Stage 4 infers all-day purely from bounds: both ends
+> valid local midnights, end later than start. Before cutover, must explicit all-day intent
+> become canonical data, so a user-authored all-day event stays distinguishable from an
+> ordinary timed event that merely happens to run midnight to midnight?
+
+Inference is adequate while the store is read-only. At import it stops being adequate,
+because the two cases become indistinguishable and the author's intent is lost.
 
 ### Project deletion semantics
 
