@@ -17,11 +17,9 @@ where it costs nothing to ignore.
 
 The same goes for the checkboxes: tick them, do not annotate each one with a diary.
 
-## Where things are
+## Before touching anything
 
-- `proxima/` and `papers/` — the checklists. Each says what it is; this file will not repeat it.
-- [AGENTS.md](AGENTS.md) — the loop and the handful of things that go wrong. One page. Read it
-  before touching anything.
+- [AGENTS.md](AGENTS.md) — the loop and the handful of things that go wrong. One page.
 - [BROWSER.md](BROWSER.md) — the AUTHOR's brief. Hand the browser model this URL at the start
   of a session: `https://raw.githubusercontent.com/Futahua/long-horizon/main/BROWSER.md`
 - `reference/` — how the rules were worked out, and the failures behind each. Read for
