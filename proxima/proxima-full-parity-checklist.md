@@ -27,9 +27,12 @@ above, and the Stage 3 section of this file. Stages 3–6 need no record store.
 **Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
 and gates the import. Stages 1–6 do not need it.
 
-**Reviewer tab, hard-won** Read a response with `element.textContent`, never `innerText` —
-`innerText` returns only the first few dozen characters and looks like a truncated answer.
-Long replies also fail outright now and then; re-ask rather than acting on a fragment.
+**Reviewer tab, hard-won** Read a response with the page-text tool, which returns the whole
+`<main>`. Do **not** read it off the `[data-message-author-role="assistant"]` node: both
+`innerText` and `textContent` there return a fragment of a long answer, and it looks exactly
+like the model being cut off mid-sentence. An hour went into diagnosing a truncation that
+was never happening. Verify against a screenshot before you tell the AUTHOR its replies are
+broken.
 
 <!-- /STATUS -->
 
