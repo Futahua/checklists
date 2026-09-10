@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage0-action-spine` @ `f6b49d1` — pushed, accepted slices only |
+| Accepted branch | `hard-gate-a1-opaque-identity` @ `71b0a2b` — pushed, creator-accepted through HARD GATE A / A1 |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `f6b49d1` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 134 files / 781 tests |
+| Suite at `71b0a2b` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 135 files / 789 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -89,16 +89,22 @@ rather than page parameters, caller-supplied path/token values cannot redirect o
 the request, and no mutation body or mutation operation is emitted. Production remains
 unchanged. Papers default suite 99 files (98 passed | 1 skipped),
 942 passed + 4 skipped / 946 collected.
-Proxima remains untouched at `f6b49d1`.
+HARD GATE A / A1, Stable opaque identity, accepted on Proxima branch
+`hard-gate-a1-opaque-identity` at `71b0a2b`: task, project, event, schema and workflow-stage
+records share one versioned opaque canonical-ID contract; display names, physical filenames,
+source paths and legacy Markdown IDs are explicitly non-identity; rename stability, duplicate
+display names, duplicate-ID refusal and legacy explicit-ID alias/provenance treatment are
+proven. Existing Markdown compatibility reading is unchanged; no persistence, import
+execution or mutation capability exists. Proxima full suite 135 files / 789 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Ask the AUTHOR for the exact next bounded guarded packet for HARD GATE A,
-beginning with A1 — Stable opaque identity. Keep every eventual mutation typed-unavailable
-until record-store cutover.
+**Next operation** Ask the AUTHOR for the exact next bounded guarded packet for HARD GATE A /
+A2 — Separate execution state from workflow stage. Keep every eventual mutation
+typed-unavailable until record-store cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -911,21 +917,21 @@ If those shapes are copied into JSON first, the migration will preserve precisel
 
 ## A1 — Stable opaque identity
 
-- [ ] Every task/project/event/schema/workflow-stage record has an opaque stable ID.
-- [ ] Display name is not identity.
-- [ ] Filename is not identity.
-- [ ] Physical file location is not identity.
-- [ ] Record lookup never derives meaning from JSON filename.
-- [ ] Rename does not alter identity.
-- [ ] Import policy for legacy explicit IDs is settled:
-  - [ ] whether they become aliases/provenance only;
-  - [ ] they must not silently defeat the opaque-ID requirement.
+- [x] Every task/project/event/schema/workflow-stage record has an opaque stable ID. — `71b0a2b`
+- [x] Display name is not identity. — `71b0a2b`
+- [x] Filename is not identity. — `71b0a2b`
+- [x] Physical file location is not identity. — `71b0a2b`
+- [x] Record lookup never derives meaning from JSON filename. — `71b0a2b`
+- [x] Rename does not alter identity. — `71b0a2b`
+- [x] Import policy for legacy explicit IDs is settled: — `71b0a2b`
+  - [x] they become aliases/provenance only; — `71b0a2b`
+  - [x] they must not silently defeat the opaque-ID requirement. — `71b0a2b`
 
 ### Acceptance
 
-- [ ] Change record name; ID unchanged.
-- [ ] Change physical record filename if adapter permits; domain identity unchanged.
-- [ ] Two records may have identical display names.
+- [x] Change record name; ID unchanged. — `71b0a2b`
+- [x] Change physical record filename if adapter permits; domain identity unchanged. — `71b0a2b`
+- [x] Two records may have identical display names. — `71b0a2b`
 
 ---
 
