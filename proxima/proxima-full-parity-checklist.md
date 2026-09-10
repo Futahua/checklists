@@ -8,26 +8,28 @@
 
 | | |
 | --- | --- |
-| Accepted branch | `stage0-action-spine` @ `c1f8c93` — pushed, accepted slices only |
+| Accepted branch | `stage0-action-spine` @ `2b8a145` — pushed, accepted slices only |
 | Unaccepted work | none |
-| Suite at `c1f8c93` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 97 files / 625 tests |
+| Suite at `2b8a145` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 97 files / 627 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3 slice 1, the Timekeeping composition
 shell and Deadline Calendar, at `760e54d`, slice 2, the Timeline/Gantt panel, at
-`fb67685`, and slice 3, the Gantt interaction contract, at `c1f8c93`, which completes the
-Timeline/Gantt section. Nothing so far writes a record. Six Stage 0 boxes
+`fb67685`, slice 3, the Gantt interaction contract, at `c1f8c93`, and
+slice 4, Countdowns, at `2b8a145`. All four Timekeeping surfaces are in and none of them
+writes a record. Nothing so far writes a record. Six Stage 0 boxes
 stay open on purpose — record revisions, bulk-action results and UI-versus-agent equivalence
 have nothing to bite on until a second caller and the record store exist. Every ticked box
 names the commit that closed it.
 
-**In flight** Stage 3 slice 4, Countdowns — five buckets, live progression, automatic
-movement between buckets as the clock advances, and click-through to the task editor. The
-last substantive Stage 3 surface.
+**In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Land slice 4, then judge the five Stage 3 acceptance rows against the
-accumulated Calendar, Gantt and Countdown evidence — several should close without further
-implementation. Panel sizing is genuine separate work and stays open. Stages 3–6 need no record store.
+**Next operation** Stage 3 has exactly three things left, and two of them are proof gaps
+rather than missing surfaces. Close them in one slice: an assertion showing one task in
+Calendar, Gantt and Countdowns simultaneously with all three panels visible, and a
+clock-only test that hashes durable state before advancing the clock and asserts byte
+identity after. The third, panel sizing/layout, is genuine separate work. Then Stage 4,
+Schedule in all six modes. Stages 3–6 need no record store.
 
 **Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
 and gates the import. Stages 1–6 do not need it.
@@ -492,14 +494,22 @@ No storage migration dependency.
 
 ### Countdowns
 
-- [ ] Overdue.
-- [ ] under one day.
-- [ ] under three days.
-- [ ] under one week.
-- [ ] later.
-- [ ] Live countdown progression.
-- [ ] Automatic movement between buckets as injected clock advances.
-- [ ] Click countdown item → task editor.
+- [x] Overdue. — `2b8a145`; remaining time below zero.
+- [x] under one day. — `2b8a145`; zero up to but excluding 24h.
+- [x] under three days. — `2b8a145`; 24h up to but excluding 72h.
+- [x] under one week. — `2b8a145`; 72h up to but excluding 168h.
+- [x] later. — `2b8a145`; 168h and above. **The five boundaries are exactly `< 0`,
+  `[0, 24h)`, `[24h, 72h)`, `[72h, 168h)` and `[168h, ∞)`** — written out because this is
+  precisely the kind of thing a later agent re-derives slightly differently and never
+  notices.
+- [x] Live countdown progression. — `2b8a145`; the visible panel rerenders once per second
+  from the current clock, updating displayed remaining time without touching records.
+- [x] Automatic movement between buckets as injected clock advances. — `2b8a145`
+  reclassifies from the clock on every tick rather than assigning a bucket once, so items
+  move by themselves; advancing the injected clock 30h carries three tasks across three
+  boundaries with no user action.
+- [x] Click countdown item → task editor. — `2b8a145`; the same modal the calendar and the
+  Gantt use, entered through the real-DOM harness, with durable state unchanged.
 
 ## Local/presentation actions
 
@@ -509,11 +519,22 @@ No storage migration dependency.
 
 ## Acceptance
 
-- [ ] Same task can be observed simultaneously in Calendar/Gantt/Countdown where applicable.
-- [ ] Clock-only changes never write records.
-- [ ] Programmatic Shift-resize visibly changes provisional Gantt geometry.
-- [ ] Invalid resize returns to authoritative geometry.
-- [ ] Panel composition survives rerender only according to local-state policy.
+- [ ] Same task can be observed simultaneously in Calendar/Gantt/Countdown where applicable. *(the implementation permits it and each panel is proven separately, but no single
+  assertion shows one task in all three at once with all three visible. Not ticked on the
+  strength of being obviously true.)*
+- [ ] Clock-only changes never write records. *(the clock-advance test proves rerender and
+  bucket movement, and no mutation exists on that path, but it does not hash durable state
+  before advancing the clock and assert byte identity after. The row says clock-only
+  specifically, so adjacent proofs do not close it.)*
+- [x] Programmatic Shift-resize visibly changes provisional Gantt geometry. — `c1f8c93`;
+  real-DOM Shift gestures change provisional start/end geometry before release, and the two
+  edges produce distinct previews.
+- [x] Invalid resize returns to authoritative geometry. — `c1f8c93`; an inverted resize is
+  marked invalid, emits no `task.timeline.change` intent at all, and restores the original
+  grid geometry on release.
+- [x] Panel composition survives rerender only according to local-state policy. — `760e54d`;
+  panel visibility lives in dispatcher local state, so composition survives an ordinary
+  rerender while fixture reset destroys it and leaves durable records unchanged.
 
 ## Evidence
 
