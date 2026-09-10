@@ -77,10 +77,22 @@ or read a response until this send verification succeeds.
 The reusable send-and-watch operation is:
 
 ```js
+const REVIEWER_MESSAGE_LIMIT =
+  /(?:you(?:'|’)ve reached the maximum length for this conversation|chat session has reached message limits)/i;
+
+async function reviewerMessageLimitVisible(tab) {
+  const body = await tab.playwright.locator('body').innerText();
+  return REVIEWER_MESSAGE_LIMIT.test(body);
+}
+
 async function sendAndWaitForReviewerCompletion(tab, prompt, {
   intervalMs = 1000,
   timeoutMs = 30 * 60 * 1000,
 } = {}) {
+  if (await reviewerMessageLimitVisible(tab)) {
+    return { status: 'message-limit' };
+  }
+
   const usersBefore = await tab.playwright
     .locator('[data-message-author-role="user"]')
     .count();
@@ -135,6 +147,10 @@ async function sendAndWaitForReviewerCompletion(tab, prompt, {
   const startedAt = Date.now();
   let sawGenerating = false;
   while (Date.now() - startedAt < timeoutMs) {
+    if (await reviewerMessageLimitVisible(tab)) {
+      return { status: 'message-limit' };
+    }
+
     const generating =
       (await tab.playwright
         .getByRole('button', { name: 'Stop answering' })
@@ -151,6 +167,12 @@ async function sendAndWaitForReviewerCompletion(tab, prompt, {
   return { status: 'timeout', elapsedMs: Date.now() - startedAt };
 }
 ```
+
+The limit detector is deliberately only for the red conversation-limit notice. Do not
+resend automatically for an ordinary “systems are thinking” notice or any other transient
+status text. When `status: 'message-limit'` is returned, stop using that tab, start a fresh
+browser ChatGPT chat, and send the compact handoff described below; verify the new page
+received it before continuing.
 
 Once the reviewer tab is selected, touch nothing else — not the other Chrome instance, not
 other tabs. Role locators also avoid a real hazard of synthetic coordinate clicks: they can
