@@ -8,38 +8,42 @@
 
 | | |
 | --- | --- |
-| Accepted branch | `stage0-action-spine` @ `57860d3` — pushed, accepted slices only |
+| Accepted branch | `stage0-action-spine` @ `760e54d` — pushed, accepted slices only |
 | Unaccepted work | none |
-| Suite at `57860d3` | typecheck 0, `git diff --check` 0, `npm test` 0, 96 files / 616 tests |
+| Suite at `760e54d` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 97 files / 621 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
-the non-writing Elastic execution cockpit, accepted and squashed at `57860d3`. Six Stage 0
-boxes stay open on purpose — record revisions, bulk-action results and UI-versus-agent
-equivalence have nothing to bite on until a second caller and the record store exist. Every
-ticked box names the commit that closed it.
+the Elastic execution cockpit, at `57860d3`. Stage 3 slice 1, the Timekeeping composition
+shell and Deadline Calendar, at `760e54d`. Nothing so far writes a record. Six Stage 0 boxes
+stay open on purpose — record revisions, bulk-action results and UI-versus-agent equivalence
+have nothing to bite on until a second caller and the record store exist. Every ticked box
+names the commit that closed it.
 
-**In flight** Nothing. The tree is clean and the branch is pushed.
+**In flight** Stage 3 slice 2, Timeline/Gantt, authored and being applied.
 
-**Blocked on the reviewer, 2026-09-10 ~09:50** The AUTHOR stopped being able to answer.
-Every reply now dies after a few words — first at code fences, then at anything past roughly
-forty characters — on both GPT-5.6 and GPT-5.5, in a fresh thread as well as the old one,
-with searching on and off. Nothing in the repo is affected and nothing is uncommitted. If it
-is still doing this, do not spend an hour re-deriving that: try again later, or ask the
-creator which reviewer to use.
-
-**Next operation** Stage 3, Timekeeping presentation. Hand the AUTHOR
-`https://raw.githubusercontent.com/Futahua/long-horizon/main/BROWSER.md`, the branch and SHA
-above, and the Stage 3 section of this file. Stages 3–6 need no record store.
+**Next operation** Apply, verify and land slice 2, then slice 3 (Countdowns), then panel
+sizing. Stages 3–6 need no record store.
 
 **Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
 and gates the import. Stages 1–6 do not need it.
 
-**Reviewer tab, hard-won** Read a response with the page-text tool, which returns the whole
-`<main>`. Do **not** read it off the `[data-message-author-role="assistant"]` node: both
-`innerText` and `textContent` there return a fragment of a long answer, and it looks exactly
-like the model being cut off mid-sentence. An hour went into diagnosing a truncation that
-was never happening. Verify against a screenshot before you tell the AUTHOR its replies are
-broken.
+**`npm` cannot run on this machine right now.** The C: drive is at zero bytes free and npm
+dies with ENOSPC before executing anything. Run the same steps directly instead —
+`node tools/build-fixture-module.mjs`, `./node_modules/.bin/tsc -p …`,
+`./node_modules/.bin/vitest run` — and say in the evidence that you did, because
+substituting a command for the authored one has caused a real problem in this loop before.
+Nothing can be installed until the creator frees space.
+
+**Reviewer tab, hard-won, and this one cost hours** Read a reply by walking the assistant
+node's children yourself, taking `textContent` from each `pre code` for fenced blocks. Do
+not trust `innerText` anywhere: **while the browser pane is hidden the page is not laid out,
+and `innerText` collapses to a fragment**, which reads exactly like the model being cut off
+mid-sentence. Four complete answers were read as truncated, the AUTHOR was told twice its
+replies were broken, and it patiently restated the same answer each time. Worse, acting on
+that false diagnosis I told it to stop using code blocks — which made the renderer decode
+entities and strip backticks, genuinely corrupting the next packet. Fenced code blocks are
+the *safe* transport, not the risky one. If a reply looks truncated: front the tab, take a
+screenshot, and check before you say a word about it.
 
 <!-- /STATUS -->
 
@@ -417,20 +421,35 @@ No storage migration dependency.
 
 ### Composition controls
 
-- [ ] Calendar panel toggle.
-- [ ] Timeline/Gantt panel toggle.
-- [ ] Countdowns panel toggle.
-- [ ] Multiple panels can be visible simultaneously.
-- [ ] Panel sizing/layout is local state only.
+- [x] Calendar panel toggle. — `760e54d` adds Calendar as independently visible Timekeeping
+  panel local state through `timekeeping.panel.set-visible`.
+- [x] Timeline/Gantt panel toggle. — `760e54d` adds Timeline/Gantt as an independently
+  toggleable composition slot without making Timekeeping panels exclusive. The panel itself
+  renders empty until its own slice.
+- [x] Countdowns panel toggle. — `760e54d` adds Countdowns as an independently toggleable
+  composition slot, likewise reserved until its own slice.
+- [x] Multiple panels can be visible simultaneously. — `760e54d` makes Timekeeping panel
+  visibility compositional local state, so Calendar, Timeline/Gantt and Countdowns can all
+  be visible at once. This is the box that stops the surface degenerating into tabs.
+- [ ] Panel sizing/layout is local state only. *(visibility is local state as of `760e54d`;
+  no sizing exists yet, so this stays open rather than being closed by a technicality.)*
 
 ### Deadline Calendar
 
-- [ ] Month navigation.
-- [ ] Current-day styling.
-- [ ] Deadline task placement.
-- [ ] Overdue/urgency styling.
-- [ ] Click task → task modal.
-- [ ] Do not invent empty-day task creation if the old deadline surface did not have it.
+- [x] Month navigation. — `760e54d` reuses the local calendar cursor for deterministic
+  previous/next month navigation.
+- [x] Current-day styling. — `760e54d` marks the injected-clock civil day as the current day
+  with a stable machine-addressable cell.
+- [x] Deadline task placement. — `760e54d` projects tasks with real deadlines deterministically
+  onto their civil-date cells; tasks without deadlines are not invented onto the calendar.
+- [x] Overdue/urgency styling. — `760e54d` projects and styles incomplete deadlines before the
+  injected clock as overdue, and reuses the existing deadline-pressure hue model so urgency
+  tracks remaining time rather than a second, parallel threshold system.
+- [x] Click task → task modal. — `760e54d` routes deadline cards through the existing task-modal
+  affordance, exercised through `data-c1-key` real-DOM interaction. The modal still lives in
+  `elasticCockpit.ts`; extract it when Timekeeping makes that awkward, not before.
+- [x] Do not invent empty-day task creation if the old deadline surface did not have it. —
+  `760e54d`; empty cells carry no creation action or affordance, and a test asserts it.
 
 ### Timeline/Gantt
 
