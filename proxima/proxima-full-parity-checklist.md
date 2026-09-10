@@ -8,28 +8,36 @@
 
 | | |
 | --- | --- |
-| Accepted branch | `stage0-action-spine` @ `2b8a145` — pushed, accepted slices only |
+| Accepted branch | `stage0-action-spine` @ `37e722b` — pushed, accepted slices only |
 | Unaccepted work | none |
-| Suite at `2b8a145` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 97 files / 627 tests |
+| Suite at `37e722b` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 97 files / 629 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3 slice 1, the Timekeeping composition
 shell and Deadline Calendar, at `760e54d`, slice 2, the Timeline/Gantt panel, at
 `fb67685`, slice 3, the Gantt interaction contract, at `c1f8c93`, and
-slice 4, Countdowns, at `2b8a145`. All four Timekeeping surfaces are in and none of them
-writes a record. Nothing so far writes a record. Six Stage 0 boxes
+slice 4, Countdowns, at `2b8a145`, and slice 5, the two acceptance proofs, at `37e722b`.
+All four Timekeeping surfaces are in, none of them writes a record, and **Stage 3 is
+complete except panel sizing/layout**. Nothing so far writes a record. Six Stage 0 boxes
 stay open on purpose — record revisions, bulk-action results and UI-versus-agent equivalence
 have nothing to bite on until a second caller and the record store exist. Every ticked box
 names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 3 has exactly three things left, and two of them are proof gaps
-rather than missing surfaces. Close them in one slice: an assertion showing one task in
-Calendar, Gantt and Countdowns simultaneously with all three panels visible, and a
-clock-only test that hashes durable state before advancing the clock and asserts byte
-identity after. The third, panel sizing/layout, is genuine separate work. Then Stage 4,
-Schedule in all six modes. Stages 3–6 need no record store.
+**Next operation** Stage 4, Schedule. Slice 1 is Day, 4-Day and Week together: one geometry
+family, timed events on the same vertical time-of-day grid differing only in how many civil
+day columns are visible. Month, Year and Agenda are materially different representations and
+come later. Panel sizing/layout is the one Stage 3 item still open.
+
+**Schedule's snapping contract, stated before the work rather than discovered from a test**
+One civil day is 96 equal 15-minute slots; position and height derive from minutes since
+local midnight; interaction snaps to the nearest 15 minutes with exact ties rounding away
+from zero; a move preserves duration, a start-edge resize changes only the start and an
+end-edge only the end; geometry clamps to valid bounds and never silently creates a negative
+duration. Multi-day views change width, never the vertical scale. **This is deliberately not
+the Gantt's model** — that one is 42 whole-day columns. Two different snapping models now
+live in this codebase and confusing them will produce plausible, wrong geometry. Stages 3–6 need no record store.
 
 **Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
 and gates the import. Stages 1–6 do not need it.
@@ -519,13 +527,15 @@ No storage migration dependency.
 
 ## Acceptance
 
-- [ ] Same task can be observed simultaneously in Calendar/Gantt/Countdown where applicable. *(the implementation permits it and each panel is proven separately, but no single
-  assertion shows one task in all three at once with all three visible. Not ticked on the
-  strength of being obviously true.)*
-- [ ] Clock-only changes never write records. *(the clock-advance test proves rerender and
-  bucket movement, and no mutation exists on that path, but it does not hash durable state
-  before advancing the clock and assert byte identity after. The row says clock-only
-  specifically, so adjacent proofs do not close it.)*
+- [x] Same task can be observed simultaneously in Calendar/Gantt/Countdown where applicable. — `37e722b` proves one qualifying task visible in all three panels at once, and proves both
+  sides of "where applicable": start-only stays Gantt-only, no-deadline appears in none.
+  Without those exclusions the row could be satisfied by a surface that showed everything
+  everywhere.
+- [x] Clock-only changes never write records. — `37e722b`; Countdowns visibility is established
+  as render setup **before** the measurement, and after that there is no dispatch and no
+  interaction at all — only the clock moving and the ticker firing. Presentation changes and
+  the SHA-256 of durable state is identical. Proving this from adjacent before/after hashes
+  would not have been the same claim.
 - [x] Programmatic Shift-resize visibly changes provisional Gantt geometry. — `c1f8c93`;
   real-DOM Shift gestures change provisional start/end geometry before release, and the two
   edges produce distinct previews.
