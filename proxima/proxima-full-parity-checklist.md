@@ -4,7 +4,7 @@
 
 ## Status
 
-**Updated** 2026-09-10 · **Repo** Futahua/proxima-backpack
+**Updated** 2026-09-11 · **Repo** Futahua/proxima-backpack
 
 **Where everything is.** Windows paths. The short names beside these are symlinks into
 `Products\<Name>\<Role>` and both forms work, so a tool reporting one when you typed the
@@ -21,6 +21,7 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 | | |
 | --- | --- |
 | Accepted branch | `stage0-action-spine` @ `f6b49d1` — pushed, accepted slices only |
+| Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Unaccepted work | none |
 | Suite at `f6b49d1` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 134 files / 781 tests |
 
@@ -65,14 +66,18 @@ Stage 6 slice 20, deterministic events and evidence, at `ab9ca57`.
 Stage 6 slice 21, optional Papers control, at `83ea8e1`.
 Gate 9.1, native open/reveal acceptance gap, at `ac7daaf`.
 Gate 9.2, smallest host capability, at `f6b49d1`.
+Gate 9.3, native open/reveal execution and acceptance, accepted on Papers branch
+`proxima-gate9-native-source-handoff` at `67b7fa2` (Proxima remains at `f6b49d1`).
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Ask the AUTHOR for the exact next bounded guarded packet after Gate 9.2;
-keep every eventual mutation typed-unavailable until record-store cutover.
+**Next operation** Ask the AUTHOR for the exact next bounded guarded packet for Gate 10.1,
+the live-agent-control gap proof; do not implement Gate 10.2 host truth or Gate 10.3 relay
+until that proof is accepted. Keep every eventual mutation typed-unavailable until
+record-store cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
