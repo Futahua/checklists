@@ -15,7 +15,9 @@ A running progress log grows without bound, and every agent that opens the file 
 whole history whether it needs it or not. Status is current state only. History lives in git,
 where it costs nothing to ignore.
 
-The same goes for the checkboxes: tick them, do not annotate each one with a diary.
+The checkboxes work the other way round: **a ticked box names the commit that closed it**,
+and one line saying what that commit critically changed. That is what makes the work
+reversible without reading the log — but it is a line, not a diary.
 
 ## Before touching anything
 
@@ -30,8 +32,8 @@ The same goes for the checkboxes: tick them, do not annotate each one with a dia
 Stages, checkboxes, acceptance criteria, the evidence that closes each item, and hard gates
 saying what must not start before something else finishes.
 
-A ticked box means the acceptance criteria were met and the evidence exists — never that the
-work looked finished.
+A ticked box means the acceptance criteria were met, the evidence exists, and the commit
+that closed it is named on the box — never that the work looked finished.
 
 - **Hard gates** state what breaks if the order is violated, so skipping one is a decision
   rather than an oversight.

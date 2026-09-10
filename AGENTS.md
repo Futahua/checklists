@@ -127,8 +127,29 @@ exact next operation. Update it whenever any of those change.
 
 **Replace that block in place. Never append to it.** A running progress log grows without
 bound and costs every future agent the whole history whether or not it needs it. Status is
-current state only; history lives in git, where it costs nothing to ignore. The same goes
-for checkboxes — tick them, do not annotate each one with a diary.
+current state only; history lives in git, where it costs nothing to ignore.
+
+## Ticking a box
+
+**Every ticked box names the commit that closed it.** One line, appended to the box:
+
+```
+- [x] Unknown action type returns a typed refusal. — `4554fea` the guard now refuses a
+      result whose category contradicts the registry, so an unregistered type cannot be
+      answered as if it had been handled.
+```
+
+The SHA is what makes the work reversible. Without it, undoing one decision means reading
+the whole log to find out which commit made it; with it, `git show` and `git revert` are one
+command away, and a later agent can tell what a box actually bought.
+
+Write the **critical** change — what a reverting agent needs to know, and anything that
+would surprise them. Not how you got there, not what you tried first. A box that closed
+alongside its sub-items is annotated on the parent only; annotating every child is the diary
+this rule is not.
+
+If two commits closed one box, name both. If a commit is later reverted, untick its boxes
+and say so in Status — a tick whose commit is gone is worse than no tick.
 
 Never leave work uncommitted at the end of a run. If a slice is not accepted yet, park it on
 a clearly named side branch with a message saying what fails and why, and keep the accepted

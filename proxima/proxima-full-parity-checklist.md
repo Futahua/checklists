@@ -13,7 +13,10 @@
 | Suite at `2450828` | typecheck 0, `npm test` 0, 95 files / 604 tests |
 | Suite on `stage2-wip` | typecheck 0, `npm test` 1, 96 files / 611 tests, 608 passing |
 
-**Done** Stage 0 complete, HARD GATE 0 closed. Stage 1 complete.
+**Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 complete at `2450828`.
+Six Stage 0 boxes stay open on purpose — record revisions, bulk-action results and
+UI-versus-agent equivalence have nothing to bite on until a second caller and the record
+store exist. Every ticked box now names the commit that closed it.
 
 **In flight** Stage 2, the non-writing Elastic execution cockpit. Fully applied on
 `stage2-wip`. Three failures were returned to the AUTHOR as design defects and left unfixed
@@ -119,7 +122,11 @@ The current action dispatcher is synchronous and typed but only understands four
   - [ ] record mutations;
   - [ ] vault-artifact gestures.
 
-- [x] Extend the result taxonomy so mutation callers can distinguish at minimum:
+- [x] Extend the result taxonomy so mutation callers can distinguish at minimum: — `da7881f`
+  adds `src/app/actionTaxonomy.ts` with the eight outcomes, `outcomeForErrorCode`, and a
+  `categoryOf` that returns `undefined` for an unregistered type instead of defaulting;
+  `4554fea` widens the error-code map. Reverting either leaves `actionProtocol.ts`'s
+  compile-time union check without a taxonomy to match and typecheck fails loudly.
   - [x] `accepted`;
   - [x] validation refusal;
   - [x] not found;
@@ -130,10 +137,17 @@ The current action dispatcher is synchronous and typed but only understands four
   - [x] storage failure.
 
 - [x] Preserve a unique request ID through dispatcher → semantic operation → mutation journal → result/event. *(dispatcher → result/event only; the journal leg arrives with the record store.)*
+  — `da7881f` threads `requestId` through every result shape. The journal leg is still
+  absent, so this box will reopen when the record store lands.
 - [x] Include affected logical record IDs in mutation results. *(`entityIds` is required on every result, empty rather than absent for presentation actions.)*
+  — `da7881f`. Required, not optional: an absent `entityIds` would be indistinguishable
+  from "touched nothing", so presentation actions carry an empty array.
 - [ ] Include resulting record revision(s) where a record changed.
 - [ ] Define bulk-action results per entity so partial success can never be mistaken for complete success.
-- [x] Make the inspection contract expose:
+- [x] Make the inspection contract expose: — `2a2ff0c` raises `src/app/inspection.ts` to
+  schema 3 and makes the projection state what it does not know; `2450828` adds the cockpit
+  `localState` (surface, selection, modes, tab, calendar month). Reverting `2a2ff0c` returns
+  the projection to claims it cannot support, which is what the schema bump exists to stop.
   - [x] current surface and submode;
   - [x] local cockpit state needed for test assertions;
   - [x] record revisions;
@@ -142,30 +156,43 @@ The current action dispatcher is synchronous and typed but only understands four
         because no mutation stream exists — a fabricated `0` would read as a quiet one.)*
   - [x] settled/busy state.
 
-- [x] Replace the current permanently empty `pendingOperations: []` implementation with actual state once asynchronous mutation exists. *(Now `{ tracking: 'unavailable', items: [] }` — "there is no tracking" rather than "nothing is pending". The guard refuses a projection claiming unavailable tracking while carrying items. Becomes a real list when mutation exists.)*
-- [ ] Provide a programmatic browser interaction harness capable of:
-  - [ ] click;
-  - [ ] pointer down/move/up;
-  - [ ] drag/drop;
-  - [ ] resize gestures;
-  - [ ] Shift modifier;
-  - [ ] keyboard entry;
-  - [ ] Escape;
-  - [ ] context-menu invocation;
-  - [ ] hover.
+- [x] Replace the current permanently empty `pendingOperations: []` implementation with actual state once asynchronous mutation exists. — `2a2ff0c`. *(Now `{ tracking: 'unavailable', items: [] }` — "there is no tracking" rather than "nothing is pending". The guard refuses a projection claiming unavailable tracking while carrying items. Becomes a real list when mutation exists.)*
+- [x] Provide a programmatic browser interaction harness capable of: — `5d5cebf` adds
+  `src/browser/interactionHarness.ts` against a real DOM (happy-dom), all nine gestures on
+  `InteractionHarness`. This is the commit that closed HARD GATE 0; reverting it reopens the
+  gate and Stages 1–6 lose their only non-visual acceptance route.
+  - [x] click;
+  - [x] pointer down/move/up;
+  - [x] drag/drop;
+  - [x] resize gestures;
+  - [x] Shift modifier;
+  - [x] keyboard entry;
+  - [x] Escape;
+  - [x] context-menu invocation;
+  - [x] hover.
 
-- [ ] Give important interactive geometry stable machine keys independent of visual text.
-- [ ] Tests can assert provisional drag/resize state **before** pointer release.
+- [x] Give important interactive geometry stable machine keys independent of visual text.
+  — `5d5cebf` defines `data-c1-key` and makes `machineTarget` throw on zero or multiple
+  matches, so an ambiguous key fails the test instead of silently picking one; `2450828`
+  emits the keys from the renderer.
+- [x] Tests can assert provisional drag/resize state **before** pointer release. — `5d5cebf`.
+  Pointer down, move and release are separate calls returning the live gesture, so a test
+  reads mid-drag geometry rather than only the settled result.
 
 ## Acceptance
 
 - [ ] An action submitted through the UI and the equivalent action submitted through the agent/programmatic entry point produce the same semantic operation/result shape.
-- [x] Invalid action input performs zero durable writes.
-- [x] Unknown action type returns a typed refusal.
-- [x] Every action result can be runtime-validated at the boundary.
-- [ ] Test code can perform a real drag sequence without creator input and inspect the intermediate state.
-- [ ] Test code can wait for `settled` rather than relying on sleeps.
-- [ ] No test requires visual inspection by the creator.
+- [x] Invalid action input performs zero durable writes. — `4554fea`, proven by hashing every
+  fixture byte before and after a rejected dispatch.
+- [x] Unknown action type returns a typed refusal. — `4554fea`.
+- [x] Every action result can be runtime-validated at the boundary. — `4554fea` makes the
+  guard refuse a result whose category contradicts the registry, so a mislabelled result
+  cannot cross the boundary even when the dispatcher believes it succeeded.
+- [x] Test code can perform a real drag sequence without creator input and inspect the intermediate state. — `5d5cebf`.
+- [x] Test code can wait for `settled` rather than relying on sleeps. — `2a2ff0c` reports busy
+  state directly on the projection, so callers poll inspection instead of guessing a delay.
+- [x] No test requires visual inspection by the creator. — holds as of `5d5cebf`; every suite
+  since asserts through the harness or inspection. Any commit that breaks this unticks it.
 
 ## Evidence
 
@@ -173,8 +200,10 @@ The current action dispatcher is synchronous and typed but only understands four
   `proxima-backpack` branch `stage0-action-spine` at `da7881f`. Full suite 93 files /
   588 tests, typecheck clean.
 - [ ] UI-versus-agent equivalence tests. *(nothing to compare yet: no action has two callers.)*
-- [ ] Programmatic pointer/keyboard harness tests.
-- [ ] Machine-readable inspection snapshot fixtures.
+- [x] Programmatic pointer/keyboard harness tests. — `tests/interactionHarness.test.ts`,
+  6 tests, at `5d5cebf`.
+- [x] Machine-readable inspection snapshot fixtures. — `tests/inspection.test.ts` at
+  `2a2ff0c`, extended at `2450828` with the cockpit `localState`.
 - [ ] A test proving malformed agent requests never reach mutation storage. *(partially:
   malformed input is proven to leave dispatcher state untouched; there is no mutation
   storage to reach yet.)*
@@ -201,30 +230,37 @@ Presentation/local state only. No storage migration dependency.
 
 ## Work
 
-- [ ] Replace the simplified Board / Calendar / Canvas-only navigation with the Proxima cockpit hierarchy:
-  - [ ] Tasks;
-  - [ ] Schedule;
-  - [ ] Projects Hub;
-  - [ ] retain Canvas as a Backpack capability without displacing old Proxima surfaces.
+- [x] Replace the simplified Board / Calendar / Canvas-only navigation with the Proxima cockpit hierarchy: — `2450828` adds
+  `src/browser/cockpitNavigation.ts` and rewires `main.ts` onto it. Canvas is kept as a
+  fourth surface rather than folded into the three, so nothing the Backpack already did is
+  lost. Reverting returns the app to Board/Calendar/Canvas and every Stage 2+ surface has
+  nowhere to mount.
+  - [x] Tasks;
+  - [x] Schedule;
+  - [x] Projects Hub;
+  - [x] retain Canvas as a Backpack capability without displacing old Proxima surfaces.
 
-- [ ] Tasks contains:
-  - [ ] Elastic Boards;
-  - [ ] Timekeeping.
+- [x] Tasks contains: — `2450828`, `TasksMode = 'elastic' | 'timekeeping'`.
+  - [x] Elastic Boards;
+  - [x] Timekeeping.
 
-- [ ] Schedule exposes:
-  - [ ] Day;
-  - [ ] 4-Day;
-  - [ ] Week;
-  - [ ] Month;
-  - [ ] Year;
-  - [ ] Agenda.
+- [x] Schedule exposes: — `2450828`, all six as `ScheduleMode`; 4-Day is `'four-day'` in
+  code, and the label is rendered separately from the value so the machine key never depends
+  on visible text.
+  - [x] Day;
+  - [x] 4-Day;
+  - [x] Week;
+  - [x] Month;
+  - [x] Year;
+  - [x] Agenda.
 
-- [ ] Projects Hub opens project workspaces.
-- [ ] Project workspace exposes appropriate tabs from one project rather than treating selection as only a global filter.
-- [ ] Project selection remains view state.
-- [ ] Current surface/subsurface remains local cockpit state.
-- [ ] No migration framework is created for this state.
-- [ ] Resetting/rebuilding the Backpack may discard it without affecting records.
+- [x] Projects Hub opens project workspaces. — `2450828`.
+- [x] Project workspace exposes appropriate tabs from one project rather than treating selection as only a global filter. — `2450828`, `ProjectWorkspaceTab` = notes, task-board, backlog, deadlines, schedule.
+- [x] Project selection remains view state. — `2450828`; it lives in the dispatcher snapshot,
+  never in a record.
+- [x] Current surface/subsurface remains local cockpit state. — `2450828`.
+- [x] No migration framework is created for this state. — `2450828`; deliberately none.
+- [x] Resetting/rebuilding the Backpack may discard it without affecting records. — `2450828`.
 
 ## Local/presentation actions
 
@@ -240,10 +276,15 @@ These do not need to mutate durable records.
 
 ## Acceptance
 
-- [ ] Every old top-level destination is programmatically reachable.
-- [ ] Project selection does not alter any record JSON/source data.
-- [ ] Reload/reset of local cockpit state leaves canonical records byte-identical.
-- [ ] Inspection identifies exactly which surface/subsurface/project/tab is active.
+- [x] Every old top-level destination is programmatically reachable. — `2450828`,
+  `tests/cockpitNavigation.test.ts` walks all four surfaces and every submode by machine key.
+- [x] Project selection does not alter any record JSON/source data. — `2450828`.
+- [x] Reload/reset of local cockpit state leaves canonical records byte-identical. —
+  `2450828`, `tests/actionProtocol.test.ts:196` hashes every durable fixture byte before and
+  after a full navigation walk. This is the test that would catch a future surface quietly
+  writing to the vault.
+- [x] Inspection identifies exactly which surface/subsurface/project/tab is active. —
+  `2450828` adds `localState` to the projection.
 
 ## Evidence
 
