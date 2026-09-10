@@ -1,5 +1,17 @@
 # Window Layout Consistency & Auto-Tracking — Complete Implementation Checklist
 
+<!-- STATUS: replace this block in place. Never append. -->
+
+## Status
+
+**Updated** 2026-09-10 · **Not started.** No implementation exists. Design only.
+
+**Hard gate before any of it ships:** exact window-instance identity must land before
+"remove invalidated processes immediately", or a Chrome tab switch will silently delete
+Chrome and Obsidian from the creator's layouts during ordinary use.
+
+<!-- /STATUS -->
+
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
 > artefacts removed). Written to stand alone: a future reader needs no access to
 > the conversation that produced it.

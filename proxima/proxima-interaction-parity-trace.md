@@ -1,5 +1,18 @@
 # Proxima interaction parity trace
 
+<!-- STATUS: replace this block in place. Never append. -->
+
+## Status
+
+**Updated** 2026-09-10
+
+Reference, not a work item. Complete and stable. Traced from
+`Futahua/Proxima-Obsidian` @ `c1af9cb`. Defines what parity means for the
+[full parity checklist](proxima-full-parity-checklist.md), which is where the active work
+is tracked.
+
+<!-- /STATUS -->
+
 The complete click-by-click specification of the original Proxima Obsidian plugin, as
 the definition of what "feels exactly like Proxima" means for Proxima Backpack.
 

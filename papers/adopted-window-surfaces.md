@@ -1,5 +1,13 @@
 # Adopted Window Surfaces — Complete Implementation Checklist
 
+<!-- STATUS: replace this block in place. Never append. -->
+
+## Status
+
+**Updated** 2026-09-10 · **Not started.** No implementation exists. Design only.
+
+<!-- /STATUS -->
+
 > Authored by the audit reviewer on 2026-09-08 and saved here verbatim (only
 > rendering artefacts removed). Written to stand alone: a future reader needs no
 > access to the conversation that produced it.

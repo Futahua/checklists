@@ -1,5 +1,14 @@
 # Quick Run — Complete Implementation Checklist
 
+<!-- STATUS: replace this block in place. Never append. -->
+
+## Status
+
+**Updated** 2026-09-10 · **Not started.** No implementation exists. Design only. The
+default hotkey chord is deliberately unchosen.
+
+<!-- /STATUS -->
+
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
 > artefacts removed). Written to stand alone: a future reader needs no access to
 > the conversation that produced it.

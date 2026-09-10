@@ -116,6 +116,24 @@ commit.
 
 Keep big files out of context — read the part you need.
 
+## Keeping the checklist handoff-able
+
+This repository exists because sessions run out of usage mid-task. Whoever picks the work up
+next has only what is written down.
+
+Every checklist carries a **Status** block at the top: accepted branch and SHA, unaccepted
+work and where it is parked, current suite totals, what is done, what is in flight, and the
+exact next operation. Update it whenever any of those change.
+
+**Replace that block in place. Never append to it.** A running progress log grows without
+bound and costs every future agent the whole history whether or not it needs it. Status is
+current state only; history lives in git, where it costs nothing to ignore. The same goes
+for checkboxes — tick them, do not annotate each one with a diary.
+
+Never leave work uncommitted at the end of a run. If a slice is not accepted yet, park it on
+a clearly named side branch with a message saying what fails and why, and keep the accepted
+branch clean. Losing an hour of applied work to an exhausted session is avoidable.
+
 ## What ends the run
 
 **A turn ends when you stop making tool calls and speak.** Nothing external restarts you.

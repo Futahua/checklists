@@ -1,5 +1,41 @@
 # Proxima Backpack — Full-Parity Implementation Checklist
 
+<!-- STATUS: replace this block in place. Never append. -->
+
+## Status
+
+**Updated** 2026-09-10 · **Repo** Futahua/proxima-backpack
+
+| | |
+| --- | --- |
+| Accepted branch | `stage0-action-spine` @ `2450828` — clean, accepted slices only |
+| Unaccepted work | `stage2-wip` @ `fb8ea27` — applied, 3 failures outstanding |
+| Suite at `2450828` | typecheck 0, `npm test` 0, 95 files / 604 tests |
+| Suite on `stage2-wip` | typecheck 0, `npm test` 1, 96 files / 611 tests, 608 passing |
+
+**Done** Stage 0 complete, HARD GATE 0 closed. Stage 1 complete.
+
+**In flight** Stage 2, the non-writing Elastic execution cockpit. Fully applied on
+`stage2-wip`. Three failures were returned to the AUTHOR as design defects and left unfixed
+by the executor:
+
+1. `tests/actionTaxonomy.test.ts:137` — a Stage 0 test dispatched `task.execution.move`
+   *because* it was unregistered; registering it made the premise false.
+2. `tests/elasticCockpit.test.ts:130` — machine key `elastic-property-running-a-priority`
+   matches two elements; `renderProperties` runs twice when a quick editor is open.
+3. `tests/elasticCockpit.test.ts:160` — the datetime-local handler treats a local-time value
+   as UTC, so a 17:00 target becomes 10:00Z on a UTC+7 machine. Product bug, not a test
+   artifact.
+
+**Next operation** Get the three guarded replacements from the AUTHOR, apply them to
+`stage2-wip`, run `npm run typecheck` and `npm test`, and on green return evidence for
+acceptance. Once accepted, land Stage 2 as one commit on `stage0-action-spine`.
+
+**Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
+and gates the import. Stages 1–6 do not need it.
+
+<!-- /STATUS -->
+
 **Starting point:** `608bcdc`
 
 **Target:** the old Proxima cockpit interaction model, backed by a cleaner Proxima-owned record database and fully operable by semantic agent actions.
