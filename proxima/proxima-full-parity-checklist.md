@@ -24,6 +24,7 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
+| Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
 | Suite at `f6b49d1` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 134 files / 781 tests |
 
@@ -81,6 +82,13 @@ without crossing the downstream seam; a matching request crosses exactly once wi
 host-resolved live project identity; and a retired logical surface makes that sender stale
 and refused. Production is unchanged from Gate 10.1. Papers default suite 99 files
 (98 passed | 1 skipped), 941 passed + 4 skipped / 945 collected.
+Gate 10.3, bounded relay proof, accepted on Papers branch `gate10-relay` at `d2a3c74`:
+the accepted host-resolved project identity reaches the real `DelegateWaveRelay`; the
+read-only operation is fixed to `GET /v1/overview`, credentials come from relay configuration
+rather than page parameters, caller-supplied path/token values cannot redirect or authorize
+the request, and no mutation body or mutation operation is emitted. Production remains
+unchanged. Papers default suite 99 files (98 passed | 1 skipped),
+942 passed + 4 skipped / 946 collected.
 Proxima remains untouched at `f6b49d1`.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
@@ -88,8 +96,9 @@ a second caller and the record store exist. Every ticked box names the commit th
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Ask the AUTHOR for the exact next bounded guarded packet for Gate 10.3,
-relay. Keep every eventual mutation typed-unavailable until record-store cutover.
+**Next operation** Ask the AUTHOR for the exact next bounded guarded packet for HARD GATE A,
+beginning with A1 — Stable opaque identity. Keep every eventual mutation typed-unavailable
+until record-store cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
