@@ -30,6 +30,12 @@ names the commit that closed it.
 following the pointer, cross-day drag in multi-day modes, 15-minute snapping, bottom-edge
 resize with live preview, and a final drop that stays typed-unavailable until cutover.
 
+**Reviewer unavailable, 2026-09-10 ~13:20.** The AUTHOR stopped answering again: replies die
+after a handful of words. Confirmed against the rendered page, not assumed, and confirmed in
+a *fresh* thread as well as the long one, so it is the service and not thread length. The
+same thing happened around 09:50 and had recovered by 11:00, so try again later before
+concluding anything. Nothing in either repo is affected and nothing is uncommitted.
+
 **I owe one thing from slice 1, and it was my error.** I briefed the AUTHOR that an
 empty-slot click must not create anything. That is right for Elastic and the Deadline
 Calendar and *wrong* for this stage: the checklist asks that an empty cell seed the event
