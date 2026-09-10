@@ -6,6 +6,8 @@
 
 **Updated** 2026-09-10 · **Not started.** No implementation exists. Design only.
 
+**Where it would land** `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — `Futahua/Papers-3`. Nothing is built, so no branch is named yet.
+
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here verbatim (only

@@ -125,6 +125,21 @@ Every checklist carries a **Status** block at the top: accepted branch and SHA, 
 work and where it is parked, current suite totals, what is done, what is in flight, and the
 exact next operation. Update it whenever any of those change.
 
+**Status also names the absolute path of every directory the work touches.** A remote is not
+a location. An agent that knows the repo is `Futahua/proxima-backpack` still cannot find it
+on this machine, and searching the disk for it costs real time — that has already happened
+here. Name the working tree, the fixture data, and any read-only reference checkout, in
+Windows form, and say which are read-only.
+
+Two traps worth knowing before you use those paths:
+
+- **Real paths live under `Products\<Name>\<Role>`; the short names beside them are
+  symlinks.** `…\MatTroiSeConMoc\Papers` points into `Products\Papers\Runtime\`. Both work;
+  tools may report either, so do not treat a mismatch as a wrong directory.
+- **Windows Python cannot resolve msys `/d/...` paths even where `ls` can**, and fails
+  silently rather than loudly. Use `D:/...` in scripts. A no-op edit that looked like a pass
+  cost a session once already.
+
 **Replace that block in place. Never append to it.** A running progress log grows without
 bound and costs every future agent the whole history whether or not it needs it. Status is
 current state only; history lives in git, where it costs nothing to ignore.

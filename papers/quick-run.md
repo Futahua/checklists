@@ -7,6 +7,8 @@
 **Updated** 2026-09-10 · **Not started.** No implementation exists. Design only. The
 default hotkey chord is deliberately unchosen.
 
+**Where it would land** `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — `Futahua/Papers-3`.
+
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering

@@ -6,10 +6,11 @@
 
 **Updated** 2026-09-10
 
-Reference, not a work item. Complete and stable. Traced from
-`Futahua/Proxima-Obsidian` @ `c1af9cb`. Defines what parity means for the
-[full parity checklist](proxima-full-parity-checklist.md), which is where the active work
-is tracked.
+Reference, not a work item. Complete and stable. Traced from `Futahua/Proxima-Obsidian` @
+`c1af9cb`, checked out at `D:\LapSlop brotherhood\Local\.obsidian\plugins\proxima` —
+**read-only: it is a live plugin inside the creator's vault.** Defines what parity means for
+the [full parity checklist](proxima-full-parity-checklist.md), which is where the active work
+is tracked and which carries the rest of the paths.
 
 <!-- /STATUS -->
 

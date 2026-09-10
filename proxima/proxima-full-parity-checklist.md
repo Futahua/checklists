@@ -6,6 +6,18 @@
 
 **Updated** 2026-09-10 · **Repo** Futahua/proxima-backpack
 
+**Where everything is.** Windows paths. The short names beside these are symlinks into
+`Products\<Name>\<Role>` and both forms work, so a tool reporting one when you typed the
+other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot resolve msys
+`/d/...` and fails *silently*, which once produced a no-op edit that looked like a pass.
+
+| | |
+| --- | --- |
+| Working tree | `D:\Letters\MatTroiSeConMoc\Products\Papers\Runtime\Backpack projects\Proxima` |
+| Fixture vaults | `<working tree>\fixtures\` — `vault-basic`, `vault-duplicates`, `vault-legacy`, `vault-malformed` |
+| This checklist | `D:\Letters\MatTroiSeConMoc\LongHorizon` — `Futahua/long-horizon` |
+| Original plugin | `D:\LapSlop brotherhood\Local\.obsidian\plugins\proxima` — `Futahua/Proxima-Obsidian` at `c1af9cb`, the SHA the interaction trace was written from. **Read-only reference: it is a live plugin inside the creator's vault. Do not write to it.** |
+
 | | |
 | --- | --- |
 | Accepted branch | `stage0-action-spine` @ `7357b4d` — pushed, accepted slices only |
@@ -13,52 +25,54 @@
 | Suite at `7357b4d` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 98 files / 634 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
-the Elastic execution cockpit, at `57860d3`. Stage 3 slice 1, the Timekeeping composition
-shell and Deadline Calendar, at `760e54d`, slice 2, the Timeline/Gantt panel, at
-`fb67685`, slice 3, the Gantt interaction contract, at `c1f8c93`, and
-slice 4, Countdowns, at `2b8a145`, and slice 5, the two acceptance proofs, at `37e722b`.
-All four Timekeeping surfaces are in, none of them writes a record, and **Stage 3 is
+the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
+Calendar at `760e54d`, Timeline/Gantt at `fb67685`, the Gantt interaction contract at
+`c1f8c93`, Countdowns at `2b8a145`, and the two acceptance proofs at `37e722b` — **Stage 3 is
 complete except panel sizing/layout**. Stage 4 slice 1, Schedule Day/4-Day/Week, at
-`7357b4d`. Nothing so far writes a record. Six Stage 0 boxes
-stay open on purpose — record revisions, bulk-action results and UI-versus-agent equivalence
-have nothing to bite on until a second caller and the record store exist. Every ticked box
-names the commit that closed it.
+`7357b4d`. Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
+revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
+a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 4 slice 2: the Schedule interaction contract — drag preview
+**Next operation** Stage 4 slice 2, the Day/4-Day/Week interaction contract: drag preview
 following the pointer, cross-day drag in multi-day modes, 15-minute snapping, bottom-edge
-resize with live preview, and a final drop that stays typed-unavailable until cutover.
-
-**Reviewer unavailable, 2026-09-10 ~13:20.** The AUTHOR stopped answering again: replies die
-after a handful of words. Confirmed against the rendered page, not assumed, and confirmed in
-a *fresh* thread as well as the long one, so it is the service and not thread length. The
-same thing happened around 09:50 and had recovered by 11:00, so try again later before
-concluding anything. Nothing in either repo is affected and nothing is uncommitted.
+resize with live preview, and a final drop that stays typed-unavailable until cutover. Note
+the checklist says bottom-edge only, unlike the Gantt's two handles.
 
 **I owe one thing from slice 1, and it was my error.** I briefed the AUTHOR that an
 empty-slot click must not create anything. That is right for Elastic and the Deadline
-Calendar and *wrong* for this stage: the checklist asks that an empty cell seed the event
-editor with the clicked time and propose a one-hour event. Slice 1 therefore made empty slots
-deliberately inert. Two boxes are owed as a result and are marked with why.
+Calendar and *wrong* here: the checklist asks that an empty cell seed the event editor with
+the clicked time and propose a one-hour event. Slice 1 therefore made empty slots
+deliberately inert, and a test asserts it. Two boxes are owed and carry the reason.
+
+**Two snapping models now coexist and must not be confused.** The Gantt is 42 whole-day
+columns, pointer delta over one column width, ties away from zero, no time of day. Schedule
+is 96 fifteen-minute slots per civil day, position from local minutes since midnight, height
+from duration over 1440. Mixing them yields geometry that looks plausible and is wrong.
 
 **Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
 and gates the import. Stages 1–6 do not need it.
 
-**`npm` cannot run on this machine right now.** The C: drive is at zero bytes free and npm
-dies with ENOSPC before executing anything. Run the same steps directly instead —
+**`npm` cannot run on this machine.** The C: drive is at zero bytes free and npm dies with
+ENOSPC before executing anything. Run the same steps directly instead —
 `node tools/build-fixture-module.mjs`, `./node_modules/.bin/tsc -p …`,
-`./node_modules/.bin/vitest run` — and say in the evidence that you did, because
-substituting a command for the authored one has caused a real problem in this loop before.
-Nothing can be installed until the creator frees space.
+`./node_modules/.bin/vitest run` — and say in the evidence that you did, because substituting
+a command for the authored one has caused a real problem in this loop before. Nothing can be
+installed until the creator frees space.
 
-**Reviewer tab, hard-won, and this one cost hours** Read a reply by walking the assistant
-node's children yourself, taking `textContent` from each `pre code` for fenced blocks. Do
-not trust `innerText` anywhere: **while the browser pane is hidden the page is not laid out,
-and `innerText` collapses to a fragment**, which reads exactly like the model being cut off
-mid-sentence. Four complete answers were read as truncated, the AUTHOR was told twice its
-replies were broken, and it patiently restated the same answer each time. Worse, acting on
-that false diagnosis I told it to stop using code blocks — which made the renderer decode
+**Reviewer outages, 2026-09-10 ~09:50 and ~13:20.** The AUTHOR twice stopped answering:
+replies die after a handful of words. Confirmed against the rendered page and reproduced in a
+*fresh* thread, so it is the service, not thread length. The first outage had cleared within
+about an hour. Try again before concluding anything.
+
+**Reading the reviewer, hard-won, and this one cost hours.** Read a reply by walking the
+assistant node's children yourself, taking `textContent` from each `pre code` for fenced
+blocks. Do not trust `innerText` anywhere: **while the browser pane is hidden the page is not
+laid out and `innerText` collapses to a fragment**, which reads exactly like the model being
+cut off mid-sentence. Four complete answers were read as truncated and the AUTHOR was twice
+told its replies were broken; it patiently restated the same answer each time. Worse, acting
+on that false diagnosis I told it to stop using code blocks — which made the renderer decode
 entities and strip backticks, genuinely corrupting the next packet. Fenced code blocks are
 the *safe* transport, not the risky one. If a reply looks truncated: front the tab, take a
 screenshot, and check before you say a word about it.

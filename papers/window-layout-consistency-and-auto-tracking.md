@@ -6,6 +6,8 @@
 
 **Updated** 2026-09-10 · **Not started.** No implementation exists. Design only.
 
+**Where it would land** `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — `Futahua/Papers-3`.
+
 **Hard gate before any of it ships:** exact window-instance identity must land before
 "remove invalidated processes immediately", or a Chrome tab switch will silently delete
 Chrome and Obsidian from the creator's layouts during ordinary use.
