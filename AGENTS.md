@@ -319,6 +319,18 @@ Stop only for a decision that is genuinely the creator's — an irreversible act
 conflict between two things they asked for, or a question the source cannot answer. Leave
 it stated plainly and move to work that is not blocked by it.
 
+## When the reviewer chat reaches its message limit
+
+Inspect the rendered reviewer page for the red notice **“chat session has reached message
+limits”** before trying to send another packet. If it appears, treat that chat as exhausted:
+start a new browser ChatGPT session and give it a compact handoff before requesting work.
+The handoff must include the AUTHOR brief URL, the repository and docs paths, current feature
+branch and accepted SHA, checklist/docs SHA and suite totals, the exact next operation, and
+the standing rules (apply packets verbatim, do not redesign, no live-vault/main writes,
+explicitly click **Send prompt**, verify the send transition, then use the Stop answering /
+Stop thinking watcher until it appears and disappears). Re-read the rendered new page to
+confirm the handoff arrived before continuing; do not assume a new session received it.
+
 ## Elsewhere
 
 [BROWSER.md](BROWSER.md) is the AUTHOR's brief; hand it that URL at session start.
