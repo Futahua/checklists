@@ -20,31 +20,41 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage0-action-spine` @ `7357b4d` — pushed, accepted slices only |
+| Accepted branch | `stage0-action-spine` @ `cb92cae` — pushed, accepted slices only |
 | Unaccepted work | none |
-| Suite at `7357b4d` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 98 files / 634 tests |
+| Suite at `cb92cae` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 111 files / 689 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
 Calendar at `760e54d`, Timeline/Gantt at `fb67685`, the Gantt interaction contract at
 `c1f8c93`, Countdowns at `2b8a145`, and the two acceptance proofs at `37e722b` — **Stage 3 is
 complete except panel sizing/layout**. Stage 4 slice 1, Schedule Day/4-Day/Week, at
-`7357b4d`. Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
+`7357b4d`, slice 2, the Day/4-Day/Week interaction contract, at `7292075`, and slice 3,
+Schedule empty-cell creation, at `2e74059`, and slice 4, Schedule Month/Year/Agenda
+projection, at `5d97cdc`. Nothing anywhere writes a record. Six Stage 0
+projection, at `5d97cdc`, and slice 5a, Schedule shared navigation and filtering, at
+`fc460f6`, slice 5b, Schedule recurrence projection, at `448c65f`, and Stage 5 slice 1,
+Projects Hub read-only inventory, at `d83e158`, and Stage 5 slice 2, New Project provisional
+modal with typed-unavailable Save, at `68e11b6`, and Stage 5 slice 3, project lifecycle refusal
+controls, at `dbea424`, Stage 5 slice 4, read-only project workspace panels, at `dadd610`,
+Stage 5 slice 5, detailed Notes tree/preview interactions, at `fa5bb33`, and Stage 5 slice 6,
+detailed Task Board interactions, at `c8e35c3`, and Stage 5 slice 7, detailed Backlog interactions,
+at `b281cab`, Stage 5 slice 8, detailed Deadlines interactions, at `d3dbb59`, and Stage 5
+slice 9, detailed Schedule interactions, at `36fcc08`, and Stage 5 slice 10, workspace
+ownership closeout, at `cb92cae`.
+Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 4 slice 2, the Day/4-Day/Week interaction contract: drag preview
-following the pointer, cross-day drag in multi-day modes, 15-minute snapping, bottom-edge
-resize with live preview, and a final drop that stays typed-unavailable until cutover. Note
-the checklist says bottom-edge only, unlike the Gantt's two handles.
+**Next operation** Ask the AUTHOR for the exact next bounded guarded packet after Stage 5
+slice 10; keep every eventual mutation typed-unavailable until record-store cutover.
 
-**I owe one thing from slice 1, and it was my error.** I briefed the AUTHOR that an
-empty-slot click must not create anything. That is right for Elastic and the Deadline
-Calendar and *wrong* here: the checklist asks that an empty cell seed the event editor with
-the clicked time and propose a one-hour event. Slice 1 therefore made empty slots
-deliberately inert, and a test asserts it. Two boxes are owed and carry the reason.
+**Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
+click must not create anything, which is right for Elastic and the Deadline Calendar but
+wrong here. Slice 3 now seeds the event editor at the clicked time with a one-hour proposal;
+the editor remains local-only until its typed-unavailable Save path.
 
 **Two snapping models now coexist and must not be confused.** The Gantt is 42 whole-day
 columns, pointer delta over one column width, ties away from zero, no time of day. Schedule
@@ -584,13 +594,13 @@ No record migration dependency.
 - [x] 4-Day. — `7357b4d`; four adjacent civil-day columns.
 - [x] Week. — `7357b4d`; seven. All three are one geometry family over the same vertical grid,
   differing only in column count.
-- [ ] Month.
-- [ ] Year.
-- [ ] Agenda.
-- [ ] Previous.
-- [ ] Today.
-- [ ] Next.
-- [ ] Project/event filtering without mutation.
+- [x] Month. — `5d97cdc`
+- [x] Year. — `5d97cdc`
+- [x] Agenda. — `5d97cdc`
+- [x] Previous. — `fc460f6`
+- [x] Today. — `fc460f6`
+- [x] Next. — `fc460f6`
+- [x] Project/event filtering without mutation. — `fc460f6`
 
 ### Day / 4-Day / Week
 
@@ -601,56 +611,57 @@ No record migration dependency.
   midnight, and an event crossing midnight is segmented truthfully at the civil-day boundary
   rather than drawn as one impossible bar or dropped.
 - [x] Correct duration height. — `7357b4d`; height is duration over the 1440-minute day.
-- [ ] Empty-cell click seeds event editor with clicked time. *(**not built, and my fault**:
+- [x] Empty-cell click seeds event editor with clicked time. — `2e74059`; *(previously not
+  built, and my fault:
   I briefed the AUTHOR that empty-slot click must NOT create, which is what the Elastic and
   Deadline Calendar surfaces require but the opposite of what this row asks. `7357b4d` renders
   empty slots deliberately inert. Seeding the editor from the clicked time is real work and
   is now owed.)*
-- [ ] Default one-hour event proposal. *(same mis-brief; goes with the row above.)*
+- [x] Default one-hour event proposal. — `2e74059`; *(same mis-brief; goes with the row above.)*
 - [x] Event click opens editor. — `7357b4d`; a read-only local event editor, the first modal in
   the codebase that is not the task modal.
-- [ ] Drag preview follows pointer.
-- [ ] Cross-day drag preview in multi-day modes.
-- [ ] 15-minute snap during drag.
-- [ ] Bottom-edge resize affordance.
-- [ ] 15-minute duration snapping.
-- [ ] Live resize preview.
-- [ ] Final save/drop remains unavailable until record-store mutation stage.
+- [x] Drag preview follows pointer. — `7292075`
+- [x] Cross-day drag preview in multi-day modes. — `7292075`
+- [x] 15-minute snap during drag. — `7292075`
+- [x] Bottom-edge resize affordance. — `7292075`
+- [x] 15-minute duration snapping. — `7292075`
+- [x] Live resize preview. — `7292075`
+- [x] Final save/drop remains unavailable until record-store mutation stage. — `7292075`
 
 ### Month
 
-- [ ] Month grid.
-- [ ] Date-level occurrence projection.
-- [ ] Event click opens editor.
-- [ ] No Week-style time-height resize imported into Month.
+- [x] Month grid. — `5d97cdc`
+- [x] Date-level occurrence projection. — `5d97cdc`
+- [x] Event click opens editor. — `5d97cdc`
+- [x] No Week-style time-height resize imported into Month. — `5d97cdc`
 
 ### Year
 
-- [ ] Twelve mini-month overview.
-- [ ] Date navigation/drill-down.
-- [ ] Event indicators.
+- [x] Twelve mini-month overview. — `5d97cdc`
+- [x] Date navigation/drill-down. — `5d97cdc`
+- [x] Event indicators. — `5d97cdc`
 
 ### Agenda
 
-- [ ] Chronological date groups.
-- [ ] Event rows.
-- [ ] Event click opens editor.
-- [ ] No arbitrary drag ordering.
+- [x] Chronological date groups. — `5d97cdc`
+- [x] Event rows. — `5d97cdc`
+- [x] Event click opens editor. — `5d97cdc`
+- [x] No arbitrary drag ordering. — `5d97cdc`
 
 ### Recurrence projection
 
-- [ ] Existing recurring events expand into visible occurrences.
-- [ ] Expansion itself writes nothing.
-- [ ] Clicking a recurring occurrence can reach the later scope-choice modal.
-- [ ] No generated ordinary occurrence is prematurely materialized as a separate record merely to display it.
+- [x] Existing recurring events expand into visible occurrences. — `448c65f`
+- [x] Expansion itself writes nothing. — `448c65f`
+- [x] Clicking a recurring occurrence can reach the later scope-choice modal. — `448c65f`
+- [x] No generated ordinary occurrence is prematurely materialized as a separate record merely to display it. — `448c65f`
 
 ## Acceptance
 
 - [ ] Same event projects correctly across all six views.
-- [ ] Day/4-Day/Week use 15-minute interaction geometry.
-- [ ] Month/Year/Agenda do not inherit invalid resize semantics.
-- [ ] Recurrence expansion is deterministic under injected clock/date range.
-- [ ] Empty-cell creation opens a form without modifying source data before Save.
+- [x] Day/4-Day/Week use 15-minute interaction geometry. — `7292075`
+- [x] Month/Year/Agenda do not inherit invalid resize semantics. — `5d97cdc`
+- [x] Recurrence expansion is deterministic under injected clock/date range. — `448c65f`
+- [x] Empty-cell creation opens a form without modifying source data before Save. — `2e74059`
 
 ## Evidence
 

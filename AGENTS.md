@@ -63,6 +63,95 @@ reviewerTab.playwright.getByRole("textbox", { name: "Chat with ChatGPT" });
 reviewerTab.playwright.getByRole("button", { name: "Send prompt" });
 ```
 
+**Submitting a prompt is an explicit click.** Never use `Enter`, keyboard shortcuts,
+coordinate clicks, or an assumed form submit. Fill the ChatGPT composer, wait for the
+role button named `Send prompt` to exist (the composer can render it a moment late),
+and click it. Then verify a real send transition before treating the prompt as sent:
+either the exact prompt text appears in a new user message, or the composer changes
+from `Send prompt` to `Stop answering`/`Stop thinking` (the generation latch). A click
+alone, an unchanged user-message count, or a blue-looking button is not verification.
+If neither transition is observed within the verification window, reclaim the same
+tab and diagnose it; do not tell the creator to click for you. Do not start a watcher
+or read a response until this send verification succeeds.
+
+The reusable send-and-watch operation is:
+
+```js
+async function sendAndWaitForReviewerCompletion(tab, prompt, {
+  intervalMs = 1000,
+  timeoutMs = 30 * 60 * 1000,
+} = {}) {
+  const usersBefore = await tab.playwright
+    .locator('[data-message-author-role="user"]')
+    .count();
+  const composer = tab.playwright.getByRole('textbox', {
+    name: 'Chat with ChatGPT',
+  });
+  await composer.fill(prompt);
+  const sendDeadline = Date.now() + 30 * 1000;
+  let send = tab.playwright.getByRole('button', { name: 'Send prompt' });
+  while (Date.now() < sendDeadline && await send.count() !== 1) {
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    send = tab.playwright.getByRole('button', { name: 'Send prompt' });
+  }
+  if (await send.count() !== 1) throw new Error('Send prompt button missing');
+  await send.click();
+
+  const verifyDeadline = Date.now() + 30 * 1000;
+  let sawGeneration = false;
+  let sawExactUserMessage = false;
+  while (Date.now() < verifyDeadline) {
+    const usersAfter = await tab.playwright
+      .locator('[data-message-author-role="user"]')
+      .count();
+    const userMessages = await tab.playwright
+      .locator('[data-message-author-role="user"]')
+      .allTextContents();
+    sawExactUserMessage = userMessages.some((text) => text.includes(prompt));
+    const generating =
+      (await tab.playwright
+        .getByRole('button', { name: 'Stop answering' })
+        .count()) > 0
+      || (await tab.playwright
+        .getByRole('button', { name: 'Stop thinking' })
+        .count()) > 0;
+    sawGeneration ||= generating;
+    if (usersAfter > usersBefore || sawExactUserMessage || sawGeneration) break;
+    await new Promise((resolve) => setTimeout(resolve, 250));
+  }
+  if (!sawGeneration) {
+    const usersAfter = await tab.playwright
+      .locator('[data-message-author-role="user"]')
+      .count();
+    const userMessages = await tab.playwright
+      .locator('[data-message-author-role="user"]')
+      .allTextContents();
+    if (usersAfter <= usersBefore
+      && !userMessages.some((text) => text.includes(prompt))) {
+      throw new Error('Prompt was not visibly sent');
+    }
+  }
+
+  const startedAt = Date.now();
+  let sawGenerating = false;
+  while (Date.now() - startedAt < timeoutMs) {
+    const generating =
+      (await tab.playwright
+        .getByRole('button', { name: 'Stop answering' })
+        .count()) > 0
+      || (await tab.playwright
+        .getByRole('button', { name: 'Stop thinking' })
+        .count()) > 0;
+    sawGenerating ||= generating;
+    if (sawGenerating && !generating) {
+      return { status: 'finished', elapsedMs: Date.now() - startedAt };
+    }
+    await new Promise((resolve) => setTimeout(resolve, intervalMs));
+  }
+  return { status: 'timeout', elapsedMs: Date.now() - startedAt };
+}
+```
+
 Once the reviewer tab is selected, touch nothing else — not the other Chrome instance, not
 other tabs. Role locators also avoid a real hazard of synthetic coordinate clicks: they can
 fire page handlers you did not intend, including a copy handler that overwrites the
@@ -71,7 +160,10 @@ creator's clipboard.
 ## Watching the reviewer tab
 
 One bounded watcher against the same attached tab. Not screenshots, not refreshes, not
-mouse control, not batches of sleeps.
+mouse control, not batches of sleeps. Use the send-and-watch operation above when sending
+a new prompt; its completion detector is the canonical watcher. The timeout is a safety
+bound, not a completion signal: do not click Stop answering/Stop thinking merely because
+the bound elapsed.
 
 ```js
 let sawGenerating = false;
@@ -80,6 +172,9 @@ while (Date.now() - startedAt < timeoutMs) {
   const generating =
     (await tab.playwright
       .getByRole("button", { name: "Stop answering" })
+      .count()) > 0
+    || (await tab.playwright
+      .getByRole("button", { name: "Stop thinking" })
       .count()) > 0;
 
   sawGenerating ||= generating;
