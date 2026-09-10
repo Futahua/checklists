@@ -20,6 +20,13 @@ ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
+**Blocked on the reviewer, 2026-09-10 ~09:50** The AUTHOR stopped being able to answer.
+Every reply now dies after a few words — first at code fences, then at anything past roughly
+forty characters — on both GPT-5.6 and GPT-5.5, in a fresh thread as well as the old one,
+with searching on and off. Nothing in the repo is affected and nothing is uncommitted. If it
+is still doing this, do not spend an hour re-deriving that: try again later, or ask the
+creator which reviewer to use.
+
 **Next operation** Stage 3, Timekeeping presentation. Hand the AUTHOR
 `https://raw.githubusercontent.com/Futahua/long-horizon/main/BROWSER.md`, the branch and SHA
 above, and the Stage 3 section of this file. Stages 3–6 need no record store.
