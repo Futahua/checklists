@@ -1196,18 +1196,25 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Stage 14 has no open box** as of `8d5ec96` (the write itself landed at `bd61f60`): a bar drag and an
-edge resize are driven through the real binder into a real store — the drag previews whole days with the
-record asserted untouched at that moment, the release writes exactly the dates it previewed with the
-duration intact, shift-dragging the end edge moves the deadline and leaves the start, shift-dragging the
-start edge past the deadline is refused where the gesture is so no request is ever made, and a pointer
-drag and a direct request carrying the same two dates land on identical records. The Countdowns and the
-Deadline Calendar are drawn from the same re-read, which is what "immediately" means here: the deadline
-moves to a different civil day and the old day's count drops by exactly the one that moved, because the
-other task is still there. The row a bar is dropped in stays the surface's throughout (`rowApplied:
-false`), so a scoped row movement can never reorder the Elastic board. Next operation: **slice 76 —
-Stage 15, Notes, drawings and attachments workspace**, the next stage with open boxes this tree can
-close. Nothing in
+**Stage 15's read half is complete** as of `8d5ec96`: the workspace's file/folder tree, its Markdown,
+Canvas and Excalidraw previews, folder expansion, selection, context state, hover affordance and
+attached-file navigation are all asserted by suites the project already had
+(`tests/projectNotes.test.ts` for the tree, the panes and the interaction boundaries;
+`tests/canvasPreview.test.ts`, `tests/canvasTextPreview.test.ts` and
+`tests/canvasExcalidrawPreview.test.ts` for the three preview paths, their budgets and their lifecycles),
+so those boxes were open on a claim the tree could already evidence rather than on missing work.
+**Its write half is a creator question, and it is stated as one rather than guessed at:** where an
+artifact write may land. `VaultWriter` is an implemented conditional mutation port, but creator-vault
+write authority is disabled and native FSA has no compare-and-swap commit primitive, so
+`evaluateFsaWriteBoundary()` fails closed and no FSA writer is exposed. The three honest answers —
+artifacts as files under the product's own record-store root, an explicitly granted creator directory
+with its own authority boundary, or attachments staying read-only until that grant exists — change what
+`artifact.move`, `artifact.rename` and `artifact.delete` mean and where they may reach, so the nine write
+boxes stay open with that question named rather than answered by implication.
+Next operation: **slice 77 — the next stage whose boxes this tree can close** (Stage 17's action-coverage
+audit, Stage 18's four remaining feel boxes, Stage 19's convergence boxes, Stage 20's
+transitional-scaffolding removal), leaving the artifact-write question and the other creator questions
+named above untouched. Nothing in
 Proxima or LongHorizon is parked or uncommitted; both trees are clean and both branches are pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
