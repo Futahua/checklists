@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `be3efdf` — pushed, creator-accepted through Stage 8 slice 2 durable identity reconciliation / duplicate-candidate planning foundation |
+| Accepted branch | `stage7-record-store-contract` @ `368b3bf` — pushed, creator-accepted through Stage 8 slice 4 schema/settings conversion-plan foundation |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `be3efdf` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 153 files / 912 tests; Stage 8 import-planner focused 1 file / 6 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
+| Suite at `368b3bf` | fixture generation 0, typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 154 files / 923 tests; Stage 8 conversion-planner focused 2 files / 17 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -341,13 +341,23 @@ as a universal canonical order; and legacy projectType is explicitly compatibili
 metadata with canonical capabilities remaining data/workspace-derived. No canonical payload,
 workflow-stage record, Record Store write or staging materialization occurs; unsupported-
 frontmatter remains policy-pending.
+Stage 8 / slice 4, first-class schema/settings conversion-plan foundation, creator-accepted on
+Proxima branch `stage7-record-store-contract` at `368b3bf`, committed
+`2026-09-11T15:37:49+07:00`: explicitly interpreted legacy task/per-project schema settings
+now reconcile scoped stable opaque schema and select/multi-select option identities and emit
+canonical-ready primitive, select, multi-select and non-empty-formula schema records. Option
+colors remain local presentation state; relation targets, rollups and incomplete formulas stay
+explicitly pending. The parent planner remains dry-run and zero-write, with no custom-property
+values, staging or Record Store materialization.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 4 — first-class schema/settings conversion-plan foundation:
-translate legacy property-schema interpretation into canonical schema/option identity plans
-needed for later custom-property and relation conversion, while keeping relation targets,
-staging materialization, unsupported-frontmatter policy and HARD GATE C separate.
+**Next operation** Stage 8 slice 5 — legacy custom-property value capture and dry-run
+conversion-plan foundation: extend the existing compatibility interpretation so physical
+task/event candidates expose interpreted legacy property values, then map ordinary non-derived
+property families against the canonical schema/option identities established by slice 4. Keep
+relation target resolution, wikilink→record-ID conversion, rollup/formula derivation, staging
+materialization, unsupported-frontmatter policy, Record Store writes and HARD GATE C separate.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1467,7 +1477,7 @@ Legacy Markdown is input only.
 
 - [x] Legacy ordering is translated into the appropriate scoped orders. — `173b45e` @ `2026-09-11T15:04:55+07:00` *(legacy order seeds independent validated Elastic-execution and, when resolvable, project/workflow-stage-candidate positions; no universal canonical `orderIndex` is emitted)*
 - [x] Legacy project type informs import compatibility only; it does not create a permanent silo. — `173b45e` @ `2026-09-11T15:04:55+07:00` *(`task|schedule` is retained only as compatibility import metadata; both labels declare canonical capability authority as associated data/workspace rather than a type filter)*
-- [ ] Schema/settings needed to interpret custom properties become first-class schema records.
+- [x] Schema/settings needed to interpret custom properties become first-class schema records. — `368b3bf` @ `2026-09-11T15:37:49+07:00` *(explicitly interpreted task/per-project settings are converted through scoped stable opaque schema/option identities into canonical-ready primitive, select, multi-select and non-empty-formula records; option colors remain local-state; relation/rollup/incomplete-formula cases remain pending; planner and parent import remain dry-run/zero-write)*
 - [ ] Legacy wikilink relations never remain canonical relation values.
 - [ ] Notes/drawings/attachments are **not copied** into the record store.
 - [ ] Project references to external notes/files remain references to external artifacts.
@@ -1570,6 +1580,8 @@ These are semantic administrative actions with typed results.
 - [x] Durable identity / duplicate-candidate planning contract tests. — `be3efdf` @ `2026-09-11T14:52:38+07:00` *(pre-dedup physical candidate enumeration, versioned provenance→opaque-ID manifest persistence/reuse, dedicated `vault-duplicates` collision accounting, and explicit ambiguous-project-reference refusal without staging writes)*
 
 - [x] Canonical conversion-plan semantics tests. — `173b45e` @ `2026-09-11T15:04:55+07:00` *(physical-candidate status decomposition, completion override, unknown-status execution compatibility, project-scoped workflow-stage planning, independent scoped-order planning, ambiguous-project workflow refusal, and projectType compatibility-only treatment; zero staging/Record Store writes)*
+
+- [x] Schema/settings conversion-plan contract tests. — `368b3bf` @ `2026-09-11T15:37:49+07:00` *(scoped identity reconciliation, canonical-ready primitive/select/multi-select/non-empty-formula records, presentation-only colors, relation/rollup/incomplete-formula pending states, collision refusal, parent-plan integration, mapping persistence and zero-write boundaries)*
 
 - Full import against all four existing fixture vaults.
 - Dedicated duplicate-ID fixture assertions.
