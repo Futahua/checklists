@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `hard-gate-a8-explicit-artifact-association` @ `1c87f24` — pushed, creator-accepted through HARD GATE A / A8 |
+| Accepted branch | `hard-gate-a9-canonical-recurrence` @ `ed147ea` — pushed, creator-accepted through HARD GATE A / A9 |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `1c87f24` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 142 files / 828 tests |
+| Suite at `ed147ea` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 143 files / 835 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -153,6 +153,16 @@ paths; mutable locators remain reference/provenance data; moving an artifact lea
 and task identities unchanged; and one artifact may be referenced by multiple projects.
 Legacy `linkedFolders` remains compatibility-only. No filesystem API, persistence, write,
 import execution or mutation capability exists. Proxima full suite 142 files / 828 tests.
+HARD GATE A / A9, Recurrence becomes explicit domain data, accepted on Proxima branch
+`hard-gate-a9-canonical-recurrence` at `ed147ea`: recurrence rules are closed typed domain
+structures; recurrence series use stable opaque `pxs_...` identity distinct from owner record
+identity; ordinary occurrences are semantically addressed by series identity plus scheduled
+start without forced record materialization; cancelled, rescheduled and detached exceptions
+carry explicit occurrence identity and state; and occurrence-versus-series action scope is
+explicit without filename or source-layout dependence. Detached special occurrences retain
+their original series identity while referencing a separate canonical record when required.
+No persistence, write, import execution or mutation capability exists. Proxima full suite
+143 files / 835 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
@@ -160,8 +170,8 @@ a second caller and the record store exist. Every ticked box names the commit th
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
 **Next operation** Ask the AUTHOR for the exact next bounded guarded packet for HARD GATE A /
-A9 — Recurrence becomes explicit domain data. Keep every eventual mutation typed-unavailable
-until record-store cutover.
+A10 — No hidden second database. Keep every eventual mutation typed-unavailable until
+record-store cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1096,12 +1106,12 @@ authority; inspection schema v5 exposes data/workspace-derived capabilities inst
 
 ## A9 — Recurrence becomes explicit domain data
 
-- [ ] Recurrence rule has a typed structure.
-- [ ] Series identity is explicit.
-- [ ] Occurrence identity can be addressed semantically.
-- [ ] Exception identity/state is explicit.
-- [ ] "this occurrence" and "entire series" actions do not depend on filenames or accidental source layout.
-- [ ] A detached/special occurrence can be represented without corrupting series identity.
+- [x] Recurrence rule has a typed structure. — `ed147ea`
+- [x] Series identity is explicit. — `ed147ea`
+- [x] Occurrence identity can be addressed semantically. — `ed147ea`
+- [x] Exception identity/state is explicit. — `ed147ea`
+- [x] "this occurrence" and "entire series" actions do not depend on filenames or accidental source layout. — `ed147ea`
+- [x] A detached/special occurrence can be represented without corrupting series identity. — `ed147ea`
 
 ---
 
