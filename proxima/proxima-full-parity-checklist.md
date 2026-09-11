@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f` and `1029a25` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25` and `6dfad33` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `1029a25` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 192 files / 1291 tests; committer `2026-09-12T03:59:36+07:00`. At `c74003f` the same steps were 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `6dfad33` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 193 files / 1299 tests; committer `2026-09-12T04:05:45+07:00`. At `1029a25` the same steps were 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -692,6 +692,18 @@ keystroke read differently depending on which caller asked, and the editor's ref
 `actualRevision` although the drop's did. Both are fixed here, which is the whole argument for asserting
 parity instead of reasoning about it.
 
+Slice 57, the first of Stage 10, at `6dfad33`, committed `2026-09-12T04:05:45+07:00`: Stage 9 refused every
+property edit by name and said Stage 10 would own the mapping, and this is the mapping.
+`src/app/propertyMutationPlan.ts` reverses the compatibility projection against the canonical schema, with four
+rules that each exist because the alternative loses data silently — a derived value is never written, an option
+is matched by id first and by label second, a blank is a clear except on a checkbox (where false is a value),
+and a relation holds ids rather than names (A6), refusing one it cannot resolve. The case that matters does the
+whole loop through the real store and the real recovery gate — canonical values in, projection out, form edit,
+mapping back, both ends read again — for all six editable types in one save, and asserts a declared rollup is
+*absent* from the record because it is derived. **Four Stage 10 boxes tick**: all editable types round-trip,
+relations use ids, rollups and formulas are not independently writable, and schema validation happens before
+the writer is called (both refusal cases leave the record at its first revision).
+
 Slice 27, the Backlog's query controls as values, pushed on Proxima branch
 `stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
 `2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
@@ -874,15 +886,14 @@ panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered b
 Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
 never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
-Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `1029a25` the
-document stands at 596 ticked / 244 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `6dfad33` the
+document stands at 600 ticked / 240 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
 HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), **HARD GATE C 3**, **Stage 9 0**,
-Stage 10 20, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
+**Stage 10 16**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
 Stage 17 58, Stage 18 5, Stage 19 8, Stage 20 11 and the final release gate 26. **Stage 9 is the first write
-stage to close**, and it closed by being worked rather than by being re-read: every one of its twenty boxes
-names a commit, and the two gaps this last slice found are the reason the stage was worth asserting instead of
-arguing. Stage 10 is next, and it starts from a load path that now exists: the project Task Board's columns
-are already drawn from a project's workflow stages, so its drag needs the same treatment an Elastic drop got.
+stage to close**, and Stage 10 has started from its most self-contained end — the property mapping Stage 9
+deferred — so what remains there is the workflow Board's drag, the Backlog's bulk actions and schema
+management.
 
 **Slice 38 is done**, `7f96a71` at `2026-09-12T01:52:46+07:00` — **nineteen boxes**, and the audit found the
 same thing slice 30 did: the work was done, the evidence was not. `tests/projectsHub.test.ts` covered only
@@ -1071,18 +1082,18 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Next operation** Slice 57 — Stage 10, the project workflow Board and Backlog mutation parity, and it is the
-largest unblocked block in the document: 20 boxes, none ticked, and every one of them a write that HARD GATE C
-was holding. It starts where Stage 9 left off, because the pattern is now established three times over (a plan
-over a `FormDraft`, a sequence in the app layer that tests execute, a surface the shell wires with intents and
-sinks). The first slice should be the **workflow-stage move**: `src/app/taskMutations.ts` already carries a
-`workflow-stage` mutation that moves a stage and its position together and refuses to leave a foreign stage
-behind, `src/domain/canonicalOrdering.ts` already scopes workflow order by project and stage, and the project
-Task Board already draws a column per stage — so what is missing is the gesture, its plan, and the refusal that
-restores the card. Its Acceptance section names the two claims to assert with it: *running + review remains
-running after a workflow drag* (A2's independence) and *project-board reorder leaves Elastic order unchanged*,
-which is the mirror image of the case Stage 9 wrote for the other direction. Nothing in Proxima or LongHorizon
-is parked or uncommitted; both trees are clean and both branches are pushed.
+**Next operation** Slice 58 — Stage 10's workflow Board, which is now the largest unblocked block after the
+property mapping landed: its Board UI boxes (drag between project workflow stages, drag within a stage,
+placeholder, destination feedback, stale refusal restoring authoritative state, and moving a stage without
+altering the Elastic execution state) plus the two acceptance claims that name them. Two facts shape the work
+and neither is a surprise: `src/app/taskMutations.ts` already carries a `workflow-stage` mutation that moves a
+stage and its position together and refuses to leave a foreign stage behind, and `src/domain/canonicalOrdering.ts`
+already scopes workflow order by project and stage — but the **readable world has no slot for a stage**, which
+`recordStateProjection` reports as `workflow-stage-has-no-legacy-slot` on purpose (A2). So the first step is a
+deciding one rather than a wiring one: either the readable `Task` gains a workflow-stage field and the project
+board groups by it, or the board reads stages from a projection of their own. The projection's current refusal
+to invent a slot is the reason this is a decision and not a detail. Nothing in Proxima or LongHorizon is parked
+or uncommitted; both trees are clean and both branches are pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -2633,10 +2644,10 @@ Bulk contracts must identify every requested task and outcome.
 
 ## Task-property edits
 
-- [ ] All editable custom property types round-trip through semantic operations.
-- [ ] Relations use IDs.
-- [ ] Rollup/formula values are derived, not independently writable unless their schema says otherwise.
-- [ ] Schema validation occurs before record writer call.
+- [x] All editable custom property types round-trip through semantic operations. — `6dfad33` @ `2026-09-12T04:05:45+07:00` *(`src/app/propertyMutationPlan.ts` reverses the compatibility projection, and the case that matters does the whole loop through the real store and the real recovery gate: canonical values in, projection out (a select as its **label**, a number as a number, a relation as record ids), a form edit, the mapping back, and then both ends read again. All six editable types are written in one save — text, number, date, checkbox, select, multi-select and relation — and the record is asserted to hold canonical data (`{type:'select', optionId}`, `{type:'multi-select', optionIds}`, `{type:'relation', value:{relationSchemaId, targetRecordIds}}`) while the projection shows what was typed. Stage 9's blanket refusal of property edits is gone, which was the point of deferring it here.)*
+- [x] Relations use IDs. — `6dfad33` @ `2026-09-12T04:05:45+07:00` *(A6 seen from the write side: a relation field holds record ids and is parsed as ids — comma- or space-separated because that is how it is shown — and a name typed into one is refused rather than resolved, because a relation that guessed would point at a record nobody chose. The canonical record also requires the value to name the schema it belongs to, so the mapping writes the property's own schema id as `relationSchemaId`; the codec refuses a relation whose `relationSchemaId` is not the property key, and the round-trip case asserts the stored value carries it.)*
+- [x] Rollup/formula values are derived, not independently writable unless their schema says otherwise. — `6dfad33` @ `2026-09-12T04:05:45+07:00` *(refused by name with `unsupported-field` before anything is written, for both a rollup and a formula, and the round-trip case asserts a declared rollup is absent from the record after a save that wrote six other properties — a derived value is shown by the projection and is not the record's to set. No schema in this tree says otherwise, so "unless their schema says otherwise" is currently an empty permission rather than a silent one.)*
+- [x] Schema validation occurs before record writer call. — `6dfad33` @ `2026-09-12T04:05:45+07:00` *(the plan validates against the schema — the type, the option a value names, whether the property is derived at all — and both refusal cases assert the record is still at its first revision afterwards, so nothing reached the coordinator. A property with no schema record is refused as `unknown-schema` rather than written as free text, and the canonical codec is still the second gate: the mapping produces values the encoder then validates, which is why the round trip can assert exact stored shapes.)*
 
 ## Schema-management actions
 
