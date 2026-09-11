@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–39 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71` and `ead7927` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–40 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927` and `215777a` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `ead7927` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 179 files / 1203 tests; committer `2026-09-12T02:02:58+07:00`. At `7f96a71` the same steps were 179 files / 1192 tests (the file count did not move: four existing files each gained cases), and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `215777a` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 179 files / 1205 tests; committer `2026-09-12T02:11:10+07:00`. At `ead7927` the same steps were 179 files / 1203 tests and at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -46,7 +46,9 @@ detailed Task Board interactions, at `c8e35c3`, and Stage 5 slice 7, detailed Ba
 at `b281cab`, Stage 5 slice 8, detailed Deadlines interactions, at `d3dbb59`, and Stage 5
 slice 9, detailed Schedule interactions, at `36fcc08`, and Stage 5 slice 10, workspace
 ownership closeout, at `cb92cae`, and Stage 5 slice 39, the Notes read side, the Timekeeping
-reuse and the workspace acceptance boxes, at `ead7927` — **Stage 5 is complete.**
+reuse and the workspace acceptance boxes, at `ead7927` — **Stage 5 is complete.** Stage 4's
+`## Acceptance` section is complete as of `215777a`, which also closed Stage 0's action-union
+box and annotated the two of its four kinds that remain vocabulary rather than implementation.
 Stage 6 slice 1, Canvas selection and read-only node inspection, at `ace9bac`.
 Stage 6 slice 2, Canvas geometry preview refusal, at `4e8bed7`.
 Stage 6 slice 3, Canvas removal intent/confirmation/refusal, at `8e20d0d`.
@@ -774,17 +776,36 @@ cross-tab/zero-write acceptance case, `2450828` navigation keys) with `ead7927` 
 Two of the new cases were wrong first and the suite caught both: a file key I meant to drag over was inside a
 collapsed folder, and `localeCompare` orders `Deep/…` after `data.json`, which code-unit sort does not.
 
-**Next operation** Slice 40 — the Proxima checklist's remaining open boxes are all gated, so the dependency-safe
-work moves to the next unfinished checklist under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
-checklists whose titles say `Complete Implementation Checklist` (`papers\quick-run.md` 280 open,
-`papers\adopted-window-surfaces.md` 173, `papers\window-layout-consistency-and-auto-tracking.md` 172), against
-the Papers tree those documents name in their own Status blocks. Proxima's own residue is three product
-decisions and the HARD GATE C half: **Tag filtering** has no tag model to filter on (a tag is a schema property,
-a frontmatter list or its own record — the creator's call, not one a slice can settle), the Task modal's
-**workflow stage where project-scoped** and **recurrence if task recurrence remains supported** are the same
-kind of product choice, and Stage 8's staging materialization, mixed-mode prohibition, byte-hash proof and
-unsupported-frontmatter policy plus Stages 9–17's write halves wait on HARD GATE C. Nothing in Proxima is
-parked or uncommitted; the tree is clean and the branch is pushed.
+**Slice 40 is done**, `215777a` @ `2026-09-12T02:11:10+07:00` — the loose ends that Stage 5's closeout exposed:
+Stage 0's action-union boxes and Stage 4's six-view acceptance. Stage 0's parent box is ticked because the union
+genuinely exists and is genuinely versioned and public — `ProximaAction` with `ACTION_SCHEMA_VERSION = 4`,
+`parseAction` as the one gate, and a compile-time check (`ACTION_TAXONOMY_MATCHES_PROTOCOL`) that the union and the
+category registry name exactly the same types, so adding an action without a category fails typecheck. The new
+runtime case states what that proof protects: which of the four kinds the product populates. Two of them are
+**vocabulary, not implementation**, and their boxes stay open with the reason written on them: nothing is a pure
+presentation action (every gesture that changes what is shown also records which way the reader left it), and no
+action mutates an ordinary vault file yet. § Acceptance's six-view box is ticked by one case that mounts a single
+fixture set through both renderers the application chooses between and compares each view against the same
+canonical occurrence projection clipped to the dates that view shows — Day/4-Day/Week through `scheduleVisibleDays`,
+Month through its own non-empty cells, Agenda against everything, Year as per-date counts because it draws no
+per-event element. Five boxes are annotated rather than ticked, each with what would close it: per-record revisions
+in action results and per-entity bulk results both wait for a semantic record action that can actually run (HARD
+GATE C, Stage 10 for bulk), UI-versus-agent equivalence waits for an agent-facing action submission path — the
+loopback bridge is a read-only vault reader, so today the equivalence is structural (one parser, one dispatcher)
+rather than proven — and panel sizing is still unbuilt, though the Backlog's column widths are local state now.
+
+**Next operation** Slice 41 — Proxima's open boxes are all gated (three product decisions and HARD GATE C), so the
+dependency-safe work moves to the next unfinished checklist under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the
+three Papers checklists whose titles say `Complete Implementation Checklist` (`papers\quick-run.md` 280 open,
+`papers\adopted-window-surfaces.md` 173, `papers\window-layout-consistency-and-auto-tracking.md` 172), read against
+the Papers tree each document's own Status block names, in the order those documents declare dependencies. The
+gates, stated once so nobody re-derives them: **Tag filtering** has no tag model to filter on (a tag is a schema
+property, a frontmatter list or its own record — the creator's call, not one a slice can settle), **workflow stage
+where project-scoped** needs canonical records to reach the Task modal (A2 is already accepted and on this branch,
+but the reader still loads legacy Markdown), **recurrence if task recurrence remains supported** is a product
+choice, and Stage 8's staging materialization, mixed-mode prohibition, byte-hash proof and unsupported-frontmatter
+policy plus Stages 9–17's write halves wait on HARD GATE C. Nothing in Proxima is parked or uncommitted; the tree is
+clean and the branch is pushed.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -945,11 +966,28 @@ The current action dispatcher is synchronous and typed but only understands four
 
 ## Work
 
-- [ ] Establish one public versioned action union for:
-  - [ ] presentation actions;
-  - [ ] local-state actions;
-  - [ ] record mutations;
-  - [ ] vault-artifact gestures.
+- [x] Establish one public versioned action union for: — `da7881f` and `4554fea` built the
+  taxonomy and its registry, and `215777a` @ `2026-09-12T02:11:10+07:00` added the runtime
+  case below; `actionProtocol.ts` declares `ProximaAction` and
+  `ACTION_SCHEMA_VERSION = 4`, both exported, with `parseAction` as the single gate for
+  anything entering from outside — a UI click handler and a programmatic caller hand it the
+  same shape. The union and the registry cannot drift apart: `ACTION_TAXONOMY_MATCHES_PROTOCOL`
+  is a compile-time check that each names exactly the types the other does, so adding a type
+  to the union without a category fails typecheck. `tests/actionTaxonomy.test.ts` states at
+  runtime what that check protects — which of the four kinds the product actually populates.
+  Two of the four kinds are vocabulary rather than implementation, and the two child boxes
+  say which and why.
+  - [ ] presentation actions; *(no action is registered as one: every cockpit gesture that
+        changes what is shown also has to record which way the reader left it, so it is
+        local state. `presentation` is the category an unregistered type is deliberately
+        **not** defaulted into, because defaulting a durable write to it is how a write
+        crosses a boundary that believes nothing durable happens.)*
+  - [x] local-state actions;
+  - [x] record mutations;
+  - [ ] vault-artifact gestures. *(ordinary vault-file writes — Notes rename/move/delete and
+        the canvas file — are refused today and arrive with the Notes/drawings write stage,
+        which HARD GATE C gates. The category exists, is carried by
+        `isMutationCategory`, and has no member yet.)*
 
 - [x] Extend the result taxonomy so mutation callers can distinguish at minimum: — `da7881f`
   adds `src/app/actionTaxonomy.ts` with the eight outcomes, `outcomeForErrorCode`, and a
@@ -971,8 +1009,13 @@ The current action dispatcher is synchronous and typed but only understands four
 - [x] Include affected logical record IDs in mutation results. *(`entityIds` is required on every result, empty rather than absent for presentation actions.)*
   — `da7881f`. Required, not optional: an absent `entityIds` would be indistinguishable
   from "touched nothing", so presentation actions carry an empty array.
-- [ ] Include resulting record revision(s) where a record changed.
-- [ ] Define bulk-action results per entity so partial success can never be mistaken for complete success.
+- [ ] Include resulting record revision(s) where a record changed. *(The result carries
+  `stateRevision` for the cockpit as a whole and `entityIds`, but no per-record revision: the
+  dispatcher's record-mutation leg is refused as `action-not-available` and nothing in the
+  product produces one, so there is no "a record changed" case to fill in. The record store's
+  own mutation results do carry per-record revisions, so this closes with the first semantic
+  record action the product dispatcher can actually run — HARD GATE C.)*
+- [ ] Define bulk-action results per entity so partial success can never be mistaken for complete success. *(The selection half exists: the Backlog marks rows, reports how many the query is hiding, and refuses Bulk Complete and Bulk Delete with a typed reason rather than acting on part of a selection. A per-entity result shape belongs with the first bulk action that can run — Stage 10's write parity, under HARD GATE C. A shape no producer fills is vocabulary a reviewer cannot check.)*
 - [x] Make the inspection contract expose: — `2a2ff0c` raises `src/app/inspection.ts` to
   schema 3 and makes the projection state what it does not know; `2450828` adds the cockpit
   `localState` (surface, selection, modes, tab, calendar month). Reverting `2a2ff0c` returns
@@ -1010,7 +1053,7 @@ The current action dispatcher is synchronous and typed but only understands four
 
 ## Acceptance
 
-- [ ] An action submitted through the UI and the equivalent action submitted through the agent/programmatic entry point produce the same semantic operation/result shape.
+- [ ] An action submitted through the UI and the equivalent action submitted through the agent/programmatic entry point produce the same semantic operation/result shape. *(The two paths already converge on one gate and one dispatcher: `parseAction` accepts unknown input, and `main.ts` is the only place a dispatcher is built, so a UI handler and a programmatic caller hand it the same shape and get back the same result shape. What is missing is a second caller to prove it with — the loopback bridge is a read-only vault reader (list/read/walk, writes refused), not an action submission path. Closes with the first action that has an agent-facing caller, which Stage 17's agent parity owns under HARD GATE C.)*
 - [x] Invalid action input performs zero durable writes. — `4554fea`, proven by hashing every
   fixture byte before and after a rejected dispatch.
 - [x] Unknown action type returns a typed refusal. — `4554fea`.
@@ -1028,7 +1071,7 @@ The current action dispatcher is synchronous and typed but only understands four
 - [x] Action parser/guard tests. — `tests/actionTaxonomy.test.ts`, 14 tests, on
   `proxima-backpack` branch `stage0-action-spine` at `da7881f`. Full suite 93 files /
   588 tests, typecheck clean.
-- [ ] UI-versus-agent equivalence tests. *(nothing to compare yet: no action has two callers.)*
+- [ ] UI-versus-agent equivalence tests. *(nothing to compare yet: no action has two callers. `215777a` @ `2026-09-12T02:11:10+07:00` added runtime coverage of the union's four kinds, which is the vocabulary this box would exercise rather than the equivalence itself.)*
 - [x] Programmatic pointer/keyboard harness tests. — `tests/interactionHarness.test.ts`,
   6 tests, at `5d5cebf`.
 - [x] Machine-readable inspection snapshot fixtures. — `tests/inspection.test.ts` at
@@ -1253,7 +1296,10 @@ No storage migration dependency.
   visibility compositional local state, so Calendar, Timeline/Gantt and Countdowns can all
   be visible at once. This is the box that stops the surface degenerating into tabs.
 - [ ] Panel sizing/layout is local state only. *(visibility is local state as of `760e54d`;
-  no sizing exists yet, so this stays open rather than being closed by a technicality.)*
+  no sizing exists yet, so this stays open rather than being closed by a technicality. The
+  cockpit has since gained one piece of sizing that is local state — Backlog column widths at
+  `8cadd24`, clamped to 96–640 and never written — but panel sizing itself is still unbuilt,
+  and Stage 18's interaction-feel pass is where the panels that need it are named.)*
 
 ### Deadline Calendar
 
@@ -1436,7 +1482,7 @@ No record migration dependency.
 
 ## Acceptance
 
-- [ ] Same event projects correctly across all six views.
+- [x] Same event projects correctly across all six views. — `215777a` @ `2026-09-12T02:11:10+07:00` *(one fixture set — a timed event, one crossing midnight, and two others in other months — is mounted through both renderers the application chooses between, and each view is asserted against the same canonical occurrence projection restricted to the dates that view shows: `scheduleVisibleDays` for Day/4-Day/Week, the grid's own non-empty cells for Month, everything for Agenda, and per-date occurrence counts for Year, which draws no per-event element. The case also asserts the fixture is unchanged.)*
 - [x] Day/4-Day/Week use 15-minute interaction geometry. — `7292075`
 - [x] Month/Year/Agenda do not inherit invalid resize semantics. — `5d97cdc`
 - [x] Recurrence expansion is deterministic under injected clock/date range. — `448c65f`
@@ -1444,7 +1490,7 @@ No record migration dependency.
 
 ## Evidence
 
-- Six-mode projection tests.
+- [x] Six-mode projection tests. — `5d97cdc`, `7292075` and `215777a` @ `2026-09-12T02:11:10+07:00` *(`tests/scheduleProjection.test.ts` mounts Month, Year and Agenda against fixture events, `tests/scheduleTimeGrid.test.ts` covers Day, 4-Day and Week geometry, and the six-view case added at `215777a` reads one fixture set through all six in a single case so the modes cannot drift apart: each view's occurrences are compared against the same canonical projection, clipped to what that view shows.)*
 - Automated event drag/resize preview tests.
 - Recurrence-expansion tests.
 - Zero-write proof before Save.
@@ -1530,7 +1576,7 @@ Still before migration.
 ## Backlog
 
 - [x] Search. — `9b59d16` @ `2026-09-12T00:23:35+07:00` *(`renderProjectBacklog` renders exactly the rows the query matched — asserted by a filtered-out task id being absent from the output — and echoes the active query in `data-project-backlog-search`; the matcher reads name and description case-insensitively and treats an all-whitespace query as empty. What is verified is the Backlog's behaviour under a query: the shell owns `ProjectBacklogViewState.query` and supplies it, so the interactive control that types one is the remaining piece.)*
-- [ ] Tag filtering.
+- [ ] Tag filtering. *(Blocked on a product decision, not on effort: Proxima has no tag model. A tag could be a schema property, a list in the record's own frontmatter, or its own record, and each answer changes what the filter means and which part of A5's canonical schema owns it. The Backlog's field and property filters are already driven by the engine's own tables, so the cheap version exists the moment the creator says which of the three a tag is.)*
 - [x] Property filters. — `3fa16bc` @ `2026-09-12T01:41:25+07:00` *(the query gained a second filter list rather than widening `BacklogField`: a property filter carries its `propertyKey` and its `valueType`, `assertBacklogQuery` validates it against `operatorsForValueType` (the same tables the fields use, reached by type), `applyBacklogQuery` conjoins it with the field filters and the search, and `removeBacklogFilter` finds the id in either list. The comparison itself moved out of `matchesFilter` into `compareValue`, driven by a value type rather than a field, so a property and a field cannot compare the same kind of value two ways — a refactor the engine's 17 existing cases passed before any new test existed. What is compared is what a cell shows: a multi-select property compares as the text its cell joins, a numeric property compared against text still matches nothing, and a boolean never equals its spelling. The menu offers a property because the project's tasks declare it, with only its declared type's comparisons.)*
 - [x] Type-appropriate comparison operators. — `9b59d16` @ `2026-09-12T00:23:35+07:00` *(nine filter fields each admit only the operators their type supports, decided in one place so a menu and the matcher cannot disagree; a numeric field compared against a non-number does not match instead of coercing, dates compare as instants, a boolean never equals its string spelling, and a query naming an operator its field does not admit is refused by name rather than silently skipping the filter)*
 - [x] Multiple filters. — `9b59d16` @ `2026-09-12T00:23:35+07:00` *(filters conjoin — a task must satisfy every one — and the projection exposes each as a chip carrying its id, field, operator and a readable label, which the renderer draws. Raising new filters from the UI is part of the unwired control work.)*
@@ -1556,7 +1602,7 @@ All existing meaningful fields must be representable:
 - [x] name; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(the modal is now the editor `src/app/taskEditor.ts` describes: `renderTaskModal` consumes `projectTaskEditor` instead of six hard-coded read-only inputs, and each field is drawn with the control its type calls for. Name is a text input holding the record's value; typed edits are held as a draft and never reach the record.)*
 - [x] project; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a select over the active projects plus "No project", so a task can be taken out of a project as well as moved between them)*
 - [x] execution state; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a select over the vault's own status vocabulary, each option labelled with the Elastic column it maps to; a vault that declares no statuses gets a text field and a note saying so rather than an empty select)*
-- [ ] workflow stage where project-scoped;
+- [ ] workflow stage where project-scoped; *(The separation exists in the domain: HARD GATE A2 is accepted at `07d4926`, which is an ancestor of this branch, and `src/domain/canonicalRecordV2.ts`/`canonicalOrdering.ts` carry `executionState` and `workflowStageId` as independent dimensions. The Task modal edits the legacy compatibility `Task` in `src/domain/types.ts` — whose `status` field is commented "Not the future canonical execution/workflow model" — because the reader still loads legacy Markdown. The box closes when canonical records reach the modal, which is the record-store read path, not a modal change.)*
 - [x] weight; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a number input, with the one sentence that says what weight does)*
 - [x] fixed-duration enable/value; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(the enable flag is a checkbox and the minutes are their own number field; while the flag is off the minutes field says it is not counted, which is the relationship the record encodes as "only meaningful when true")*
 - [x] maximum duration; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a number input, described as the cap on how far an elastic task may stretch)*
@@ -1572,7 +1618,7 @@ All existing meaningful fields must be representable:
 - [x] relation; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(shown as a field holding the target record id, with the field itself saying there is no picker until relations are canonical (HARD GATE A6). Representable, and honest about what is not there yet.)*
 - [x] derived rollup; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(shown with its aggregation and target property, with nothing to type in: a derived value is not the record's to set. Asserted by there being no `input` or `select` inside it.)*
 - [x] derived formula; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(as the rollup, showing the expression)*
-- [ ] recurrence if task recurrence remains supported.
+- [ ] recurrence if task recurrence remains supported. *(The condition is the creator's: event recurrence is explicit domain data with its own modal and scope choice, while a task has no recurrence model anywhere in the tree. If task recurrence remains a feature it becomes a Task-modal field built the way the Event modal's controls were; if it does not, the honest close is to say so and delete the box's condition rather than leave it waiting.)*
 - [x] Cancel/Escape discards provisional form state. — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a draft is `null` while nothing has been edited, so discarding is `null` rather than a rebuild that hopes to reproduce the record; `dirty` is the draft differing from the record it was seeded from, so an undone edit goes back to not dirty. Cancel and Escape both discard, asserted in happy-dom by typing, seeing the unsaved-changes line, pressing Escape and reading the record's value back. Deliberately, an edit does not re-render — a keystroke must not take the field away from the reader — so the drawn draft updates on the next render.)*
 - [x] Save is disabled/refused until the new record write path exists. — `7825d20` @ `2026-09-12T00:44:55+07:00` *(the button is present and disabled, carrying `data-task-editor-save-refusal="action-not-available"`, with the reason next to it: a form that cannot save says so where the button is rather than hiding it. Delete carries the same refusal.)*
 
