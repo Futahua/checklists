@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `57e8c16` — pushed, creator-accepted through Stage 8 slice 7 rollup canonical-reference resolution and derived rollup/formula dry-run planning |
+| Accepted branch | `stage7-record-store-contract` @ `646d72e` — pushed, creator-accepted through Stage 8 slice 8 external-artifact association/reference dry-run planning |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `57e8c16` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 157 files / 938 tests; Stage 8 conversion-planner focused 5 files / 32 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests |
+| Suite at `646d72e` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 158 files / 944 tests; Stage 8 conversion-planner focused 6 files / 38 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -377,14 +377,25 @@ incompatible references remain explicit; derived rollup/formula values are evide
 treated as authority. The parent planner remains dry-run/zero-write, with no staging, Record Store,
 import UI/commit, HARD GATE C, Papers or live-vault authority introduced.
 
+Stage 8 / slice 8, external-artifact association/reference dry-run planning, creator-accepted on
+Proxima branch `stage7-record-store-contract` at `646d72e20b76e2f7cfa33c3e7e42e38448fbd551`,
+committed `2026-09-11T18:49:42+07:00`: the existing compatibility interpretation of legacy
+`linkedFolder`/`linkedFolders` data now produces canonical external-artifact references with opaque
+`pxa_...` identities and explicit project associations. Exact legacy locators remain evidence-only;
+machine-path versus vault-relative classification is explicit; shared exact locators reuse one
+identity; out-of-band rename continuity remains unclaimed. The planner has no content-reader or
+copy authority, and linked bytes, legacy Markdown, canonical Record Store, staging and external-
+artifact writes remain zero. Browser-boundary and bridge-disclosure gates passed, and the full
+serialized suite is 158 files / 944 tests.
+
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 8 — external-artifact association/reference dry-run planning:
-consume the existing compatibility interpretation of linked folders, represent each as a canonical
-external artifact reference with opaque `pxa_...` identity and explicit project association, preserve
-legacy labels/paths as evidence only, leave external contents and legacy source files untouched, and
-make no claim about continuity across an out-of-band rename. Keep staging, Record Store writes,
-unsupported-frontmatter policy, import commit/UI authority and HARD GATE C separate.
+**Next operation** Stage 8 slice 9 — isolated schema-record staging foundation:
+materialize only already-authored canonical-ready schema records into a separate staging store with
+create-if-absent/read-only authority, explicit blockers for unresolved schemas, canonical V2 codec
+validation, idempotent/resumable create-only behavior, and no live Record Store, activation, legacy
+Markdown, external-artifact or UI writes. Keep broad physical-record staging and unsupported-
+frontmatter policy separate.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1507,9 +1518,9 @@ Legacy Markdown is input only.
 - [x] Schema/settings needed to interpret custom properties become first-class schema records. — `368b3bf` @ `2026-09-11T15:37:49+07:00` *(explicitly interpreted task/per-project settings are converted through scoped stable opaque schema/option identities into canonical-ready primitive, select, multi-select and non-empty-formula records; option colors remain local-state; relation/rollup/incomplete-formula cases remain pending; planner and parent import remain dry-run/zero-write)*
 - [x] Legacy custom-property values are captured from the existing interpreted task/event frontmatter and ordinary task families are dry-run mapped to canonical opaque schema/option identities. — `a360fa9` @ `2026-09-11T16:08:36+07:00` *(projects expose no property-value surface; events remain captured-but-untyped; absent, unresolved, relation-pending, rollup-pending and formula-pending outcomes remain explicit; parent/property plans remain zero-write)*
 - [x] Legacy wikilink relations never remain canonical relation values. — `400ccfc` @ `2026-09-11T16:24:16+07:00` *(canonical-ready relation values are constructed through the canonical relation boundary and contain no wikilink text, legacy ID, path, basename, filename, display name, folder or `.md` value)*
-- [x] Notes/drawings/attachments are **not copied** into the record store. — `57e8c16` @ `2026-09-11T17:46:24+07:00` *(slice-7 derived planners remain dry-run/evidence-only; no external content reader or copy authority exists)*
-- [x] Project references to external notes/files remain references to external artifacts. — `57e8c16` @ `2026-09-11T17:46:24+07:00` *(interpreted linked folders become explicit canonical `pxa_...` artifact references and project associations; legacy labels/paths remain evidence)*
-- [x] Legacy source files are never altered. — `57e8c16` @ `2026-09-11T17:46:24+07:00` *(the accepted slice proves zero legacy-Markdown, Record Store, staging and external-artifact writes)*
+- [x] Notes/drawings/attachments are **not copied** into the record store. — `646d72e` @ `2026-09-11T18:49:42+07:00` *(slice-8 artifact planner is reference-only and has no content-reader or copy authority)*
+- [x] Project references to external notes/files remain references to external artifacts. — `646d72e` @ `2026-09-11T18:49:42+07:00` *(interpreted linked folders become explicit canonical `pxa_...` artifact references and project associations; legacy labels/paths remain evidence)*
+- [x] Legacy source files are never altered. — `646d72e` @ `2026-09-11T18:49:42+07:00` *(the accepted slice proves zero legacy-Markdown, Record Store, staging and external-artifact writes)*
 
 ## Import staging
 
