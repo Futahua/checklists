@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–33 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c` and `1ffdd55` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–34 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55` and `d21f434` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `1ffdd55` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 177 files / 1147 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:19:47+07:00`. At the previous points: `9d6062c` 176 / 1135, `d7e6270` 176 / 1131, `fef3b8a` 176 / 1126, `7825d20` 174 / 1105. **One test is load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds, and slice 33 verified the full suite under **default parallelism** as well as on the evidence path. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `d21f434` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 178 files / 1167 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:26:26+07:00`, verified under **default parallelism** as well. At the previous points: `1ffdd55` 177 / 1147, `9d6062c` 176 / 1135, `d7e6270` 176 / 1131, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -663,20 +663,31 @@ passed alone in half a second. A flaky suite makes every tick in this file unver
 thing an evidence-driven loop cannot afford, so the bound is now thirty seconds and slice 33 verified the
 suite under default parallelism as well as on the evidence path.
 
-**Next operation** Slice 34 — Stage 6's **Template UI**, six boxes: paste/type, parse, preview, structured
-parse errors, execution disabled until record write actions exist, and the note that the old textual
-mini-language is not assumed immutable. Nothing about templates exists in the repository today, so this is
-greenfield: build `src/app/templateComposer.ts` first — a structured template text parsed into a planned
-task list with typed, positioned errors, and a preview projection — and test it in Node, in the shape
-slices 25 and 28 established. **Decide the format rather than reverse-engineering the legacy one:** the
-sixth box explicitly refuses to treat the old mini-language as fixed, so the composer should define a
-readable structured format of its own and *say* that it is not the legacy syntax, instead of modelling
-against a plugin-era language. The UI half (a composer panel with the textarea, the preview and the error
-list) follows in slice 35 and depends on nothing else. Then the remaining Stage 6 work:
-**Custom-property columns** and **Resizable columns** (layout, the column table the renderer still does not
-draw), **Task row/name click opens editor** (a mounting decision for the Task editor modal in the Backlog
-panel), **Property filters** (engine work on `task.properties`), **Tag filtering** (blocked on tags having
-no model — the creator's decision, not a gap to fill), and the Task modal's two deliberate opens.
+**Slice 34 is done**, `d21f434` at `2026-09-12T01:26:26+07:00`, and it closed all six § Template UI boxes
+in one slice rather than the two the previous handoff expected — the panel turned out to be small once the
+model existed. `src/app/templateComposer.ts` parses a template into a plan with eleven typed, positioned
+error codes and two bounds; `src/browser/templateComposerPanel.ts` is a panel the Backlog hosts, opened from
+"Tasks from a template", with the text area, the preview and the complaint list side by side and an Execute
+button refused with the typed result. Two decisions are worth carrying forward: **the format is this
+project's own**, which is what the sixth box permits and asks for, and **the panel parses on every render**
+rather than keeping a second copy of what the text means, because a preview that holds its own idea of the
+text is exactly how a preview and a parser drift apart. Writing the tests found a real bug — value
+complaints reported a zero-based column, so `weight: heavy` pointed one character early.
+
+**Next operation** Slice 35 — the Backlog's **column table**: **Custom-property columns** and **Resizable
+columns**, two boxes about the same missing thing. The projection already supplies `columns` (the eight
+field columns plus one per custom property the data declares) and a `cells` array per row; what the renderer
+still draws is the legacy list, so the work is to draw the table those two already describe. Column widths
+belong in `ProjectBacklogViewState`, not in the projection: a width is how this reader is looking at the
+table, not what the table means. For resizing, follow the schedule's precedent — a drag edge carrying
+`data-*-resize-edge`, driven through the interaction harness in happy-dom — and remember the lesson from
+slice 33: a control that cannot act must carry a typed refusal rather than being silently inert, which does
+*not* apply to a resize edge because resizing is presentation, not a write. After that, Stage 6 is down to
+**Task row/name click opens editor** (a mounting decision for the Task editor modal in the Backlog panel),
+**Property filters** (engine work on `task.properties`), **Tag filtering** (blocked on tags having no model —
+the creator's decision, not a gap to fill), and the Task modal's two deliberate opens (**workflow stage where
+project-scoped**, owned by HARD GATE A2, and **task recurrence**, which is the creator's product choice —
+the canonical recurrence model can own a task, so the question is whether the product wants that).
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -1498,12 +1509,12 @@ All existing meaningful fields must be representable:
 
 ## Template UI
 
-- [ ] Paste/type.
-- [ ] Parse.
-- [ ] Preview.
-- [ ] Structured parse errors.
-- [ ] Execution disabled until record write actions exist.
-- [ ] Exact old textual mini-language is not assumed immutable if the same presentation/workflow can be preserved cleanly.
+- [x] Paste/type. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(`src/browser/templateComposerPanel.ts` is a panel the Backlog hosts, opened from "Tasks from a template" in its toolbar and carrying a real textarea at `data-template-text`. Typing re-renders — which is what makes the preview follow the text — and the caret is put back afterwards, the same arrangement the Backlog's search field uses. A textarea rather than a one-line field, because a template is multi-line by nature.)*
+- [x] Parse. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(`src/app/templateComposer.ts`, pure and tested in Node: one task per unindented line, one `field: value` per indented line, `#` for a comment, `property.<key>` for a custom property. The panel parses on every render rather than keeping a second copy of what the text means, because a preview that holds its own idea of the text is how a preview and a parser drift apart.)*
+- [x] Preview. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(every task the parser could read is listed with the line it came from and a one-line description of what it asks for — weight, status, dates, durations, completion, custom properties, in that order — so the preview says what the text *means* rather than repeating it. Empty text previews as "Nothing to plan yet" rather than as an empty list.)*
+- [x] Structured parse errors. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(eleven typed codes — a field before any task, an unknown field, a duplicate, a missing separator, an empty value, a tab, an invalid number, date or boolean, and the task and line bounds — each carrying the line, the column of the offending character, the line as written, and a sentence naming what a valid value looks like. Writing the tests found a real bug: value complaints reported a zero-based column, so `weight: heavy` pointed one character early; the column is now computed from the raw line, and `weight: heavy` and `weight:heavy` each point at their own character.)*
+- [x] Execution disabled until record write actions exist. — `d21f434` @ `2026-09-12T01:26:26+07:00` *("Create tasks" is present and disabled, carrying the typed `action-not-available` result at `data-template-execute-refusal` with the reason beside it: execution is Stage 16's job, and a button that cannot run says so where it is rather than being hidden. A test clicks through to it, asserts the refusal and the note, and asserts no record changed.)*
+- [x] Exact old textual mini-language is not assumed immutable if the same presentation/workflow can be preserved cleanly. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(taken literally: the format is **this project's own** and nothing reproduces the legacy syntax or promises compatibility with it. The module says so in its own documentation, and the panel tells the reader the format inline. What is preserved is the workflow the box cares about — a person writes a shape once and gets tasks out of it — not the old characters. The presentation is therefore reconstructed rather than ported, which is what "not assumed immutable" permits.)*
 
 ## Acceptance
 
