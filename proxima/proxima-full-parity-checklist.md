@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `hard-gate-a2-task-state-separation` @ `07d4926` — pushed, creator-accepted through HARD GATE A / A2 |
+| Accepted branch | `hard-gate-a3-scoped-ordering` @ `bf56679` — pushed, creator-accepted through HARD GATE A / A3 |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `07d4926` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 136 files / 794 tests |
+| Suite at `bf56679` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 137 files / 801 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -103,6 +103,15 @@ execution and project-workflow projections remain separate, moving either dimens
 the other unchanged, and workflow-stage rename preserves membership through stable stage
 identity. Legacy `Task.status` compatibility behavior remains unchanged; no persistence,
 write, import execution or mutation capability exists. Proxima full suite 136 files / 794 tests.
+HARD GATE A / A3, Scoped ordering, accepted on Proxima branch
+`hard-gate-a3-scoped-ordering` at `bf56679`: canonical Elastic execution order and project
+workflow order are independent durable scopes; workflow ordering is scoped by exact project
+and workflow-stage IDs; reordering either surface leaves the other unchanged; calendar order
+is chronology-derived rather than manually ranked; and Gantt row placement is LOCAL STATE
+rather than a third durable task-order field. The typed `task.timeline.change.targetRowIndex`
+contract remains present while its durable mutation leg remains unavailable. Legacy
+`Task.orderIndex` compatibility behavior remains unchanged; no persistence, write, import
+execution or mutation capability exists. Proxima full suite 137 files / 801 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
@@ -110,8 +119,8 @@ a second caller and the record store exist. Every ticked box names the commit th
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
 **Next operation** Ask the AUTHOR for the exact next bounded guarded packet for HARD GATE A /
-A3 — Scoped ordering. Keep every eventual mutation typed-unavailable until record-store
-cutover.
+A4 — Project-type silo removed. Keep every eventual mutation typed-unavailable until
+record-store cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -973,19 +982,19 @@ and appears correctly on both surfaces. — `07d4926`
 
 The single current `orderIndex` cannot remain the universal answer.
 
-- [ ] Define separate ordering semantics for:
-  - [ ] Elastic execution queue;
-  - [ ] project workflow stage;
-  - [ ] any durable user-authored ordering elsewhere.
+- [x] Define separate ordering semantics for: — `bf56679`
+  - [x] Elastic execution queue; — `bf56679`
+  - [x] project workflow stage; — `bf56679`
+  - [x] any durable user-authored ordering elsewhere. — `bf56679` *(the canonical model currently admits no additional durable manual order scope; calendar chronology is derived and Gantt rows are local state)*
 
-- [ ] Workflow ordering is scoped at least by project + stage.
-- [ ] Reordering Elastic cannot silently reorder the project's workflow board.
-- [ ] Reordering the project board cannot silently alter Elastic order.
-- [ ] Decide Gantt row placement explicitly:
-  - [ ] preferred correction: treat pure row layout as LOCAL STATE;
+- [x] Workflow ordering is scoped at least by project + stage. — `bf56679`
+- [x] Reordering Elastic cannot silently reorder the project's workflow board. — `bf56679`
+- [x] Reordering the project board cannot silently alter Elastic order. — `bf56679`
+- [x] Decide Gantt row placement explicitly: — `bf56679`
+  - [x] preferred correction: treat pure row layout as LOCAL STATE; — `bf56679`
   - [ ] if creator declares it semantic priority, give it its own scoped field.
 
-- [ ] Even if Gantt row placement becomes LOCAL STATE, retain a typed programmatic action because the old DATA WRITE gesture must remain agent-operable.
+- [x] Even if Gantt row placement becomes LOCAL STATE, retain a typed programmatic action because the old DATA WRITE gesture must remain agent-operable. — `bf56679` *(existing typed `task.timeline.change.targetRowIndex` retained; durable mutation remains unavailable until record-store cutover)*
 
 ---
 
