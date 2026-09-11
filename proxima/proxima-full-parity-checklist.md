@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `368b3bf` — pushed, creator-accepted through Stage 8 slice 4 schema/settings conversion-plan foundation |
+| Accepted branch | `stage7-record-store-contract` @ `a360fa9` — pushed, creator-accepted through Stage 8 slice 5 legacy custom-property value capture and dry-run conversion-plan foundation |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `368b3bf` | fixture generation 0, typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 154 files / 923 tests; Stage 8 conversion-planner focused 2 files / 17 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests |
+| Suite at `a360fa9` | fixture generation 0, typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 155 files / 928 tests; Stage 8 conversion-planner focused 3 files / 22 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -350,14 +350,23 @@ colors remain local presentation state; relation targets, rollups and incomplete
 explicitly pending. The parent planner remains dry-run and zero-write, with no custom-property
 values, staging or Record Store materialization.
 
+Stage 8 / slice 5, legacy custom-property value capture and dry-run conversion-plan foundation,
+creator-accepted on Proxima branch `stage7-record-store-contract` at `a360fa96c62b910a5865de962d6a150a2a4e6e4b`,
+committed `2026-09-11T16:08:36+07:00`: already-interpreted task/event frontmatter is retained as
+import evidence; ordinary task values map to slice-4 opaque schema/option identities, events remain
+captured-but-untyped, and relation, rollup and formula values remain explicit deferred outcomes.
+The parent and property-value plans remain dry-run/zero-write; the direct-binary evidence is used
+because `npm` is ENOSPC on this machine.
+
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 5 — legacy custom-property value capture and dry-run
-conversion-plan foundation: extend the existing compatibility interpretation so physical
-task/event candidates expose interpreted legacy property values, then map ordinary non-derived
-property families against the canonical schema/option identities established by slice 4. Keep
-relation target resolution, wikilink→record-ID conversion, rollup/formula derivation, staging
-materialization, unsupported-frontmatter policy, Record Store writes and HARD GATE C separate.
+**Next operation** Stage 8 slice 6 — relation target resolution and wikilink→canonical-record-ID
+dry-run conversion planning: consume the slice-2 physical-candidate/durable identity reconciliation,
+slice-4 schema identities and slice-5 deferred relation values; resolve only unambiguous legacy
+targets to opaque canonical record IDs, preserve missing/ambiguous targets explicitly unresolved,
+enforce the canonical relation target-kind contract, and ensure no wikilink/filename/path-shaped
+value survives as a canonical relation value. Keep rollup/formula derivation, staging materialization,
+unsupported-frontmatter policy, Record Store writes and HARD GATE C separate.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1478,6 +1487,7 @@ Legacy Markdown is input only.
 - [x] Legacy ordering is translated into the appropriate scoped orders. — `173b45e` @ `2026-09-11T15:04:55+07:00` *(legacy order seeds independent validated Elastic-execution and, when resolvable, project/workflow-stage-candidate positions; no universal canonical `orderIndex` is emitted)*
 - [x] Legacy project type informs import compatibility only; it does not create a permanent silo. — `173b45e` @ `2026-09-11T15:04:55+07:00` *(`task|schedule` is retained only as compatibility import metadata; both labels declare canonical capability authority as associated data/workspace rather than a type filter)*
 - [x] Schema/settings needed to interpret custom properties become first-class schema records. — `368b3bf` @ `2026-09-11T15:37:49+07:00` *(explicitly interpreted task/per-project settings are converted through scoped stable opaque schema/option identities into canonical-ready primitive, select, multi-select and non-empty-formula records; option colors remain local-state; relation/rollup/incomplete-formula cases remain pending; planner and parent import remain dry-run/zero-write)*
+- [x] Legacy custom-property values are captured from the existing interpreted task/event frontmatter and ordinary task families are dry-run mapped to canonical opaque schema/option identities. — `a360fa9` @ `2026-09-11T16:08:36+07:00` *(projects expose no property-value surface; events remain captured-but-untyped; absent, unresolved, relation-pending, rollup-pending and formula-pending outcomes remain explicit; parent/property plans remain zero-write)*
 - [ ] Legacy wikilink relations never remain canonical relation values.
 - [ ] Notes/drawings/attachments are **not copied** into the record store.
 - [ ] Project references to external notes/files remain references to external artifacts.
@@ -1554,7 +1564,7 @@ Machine-check the legacy interpreted state against new-state semantics:
 - [ ] dates preserved;
 - [ ] task durations/weights preserved;
 - [ ] project associations mapped;
-- [ ] custom property values mapped;
+- [x] custom property values mapped. — `a360fa9` @ `2026-09-11T16:08:36+07:00` *(ordinary task text, finite number, readable date, checkbox, select and multi-select values map through slice-4 opaque identities; event values remain captured-but-untyped; unresolved and derived families remain explicit)*
 - [ ] relations either resolved to new IDs or explicitly unresolved;
 - [ ] recurrence mapped where representable;
 - [ ] archived/completed state preserved;
@@ -1582,6 +1592,8 @@ These are semantic administrative actions with typed results.
 - [x] Canonical conversion-plan semantics tests. — `173b45e` @ `2026-09-11T15:04:55+07:00` *(physical-candidate status decomposition, completion override, unknown-status execution compatibility, project-scoped workflow-stage planning, independent scoped-order planning, ambiguous-project workflow refusal, and projectType compatibility-only treatment; zero staging/Record Store writes)*
 
 - [x] Schema/settings conversion-plan contract tests. — `368b3bf` @ `2026-09-11T15:37:49+07:00` *(scoped identity reconciliation, canonical-ready primitive/select/multi-select/non-empty-formula records, presentation-only colors, relation/rollup/incomplete-formula pending states, collision refusal, parent-plan integration, mapping persistence and zero-write boundaries)*
+
+- [x] Legacy custom-property value capture and conversion-plan contract tests. — `a360fa9` @ `2026-09-11T16:08:36+07:00` *(interpreted task/event evidence capture, scoped task-schema fallback, project-schema isolation, opaque schema/option mapping, explicit absent/unresolved/deferred outcomes, event untyped boundary, parent schema-version integration, and zero-write guarantees; focused 3 files / 22 tests; serialized full suite 155 files / 928 tests)*
 
 - Full import against all four existing fixture vaults.
 - Dedicated duplicate-ID fixture assertions.
