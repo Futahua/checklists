@@ -278,13 +278,20 @@ current state only; history lives in git, where it costs nothing to ignore.
 
 ## Ticking a box
 
-**Every ticked box names the commit that closed it.** One line, appended to the box:
+**Every ticked box names the commit that closed it.** One line, appended to the box. Include
+the commit's exact local ISO-8601 committer timestamp as recorded by `git show -s
+--format=%cI <SHA>` so elapsed work rate can be measured without guessing from chat time:
 
 ```
 - [x] Unknown action type returns a typed refusal. — `4554fea` the guard now refuses a
       result whose category contradicts the registry, so an unregistered type cannot be
       answered as if it had been handled.
 ```
+
+The timestamp belongs beside the SHA (for example, SHA `4554fea` at
+`2026-09-11T14:13:10+07:00`). Also record that timestamp in the accepted-slice Status
+fact and acceptance handoff whenever a slice is accepted. Existing historical boxes need
+not be rewritten; use this rule for every new commit from this point forward.
 
 The SHA is what makes the work reversible. Without it, undoing one decision means reading
 the whole log to find out which commit made it; with it, `git show` and `git revert` are one

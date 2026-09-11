@@ -19,6 +19,10 @@ The checkboxes work the other way round: **a ticked box names the commit that cl
 and one line saying what that commit critically changed. That is what makes the work
 reversible without reading the log — but it is a line, not a diary.
 
+For work-rate accounting, every newly accepted slice records the exact commit committer
+timestamp beside its SHA, taken from `git show -s --format=%cI <SHA>`. The same timestamp
+appears in the current Status fact and acceptance handoff; prior history is left intact.
+
 ## Standing completion mandate
 
 When the creator instructs the agent to finish LongHorizon, that instruction covers every
