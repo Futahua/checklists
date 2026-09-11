@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48` and `9a04451` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451` and `e4e319b` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `9a04451` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 188 files / 1269 tests; committer `2026-09-12T03:40:29+07:00`. At `18c2e48` the same steps were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `e4e319b` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 189 files / 1271 tests; committer `2026-09-12T03:44:25+07:00`. At `9a04451` the same steps were 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -649,6 +649,21 @@ now exists and two UI callers execute it, followed by the product's own refresh 
 every surface renders), and **Stage 20's "Read-only workspace disappears from normal record-backed
 operation"**.
 
+Slice 54, an audit rather than a feature, at `e4e319b`, committed `2026-09-12T03:44:25+07:00`: four boxes in
+Stages 18 and 19 had been left open against a world that no longer exists — "the drop is refused, so there is
+no accepted move to persist", "no modal has a save path to make stale", "an Elastic edit is refused", "a refresh
+**is** the mechanism". Stage 9's write half answered all four, so the honest close was to assert it rather than
+re-argue it. `tests/elasticChangeConvergence.test.ts` starts where a person does — a drop, then the product's
+own re-read — and mounts the real renderers over that projection, so the Elastic column, the project Task
+Board's column, the Task editor's field and the Backlog row's order all move together and the deadline and
+completion deliberately do not (A2 from the surface side). One new case saves a name in the card editor and
+finds it on the same surfaces. Ticks: Stage 18's **successful drop persists** and **stale-save refusal**, Stage
+19's **Task changed on Elastic updates** (the parent whose five children were already ticked for a source-made
+change) and **No manual source-refresh control is required for normal record-store coherence** — a write
+converges the cockpit by itself, and the interval policy covers changes made elsewhere. The same audit narrowed
+three boxes it could *not* close and said so: Stage 18's **Save** and **Delete** now name which modal is wired
+and which two are not, and Stage 19's **UI and agent race** records that one of the two writers now exists.
+
 Slice 27, the Backlog's query controls as values, pushed on Proxima branch
 `stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
 `2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
@@ -831,11 +846,11 @@ panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered b
 Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
 never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
-Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `9a04451` the
-document stands at 586 ticked / 254 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `e4e319b` the
+document stands at 590 ticked / 250 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
 HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), **HARD GATE C 3**, Stage 9 6,
 Stage 10 20, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
-Stage 17 58, Stage 18 7, Stage 19 10, Stage 20 11 and the final release gate 26. Stage 9 is the only stage
+Stage 17 58, Stage 18 5, Stage 19 8, Stage 20 11 and the final release gate 26. Stage 9 is the only stage
 whose write boxes are now being closed rather than only counted, because HARD GATE C's cutover is what every
 other write stage waits on — and the gate itself is down to three: the shipped activation trigger, the FSA
 "because" that depends on it, and H4.
@@ -1027,7 +1042,7 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Next operation** Slice 54 — the last of Stage 9's three UI-wiring boxes, **New Task Save calls
+**Next operation** Slice 55 — the last of Stage 9's three UI-wiring boxes, **New Task Save calls
 `task.create`**, and it is new UI rather than new plumbing: nothing in the tree offers "new task" at all
 (`renderElasticCockpit` draws cards, the session controls and the Task editor; the Projects Hub's New Project
 modal is the only creation form). The shape is established twice over already, so the slice is mostly
@@ -3118,7 +3133,7 @@ This is not an architecture audit. It verifies the cockpit actually behaves like
 - [x] correctly sized placeholder; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(the insertion placeholder is 90px at the drop slot before release, and 0px once the drag ends.)*
 - [x] column feedback; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(the destination column takes an outline while it is the drop target and loses it when the drag ends outside a slot.)*
 - [x] invalid drop restoration; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(hover, pickup, placeholder and destination feedback all clear, no move is emitted, and the pre-storage refusal is rendered as text that says the task data was not changed.)*
-- [ ] successful drop persists; *(the drop is refused as `action-not-available` and no task record is written, so there is no accepted move to persist yet. Stage 9's Elastic write half owns this, under HARD GATE C.)*
+- [x] successful drop persists; — `abf8204` @ `2026-09-12T03:20:05+07:00` and `e4e319b` @ `2026-09-12T03:44:25+07:00` *(the drop is no longer refused: it submits one accepted mutation and then re-reads, so the card that "persisted" is the record's own state rather than the DOM's. `tests/taskMoveGesture.test.ts` asserts the store's revision advanced exactly once and the projection agrees, and `tests/elasticChangeConvergence.test.ts` mounts the real renderers over the re-read projection and finds the card in Running on the Elastic column, the project Task Board's column and the Task editor's field.)*
 - [x] Lock/Unlock; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(both are local-state actions routed through the real dispatcher from the rendered controls.)*
 - [x] live run progression; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(per-task and overall progress advance deterministically while locked, and only the external Elastic surface ticks.)*
 
@@ -3180,13 +3195,13 @@ This is not an architecture audit. It verifies the cockpit actually behaves like
 ## Modals
 
 - [x] every meaningful field accessible; — `7ec8d17` @ `2026-09-12T00:39:14+07:00` and `b20cdca` @ `2026-09-12T00:56:55+07:00` *(the Task editor represents every field of the task and every schema property, whether the task has it or not, and the Event modal shows every field the record holds.)*
-- [ ] Save; *(every modal's Save is present and refuses with a typed result; no modal can save until a record write path exists. Stages 9–14 own the Save halves, under HARD GATE C.)*
+- [ ] Save; *(partly wired as of Stage 9: the Task editor's Save is a real control whenever a record write path resolved — `cab1627` plans one typed mutation per changed field and `18c2e48` lets the modal offer it — and it is refused with a typed reason otherwise. The box says **every** modal, so it stays open on the two that still cannot save: the Event modal (Stage 12's write half) and the New Project modal (Stage 11's).)*
 - [x] Cancel; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(Cancel discards the provisional form state — a draft is `null` until something is edited — and the Elastic quick editor's Cancel is asserted too.)*
 - [x] Escape; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(Escape is the same discard, asserted for the Task editor, the Elastic quick editor, the New Project modal, the Notes context menu and both inspectors.)*
-- [ ] Delete; *(the Task editor's and the Event modal's Delete controls exist and are disabled with `action-not-available` — which is what Stage 6's box claims — but no delete can run, so the interaction cannot be conformance-tested. Stage 11's lifecycle and Stages 9/12's delete halves own it.)*
+- [ ] Delete; *(partly wired as of Stage 9: the Task editor's Delete is a real control whenever a record write path resolved (`18c2e48`), it carries the revision the card was read at, and an accepted delete closes the editor while a refused one leaves it open. The Event modal's Delete still cannot run, so the box stays open on Stage 12's write half.)*
 - [x] recurrence scope; — `fef3b8a` @ `2026-09-12T01:01:45+07:00` and `1ffdd55` @ `2026-09-12T01:19:47+07:00` *(both scopes are offered, the choice can change, Cancel discards it without touching a record, and the modal is reached from the occurrence selection.)*
 - [x] invalid form refusal; — `08e505d` @ `2026-09-12T02:16:06+07:00` *(the New Project modal's Save with an empty or whitespace-only name is refused as `invalid-action-input` by the boundary it dispatches through, while a name that is a name still gets this stage's unavailable answer — so the modal does not answer every form with the same refusal. The boundary refuses an empty name directly in `tests/actionProtocol.test.ts`.)*
-- [ ] stale-save refusal; *(a stale save needs a save that can reach storage: the observed-revision contract exists and its conformance tests pass (Gate 13, `052c3b4`), but no modal has a save path to make stale. Closes with the first real Save.)*
+- [x] stale-save refusal; — `cab1627` @ `2026-09-12T03:31:18+07:00` and `18c2e48` @ `2026-09-12T03:37:24+07:00` *(the first real Save exists, so a stale save is now a thing that can happen and is asserted: the editor's write carries the revision the card was read at, a save built on a record someone else has since changed is refused as `stale-revision`, the loser's value never reaches the record, the card is re-read to the winner's state, and the form keeps its edits so a reader retries from the authoritative revision rather than retyping. The observed-revision contract underneath is Gate 13's, `052c3b4`.)*
 
 ## Feedback
 
@@ -3223,10 +3238,7 @@ The cockpit must behave as one system, not a collection of independently updated
 
 ## Work
 
-- [ ] Task changed on Elastic updates: *(The **origin** is gated: an Elastic edit is a record mutation and is
-  refused, so no task can be changed *on* Elastic yet — Stage 9's write half owns that, under HARD GATE C. The
-  **convergence** is proven: with the change made at the source, every surface below moves together on the next
-  read, asserted by `tests/surfaceConvergence.test.ts` at `8dc3841` @ `2026-09-12T02:22:54+07:00`.)*
+- [x] Task changed on Elastic updates: — `8dc3841` @ `2026-09-12T02:22:54+07:00` and `e4e319b` @ `2026-09-12T03:44:25+07:00` *(both halves now exist. The **origin** was the missing one: an Elastic edit was refused, so the surfaces below were converging on changes nobody could make from the UI. As of Stage 9's write half an Elastic drop and a card editor's Save are real writes — one accepted mutation each, carrying the revision the card was read at — and `tests/elasticChangeConvergence.test.ts` starts where a person does: a drop, then the product's own re-read, then the real renderers mounted over that projection. The five surfaces below are asserted for a *source-made* change at `8dc3841` and for an *Elastic-made* one at `e4e319b`, which is the pair the box was asking for.)*
   - [x] Backlog; — `8dc3841` *(the row shows the new deadline and the old value is gone from the table, not merely joined by the new one.)*
   - [x] project Task Board; — `8dc3841` *(the card shows the new deadline, and the status change moves it to the other column.)*
   - [x] Timekeeping; — `8dc3841` *(all three Timekeeping projections the panels draw from — Countdowns, the deadline Calendar and the Timeline/Gantt — report the new deadline for the same record.)*
@@ -3278,11 +3290,14 @@ Current action dispatch already has state revisions and source-replacement seman
   first agent-capable mutation (Stage 17's agent parity, under HARD GATE C).)*
 - [ ] UI and agent race one record; stale loser explicit. *(The contract this needs is already built and
   conformance-tested at the store level: observed revision in, `stale-revision` out, no silent merge (Gate 13,
-  `052c3b4`, `10dc3c3`, `eb0f3fe`). What is missing is two writers to race — the UI cannot write a record and
-  neither can an agent.)*
+  `052c3b4`, `10dc3c3`, `eb0f3fe`). One of the two writers now exists — the UI writes records as of Stage 9
+  (`abf8204`, `18c2e48`), and both of its paths are asserted to lose a race explicitly, reporting the revision
+  that beat them — so the box is down to its other half: no agent can write a record yet, because the dispatcher
+  refuses every record mutation and the loopback bridge is read-only. It closes with the agent-facing caller,
+  which Stage 17's agent parity and HARD GATE C's remaining activation item own.)*
 - [x] Separate records update independently. — `8dc3841` @ `2026-09-12T02:22:54+07:00` *(one task's file changes and its revision, its surfaces and its deadline move; the other task's and the event's revisions are unchanged, and every view of them still shows what it showed.)*
 - [x] Local surface selections do not bleed into canonical storage. — `8dc3841` @ `2026-09-12T02:22:54+07:00` *(after a marked selection, a reader query and a reload, every file in the vault is byte-for-byte what it was — the peer's edit and nothing else. A selection is how this reader is looking at the table.)*
-- [ ] No manual source-refresh control is required for normal record-store coherence. *(Today a refresh **is** the mechanism, and the checklist's own paragraph below preserves source-replacement semantics until canonical state moves to the record store. The box becomes true with the first mutation that reprojects every surface by itself — Stage 9 onward, under HARD GATE C.)*
+- [x] No manual source-refresh control is required for normal record-store coherence. — `abf8204` @ `2026-09-12T03:20:05+07:00` and `18c2e48` @ `2026-09-12T03:37:24+07:00` *(a write converges the cockpit by itself: both the drop and the editor's Save re-read the source as part of the write sequence, and nothing in the UI has to be clicked for the surfaces to agree with the store. What the header's Refresh source button remains is an option, not the mechanism — and changes made elsewhere arrive without it too, through the session's refresh policy (`createRefreshPolicy` in `src/app/refreshPolicy.ts`), which triggers an `interval` refresh while the page is visible at `intervalMs: 60_000` from `main.ts`'s boot. The box's own condition — "becomes true with the first mutation that reprojects every surface by itself" — is what Stage 9 delivered.)*
 
 ## Evidence
 
