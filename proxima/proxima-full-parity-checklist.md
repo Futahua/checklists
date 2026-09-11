@@ -576,6 +576,27 @@ having been assessed, which needs a browser.
 Start with what the existing modal scaffolding already proves and extend from there; the same pattern
 applies: project the modal's state in `src/app/`, test it in Node, then let the renderer draw it.
 
+**Slice 28a is done and in flight.** `src/app/taskEditor.ts` now decides every field the Task modal shows:
+the ten task fields, one field per schema property whether or not the task has set it, and any record
+value the schema does not declare (shown rather than hidden, because a value nobody can see is a value the
+editor would silently drop). Each field carries the control its type calls for — text, number, date,
+checkbox, select, multi-select, relation, or derived for rollups and formulas, which are shown and not
+editable because their value is not the record's to set. A draft is `null` while nothing has been edited,
+which is what makes Cancel exact, and `dirty` is the draft differing from the record it was seeded from.
+`tests/taskEditor.test.ts` walks the field list and the draft. **No box is ticked by 28a on purpose:** the
+boxes say the modal must *represent* these fields, and nothing draws them yet.
+
+**Next operation** Slice 28b — draw it and wire it. Have `renderTaskModal` in
+`src/browser/elasticCockpit.ts` consume `projectTaskEditor` instead of its six hard-coded read-only inputs
+and its property pills; thread `editorDraft` through `ElasticCockpitRenderOptions` (both the Elastic and
+Timekeeping surfaces call that modal, so `timekeepingCockpit.ts` and its options need it too) and add the
+edit, Cancel/Escape and Save handlers to `ElasticCockpitHandlers` and `main.ts`. Then the § Task modal
+boxes tick with happy-dom evidence: a field of every kind, a typed edit, Escape discarding the draft back
+to the record, and Save answering the typed `action-not-available` refusal. Two boxes stay open and this is
+the reason: **workflow stage where project-scoped** has no model (HARD GATE A2 owns it, and the legacy
+status is not the same thing), and **recurrence if task recurrence remains supported** is the creator's
+product decision — no task recurrence model exists.
+
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
 the Backlog draws — rows, the eight field columns plus one per custom property the data declares, cells
