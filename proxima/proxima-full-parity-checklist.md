@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–43 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841` and `d9d8c5e` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–44 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e` and `738bb53` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `d9d8c5e` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 181 files / 1214 tests; committer `2026-09-12T02:35:31+07:00`. At `8dc3841` the same steps were 180 files / 1210 tests, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `738bb53` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 182 files / 1220 tests; committer `2026-09-12T02:45:43+07:00`. At `d9d8c5e` the same steps were 181 files / 1214 tests, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -55,7 +55,9 @@ is proven on its read half as of `8dc3841`** — 18 of its 28 boxes, and every b
 the write, the agent path or the un-extracted renderer that blocks it. **Stage 8 is down to its
 two creator-decision boxes as of `d9d8c5e`**, which also proved the broad staging pass and the
 byte-preservation proof against real trees on disk — so HARD GATE C, the canonical cutover, is now
-the only thing between the tree and the write stages.
+the only thing between the tree and the write stages. **HARD GATE C is open and being worked as of
+`738bb53`:** the projection from canonical records to the world the surfaces render now exists, so
+a record-store source is a thing that can be built rather than a thing that cannot be represented.
 Stage 6 slice 1, Canvas selection and read-only node inspection, at `ace9bac`.
 Stage 6 slice 2, Canvas geometry preview refusal, at `4e8bed7`.
 Stage 6 slice 3, Canvas removal intent/confirmation/refusal, at `8e20d0d`.
@@ -857,21 +859,33 @@ mechanism rather than a hope. The unsupported-frontmatter question is annotated 
 reader treats `unsupported-frontmatter` and `frontmatter-parse-failure` as warnings, so the answer decides whether
 the *existing* conversion is correct by default or must be withheld — it is not a question about the machinery.
 
-**Next operation** Slice 44 — **HARD GATE C itself**, which is now the critical path and is not blocked by anything
-except its own work. Recon for it, done at `9f4a01a`, so the next agent does not repeat it: the source seam exists
-(`src/app/sourceSession.ts`, `refreshController.ts`, `refreshPolicy.ts`, `browser/sourceFactory.ts`) but it is built
-on a `VaultReader` plus a `LoadResult` from `loadVaultState`, and its modes are `'fixture' | 'external'` — there is
-no third mode and no loader abstraction to hang one on. More importantly, **a canonical-records → `ProximaState`
-projection does not exist anywhere in the tree**: the record store holds `CanonicalRecordV2` and every surface reads
-the legacy compatibility shape, so item 5 ("the UI does not care whether state originated from legacy import
-fixtures or record store") needs that projection built before a record-store source can be a candidate at all —
-project/task/event/schema records to the UI shape, workflow stage to board columns, canonical execution state to
-the legacy status field, and stored properties to `properties`. That projection is item 5's real content and the
-first thing slice 44 should build, with the source seam generalized around it second. Item 7's guard (the FSA
-creator-vault boundary stays closed for record files) and item 6's label are small and follow it; items 1–4 and the
-acceptance boxes are the cutover proper. The two boxes Stage 8 leaves open are the creator's answer about
-`unsupported-frontmatter` and the tests that encode it afterwards. Nothing in Proxima is parked or uncommitted; the
-tree is clean and the branch is pushed.
+**Slice 44 is done**, `738bb53` @ `2026-09-12T02:45:43+07:00` — **two boxes of HARD GATE C**, and the one that
+mattered: the cutover's missing piece was that nothing turned `CanonicalRecordV2` into `ProximaState`, so a
+record-store source could not even be *represented*, let alone wired. `src/app/recordStateProjection.ts` is that
+projection, `recordStoreStateLoad.ts` is the store-side load in the same shape as the vault-side one, and
+provenance gained a `record-store` origin so inspection names where a record came from — which is also the gate's
+own acceptance box about not pretending JSON records are Markdown. The projection deliberately invents nothing: a
+project's legacy `projectType` is reconstructed from what the project holds, because A4 removed that label from
+capability decisions; and a workflow stage is reported as having no slot in the readable world rather than folded
+into a board column, because A2 keeps project workflow and Elastic execution independent. Six cases, and the one
+that says the most compares the real Task Board rendered from a legacy load with the same board rendered from the
+store: **the same cards in the same three Elastic columns**, with the third column called `review` by a vault's
+vocabulary and `finished` by the canonical model — a difference a projection must show, not paper over. Writing it
+also caught a boundary the type change surfaced: `importPlanner` copies a source's `idOrigin` into fields that can
+only mean a legacy Markdown answer, so those four sites now go through `legacyIdOriginOf`, which refuses a
+record-store record instead of letting one claim a vault origin. The other twelve HARD GATE C boxes are annotated
+individually with what each is waiting for; none of them is waiting on an unknown.
+
+**Next operation** Slice 45 — HARD GATE C items 1–3, which are now the critical path and are buildable: give
+`SourceMode` a third member and let `sourceSession` activate a record-store candidate, make startup choose between
+the legacy reader and the store (the store side already loads through `loadRecordStoreState`), and prove the
+isolation the gate's acceptance boxes ask for — editing a legacy file after the cutover changes nothing the
+surfaces read, and removing a legacy source leaves the canonical record. The pieces in place: the projection and
+its store-side load (`738bb53`), one isolated staging store with a byte-preservation proof (`d9d8c5e`), the
+convergence mechanism for a change that arrives from outside (`8dc3841`), and a single-writer store with
+observed-revision concurrency (Gate 13). The two boxes Stage 8 leaves open are still the creator's
+`unsupported-frontmatter` answer and the tests that encode it afterwards. Nothing in Proxima is parked or
+uncommitted; the tree is clean and the branch is pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -2213,31 +2227,31 @@ Do not enable any real record-editing UI until this gate closes.
 
 ## Work
 
-- [ ] Startup chooses the Proxima record store as canonical tasks/projects/events/schema source after successful migration activation.
-- [ ] Legacy Markdown record directories remain present but become **legacy source only**.
-- [ ] Legacy Markdown task/project/event changes after cutover do not silently overwrite JSON records.
-- [ ] Record-store mutations refresh every active Proxima surface.
-- [ ] Read-only projection/source abstractions are generalized so UI does not care whether state originated from legacy import fixtures or record store.
-- [ ] Current UI no longer labels the ordinary product as "Read-only workspace" once record mutations are enabled; at `608bcdc` that label is still hardcoded into the browser shell.
-- [ ] Existing FSA creator-vault write boundary remains blocked for record files because record files are no longer creator-vault files at all.
-- [ ] H4 remains untouched.
+- [ ] Startup chooses the Proxima record store as canonical tasks/projects/events/schema source after successful migration activation. *(Not yet, and it is the cutover proper: `src/app/sourceSession.ts` switches between `'fixture'` and `'external'`, both built on a `VaultReader`, and there is no third candidate. What is now in place is the thing that made a third candidate impossible — see the item below.)*
+- [ ] Legacy Markdown record directories remain present but become **legacy source only**. *(Not yet: nothing has cut over, so the legacy reader is still the source. Stage 8's staging is where the records are prepared, and the byte proof at `d9d8c5e` is what guarantees the legacy tree survives the cutover unchanged.)*
+- [ ] Legacy Markdown task/project/event changes after cutover do not silently overwrite JSON records. *(Not yet; it is a property of the cutover. The pieces it needs exist: the record store is single-writer with observed-revision concurrency, the legacy reader has no write path at all, and `loadRecordStoreState` reads only the store.)*
+- [ ] Record-store mutations refresh every active Proxima surface. *(Not yet: no record mutation can run, so nothing can trigger a refresh. The convergence machinery is proven for a *source* change at `8dc3841`, and the mutation leg needs items 1–3 to exist first.)*
+- [x] Read-only projection/source abstractions are generalized so UI does not care whether state originated from legacy import fixtures or record store. — `738bb53` @ `2026-09-12T02:45:43+07:00` *(the missing piece was that nothing turned `CanonicalRecordV2` into `ProximaState`: the store held canonical records and every surface read the compatibility shape, so a record-store source could not even be represented. `src/app/recordStateProjection.ts` is that projection and `recordStoreStateLoad.ts` is the store-side load, in the same shape as the vault-side one (state plus the revisions a caller needs to notice change). `tests/recordStateProjection.test.ts` proves it end to end — records written through the canonical store boundary, read back through it, projected, and rendered by the real Task Board — and proves the claim that matters: the legacy reader and the record store draw **the same cards in the same three Elastic columns**, so the board asks the state what it holds rather than where it came from. Two things are deliberately not invented: a project's legacy `projectType` is reconstructed from what the project holds (A4 removed it from capability decisions), and a workflow stage is reported as having no slot in the readable world rather than being folded into a column (A2 keeps it independent). Provenance now names the origin, so inspection can too — see the acceptance box below. **What remains of this item's spirit is wiring, not abstraction:** the session still has two vault-backed modes.)*
+- [ ] Current UI no longer labels the ordinary product as "Read-only workspace" once record mutations are enabled; at `608bcdc` that label is still hardcoded into the browser shell. *(The condition is not met — mutations are not enabled — so the label is still true. It becomes a defect the moment item 1 lands, and this box is the note that says so.)*
+- [ ] Existing FSA creator-vault write boundary remains blocked for record files because record files are no longer creator-vault files at all. *(Half true today and worth stating precisely: the FSA boundary is blocked and asserted (`evaluateFsaWriteBoundary()` fails closed, `tests/fsaWriteBoundary.test.ts`), and record files are already not creator-vault files — they live behind `RecordStoreFileBackend` with opaque file names. The box's "because" arrives with the cutover, when a record-store file and a vault file could be confused; until then the guard is the boundary itself.)*
+- [ ] H4 remains untouched. *(No instruction in this tree defines H4 beyond the creator's standing constraint; nothing in slices 39–44 went near it, and no path here writes to the creator's vault.)*
 
 ## Acceptance
 
-- [ ] Modify a legacy task Markdown file after cutover; canonical Proxima task does not change.
-- [ ] Execute semantic JSON-backed task update; every surface changes.
-- [ ] Restart; JSON-backed state remains.
-- [ ] Remove/rename legacy task source after cutover; canonical record remains.
-- [ ] Notes continue reading from vault.
-- [ ] Inspection identifies record-store source/revision rather than pretending JSON records are Markdown provenance.
+- [ ] Modify a legacy task Markdown file after cutover; canonical Proxima task does not change. *(Not yet: there is no cutover, so a legacy edit is still what the product reads — which is the honest current behaviour. The isolation it asks for is structural once item 1 lands: `loadRecordStoreState` reads only the store, and the legacy reader has no write path.)*
+- [ ] Execute semantic JSON-backed task update; every surface changes. *(Not yet: no record mutation can run. The two halves are closer than they were — the projection at `738bb53` means a store-backed state renders in every surface, and `8dc3841` proves the convergence mechanism for a change that arrives from outside — but the update itself is Stage 9's.)*
+- [ ] Restart; JSON-backed state remains. *(Not yet: nothing writes records, so there is nothing to survive a restart. The store's file backend is the durable half and is conformance-tested (`opfsRecordStoreFileBackend.test.ts`); the cutover wiring is item 1.)*
+- [ ] Remove/rename legacy task source after cutover; canonical record remains. *(Not yet, for the same reason as the first box — and it is the sharpest test of the cutover: it fails if any surface still resolves through the legacy path. The projection's provenance (`idOrigin: 'record-store'`, the record id where a path used to be) is what will make that failure visible.)*
+- [ ] Notes continue reading from vault. *(True today and it must remain true after the cutover: notes are ordinary vault files, not records. `tests/projectNotes.test.ts` and the artifact half of Stage 8's byte proof (`d9d8c5e`) both exercise the vault read path, and the record store deliberately holds no notes. The box stays open because it is stated *after* the cutover it must survive.)*
+- [x] Inspection identifies record-store source/revision rather than pretending JSON records are Markdown provenance. — `738bb53` @ `2026-09-12T02:45:43+07:00` *(provenance gained a `record-store` origin (`RecordOrigin`/`recordOriginOf` in `src/domain/records.ts`), so a projected record's `SourceRef` reports `idOrigin: 'record-store'`, the record id where a vault path would be, and the store's observed revision. `createInspectionProjection` carries that through unchanged: the case asserts the project, task and event provenance all say `record-store`, that the revision equals the one the store reported, and that the snapshot is still a valid inspection projection — so nothing downstream has to special-case a store origin. The widening also surfaced a real boundary: `importPlanner` copies a source's `idOrigin` into fields that can only mean a legacy Markdown answer, so those four sites now go through `legacyIdOriginOf`, which refuses a record-store record rather than letting one claim a vault origin.)*
 
 ## Evidence
 
-- Cutover integration test.
-- Cross-surface convergence test.
-- Legacy-source-isolation test.
-- Restart test.
-- Machine-readable source-mode inspection.
+- Cutover integration test. *(Not yet: items 1–3 are the cutover.)*
+- Cross-surface convergence test. — `8dc3841` @ `2026-09-12T02:22:54+07:00` *(one source change read back by eight surfaces plus all six Schedule views, with untouched records' revisions unchanged — the mechanism the cutover's "every surface changes" claim will use.)*
+- Legacy-source-isolation test. *(Not yet as an isolation test; what exists is the structural half — `loadRecordStoreState` reads only the record store, and the byte-preservation proof at `d9d8c5e` shows the legacy tree is untouched by a staging run.)*
+- Restart test. *(Not yet: nothing durable to restart into. `d66622f` covers the identity half of a resumed import, and `opfsRecordStoreFileBackend.test.ts` covers the store's file backend.)*
+- Machine-readable source-mode inspection. *(Partly: provenance now reports the record-store origin with the store's own revision at `738bb53`, and `createInspectionProjection` carries it unchanged. A **source mode** — `'fixture' | 'external' | 'record-store'` — does not exist yet, so what is missing is the mode, not the evidence that a source can name itself.)*
 
 ### What breaks if writes are enabled before this gate
 
