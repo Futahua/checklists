@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–42 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d` and `8dc3841` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–43 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841` and `d9d8c5e` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `8dc3841` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 180 files / 1210 tests; committer `2026-09-12T02:22:54+07:00`. At `08e505d` the same steps were 179 files / 1207 tests, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `d9d8c5e` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 181 files / 1214 tests; committer `2026-09-12T02:35:31+07:00`. At `8dc3841` the same steps were 180 files / 1210 tests, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -52,7 +52,10 @@ box and annotated the two of its four kinds that remain vocabulary rather than i
 **Stage 18's interaction-feel pass is complete on its read half as of `08e505d`** — 51 of its
 58 boxes, with the remaining seven named and gated individually. **Stage 19's convergence claim
 is proven on its read half as of `8dc3841`** — 18 of its 28 boxes, and every box left open names
-the write, the agent path or the un-extracted renderer that blocks it.
+the write, the agent path or the un-extracted renderer that blocks it. **Stage 8 is down to its
+two creator-decision boxes as of `d9d8c5e`**, which also proved the broad staging pass and the
+byte-preservation proof against real trees on disk — so HARD GATE C, the canonical cutover, is now
+the only thing between the tree and the write stages.
 Stage 6 slice 1, Canvas selection and read-only node inspection, at `ace9bac`.
 Stage 6 slice 2, Canvas geometry preview refusal, at `4e8bed7`.
 Stage 6 slice 3, Canvas removal intent/confirmation/refusal, at `8e20d0d`.
@@ -835,11 +838,34 @@ because the bridge is a read-only reader, and the manual-refresh box because tod
 checklist's own paragraph preserves. Stage 19's `## Evidence` bullets are annotated, and the UI+agent concurrency
 bullet is explicitly **not** claimed.
 
-**Next operation** Slice 43 — Proxima has no read-side box left that a slice can close: Stage 17's 58 boxes are
-write coverage (a typed request *and* an invocation test per action), Stage 20's 38 remove scaffolding that exists
-only because writes are unavailable, Stages 9–16 are the write halves, Stage 8's 13 and HARD GATE C's 14 are the
-import, HARD GATE D's 4 are the Notes/drawings writes, and the remaining annotated boxes in Stages 0, 3, 6, 19 and
-HARD GATE A wait on the creator's three product decisions (tags, the Task modal's workflow stage, task recurrence).
+**Slice 43 is done**, `d9d8c5e` @ `2026-09-12T02:35:31+07:00` — **eleven boxes**, and the first slice
+this session that closed a stage's *implementation* half rather than auditing evidence that already existed.
+Stage 8's staging and byte-preservation sections were the ones I had written off as gated; re-reading HARD GATE
+C showed the dependency runs the other way — the cutover waits on the import, not the reverse — and none of this
+work needs a write to the creator's vault. `tests/importStagingBytePreservation.test.ts` materializes every record
+kind into slice 9's isolated staging store over disposable copies of all four fixture vaults, with
+`runLegacyImportBytePreservationProof` around the operation and `node:crypto` hashing the tree independently
+before and after: verdict `preserved`, zero changed paths, zero verifier writes, and every digest the verifier
+reports equal to the filesystem's own. Three findings came out of writing it rather than reading the boxes. The
+malformed fixture's fifteen problems are **all warnings** — the reader is tolerant, so those records enter state
+and stage, while four candidates are blocked with typed reasons in the same pass, which is the "valid records
+prepared while blockers are reported" pair in one run. A duplicate legacy id is **staged as its own candidate**
+rather than excluded, which is the duplicate section working as designed and which contradicted my first
+assertion (a blanket "rejected records are never staged" would have been wrong). And a store that claims canonical
+authority is **refused** by every materializer, which is what makes "staging is not canonical until activation" a
+mechanism rather than a hope. The unsupported-frontmatter question is annotated with what I now know it costs: the
+reader treats `unsupported-frontmatter` and `frontmatter-parse-failure` as warnings, so the answer decides whether
+the *existing* conversion is correct by default or must be withheld — it is not a question about the machinery.
+
+**Next operation** Slice 44 — **HARD GATE C itself**, which is now the critical path and is not blocked by anything
+except its own work. Its first three items are plumbing that needs no UI write: the source abstraction must be
+generalized so the product does not care whether state came from legacy Markdown or the record store, inspection
+must name the record-store source and revision instead of pretending JSON records are Markdown provenance, and the
+FSA creator-vault write boundary must stay blocked for record files *because they are no longer creator-vault
+files*. Those are testable in this repo against the OPFS/JSON store and the existing conformance suites, and they
+are what Stage 9's write halves will stand on. The two boxes Stage 8 leaves open are the creator's answer about
+`unsupported-frontmatter` and the tests that encode it afterwards; nothing else in Stage 8 is waiting. Nothing in
+Proxima is parked or uncommitted; the tree is clean and the branch is pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -2047,16 +2073,19 @@ Legacy Markdown is input only.
 
 Use staged activation, not a half-cut-over live database.
 
-- [ ] Import can materialize a staging record store.
-- [ ] Valid records may be converted into staging while blockers are reported.
-- [ ] Staging is not canonical until activation.
+- [x] Import can materialize a staging record store. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(one isolated store receives every kind the planners can prepare, in the order they require: projects, the workflow stages those projects scope, the tasks that resolve a stage through that mapping, events, and the schema records the plan declares — asserted by non-empty staged sets and a non-empty store, over four fixture vaults. The store is slice 9's staging-only capability (`9c0c2dc`), never the canonical Record Store: `readStagedRecord` and `createStagedRecord` are all it has.)*
+- [x] Valid records may be converted into staging while blockers are reported. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(the malformed fixture is the case: its fifteen reader problems are all warnings — the reader is tolerant, so those records entered state — and the run creates the records whose canonical payload it can build while four candidates are blocked with typed reasons in the same pass. Every candidate is accounted for as created, reused or blocked, so nothing is silently dropped, and the blockers carry machine-readable reasons rather than prose.)*
+- [x] Staging is not canonical until activation. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(every materialization result reports `activation: 'not-performed'`; the store's authority is `legacy-import-staging-only`, and a store claiming canonical authority is refused by the materializers rather than written into; and after a full staging pass the application still reads the legacy vault, with none of the staged opaque ids present in that state.)*
 - [x] Re-running the same import is idempotent with respect to already assigned import identities. — `d66622f` @ `2026-09-12T00:12:36+07:00` *(re-planning the same vault with a fresh allocator in a disjoint id range reuses every identity from the durable mapping, so a re-run cannot mint a second record for a source that already has one; the conversion ids and the manifest agree, and no identity is held by two records)*
 - [x] An interrupted import resumes/replans without producing duplicate canonical records. — `d66622f` @ `2026-09-12T00:12:36+07:00` *(a run that stops is resumed from the stored manifest alone: the test persists the mapping, discards the plan, and re-plans with an allocator in a disjoint range — identities come back identical, a third pass is a fixed point rather than drifting, and a duplicated legacy alias still keeps both physical records distinct. The claim proven is identity reuse on replan; canonical materialization remains staged and not activated.)*
-- [ ] No hidden "some records now JSON, some still Markdown" live mode is allowed unless explicitly designed and tested.
+- [x] No hidden "some records now JSON, some still Markdown" live mode is allowed unless explicitly designed and tested. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(there is no mixed mode to allow: after a full staging pass the product's only source is still the legacy vault — `loadVaultState` over the same tree returns the legacy records and none of the staged ids — and no module outside the import planners reads a staging store. This box is a prohibition that currently holds by absence; if a mixed mode is ever designed, the box reopens and that mode must be tested rather than assumed.)*
 
-> Slice 9 proves these invariants only for canonical-ready schema records in an isolated
-> staging store (`9c0c2dc` @ `2026-09-11T19:01:24+07:00`); the broad physical task/project/event
-> staging and activation obligations remain open until their own accepted slices.
+> **Superseded at `d9d8c5e` @ `2026-09-12T02:35:31+07:00`.** Slice 9 proved these invariants for
+> canonical-ready schema records in an isolated staging store (`9c0c2dc` @ `2026-09-11T19:01:24+07:00`).
+> The broad physical task/project/event staging is no longer the open half:
+> `tests/importStagingBytePreservation.test.ts` materializes every kind into one staging store over all
+> four fixture vaults, with the byte-preservation proof run around the operation. **Activation** —
+> choosing the staged records as canonical — is what remains, and that is HARD GATE C's.
 
 ## Duplicate legacy IDs
 
@@ -2081,7 +2110,7 @@ Do **not** silently choose one source file.
 
 - [x] No JSON record is created from guessed fields. — `3846805` @ `2026-09-11T19:22:40+07:00` *(canonical payload materialization and canonical staging-record creation are both zero)*
 - [x] Original malformed Markdown remains byte-identical. — `3846805` @ `2026-09-11T19:22:40+07:00` *(the accepted proof compares source bytes before and after)*
-- [ ] Other valid records may be prepared in staging.
+- [x] Other valid records may be prepared in staging. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(the malformed fixture is the case: records with unreadable or invalid fields are reported by the plan, and the records that are valid are still prepared — created counts above zero while four candidates are blocked, in the same run, with the legacy bytes unchanged.)*
 - [x] Canonical activation does not silently omit malformed records as though import were complete. — `c62a7dc` @ `2026-09-12T00:05:59+07:00` *(`import.status` reports the plan's `readerProblems` and `unsupportedFrontmatter`, and `import.commit` carries them in machine-readable `error.outstandingRecords` whenever any record could not be converted — including after the project references are acknowledged, so clearing ambiguity cannot make an incomplete import read as complete. Records the importer cannot convert are counted, not dropped; activation itself remains gated behind HARD GATE C.)*
 - [x] A machine-readable unresolved-record count remains nonzero until deliberately resolved/skipped according to an explicit migration policy. — `3846805` @ `2026-09-11T19:22:40+07:00` *(manifest exposes `unresolvedRecordCount`; activation and resolution policy remain open)*
 
@@ -2093,17 +2122,24 @@ The repository currently has a real unresolved semantic mismatch: repository loa
 
 > Is an otherwise readable record containing `unsupported-frontmatter` importable using the interpreted fields with legacy source preserved as provenance, or must import block until the unsupported construct is resolved?
 
+  *(Still the creator's decision, and `d9d8c5e` @ `2026-09-12T02:35:31+07:00` sharpens what it
+  costs: the reader treats both `unsupported-frontmatter` and `frontmatter-parse-failure` in the
+  malformed fixture as **warnings**, so those records enter state, and the staging pass then
+  converts them with the interpreted fields. The answer therefore decides whether that
+  conversion is correct by default or must be withheld — it is not a question about the
+  machinery, which already handles both answers.)*
+
 - [x] Until answered, importer reports it distinctly from an ordinary malformed record. — `0fd5f51` @ `2026-09-11T14:28:25+07:00` *(`unsupported-frontmatter` is emitted as `unsupported-frontmatter-policy-pending`, while ordinary frontmatter parse failures remain separate reader problems; no importability policy is invented)*
-- [ ] Tests encode the decided rule only after the decision exists.
+- [ ] Tests encode the decided rule only after the decision exists. *(Waiting on the answer above, by the box's own wording. The current tests assert only what is decidable today: that the code is reported distinctly, that the record is otherwise readable, and that the legacy bytes are preserved either way.)*
 
 ## Byte-preservation proof
 
-- [ ] Hash every legacy Markdown record before import.
-- [ ] Run import.
-- [ ] Hash every legacy Markdown record afterward.
-- [ ] Every hash matches.
-- [ ] Notes/drawings/attachments also remain untouched by the importer.
-- [ ] No source "promotion" or ID injection is performed into legacy files.
+- [x] Hash every legacy Markdown record before import. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(`runLegacyImportBytePreservationProof` snapshots SHA-256 of every `.md` under the layout's record directories plus every file under each accepted external-artifact folder before the operation runs, and refuses to proceed when the artifact plan is absent rather than proving a subset.)*
+- [x] Run import. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(the operation is the real staging pass — projects, workflow stages, tasks, events, schema — over disposable copies of the fixture vaults, so the proof surrounds actual work: the staged sets are asserted non-empty, which a proof around a no-op could not claim.)*
+- [x] Hash every legacy Markdown record afterward. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(the same paths are hashed again after the operation, and the before/after entry lists are compared as sets, so a record that disappeared is as visible as one that changed.)*
+- [x] Every hash matches. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(verdict `preserved`, zero changed paths, and — because a reader's account of itself is not proof — every digest the verifier reports is compared against a `node:crypto` hash of the file on disk. The instrument fails when it should: the same suite shows it reporting a change when a record is edited, when a source file is injected, and when one is removed.)*
+- [x] Notes/drawings/attachments also remain untouched by the importer. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(three real artifact files are created inside the fixture project's own linked folders — a note, a canvas and a binary — and all three are byte-identical afterwards, on disk and in the verifier's digests. The artifact plan is reference-only by construction, and a machine-path reference is reported as unverifiable rather than claimed as proven.)*
+- [x] No source "promotion" or ID injection is performed into legacy files. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(the independent filesystem comparison covers additions as well as edits, so a promoted or injected file would appear as `added`; the verifier's own injection case proves that comparison reports one. Four fixture vaults are swept this way with zero changes.)*
 
 ## Import verification
 
@@ -2153,15 +2189,15 @@ These are semantic administrative actions with typed results.
 
 - [x] Rollup canonical-reference and derived rollup/formula conversion-plan contract tests. — `57e8c16` @ `2026-09-11T17:46:24+07:00` *(canonical relation-schema and target-property resolution with explicit missing/ambiguous/incompatible outcomes; derived values remain evidence-only; focused 5 files / 32 tests; serialized full suite 157 files / 938 tests; zero-write guarantees)*
 
-- Full import against all four existing fixture vaults.
-- Dedicated duplicate-ID fixture assertions.
-- Dedicated malformed-record fixture assertions.
-- Legacy tree byte hashes before/after.
-- Machine-readable import manifest/report.
-- Restart after staged import.
-- Restart after committed import.
-- Idempotent rerun.
-- No creator gesture.
+- Full import against all four existing fixture vaults. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(the planning pass and the full staging pass run over `vault-basic`, `vault-legacy`, `vault-duplicates` and `vault-malformed` on disposable copies, with every candidate in every kind accounted for as created, reused or blocked, and the byte proof around each one. The sweep asserts it was not four easy vaults: at least one fixture holds records the reader refused and at least one holds an identity collision.)*
+- Dedicated duplicate-ID fixture assertions. — `be3efdf` @ `2026-09-11T14:52:38+07:00` *(pre-dedup candidate enumeration and collision groups)*; `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(the sweep includes the colliding fixture and asserts the collision is reported rather than resolved silently — a duplicate legacy id is staged as its own candidate with its own id, because choosing one silently is the failure the section exists to prevent.)*
+- Dedicated malformed-record fixture assertions. — `3846805` @ `2026-09-11T19:22:40+07:00` *(structured failure, no guessed fields, original bytes unchanged)*; `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(the malformed fixture converts what it can and blocks four with typed reasons in the same run, with the tree unchanged.)*
+- Legacy tree byte hashes before/after. — `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(SHA-256 before and after, independently re-derived from the files on disk, over four fixture vaults.)*
+- Machine-readable import manifest/report. — `0fd5f51` @ `2026-09-11T14:28:25+07:00` *(the schema-v1 plan)*; `d9d8c5e` @ `2026-09-12T02:35:31+07:00` *(the byte-preservation proof is itself a machine-readable object — snapshot, per-path digests, changes, counts, `verifierWrites`, verdict — so a run's evidence can be diffed rather than read.)*
+- Restart after staged import. *(Not yet: the staging store the proof uses is in memory, so "restart" has nothing durable to come back to. The identity half of restart is proven — `d66622f` resumes from the stored mapping — and the store half needs the durable staging backend wired to the import pass.)*
+- Restart after committed import. *(Not yet: nothing commits, because activation is HARD GATE C's. This bullet closes with the cutover, not before it.)*
+- Idempotent rerun. — `d66622f` @ `2026-09-12T00:12:36+07:00` *(a re-plan with a disjoint allocator range reuses every identity, and a third pass is a fixed point.)*
+- No creator gesture. — `bd64a34` @ `2026-09-11T23:57:13+07:00` *(the administrative actions — `import.plan`, `import.inspect`, `import.resolve`, `import.commit`, `import.status` — are semantic and programmatic, and the staging materializers are plain functions; nothing in the import path requires a click.)*
 
 ---
 
