@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19, 20 and 21 are pushed at `bd64a34`, `394179c` and `c62a7dc` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–22 are pushed at `bd64a34`, `394179c`, `c62a7dc` and `d7e6a6c` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `c62a7dc` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 168 files / 1016 tests; Stage 8 focused 16 files / 110 tests; committer `2026-09-12T00:05:59+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `d7e6a6c` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 169 files / 1025 tests; Stage 8 focused 17 files / 119 tests; committer `2026-09-12T00:09:34+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -516,18 +516,34 @@ so clearing ambiguity can never make an incomplete import read as complete. The 
 surviving reason instead of collapsing into the generic policy sentence. Evidence: focused 16 files /
 110 tests, full suite 168 files / 1016 tests, every step exit 0.
 
+Stage 8 / slice 22, legacy-import plan parity bundle, pushed on Proxima branch
+`stage7-record-store-contract` at `d7e6a6c3be4bf8e6d1dbc7dee9166ae17db5e381`, committed
+`2026-09-12T00:09:34+07:00` and **awaiting creator acceptance**: a dedicated `tests/importParity.test.ts`
+proves thirteen census/parity boxes in one packet, which is the pace correction — one round closed
+thirteen items instead of one. Against a plan built from one declared project, task and event with every
+supported field set, it asserts: each kind's census reports `loadedRecords` equal to the plan's count,
+`unaccountedCandidates` zero, and `loadedRecords + explicitlyRejected === recordCandidates`; every
+declared source has a disposition and every conversion carries its `sourcePath`; names, descriptions and
+dates survive (dates compared as instants, so a format normalisation cannot pass as data loss); task
+weight, fixed/max durations survive; both `project:` and `projectId:` resolve to one canonical project
+record id; `recurrence` is an explicit typed null rather than an omitted key; archived and completed state
+survive without the record being dropped; `projectType` stays compatibility metadata and filters nothing;
+and record identity is opaque with same-title records receiving distinct ids. Evidence: focused 17 files /
+119 tests, full suite 169 files / 1025 tests, every step exit 0.
+
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 22 — the parity/census bundle, taken as one packet rather than one box
-per round. The open boxes in the census section assert, of a planned import: the same count of valid
-physical task/project/event records accounted for; every imported source has an explicit disposition;
-names, descriptions and dates preserved; task durations/weights preserved; project associations mapped;
-recurrence mapped where representable; archived/completed state preserved; no legacy `projectType` silo
-leaks into capability filtering; and no record filename derived from record title. These are
-plan-level properties, so they are provable read-only against the existing fixture vaults — write the
-assertions in a dedicated parity test and close the boxes that genuinely hold, leaving open any whose
-acceptance needs a real import run. The unsupported-frontmatter *policy* question stays open and
-creator-owned: do not answer it by assertion.
+**Next operation** Stage 8 slice 23 — the staging-representation boundary, scoped honestly rather than
+assumed. The open boxes are: import can materialize a staging record store; valid records may be converted
+into staging while blockers are reported; staging is not canonical until activation; re-running the same
+import is idempotent with respect to already assigned import identities; an interrupted import
+resumes/replans without producing duplicate canonical records; no hidden "some records now JSON, some
+still Markdown" live mode; and other valid records may be prepared in staging. Staging landed at `9c0c2dc`
+and `42a0361`, so first establish which of these a read-only plan/staging run against the fixture vaults
+can actually prove — idempotent re-plan through the durable identity mapping is the likeliest, since the
+planner already consumes a prior mapping — then close those and leave any whose acceptance needs
+activation or a real import run open with the blocking reason stated, rather than argued shut. Stay
+read-only: no live Record Store, activation, legacy Markdown or creator-vault writes.
 
 **The AUTHOR loop changed on 2026-09-11, by creator instruction.** The browser reviewer is retired: it
 was too slow, and it existed mainly to keep an agent working through the creator's night rather than to
@@ -1731,21 +1747,21 @@ The repository currently has a real unresolved semantic mismatch: repository loa
 
 Machine-check the legacy interpreted state against new-state semantics:
 
-- [ ] same count of valid physical task records accounted for;
-- [ ] same count of valid projects accounted for;
-- [ ] same count of valid events accounted for;
-- [ ] every imported source has explicit import disposition;
-- [ ] names preserved;
-- [ ] descriptions preserved;
-- [ ] dates preserved;
-- [ ] task durations/weights preserved;
-- [ ] project associations mapped;
+- [x] same count of valid physical task records accounted for; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(the task census reports `loadedRecords` equal to `counts.tasks`, with `unaccountedCandidates` zero and `loadedRecords + explicitlyRejected === recordCandidates`)*
+- [x] same count of valid projects accounted for; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(the project census reports `loadedRecords` equal to `counts.projects`, with `unaccountedCandidates` zero and the candidate arithmetic closing)*
+- [x] same count of valid events accounted for; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(the event census reports `loadedRecords` equal to `counts.events`, with `unaccountedCandidates` zero and the candidate arithmetic closing)*
+- [x] every imported source has explicit import disposition; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(`unaccountedCandidates` is zero for every kind, so each accepted candidate either became a record or was refused for a stated reason; every conversion also carries the `sourcePath` it came from, and each declared fixture path appears in the identity mapping or the problem list)*
+- [x] names preserved; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(`name` equals the declared frontmatter name on the project, task and event conversions)*
+- [x] descriptions preserved; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(`description` equals the declared single-line frontmatter description on every kind)*
+- [x] dates preserved; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(`createdAt`, `startDate` and `deadline` preserve the declared instants, compared as instants so a format normalisation cannot pass as data loss)*
+- [x] task durations/weights preserved; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(`weight: 3`, `isFixedDuration: true`, `fixedDuration: 90` and `maxDuration: 120` all survive exactly as declared)*
+- [x] project associations mapped; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(both `project:` and `projectId:` resolve to the same canonical project record id, named in the task workflow stage, its workflow-order scope and the event project association; `unresolvedProjectReferences` is zero)*
 - [x] custom property values mapped. — `a360fa9` @ `2026-09-11T16:08:36+07:00` *(ordinary task text, finite number, readable date, checkbox, select and multi-select values map through slice-4 opaque identities; event values remain captured-but-untyped; unresolved and derived families remain explicit)*
 - [x] relations either resolved to new IDs or explicitly unresolved. — `400ccfc` @ `2026-09-11T16:24:16+07:00` *(exact physical/alias resolution uses existing opaque mappings; missing, ambiguous, malformed, disallowed-kind, duplicate-target and pending-schema outcomes are retained as machine-readable dispositions)*
-- [ ] recurrence mapped where representable;
-- [ ] archived/completed state preserved;
-- [ ] no legacy `projectType` silo leaks into new capability filtering;
-- [ ] no record filename is derived from record title.
+- [x] recurrence mapped where representable; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(`recurrence` is an explicit typed `null` on every task and event conversion — an own property, so "no recurrence" is a decision rather than an omitted key. Recurrence stays captured-but-untyped, so nothing is representable yet and no mapping is claimed.)*
+- [x] archived/completed state preserved; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(`status: archived` survives on the project conversion and `isCompleted: true` on the task, which remains planned with an execution state rather than being dropped as finished)*
+- [x] no legacy `projectType` silo leaks into new capability filtering; — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(`disposition` is `compatibility-import-metadata-only` and `canonicalCapabilityAuthority` is `associated-data-and-workspace`; projects, tasks and events are all planned, so the project's legacy type filters nothing out)*
+- [x] no record filename is derived from record title. — `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(`recordId` is opaque on every conversion and carries no title text; the legacy filename survives only as `sourcePath` provenance; and two records declaring the same title still receive distinct identities)*
 
 ## Programmatic import actions
 
