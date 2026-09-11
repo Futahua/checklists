@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–29 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193` and `b20cdca` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–31 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a` and `d7e6270` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `b20cdca` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 176 files / 1124 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T00:56:55+07:00`. At the previous point `7825d20`: 174 files / 1105 tests. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `d7e6270` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 176 files / 1131 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:06:10+07:00`. At the previous points: `fef3b8a` 176 / 1126, `b20cdca` 176 / 1124, `7825d20` 174 / 1105. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -610,13 +610,35 @@ it can — but whether the product wants task recurrence, which is the creator's
 where project-scoped** stays open because no project-scoped workflow stage model exists (HARD GATE A2 owns
 it; the legacy status is not the same thing).
 
-**Next operation** Slice 30 — the § Project modal and § Recurrence-scope modal, eight boxes between them,
-and the cheapest remaining Stage 6 work. The Project modal's four boxes are name, description, metadata that
-survives the corrected model, and not requiring task-versus-schedule type in the successor record shape;
-three of those are statements about the model rather than new UI, so read `docs/DECISIONS.md` and HARD GATE
-A4/A5 before writing any of them, and expect some to be closable on the strength of what is already true
-rather than on new code. The Recurrence-scope modal's four boxes should be checked against
-`src/browser/scheduleRecurrence.ts`, which already renders the scope modal and records the chosen scope.
+**Slice 30 is done**, `fef3b8a` at `2026-09-12T01:01:45+07:00` — an audit slice, no production code
+changed. The § Project modal and § Recurrence-scope modal boxes were closable on evidence that already
+existed but had never been assembled, and two of them had never been exercised at all: nothing had clicked
+**Entire series** or pressed the scope modal's Cancel. The new cases drive both scopes, change the choice
+back, cancel and reopen, asserting the whole loaded shape is byte-identical throughout; and assert the
+project modal's controls are exactly `project-create-name` and `project-create-description`, with no
+control for anything the corrected model drops. Eight boxes are ticked, and the ticks name the commits that
+made each behaviour true (`68e11b6` for the project modal, `448c65f` for the scope modal) as well as this
+one where the evidence is new. **The lesson worth keeping: some boxes are already satisfied and simply
+untested — an audit is cheaper than an implementation, and the checklist does not distinguish the two.**
+
+**Slice 31 is done**, `d7e6270` at `2026-09-12T01:06:10+07:00`, five § Backlog boxes: relation, rollup and
+formula display, and the two bulk controls. A row now draws the property cells the projection already
+computed, each carrying the kind the schema declares, so a computed value can be told from an entered one
+and an unset property shows as empty rather than vanishing. Property columns are labelled with the schema's
+name, falling back to the stored key — the projection had used the raw key, which disagreed with the Task
+editor and the property pills. The bulk controls are drawn where a selection would act, disabled, carrying
+the same typed refusal every other write carries.
+
+**Next operation** Slice 32 — the Backlog's remaining interaction boxes: **Row selection**, **Select all**,
+**Multi-selection** and **Task row/name click opens editor**. All four belong in `ProjectBacklogViewState`
+and the projection rather than in markup, in the shape slices 26–27 established: a selection set in the view
+state, a projection that reports which rows are selected and whether every visible row is, and a binder that
+reports the click. Selection is view state, so **Search/filter/sort never mutate records** continues to
+hold and a selection must survive a query change without selecting a hidden row — decide that explicitly
+and write it down. Then **Resizable columns** and **Custom-property columns** (layout work, both about the
+column table the renderer still does not draw), **Property filters** (engine work on `task.properties`), and
+**Tag filtering**, which is blocked on tags having no model — that one is the creator's, not a gap to fill.
+Stage 6's remaining blocks afterwards are Template UI (6 boxes) and its Acceptance section (4 boxes).
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -1375,11 +1397,11 @@ Still before migration.
 - [ ] Select all.
 - [ ] Multi-selection.
 - [ ] Task row/name click opens editor.
-- [ ] Relation display.
-- [ ] Rollup display.
-- [ ] Formula display.
-- [ ] Bulk Complete control visible but unavailable until write cutover.
-- [ ] Bulk Delete control visible but unavailable until write cutover.
+- [x] Relation display. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(a row now draws the property cells the projection already computed, so a relation property is visible where a reader looks for it, carrying `data-project-backlog-cell-kind="relation"` so a target id can be told from an entered value. Property columns are labelled with the schema's name for the property — the projection had used the raw stored key, which disagreed with how the Task editor and the property pills already name one.)*
+- [x] Rollup display. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(shown with `data-project-backlog-cell-kind="rollup"`, displaying the value the record holds. Stated residual: computing a rollup from its relations is not this surface's job yet, so what is displayed is the stored value rather than a freshly aggregated one.)*
+- [x] Formula display. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(shown with `data-project-backlog-cell-kind="formula"`, displaying the stored value; the same residual as the rollup — the expression is not evaluated here)*
+- [x] Bulk Complete control visible but unavailable until write cutover. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(drawn where a selection would act, disabled, carrying `data-project-backlog-write-action="bulk-complete"` and the same typed `action-not-available` refusal every other write carries, with the reason beside it. It belongs to the project this view is for and is absent from a view belonging to another project — an existing no-leak case caught the first version, which rendered it unconditionally.)*
+- [x] Bulk Delete control visible but unavailable until write cutover. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(as Bulk Complete, with `data-project-backlog-write-action="bulk-delete"`; clicking either changes no record, asserted)*
 
 ## Task modal
 
@@ -1424,17 +1446,17 @@ All existing meaningful fields must be representable:
 
 ## Project modal
 
-- [ ] name.
-- [ ] description.
-- [ ] metadata that survives the corrected model.
-- [ ] Do **not** require task-versus-schedule type in the successor record shape.
+- [x] name. — `68e11b6` @ `2026-09-10T17:19:10+07:00` *(the project surface's modal is the New Project modal, and it has collected a name since Stage 5 slice 2: `tests/projectCreateModal.test.ts` types into `project-create-name`, and asserts that Cancel, Escape and a refused Save each leave the project list and the state revision untouched. A name here is canonical data, not identity — the modal never asks for an id or a filename.)*
+- [x] description. — `68e11b6` @ `2026-09-10T17:19:10+07:00` *(a textarea, `project-create-description`, typed into by the same cases and empty when the modal is reopened, so a discarded draft cannot leak into the next one)*
+- [x] metadata that survives the corrected model. — `a8c1b1e` @ `2026-09-11T08:54:12+07:00` and `fef3b8a` @ `2026-09-12T01:01:45+07:00` *(the corrected shape is `CanonicalProjectRecordV2` in `src/domain/canonicalRecordV2.ts`, which keeps the name, the description, `createdAt` and the active/archived lifecycle state; the modal asks for exactly name and description, and a new case asserts its controls are exactly those two and nothing else. Nothing the corrected model drops is required: no control exists for the legacy task-versus-schedule label, the tab background or text colours, the linked folders, the record id or its source path. This is the create modal — editing an existing project's name is not something these four boxes ask for, and does not exist.)*
+- [x] Do **not** require task-versus-schedule type in the successor record shape. — `68e11b6` @ `2026-09-10T17:19:10+07:00` and `d7e6a6c` @ `2026-09-12T00:09:34+07:00` *(the modal has no type control — its own case asserts `[data-project-type]` is absent — and the successor shape never mentions the field: `projectType` appears nowhere in any `src/domain/canonical*.ts` module, and the HARD GATE A4 box saying the legacy label informs import compatibility only is ticked at `d7e6a6c`. `Project.projectType` survives in the legacy compatibility model, documented as removed from capability and visibility decisions.)*
 
 ## Recurrence-scope modal
 
-- [ ] This occurrence.
-- [ ] Entire series.
-- [ ] Cancel.
-- [ ] No mutation while simply choosing/opening scope.
+- [x] This occurrence. — `448c65f` @ `2026-09-10T16:53:37+07:00` *(the scope modal renders a `This occurrence` button carrying `data-schedule-recurrence-scope="occurrence"`, and clicking it records that scope in the modal's own state — driven in `tests/scheduleRecurrence.test.ts` since Stage 4 slice 5b)*
+- [x] Entire series. — `448c65f` @ `2026-09-10T16:53:37+07:00` and `fef3b8a` @ `2026-09-12T01:01:45+07:00` *(the button shipped with the modal, but nothing clicked it until this slice: the new case clicks `schedule-recurrence-scope-series`, asserts the modal reports `series` and that both buttons' `aria-pressed` follow the choice, then changes the choice back to `occurrence` — a choice, not a commitment)*
+- [x] Cancel. — `448c65f` @ `2026-09-10T16:53:37+07:00` and `fef3b8a` @ `2026-09-12T01:01:45+07:00` *(the close control carries `data-schedule-recurring-action="close-occurrence"`, and the handler mirrors `main.ts`: it clears the occurrence and the chosen scope and re-renders. The new case presses it, asserts the modal is gone, then reopens the occurrence to prove the next visit starts with no scope chosen — a discarded choice cannot be inherited.)*
+- [x] No mutation while simply choosing/opening scope. — `448c65f` @ `2026-09-10T16:53:37+07:00` and `fef3b8a` @ `2026-09-12T01:01:45+07:00` *(opening the occurrence, choosing `series`, changing to `occurrence` and cancelling are all asserted to leave the loaded shape byte-identical — projects, tasks, events, statuses and schema — rather than only the one event the older case inspected. The scope is view state in `main.ts` (`selectedScheduleRecurringScope`), and choosing it dispatches no action.)*
 
 ## Template UI
 
