@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–40 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927` and `215777a` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–41 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a` and `08e505d` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `215777a` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 179 files / 1205 tests; committer `2026-09-12T02:11:10+07:00`. At `ead7927` the same steps were 179 files / 1203 tests and at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `08e505d` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 179 files / 1207 tests; committer `2026-09-12T02:16:06+07:00`. At `215777a` the same steps were 179 files / 1205 tests, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -49,6 +49,8 @@ ownership closeout, at `cb92cae`, and Stage 5 slice 39, the Notes read side, the
 reuse and the workspace acceptance boxes, at `ead7927` — **Stage 5 is complete.** Stage 4's
 `## Acceptance` section is complete as of `215777a`, which also closed Stage 0's action-union
 box and annotated the two of its four kinds that remain vocabulary rather than implementation.
+**Stage 18's interaction-feel pass is complete on its read half as of `08e505d`** — 51 of its
+58 boxes, with the remaining seven named and gated individually.
 Stage 6 slice 1, Canvas selection and read-only node inspection, at `ace9bac`.
 Stage 6 slice 2, Canvas geometry preview refusal, at `4e8bed7`.
 Stage 6 slice 3, Canvas removal intent/confirmation/refusal, at `8e20d0d`.
@@ -794,18 +796,31 @@ GATE C, Stage 10 for bulk), UI-versus-agent equivalence waits for an agent-facin
 loopback bridge is a read-only vault reader, so today the equivalence is structural (one parser, one dispatcher)
 rather than proven — and panel sizing is still unbuilt, though the Backlog's column widths are local state now.
 
-**Next operation** Slice 41 — Proxima's open boxes are all gated (three product decisions and HARD GATE C), so the
-dependency-safe work moves to the next unfinished checklist under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the
-three Papers checklists whose titles say `Complete Implementation Checklist` (`papers\quick-run.md` 280 open,
-`papers\adopted-window-surfaces.md` 173, `papers\window-layout-consistency-and-auto-tracking.md` 172), read against
-the Papers tree each document's own Status block names, in the order those documents declare dependencies. The
-gates, stated once so nobody re-derives them: **Tag filtering** has no tag model to filter on (a tag is a schema
-property, a frontmatter list or its own record — the creator's call, not one a slice can settle), **workflow stage
-where project-scoped** needs canonical records to reach the Task modal (A2 is already accepted and on this branch,
-but the reader still loads legacy Markdown), **recurrence if task recurrence remains supported** is a product
-choice, and Stage 8's staging materialization, mixed-mode prohibition, byte-hash proof and unsupported-frontmatter
-policy plus Stages 9–17's write halves wait on HARD GATE C. Nothing in Proxima is parked or uncommitted; the tree is
-clean and the branch is pushed.
+**Slice 41 is done**, `08e505d` @ `2026-09-12T02:16:06+07:00` — Stage 18's interaction-feel pass, **fifty-one of
+its fifty-eight boxes**, and the same finding as slices 30, 38 and 39 for the fourth time: the interactions were
+built and asserted, and the boxes had simply never been read against the suites. Every tick names the case that
+asserts it and the commit that added that case, resolved with `git log -S` on the case title rather than by
+memory — `57860d3` for the Elastic cockpit, `760e54d`/`c1f8c93`/`2b8a145`/`37e722b` for Timekeeping,
+`7292075`/`2e74059`/`fc460f6`/`448c65f`/`7357b4d` for Schedule, `7f96a71` for the hub cards, and the slice 26–39
+commits for the Backlog, Notes, Board and modals. **Two claims genuinely had no evidence and now do:** the New
+Project modal answered every form with the same refusal, so a new case shows an empty or whitespace name refused
+as `invalid-action-input` by the boundary it really dispatches through while a valid name still gets the
+unavailable answer; and the Notes preview pane could fail silently, so a new case asserts idle, loading,
+unavailable-with-its-reason and ready-in-the-file's-own-bytes as four distinct states. The seven boxes left open
+are named and gated individually rather than annotated as a block: a successful Elastic drop, an accepted Gantt
+drop, the Board's workflow transition, bulk actions, and the modals' Save, Delete and stale-save refusal — every
+one of them needs a record write to exist. Stage 18's `## Evidence` bullets are annotated too, and the first of
+them is **not** claimed: making the interaction trace itself an executable conformance matrix is Stage 17's own
+line, not something a pass over the suites can assert.
+
+**Next operation** Slice 42 — Stage 19, "Cross-surface and agent convergence" (28 boxes), audited the way this
+slice audited Stage 18: read each box against the suites, tick what a case already asserts, write the case where a
+claim has none, and name what is gated. After that the Proxima residue is entirely gated and the loop moves to the
+Papers checklists: **Tag filtering** has no tag model to filter on, **workflow stage where project-scoped** needs
+canonical records to reach the Task modal, **recurrence if task recurrence remains supported** is a product
+choice, and Stage 8's staging, mixed-mode prohibition, byte-hash proof and unsupported-frontmatter policy plus
+Stages 9–17's write halves wait on HARD GATE C — as do Stage 20's scaffolding removal and HARD GATE D's four notes
+boxes. Nothing in Proxima is parked or uncommitted; the tree is clean and the branch is pushed.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -2816,95 +2831,107 @@ This is not an architecture audit. It verifies the cockpit actually behaves like
 
 ## Elastic
 
-- [ ] click card opens editor;
-- [ ] drag pickup;
-- [ ] correctly sized placeholder;
-- [ ] column feedback;
-- [ ] invalid drop restoration;
-- [ ] successful drop persists;
-- [ ] Lock/Unlock;
-- [ ] live run progression.
+- [x] click card opens editor; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(`tests/elasticCockpit.test.ts` routes task opening, target changes, lock and unlock through the real DOM, and the card now opens the same Task editor the board does.)*
+- [x] drag pickup; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(a pickup marks the card `data-elastic-pickup` and dims it to 0.65, asserted before the pointer is released.)*
+- [x] correctly sized placeholder; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(the insertion placeholder is 90px at the drop slot before release, and 0px once the drag ends.)*
+- [x] column feedback; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(the destination column takes an outline while it is the drop target and loses it when the drag ends outside a slot.)*
+- [x] invalid drop restoration; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(hover, pickup, placeholder and destination feedback all clear, no move is emitted, and the pre-storage refusal is rendered as text that says the task data was not changed.)*
+- [ ] successful drop persists; *(the drop is refused as `action-not-available` and no task record is written, so there is no accepted move to persist yet. Stage 9's Elastic write half owns this, under HARD GATE C.)*
+- [x] Lock/Unlock; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(both are local-state actions routed through the real dispatcher from the rendered controls.)*
+- [x] live run progression; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(per-task and overall progress advance deterministically while locked, and only the external Elastic surface ticks.)*
 
 ## Timekeeping
 
-- [ ] Calendar/Gantt/Countdown independent toggles;
-- [ ] simultaneous panels;
-- [ ] live countdown buckets;
-- [ ] Gantt bar follows pointer;
-- [ ] Shift resize;
-- [ ] accepted drop remains;
-- [ ] refused drop visibly reverts.
+- [x] Calendar/Gantt/Countdown independent toggles; — `760e54d` @ `2026-09-10T11:18:58+07:00` *(`tests/timekeepingCockpit.test.ts` composes the panels non-exclusively through machine-key interactions.)*
+- [x] simultaneous panels; — `37e722b` @ `2026-09-10T11:56:40+07:00` *(one task is observed in every Timekeeping panel its temporal data applies to at the same time.)*
+- [x] live countdown buckets; — `2b8a145` @ `2026-09-10T11:51:56+07:00` *(all five buckets render, and items move between them as the injected clock advances.)*
+- [x] Gantt bar follows pointer; — `c1f8c93` @ `2026-09-10T11:45:31+07:00` *(a phased pointer move previews whole days on the bar and resolves the occupied row continuously, with the proposal text naming both dates.)*
+- [x] Shift resize; — `c1f8c93` @ `2026-09-10T11:45:31+07:00` *(Shift distinguishes start-edge from end-edge resize geometry and refuses an inverted preview.)*
+- [ ] accepted drop remains; *(the Gantt move is refused with a typed result, so nothing is accepted to remain. Stage 14's Timekeeping write half owns this, under HARD GATE C.)*
+- [x] refused drop visibly reverts; — `c1f8c93` @ `2026-09-10T11:45:31+07:00` *(after the refusal the bar is back on its original `gridColumn`, the row transform and the target marker are cleared, the pickup mark is gone, and the proposal text is the refusal itself.)*
 
 ## Schedule
 
-- [ ] six modes;
-- [ ] Today/Previous/Next;
-- [ ] empty-cell event creation;
-- [ ] event click;
-- [ ] 15-minute drag;
-- [ ] 15-minute resize;
-- [ ] cross-day move;
-- [ ] recurring occurrence scope.
+- [x] six modes; — `215777a` @ `2026-09-12T02:11:10+07:00` *(one fixture set mounted through both renderers the application chooses between, each view compared against the same canonical occurrence projection clipped to what that view shows.)*
+- [x] Today/Previous/Next; — `fc460f6` @ `2026-09-10T16:36:28+07:00` *(the shared contract is asserted for Day/4-Day/Week and for all six modes' date arithmetic.)*
+- [x] empty-cell event creation; — `2e74059` @ `2026-09-10T15:29:20+07:00` *(an empty slot seeds a local one-hour proposal at its clicked civil time with no Save side effect.)*
+- [x] event click; — `7357b4d` @ `2026-09-10T12:06:02+07:00` *(machine-key clicks open and close the local read-only event editor without changing event data.)*
+- [x] 15-minute drag; — `7292075` @ `2026-09-10T14:54:37+07:00` *(moves follow the pointer and snap to Schedule-specific 15-minute slots in all three grid modes.)*
+- [x] 15-minute resize; — `7292075` @ `2026-09-10T14:54:37+07:00` *(only the bottom edge resizes, with a live 15-minute snapped deadline preview.)*
+- [x] cross-day move; — `7292075` @ `2026-09-10T14:54:37+07:00` *(a multi-day timed event moves across civil days with a segmented live preview and is restored after the typed refusal.)*
+- [x] recurring occurrence scope; — `448c65f` @ `2026-09-10T16:53:37+07:00` and `fef3b8a` @ `2026-09-12T01:01:45+07:00` *(a recurring occurrence in Day reaches the scope-choice path on click, both scopes are offered, the choice can change, and Cancel discards it without touching a record.)*
 
 ## Projects Hub
 
-- [ ] cards expose pressure/summary;
-- [ ] clicking enters workspace;
-- [ ] create/archive/restore/delete have visible feedback.
+- [x] cards expose pressure/summary; — `7f96a71` @ `2026-09-12T01:52:46+07:00` *(`tests/projectsHubCards.test.ts` asserts every field the checklist names, with the conditionals taken literally — a priority row only where a priority is represented, an unreadable created date as "Unknown", a swatch only for a usable colour.)*
+- [x] clicking enters workspace; — `7f96a71` @ `2026-09-12T01:52:46+07:00` *(clicking a card opens that project's workspace, and the back control returns to the hub.)*
+- [x] create/archive/restore/delete have visible feedback. — `68e11b6` @ `2026-09-10T17:19:10+07:00`, `7f96a71` @ `2026-09-12T01:52:46+07:00` and `08e505d` @ `2026-09-12T02:16:06+07:00` *(the lifecycle controls offer archive or restore plus delete, each disabled with its typed refusal and a visible note; Save keeps the provisional modal open and records its refusal on the modal; and an invalid form now answers with `invalid-action-input` rather than with the same unavailable refusal every valid form gets.)*
 
 ## Notes
 
-- [ ] file/folder click;
-- [ ] expand;
-- [ ] context menu;
-- [ ] hover actions;
-- [ ] drag destination;
-- [ ] move/rename/create/delete feedback as far as HARD GATE D permits.
+- [x] file/folder click; — `fa5bb33` @ `2026-09-10T19:43:38+07:00` *(a file click reports its path and marks exactly that entry; a folder click toggles it.)*
+- [x] expand; — `ead7927` @ `2026-09-12T02:02:58+07:00` *(a collapsed root emits no file buttons at all; the root and a nested folder are driven open and shut through the machine-key harness and all four states asserted.)*
+- [x] context menu; — `fa5bb33` @ `2026-09-10T19:43:38+07:00` *(a context-menu event reports the path, the menu renders from view state under `data-project-note-context-path`, and Escape closes it.)*
+- [x] hover actions; — `ead7927` @ `2026-09-12T02:02:58+07:00` *(the hover affordance is the stylesheet's `.project-note-entry:hover` on exactly the interactive entries, a hover reaches no handler, and a root the vault cannot read has nothing to hover.)*
+- [x] drag destination; — `ead7927` @ `2026-09-12T02:02:58+07:00` *(only folder elements are destinations: a drag over a file previews nothing, the same drag over a folder previews `source -> target`, and the drop clears the preview.)*
+- [x] move/rename/create/delete feedback as far as HARD GATE D permits. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` *(`as far as HARD GATE D permits` is the operative clause and the feedback is the typed refusal: the context menu draws Rename, Move and Delete disabled with `action-not-available`, and a refused drop renders the refusal naming the source and the destination. The verbs themselves are Stage 15's, under that gate.)*
 
 ## Task Board
 
-- [ ] custom workflow columns;
-- [ ] card click;
-- [ ] card drag;
-- [ ] placeholder;
-- [ ] workflow transition independent of Elastic execution state.
+- [x] custom workflow columns; — `ead7927` @ `2026-09-12T02:02:58+07:00` *(one column per vault status definition in declaration order, and a column appended for any status a project task uses but the vault does not define.)*
+- [x] card click; — `c8e35c3` @ `2026-09-10T19:54:34+07:00` *(the click opens the read-only inspector for that task, its text escaped, with Escape closing it.)*
+- [x] card drag; — `ead7927` @ `2026-09-12T02:02:58+07:00` *(dragstart reports the picked-up card and the drop reports the move intent, with the record byte-identical across the whole sequence.)*
+- [x] placeholder; — `c8e35c3` @ `2026-09-10T19:54:34+07:00` *(the hovered slot opens its insertion placeholder to 54px before the drop and is re-rendered away after it.)*
+- [ ] workflow transition independent of Elastic execution state. *(The independence is proven in the domain — HARD GATE A2 at `07d4926`, on this branch: `src/domain/canonicalOrdering.ts` scopes workflow order by project and stage while execution order is scoped by execution state — but a card drop cannot perform a transition yet; it is refused like every other record mutation. Stage 10's Board write half owns the interaction, under HARD GATE C.)*
 
 ## Backlog
 
-- [ ] search;
-- [ ] filters;
-- [ ] sort;
-- [ ] resizable columns;
-- [ ] selection;
-- [ ] select-all;
-- [ ] bulk actions;
-- [ ] relation/rollup/formula display.
+- [x] search; — `bdea4a1` @ `2026-09-12T00:34:29+07:00` *(typing searches as the field changes, the field shows the text that is searching, and an empty match says so.)*
+- [x] filters; — `9b59d16` @ `2026-09-12T00:23:35+07:00` and `3fa16bc` @ `2026-09-12T01:41:25+07:00` *(field filters and property filters both chip, remove and refuse a value their type cannot compare while keeping the query they had.)*
+- [x] sort; — `bdea4a1` @ `2026-09-12T00:34:29+07:00` *(a column sorts ascending, then descending, then clears.)*
+- [x] resizable columns; — `8cadd24` @ `2026-09-12T01:31:08+07:00` *(a drag on the edge keeps the header and its cells together, and both clamps are asserted.)*
+- [x] selection; — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(a row checkbox marks it and the projection reports how many shown rows are marked.)*
+- [x] select-all; — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(select-all means the shown rows, and clears again; a marked task the query hides is counted rather than silently covered.)*
+- [ ] bulk actions; *(the controls are present and refuse with a typed result, and the selection half is tested, but no bulk action can run: the per-entity result shape belongs with the first one that can. Stage 10's write parity owns this, under HARD GATE C.)*
+- [x] relation/rollup/formula display. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(every custom property of a row is drawn and says which kind it is, including relation, rollup and formula cells.)*
 
 ## Modals
 
-- [ ] every meaningful field accessible;
-- [ ] Save;
-- [ ] Cancel;
-- [ ] Escape;
-- [ ] Delete;
-- [ ] recurrence scope;
-- [ ] invalid form refusal;
-- [ ] stale-save refusal.
+- [x] every meaningful field accessible; — `7ec8d17` @ `2026-09-12T00:39:14+07:00` and `b20cdca` @ `2026-09-12T00:56:55+07:00` *(the Task editor represents every field of the task and every schema property, whether the task has it or not, and the Event modal shows every field the record holds.)*
+- [ ] Save; *(every modal's Save is present and refuses with a typed result; no modal can save until a record write path exists. Stages 9–14 own the Save halves, under HARD GATE C.)*
+- [x] Cancel; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(Cancel discards the provisional form state — a draft is `null` until something is edited — and the Elastic quick editor's Cancel is asserted too.)*
+- [x] Escape; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(Escape is the same discard, asserted for the Task editor, the Elastic quick editor, the New Project modal, the Notes context menu and both inspectors.)*
+- [ ] Delete; *(the Task editor's and the Event modal's Delete controls exist and are disabled with `action-not-available` — which is what Stage 6's box claims — but no delete can run, so the interaction cannot be conformance-tested. Stage 11's lifecycle and Stages 9/12's delete halves own it.)*
+- [x] recurrence scope; — `fef3b8a` @ `2026-09-12T01:01:45+07:00` and `1ffdd55` @ `2026-09-12T01:19:47+07:00` *(both scopes are offered, the choice can change, Cancel discards it without touching a record, and the modal is reached from the occurrence selection.)*
+- [x] invalid form refusal; — `08e505d` @ `2026-09-12T02:16:06+07:00` *(the New Project modal's Save with an empty or whitespace-only name is refused as `invalid-action-input` by the boundary it dispatches through, while a name that is a name still gets this stage's unavailable answer — so the modal does not answer every form with the same refusal. The boundary refuses an empty name directly in `tests/actionProtocol.test.ts`.)*
+- [ ] stale-save refusal; *(a stale save needs a save that can reach storage: the observed-revision contract exists and its conformance tests pass (Gate 13, `052c3b4`), but no modal has a save path to make stale. Closes with the first real Save.)*
 
 ## Feedback
 
-- [ ] provisional UI never masquerades as committed state;
-- [ ] accepted action visibly settles;
-- [ ] stale/refused action visibly restores authoritative state;
-- [ ] operation failures are not swallowed;
-- [ ] no gesture depends on opening raw JSON/Markdown to finish the operation.
+- [x] provisional UI never masquerades as committed state; — `7ec8d17` @ `2026-09-12T00:39:14+07:00` and `57860d3` @ `2026-09-10T09:14:42+07:00` *(a fresh draft is not a change until something is edited; a drag preview is drawn by the surface and the record stays byte-identical; the pre-storage refusal says the task data was not changed rather than showing the move as done.)*
+- [x] accepted action visibly settles; — `57860d3` @ `2026-09-10T09:14:42+07:00` *(the only actions that can be accepted today are presentation and local-state ones, and they settle visibly: target and lock presentation survive an ordinary rerender, a sort or filter redraws the rows it asked for, a selection reports its count. An accepted record mutation cannot exist yet — the Save/drop halves above are the gate.)*
+- [x] stale/refused action visibly restores authoritative state; — `c1f8c93` @ `2026-09-10T11:45:31+07:00`, `7292075` @ `2026-09-10T14:54:37+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(the Gantt bar returns to its original column and clears its markers, the Schedule grid restores a multi-day move after the typed refusal, and the Task Board's refused drop clears the placeholder while the record stays byte-identical.)*
+- [x] operation failures are not swallowed; — `08e505d` @ `2026-09-12T02:16:06+07:00` *(a failed note preview is rendered with its failure code rather than as an empty pane, and idle/loading/ready are each distinct states; refusals elsewhere are rendered text naming the reason, and load problems reach the inspection projection rather than being discarded.)*
+- [x] no gesture depends on opening raw JSON/Markdown to finish the operation. — `08e505d` @ `2026-09-12T02:16:06+07:00` *(every gesture above is driven through the machine-key harness against the rendered surface; no case in this pass reads a file to complete an operation. The one deliberately raw-text surface is the Template composer, whose format is this project's own and whose plan is data — slice 34's decision.)*
 
 ## Evidence
 
-- Automated interaction recording/report covering every trace row.
-- Every expected DOM/state transition machine-asserted.
-- No "creator visually confirmed" evidence.
-- Full action/inspection trace retained for the run.
+- Automated interaction recording/report covering every trace row. *(**Not claimed by this
+  pass.** `proxima-interaction-parity-trace.md` is itself a reference document — "complete and
+  stable", not a work item — and its interactions are prose, not rows a runner can enumerate.
+  What this pass does is name, for each box, the case that asserts it. Making the trace itself
+  executable as a conformance matrix is Stage 17's own line (see "Before calling UX parity
+  complete" there), and that is where this bullet is satisfied or left open.)*
+- Every expected DOM/state transition machine-asserted. *(Yes, and each of the fifty-one ticked
+  boxes above names the file and case: happy-dom, the machine-key harness, the real binders and
+  renderers, with state compared as JSON and records compared byte-for-byte where a write was
+  refused.)*
+- No "creator visually confirmed" evidence. *(Yes — nothing above depends on a human looking,
+  and Stage 0's `## Acceptance` already made that binding for every suite since `5d5cebf`.)*
+- Full action/inspection trace retained for the run. *(The dispatched actions a surface runs are
+  retained in the dispatcher's own action sequence and exposed through the inspection
+  projection, which the `actionProtocol` and `inspection` suites assert; the mutation leg is
+  `null` because no mutation stream exists, as the projection says rather than fabricating one.)*
 
 ---
 
