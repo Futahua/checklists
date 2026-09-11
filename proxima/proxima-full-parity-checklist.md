@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–37 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc` and `ba50cc6` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–38 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6` and `7f96a71` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `ba50cc6` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 178 files / 1185 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:48:47+07:00`, verified under **default parallelism** as well. At the previous points: `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `7f96a71` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 179 files / 1192 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:52:46+07:00`, verified under **default parallelism** as well. At the previous points: `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -727,15 +727,36 @@ never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete;
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
 Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser.
 
-**Next operation** Slice 38 — **audit Stage 5's 40 boxes against what already exists**, section by section,
-in the shape slice 30 established: read each box, find the implementation and the test that already covers
-it, tick it with **the commit that made the behaviour true** (not the audit's own commit) plus this one where
-the evidence is new, and leave open — with the reason written down — anything that is genuinely missing.
-Start with "Projects Hub work" and "Workspace work", which the Stage 5 slices 1–9 SHAs in the Status block
-should map onto directly, then "Notes — read side", "Task Board — read side" and "Deadlines". Expect some
-boxes to be creator decisions (the same shape as Tag filtering) and to stay open on purpose. Slice 39 should
-then be Stage 5's `## Acceptance` and `## Evidence` sections, which are claims about the whole stage rather
-than about one panel.
+**Slice 38 is done**, `7f96a71` at `2026-09-12T01:52:46+07:00` — **nineteen boxes**, and the audit found the
+same thing slice 30 did: the work was done, the evidence was not. `tests/projectsHub.test.ts` covered only
+the New Project modal, so nothing asserted what a project card shows; `tests/projectsHubCards.test.ts` now
+does — every field the checklist names, with the conditionals taken literally (the priority row only where a
+priority is represented, the identity swatch only for a value that is a colour, an unreadable created date
+as "Unknown" rather than an age of zero), the active/archived filter and its `aria-pressed` state, a card
+opening its project's workspace and coming back, the lifecycle controls offering archive-or-restore plus
+delete with typed refusals, and the pure card projection agreeing with the rendered one. **No production
+code changed in this slice either.** Two of the seven new cases were wrong first: the `^=` attribute
+selector matches a card's *shell* as well as its button, and I asserted an unknown age against the project
+that has a valid one — both my mistakes, both caught by the suite rather than by review.
+
+The five Workspace boxes needed no new evidence at all: `tests/projectWorkspacePanels.test.ts` renders all
+five tabs, asserts no `projectType` gating and no record mutation, and each panel has its own suite. The
+ticks name `d83e158` (hub inventory), `dbea424` (lifecycle refusals), `68e11b6` (create modal), `dadd610`
+(workspace panels and the five-tab test) and the interaction slices, with this commit only where the
+evidence is new — and `1ffdd55` for the lifecycle controls, because the write-control audit is what proved
+they carry typed refusals.
+
+**Next operation** Slice 39 — the rest of Stage 5, 21 boxes: **Notes — read side** (10), **Task Board — read
+side** (6), § Deadlines (1) and § Acceptance (4). Same method, and the same expectation: most of this is
+already implemented — `src/browser/projectNotes.ts`, `projectTaskBoard.ts` and `projectDeadlines.ts` exist
+with their own suites — so read each box against the implementation **and** against its test, add evidence
+only where a claim has none, and tick with the commit that made it true. Two boxes need care rather than
+mechanical ticking: **Canvas preview** and **Excalidraw preview where supported** depend on what
+`loadProjectNotePreview` actually renders (the asset path is the one place wikilink syntax lives, per the
+boundary test), and **Project Notes can inspect ordinary vault files without treating them as database
+records** is a claim about the whole Notes surface, so it belongs with the Acceptance boxes where it can be
+argued once. § Deadlines' single box is a reuse claim that `tests/projectWorkspacePanels.test.ts` already
+asserts, so it should close quickly.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -1408,29 +1429,29 @@ No record migration dependency.
 
 ## Projects Hub work
 
-- [ ] Project cards display:
-  - [ ] name;
-  - [ ] description;
-  - [ ] age;
-  - [ ] task count;
-  - [ ] overdue count;
-  - [ ] P1/high-priority equivalent where represented;
-  - [ ] next deadline;
-  - [ ] archive state;
-  - [ ] visual identity where available.
+- [x] Project cards display: — `d83e158` @ `2026-09-10T17:07:59+07:00` and `7f96a71` @ `2026-09-12T01:52:46+07:00` *(the projection `cardForProject`/`projectsHubCards` decides every field and the renderer draws it; until this slice `tests/projectsHub.test.ts` covered only the New Project modal, so nothing asserted what a card shows. `tests/projectsHubCards.test.ts` now does, for a project whose data exercises every field and one whose data does not — including the conditionals: an unreadable created date shows as "Unknown" rather than as an age of zero.)*
+  - [x] name; — `d83e158`, evidence `7f96a71` *(the card's heading, asserted against the record's name)*
+  - [x] description; — `d83e158`, evidence `7f96a71` *(the card's paragraph, with one sentence where the record has none)*
+  - [x] age; — `d83e158`, evidence `7f96a71` *(whole days since creation, carried as `data-project-age-days` and shown as `Nd`; an unparseable date is unknown, not zero)*
+  - [x] task count; — `d83e158`, evidence `7f96a71` *(every task in the project, completed or not)*
+  - [x] overdue count; — `d83e158`, evidence `7f96a71` *(unfinished tasks whose deadline has passed — a completed task with a past deadline is not late, and the fixture contains exactly that task)*
+  - [x] P1/high-priority equivalent where represented; — `d83e158`, evidence `7f96a71` *("where represented" taken literally: a priority property in the schema or on a task is what makes the count exist, and a project without one has no priority row rather than a zero nobody's data supports)*
+  - [x] next deadline; — `d83e158`, evidence `7f96a71` *(the earliest future deadline among unfinished tasks, ties broken by task id, shown as "None" when there is none)*
+  - [x] archive state; — `d83e158`, evidence `7f96a71` *(as `data-project-archive-state` and as the Active/Archived chip; the workspace's eyebrow says the same about the project that is open)*
+  - [x] visual identity where available; — `d83e158`, evidence `7f96a71` *(a swatch built from the project's tab colours, and only from values that parse as colours — a string carrying CSS is no swatch, which a hostile fixture asserts)*
 
-- [ ] Active/archived filtering.
-- [ ] Clicking a project opens its workspace.
-- [ ] New Project button opens its modal even before Save is enabled.
-- [ ] Archive/restore/delete controls exist but refuse DATA WRITE until storage cutover.
+- [x] Active/archived filtering. — `d83e158` @ `2026-09-10T17:07:59+07:00`, evidence `7f96a71` *(the cards are filtered by the project's own status, the two buttons carry `aria-pressed` for the filter in effect, the header counts what is listed, and a filter with nothing in it says "No archived projects" rather than showing an empty grid)*
+- [x] Clicking a project opens its workspace. — `dadd610` @ `2026-09-10T17:32:11+07:00`, evidence `7f96a71` *(a card is a button carrying the project id; opening it replaces the hub's grid with that project's workspace — asserted by the cards being gone, the workspace being there and naming the project's status, and the Projects button coming back to the grid)*
+- [x] New Project button opens its modal even before Save is enabled. — `68e11b6` @ `2026-09-10T17:19:10+07:00` *(the button opens a provisional modal whose Save routes through `project.create` and answers the typed `action-not-available` while creating no record — `tests/projectCreateModal.test.ts`, plus this slice's assertion that the modal's controls are exactly name and description)*
+- [x] Archive/restore/delete controls exist but refuse DATA WRITE until storage cutover. — `dbea424` @ `2026-09-10T17:25:25+07:00`, verified at `1ffdd55` @ `2026-09-12T01:19:47+07:00`, evidence `7f96a71` *(all three exist: an active project offers Archive and Delete, an archived one Restore and Delete, each disabled with a typed `action-not-available` refusal and the reason written beside them. The write-control audit is what proved every one of them carries a typed refusal rather than being silently inert, and this slice asserts which control a project's status gets.)*
 
 ## Workspace work
 
-- [ ] Notes.
-- [ ] Task Board.
-- [ ] Backlog.
-- [ ] Deadlines.
-- [ ] Schedule capability can coexist with tasks instead of being hidden behind permanent task/schedule project silos once the corrected domain lands.
+- [x] Notes. — `dadd610` @ `2026-09-10T17:32:11+07:00` *(the workspace's Notes tab renders the project's note tree; `tests/projectWorkspacePanels.test.ts` renders all five tabs and asserts no `projectType` gating and no record mutation, and `tests/projectNotes.test.ts` covers the panel itself)*
+- [x] Task Board. — `dadd610` @ `2026-09-10T17:32:11+07:00` and `c8e35c3` @ `2026-09-10T19:54:34+07:00` *(the panel and its interactions, with `tests/projectTaskBoard.test.ts` covering the read-only inspector, the drag placeholders and the refused transition)*
+- [x] Backlog. — `dadd610` @ `2026-09-10T17:32:11+07:00` and `b281cab` @ `2026-09-10T20:04:42+07:00` *(the panel and its interactions; slices 25–37 have since rebuilt its query, controls, selection, column table, property filters, template composer and task editor on top of it)*
+- [x] Deadlines. — `dadd610` @ `2026-09-10T17:32:11+07:00` and `d3dbb59` @ `2026-09-10T20:15:12+07:00` *(the panel and its interactions, and the workspace test asserts the projection is the Timekeeping one reused rather than reinvented — which is also § Deadlines' own box below)*
+- [x] Schedule capability can coexist with tasks instead of being hidden behind permanent task/schedule project silos once the corrected domain lands. — `dadd610` @ `2026-09-10T17:32:11+07:00` and `36fcc08` @ `2026-09-10T20:30:21+07:00` *(the workspace switches on the tab and never on `projectType`, so a project typed as a task still has a Schedule tab and one typed as a schedule still has a Backlog; `tests/projectWorkspacePanels.test.ts` renders a mixed project — both tasks and events — through all five tabs and asserts no gating. `Project.projectType` survives only as legacy import metadata, and HARD GATE A4 owns removing it from capability decisions.)*
 
 ### Notes — read side
 
