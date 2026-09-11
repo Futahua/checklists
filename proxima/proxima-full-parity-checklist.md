@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `hard-gate-a1-opaque-identity` @ `71b0a2b` — pushed, creator-accepted through HARD GATE A / A1 |
+| Accepted branch | `hard-gate-a2-task-state-separation` @ `07d4926` — pushed, creator-accepted through HARD GATE A / A2 |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `71b0a2b` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 135 files / 789 tests |
+| Suite at `07d4926` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 136 files / 794 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -96,6 +96,13 @@ source paths and legacy Markdown IDs are explicitly non-identity; rename stabili
 display names, duplicate-ID refusal and legacy explicit-ID alias/provenance treatment are
 proven. Existing Markdown compatibility reading is unchanged; no persistence, import
 execution or mutation capability exists. Proxima full suite 135 files / 789 tests.
+HARD GATE A / A2, Separate execution state from workflow stage, accepted on Proxima branch
+`hard-gate-a2-task-state-separation` at `07d4926`: canonical tasks independently carry
+`executionState` (`backlog`, `running`, `finished`) and opaque `workflowStageId`; the Elastic
+execution and project-workflow projections remain separate, moving either dimension leaves
+the other unchanged, and workflow-stage rename preserves membership through stable stage
+identity. Legacy `Task.status` compatibility behavior remains unchanged; no persistence,
+write, import execution or mutation capability exists. Proxima full suite 136 files / 794 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
@@ -103,8 +110,8 @@ a second caller and the record store exist. Every ticked box names the commit th
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
 **Next operation** Ask the AUTHOR for the exact next bounded guarded packet for HARD GATE A /
-A2 — Separate execution state from workflow stage. Keep every eventual mutation
-typed-unavailable until record-store cutover.
+A3 — Scoped ordering. Keep every eventual mutation typed-unavailable until record-store
+cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -939,15 +946,15 @@ If those shapes are copied into JSON first, the migration will preserve precisel
 
 Replace the old shared status concept.
 
-- [ ] Task has explicit execution state capable of:
-  - [ ] Backlog;
-  - [ ] Running;
-  - [ ] Finished.
+- [x] Task has explicit execution state capable of: — `07d4926`
+  - [x] Backlog; — `07d4926`
+  - [x] Running; — `07d4926`
+  - [x] Finished. — `07d4926`
 
-- [ ] Task independently has project workflow-stage identity.
-- [ ] Workflow stage references stable stage ID, not display text.
-- [ ] Moving a task into global Running does not erase project workflow stage.
-- [ ] Moving a task from Review → Done-like workflow stage does not automatically change global execution state unless an explicit semantic rule is separately defined.
+- [x] Task independently has project workflow-stage identity. — `07d4926`
+- [x] Workflow stage references stable stage ID, not display text. — `07d4926`
+- [x] Moving a task into global Running does not erase project workflow stage. — `07d4926`
+- [x] Moving a task from Review → Done-like workflow stage does not automatically change global execution state unless an explicit semantic rule is separately defined. — `07d4926`
 
 ### Acceptance
 
@@ -958,7 +965,7 @@ execution = Running
 workflow = Review
 ```
 
-and appears correctly on both surfaces.
+and appears correctly on both surfaces. — `07d4926`
 
 ---
 
