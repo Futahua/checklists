@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25`, `6dfad33`, `08d31b5`, `e325f6e` and `9dcc5d6` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25`, `6dfad33`, `08d31b5`, `e325f6e`, `9dcc5d6` and `e9117b2` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `9dcc5d6` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 196 files / 1322 tests; committer `2026-09-12T04:21:48+07:00`. At `e325f6e` the same steps were 195 files / 1315 tests, committer `2026-09-12T04:18:31+07:00`. At `08d31b5` the same steps were 194 files / 1307 tests, committer `2026-09-12T04:11:16+07:00`; at `6dfad33` 193 files / 1299 tests, committer `2026-09-12T04:05:45+07:00`; at `1029a25` 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `e9117b2` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 197 files / 1325 tests; committer `2026-09-12T04:25:46+07:00`. At `9dcc5d6` the same steps were 196 files / 1322 tests, committer `2026-09-12T04:21:48+07:00`. At `e325f6e` the same steps were 195 files / 1315 tests, committer `2026-09-12T04:18:31+07:00`. At `08d31b5` the same steps were 194 files / 1307 tests, committer `2026-09-12T04:11:16+07:00`; at `6dfad33` 193 files / 1299 tests, committer `2026-09-12T04:05:45+07:00`; at `1029a25` 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -754,7 +754,23 @@ what the board shows; the finer distinction — completed but still Running — 
 editor's own field. **Five boxes tick**: the four bulk-contract promises and Stage 0's **per-entity bulk-action
 result**, which had been deliberately left open waiting for the first bulk action that could run rather than
 being filled with a shape no producer wrote. What remains of Stage 10 is the Backlog's buttons calling these
-actions, schema management, and the three acceptance claims those two carry.
+actions, schema management, and the acceptance claim those two carry.
+
+Slice 61, the acceptance claims about durability and identity, at `e9117b2`, committed
+`2026-09-12T04:25:46+07:00`: three of the stage's acceptance boxes name properties a mutation must not
+destroy, and none of them needed a new mechanism — they needed the claim asserted where it could quietly stop
+being true. **Search/filter/sort remain presentation only** is asserted at the durable store rather than at the
+projection: every record file's exact text and revision are snapshotted, the whole query engine is driven
+(search, filter, sort), and the case asserts both that the query is real (one of four tasks is filtered out)
+and that the store is byte-identical afterwards — "presentation only" means no durable byte moved, which a
+projection comparison could not show. **Relation survives target title change** renames the record a relation
+points at and asserts the blocking task's stored property is byte-identical before and after, because a
+relation holds the target's id and the target's title is not part of it: A6 in one assertion. **Bulk delete
+survives restart** bulk-deletes two of three tasks and then rebuilds the store and the source from the same
+durable files with nothing carried in memory, which is what a restart is at this level — the deleted two are
+gone, the survivor is present at the same observed revision, and the files are the only thing the two stores
+share. **Stage 10 is down to its last box**: bulk complete from UI and agent producing the same results, which
+waits on the Backlog's buttons.
 Slice 27, the Backlog's query controls as values, pushed on Proxima branch
 `stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
 `2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
@@ -937,10 +953,10 @@ panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered b
 Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
 never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
-Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `9dcc5d6` the
-document stands at 613 ticked / 227 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `e9117b2` the
+document stands at 616 ticked / 224 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
 HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), **HARD GATE C 3**, **Stage 9 0**,
-**Stage 10 4**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
+**Stage 10 1**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
 Stage 17 58, Stage 18 5, Stage 19 8, Stage 20 11 and the final release gate 26. **Stage 9 is the first write
 stage to close**, and Stage 10's Board UI and
 its bulk-action contracts are now complete: what remains in the stage is the Backlog's buttons calling those
@@ -1133,19 +1149,19 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Next operation** Slice 61 — the Backlog's buttons calling the bulk actions, which is the last piece of
-Stage 10's mutation parity before schema management. Everything it needs exists: `bulkCompleteTasks` and
-`bulkDeleteTasks` take a marked selection and return a per-entity report whose status cannot overstate it, the
-Backlog already marks rows and already draws both bulk controls (currently disabled with a typed refusal), and
+**Next operation** Slice 62 — the Backlog's two bulk buttons, which is Stage 10's last box and the only thing
+left before its schema-management section. The pieces exist and the shape is settled twice over: the Backlog
+already marks rows and draws both controls (disabled with a typed refusal), `bulkCompleteTasks` and
+`bulkDeleteTasks` take a marked selection and return a per-entity report whose status cannot overstate it, and
 the report is a value a surface can render directly — one row per marked task, accepted or refused with its
-reason. The work is therefore the same shape as the last three surfaces: give the Backlog a report to draw,
-enable the two controls exactly when a write path resolved, and route their clicks to the app-layer sequences
-through the shell. What that closes is Stage 10's own acceptance claim that **bulk complete from UI and agent
-produce the same results** — which becomes a comparison of two callers of one sequence, the case Stage 9's
-parity suite already established the pattern for. `Bulk delete survives restart` follows from the delete path
-already writing through the recovery coordinator, and wants a case that reopens the store rather than a new
-mechanism. Nothing in Proxima or LongHorizon is parked or uncommitted; both trees are clean and both branches
-are pushed.
+reason. So the work is the same shape as the last three surfaces: give the Backlog the report to draw, enable
+the two controls exactly when a write path resolved, and route their clicks to the app-layer sequences through
+the shell. The box that closes with them is **bulk complete from UI and agent produce the same results**, which
+becomes a comparison of two callers of one sequence — the case Stage 9's parity suite established the pattern
+for, and the reason it is worth doing now rather than after schema management. Two smaller things come with it:
+the stage's § Evidence bullets name a bulk-action test and a restart test, both of which now exist and should
+be cited there, and Stage 18's `bulk actions` box has been waiting on the same controls. Nothing in Proxima or
+LongHorizon is parked or uncommitted; both trees are clean and both branches are pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -2717,10 +2733,10 @@ Because the creator does not manually maintain wiring:
 
 - [x] Running + Review task remains Running after workflow drag. — `e325f6e` @ `2026-09-12T04:18:31+07:00` *(the sentence is now an assertion in three places: the card in the Review column carries `data-project-workflow-execution-state="running"` and draws "running" as its status, the store's record after the drop still has `executionState: 'running'`, and the projection every surface reads reports the same. A2's whole point is that these are two answers to two questions, so the case asserts both answers rather than one.)*
 - [x] Project-board reorder leaves Elastic order unchanged. — `e325f6e` @ `2026-09-12T04:18:31+07:00` *(a drop inside a stage emits `workflow-order` alone, and the case asserts the record's `executionOrder` is still 4 — the same assertion the Elastic suite makes from the other direction, where an execution reorder leaves `workflowOrder` alone. Between the two, the independence holds whichever board moves first.)*
-- [ ] Search/filter/sort remain presentation only.
-- [ ] Bulk complete from UI and agent produce same results.
-- [ ] Bulk delete survives restart.
-- [ ] Relation survives target title change.
+- [x] Search/filter/sort remain presentation only. — `e9117b2` @ `2026-09-12T04:25:46+07:00` *(asserted at the durable store rather than at the projection: every record file's exact text and revision are snapshotted, the whole query engine is driven — `set-search`, `add-filter`, `sort-by` through `applyBacklogControl` — and the case asserts both that the query is real (one of four tasks is filtered out, and the search, the chip and the sort indicator are all reported) and that the store is byte-identical afterwards. "Presentation only" means no durable byte moved, which a projection comparison could not show.)*
+- [ ] Bulk complete from UI and agent produce same results. *(Waiting on the UI half: `bulkCompleteTasks` is a sequence with a per-entity report and the agent-facing caller **is** that sequence, but the Backlog's two bulk controls are still disabled with a typed refusal, so there is no UI caller to compare it with yet. This is the last box of the stage, and it closes with the Backlog's buttons — the same shape as Stage 9's parity case, which compared a gesture with a submitted operation once both existed.)*
+- [x] Bulk delete survives restart. — `e9117b2` @ `2026-09-12T04:25:46+07:00` *(two of three tasks are bulk-deleted, and then the store and the source are **rebuilt from the same durable files with nothing carried in memory**, which is what a restart is at this level: the deleted two are absent, the survivor is present at the same observed revision, and the record files are the only thing the two stores share. The browser's own storage layer is conformance-tested separately; what this case covers is that a deletion is a file-level fact rather than session state.)*
+- [x] Relation survives target title change. — `e9117b2` @ `2026-09-12T04:25:46+07:00` *(the record a relation points at is renamed, and the blocking task's stored property is asserted byte-identical before and after — because a relation holds the target's **id** and the target's title is not part of it (A6, in one assertion). The projection still resolves the same id, and the renamed title is visible on the target itself, so the two facts travel independently.)*
 
 ## Evidence
 
