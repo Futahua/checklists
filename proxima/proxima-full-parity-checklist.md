@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `646d72e` — pushed, creator-accepted through Stage 8 slice 8 external-artifact association/reference dry-run planning |
+| Accepted branch | `stage7-record-store-contract` @ `9c0c2dc` — pushed, creator-accepted through Stage 8 slice 9 isolated schema-record staging foundation |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `646d72e` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 158 files / 944 tests; Stage 8 conversion-planner focused 6 files / 38 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests |
+| Suite at `9c0c2dc` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 159 files / 949 tests; Stage 8 conversion-planner focused 7 files / 43 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -388,14 +388,26 @@ copy authority, and linked bytes, legacy Markdown, canonical Record Store, stagi
 artifact writes remain zero. Browser-boundary and bridge-disclosure gates passed, and the full
 serialized suite is 158 files / 944 tests.
 
+Stage 8 / slice 9, isolated schema-record staging foundation, creator-accepted on Proxima branch
+`stage7-record-store-contract` at `9c0c2dca72d6dd02959e480961ff629dfe8da6d2`, committed
+`2026-09-11T19:01:24+07:00`: a staging-only seam now consumes the accepted zero-write dry-run
+plan and creates or reuses only canonical-ready schema records after Canonical V2 validation.
+Pending and conflicting schema conversions remain explicit blockers; reruns are idempotent and
+partial attempts resume without duplicate records. Legacy Markdown, settings, canonical/live
+Record Store, external-artifact and activation writes remain zero. Focused evidence is 7 files /
+43 tests, browserBoundary 1 / 4, bridgeDisclosure 1 / 3, and full suite 159 files / 949 tests.
+This is intentionally a schema-only staging foundation; broad physical task/project/event staging
+and activation rows remain open.
+
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 9 — isolated schema-record staging foundation:
-materialize only already-authored canonical-ready schema records into a separate staging store with
-create-if-absent/read-only authority, explicit blockers for unresolved schemas, canonical V2 codec
-validation, idempotent/resumable create-only behavior, and no live Record Store, activation, legacy
-Markdown, external-artifact or UI writes. Keep broad physical-record staging and unsupported-
-frontmatter policy separate.
+**Next operation** Stage 8 slice 10 — durable workflow-stage identity reconciliation and staging:
+consume only task workflow-stage candidates, allocate one opaque workflow-stage identity per exact
+(canonical project ID, legacy status ID) pair, durably persist mappings before staging creates,
+reuse mappings after interruption/replan, stage canonical workflow-stage records through the
+staging-only seam, and report missing/ambiguous/conflicting candidates without inventing stages.
+Keep task/project/event materialization, activation, unsupported-frontmatter policy and live-store
+writes separate.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1532,6 +1544,10 @@ Use staged activation, not a half-cut-over live database.
 - [ ] Re-running the same import is idempotent with respect to already assigned import identities.
 - [ ] An interrupted import resumes/replans without producing duplicate canonical records.
 - [ ] No hidden "some records now JSON, some still Markdown" live mode is allowed unless explicitly designed and tested.
+
+> Slice 9 proves these invariants only for canonical-ready schema records in an isolated
+> staging store (`9c0c2dc` @ `2026-09-11T19:01:24+07:00`); the broad physical task/project/event
+> staging and activation obligations remain open until their own accepted slices.
 
 ## Duplicate legacy IDs
 
