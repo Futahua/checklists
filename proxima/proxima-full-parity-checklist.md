@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `97c9dd9` — pushed, creator-accepted through Stage 8 slice 18 read-only legacy import actions |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slice 19 at `bd64a34` is pushed and **awaiting acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `97c9dd9` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 168 files / 1011 tests; Stage 8 focused 16 files / 105 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests; committer `2026-09-11T20:42:20+07:00` |
+| Suite at `bd64a34` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 168 files / 1014 tests; Stage 8 focused 16 files / 108 tests; committer `2026-09-11T23:57:13+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -479,14 +479,39 @@ unknown and mutation-shaped requests return typed refusals without storage or ac
 Focused evidence is 16 files / 105 tests, browserBoundary 1 / 4, bridgeDisclosure 1 / 3, and full
 suite 168 files / 1011 tests.
 
+Stage 8 / slice 19, machine-callable read-only ambiguous-project resolution, pushed on Proxima branch
+`stage7-record-store-contract` at `bd64a346c114144bdeb8768bc8aba6bc81a6b8cd`, committed
+`2026-09-11T23:57:13+07:00` and **awaiting creator acceptance**: `import.resolve` takes the explicitly
+selected candidate project record id and resolves every ambiguous project reference whose candidate set
+contains it. The selection applies only while planning, so the resolved reference carries the chosen
+project and everything derived from it follows rather than being patched afterwards: the task workflow
+stage becomes a candidate, its workflow-order scope names the selected project, the event project
+association resolves, and the reference counts are recomputed. An id that is a candidate of no ambiguous
+reference is refused as `invalid-action-input` without re-planning, the verification that described the
+pre-resolution plan is discarded so `import.inspect` re-verifies the resolved plan, and `import.commit`
+remains typed-unavailable. Evidence: focused 16 files / 108 tests, full suite 168 files / 1014 tests
+(which includes `browserBoundary` and `bridgeDisclosure`), every step exit 0, run directly rather than
+through the npm scripts.
+
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 19 — machine-callable read-only ambiguous-project resolution:
-expose `import.resolve` for an explicitly selected candidate project record, apply the selection only
-to an in-memory dry-run plan, update dependent task workflow-stage/workflow-order and event
-association evidence, and expose the resolved plan through `import.inspect`/`import.status` while
-keeping `import.commit` typed-unavailable. Do not write the live Record Store, staging, activation,
-legacy Markdown, or the creator vault.
+**Next operation** Stage 8 slice 20 — make the remaining ambiguity machine-visible, so activation cannot
+claim the migration is clean while references are unacknowledged (the open box directly above
+`import.resolve`). The plan already carries `counts.ambiguousProjectReferences` and
+`counts.unresolvedProjectReferences`; the slice must expose the outstanding counts and the applied
+resolution decision on the administrative action surface, and make `import.commit` refuse *specifically*
+while those counts are nonzero rather than only being typed-unavailable. Decide explicitly whether that
+changes the action-envelope schema version, and say so in the evidence. Stay read-only: no live Record
+Store, staging, activation, legacy Markdown or creator-vault writes.
+
+**The AUTHOR loop changed on 2026-09-11, by creator instruction.** The browser reviewer is retired: it
+was too slow, and it existed mainly to keep an agent working through the creator's night rather than to
+judge the work. The executing agent is now author and executor at once, and the judgement that used to
+come from a reviewer reading evidence now comes from the project's own suite — fixture generation, both
+typechecks, build, `git diff --check`, and the full vitest run, each recorded by exit code. That is
+stronger than the browser on correctness, which could run nothing; it is weaker on whether a slice is the
+right *product* decision, so a genuine product choice is left stated and open rather than self-approved.
+The reviewer-tab machinery in AGENTS.md is inert until the creator says otherwise.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -504,12 +529,14 @@ Proxima Backpack origin's OPFS under `record-store/records/` plus
 `e7e7362`. Real import still does not begin: the remaining Stage 7 restart,
 mutation/recovery and concurrency acceptance must close first.
 
-**`npm` cannot run on this machine.** The C: drive is at zero bytes free and npm dies with
-ENOSPC before executing anything. Run the same steps directly instead —
-`node tools/build-fixture-module.mjs`, `./node_modules/.bin/tsc -p …`,
-`./node_modules/.bin/vitest run` — and say in the evidence that you did, because substituting
-a command for the authored one has caused a real problem in this loop before. Nothing can be
-installed until the creator frees space.
+**`npm` blocked this loop once; C: was freed.** The original note was that the C: drive sat at zero
+bytes free and npm died with ENOSPC before executing anything. As of 2026-09-11 C: has roughly 5.4 GB
+free and `npm ls` completes, so the blocker is gone. This loop still runs the steps directly rather
+than through the npm scripts — `node tools/build-fixture-module.mjs`,
+`./node_modules/.bin/tsc -p …`, `./node_modules/.bin/vitest run --no-file-parallelism` — because it is
+faster and because the substitution has to be declared either way. Say in the evidence that the
+commands were run directly, because substituting a command for the authored one has caused a real
+problem in this loop before.
 
 **Reviewer outages, 2026-09-10 ~09:50 and ~13:20.** The AUTHOR twice stopped answering:
 replies die after a handful of words. Confirmed against the rendered page and reproduced in a
@@ -1638,8 +1665,8 @@ Do **not** silently choose one source file.
 - [x] Any legacy relation/project reference that resolves through that duplicate alias remains explicitly unresolved/ambiguous. — `be3efdf` @ `2026-09-11T14:52:38+07:00` *(a project alias with multiple physical candidate mappings yields `resolution: ambiguous`, null selected project ID and the complete candidate-ID set; general non-project relation conversion remains open)*
 - [x] No arbitrary filesystem/index order picks the target. — `be3efdf` @ `2026-09-11T14:52:38+07:00` *(all candidate identities may be deterministically listed, but a duplicate target alias never resolves by first/last/index order)*
 - [ ] Canonical activation cannot claim the migration is clean while ambiguous references remain unacknowledged.
-- [ ] A machine-callable import-resolution operation exists if ambiguous identities require explicit mapping.
-- [ ] Resolution decisions are included in the import evidence.
+- [x] A machine-callable import-resolution operation exists if ambiguous identities require explicit mapping. — `bd64a34` @ `2026-09-11T23:57:13+07:00` *(`import.resolve` accepts the explicitly selected candidate project record id, resolves every ambiguous project reference whose candidate set contains it, and returns the resolved in-memory dry-run plan; an id that is a candidate of no ambiguous reference is refused as `invalid-action-input` rather than silently ignored, and `import.commit` stays typed-unavailable)*
+- [x] Resolution decisions are included in the import evidence. — `bd64a34` @ `2026-09-11T23:57:13+07:00` *(the resolution returns the resolved schema-v1 plan as the action's evidence, so each affected reference, task workflow stage, workflow-order scope and event project association names the selected project and the reference counts are recomputed; the verification that described the pre-resolution plan is discarded and `import.inspect` re-verifies the resolved plan)*
 
 ## Malformed records
 
