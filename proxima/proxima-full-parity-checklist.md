@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `7c89491` — pushed, creator-accepted through Stage 7 slice 15 aggregate process-kill classification/evidence closeout |
+| Accepted branch | `stage7-record-store-contract` @ `4cdbeea` — pushed, creator-accepted through Stage 7 slice 16 creator-vault unchanged / Proxima-owned write-tree evidence closeout |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `7c89491` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 151 files / 902 tests; aggregate real process-death classification matrix exit 0; `bridgeDisclosure` isolated 1 file / 3 tests passed |
+| Suite at `4cdbeea` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 151 files / 902 tests; record-store/recovery focused 3 files / 27 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed; creator-vault/write-tree evidence exit 0 |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -307,13 +307,20 @@ classifications. Death after durable `prepared` but before the checked physical 
 `not-applied → recovered`; death after the checked physical effect but before durable journal
 finalization is `effect-present → committed` without rollback. No production or accepted
 crash-harness behavior changed.
+Stage 7 / slice 16, creator-vault unchanged / Proxima-owned write-tree evidence closeout,
+creator-accepted on Proxima branch `stage7-record-store-contract` at `4cdbeea`: the four
+designated disposable vault fixture trees are proven unchanged across the record-store test
+execution, while a separate disposable physical-tree probe changes exactly the opaque record
+JSON and `record-store/recovery/journal.json` beneath the Proxima-owned record-store root.
+A sibling creator-vault fixture remains unchanged. The actual creator vault is never read or
+touched. Production storage behavior is unchanged.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 7 slice 16 — creator-vault unchanged / Proxima-owned write-tree evidence closeout only.
+**Next operation** Stage 7 slice 17 — semantic-action path containment only: prove that an eventual semantic record-mutation caller cannot pass an arbitrary creator-vault path into the RecordStore adapter, without enabling semantic/UI mutation authority.
 Keep explicit caller refetch/retry/no-silent-merge, semantic-action containment, creator-vault/tree-diff acceptance
 and all Stage 8 import work separate until explicitly accepted.
 
@@ -1370,7 +1377,7 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 - [x] Stale update refuses. — `3b1af20`
 - [x] Two independent action callers race same revision: one winner. — `052c3b4` *(two independent pathless coordinator callers bind to the same observed revision; exactly one succeeds and the other returns typed stale without overwriting the winner)*
 - [x] Process-kill tests classify every recovery state. — `7c89491` *(single-run aggregate executable matrix invokes both required real process-death windows: effect absent after before-commit death → `not-applied`/`recovered`; intended effect present after post-commit/pre-finalization death → `effect-present`/`committed`, with no rollback)*
-- [ ] No creator-vault file changed during record-store test suite.
+- [x] No creator-vault file changed during record-store test suite. — `4cdbeea` *(all four designated disposable vault fixture trees remain byte/mtime-identical across focused record-store/recovery tests, isolated bridgeDisclosure and the serialized full suite; no live creator-vault access is used)*
 
 ## Evidence
 
@@ -1383,7 +1390,7 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 - [x] Explicit refetch/retry no-silent-merge concurrency tests. — `eb0f3fe` *(stale refusal performs no automatic third write; explicit caller refetch observes the winner revision, and only a new revision-bound execute commits exact replacement bytes without merge)*
 - [x] Process-death recovery evidence: `9bbedbd` *(before-commit kill: durable prepared survives; physical effect absent; startup → recovered)*; `97970b7` *(after-commit kill: intended physical effect survives while durable journal remains prepared; startup → committed without rollback)*; `7c89491` *(single-run aggregate executable matrix invokes both unchanged accepted harnesses exactly once and requires the exact `not-applied → recovered` / `effect-present → committed` classification pair)*
 - [x] Durable recovery/process-kill tests. — `7c89491` *(single-run aggregate matrix executes both accepted real child-process death boundaries against durable recovery/record fixtures and requires the complete complementary classification pair)*
-- Tree diff showing writes confined to the Proxima-owned store.
+- [x] Tree diff showing writes confined to the Proxima-owned store. — `4cdbeea` *(disposable physical-tree probe changes exactly the opaque record JSON and `record-store/recovery/journal.json`, both beneath the Proxima-owned root; sibling creator-vault fixture remains unchanged)*
 - [x] Explicit test that a creator-vault path cannot be supplied as a record-store target. — `3b1af20`
 
 ---
