@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `e7e7362` — pushed, creator-accepted through Stage 7 slice 3 browser OPFS RecordStoreFileBackend |
+| Accepted branch | `stage7-record-store-contract` @ `a91b2de` — pushed, creator-accepted through Stage 7 slice 4 real Papers restart retention proof |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `e7e7362` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 147 files / 879 tests; `bridgeDisclosure` isolated 1 file / 3 tests passed |
+| Suite at `a91b2de` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 147 files / 879 tests; `bridgeDisclosure` isolated 1 file / 3 tests passed; real Papers restart-retention evidence exit 0 |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -205,9 +205,19 @@ stale refusal and visible corrupt/schema-invalid failures. The reserved
 recovery coordinator, restart proof, process-kill proof, multi-caller race policy or import
 exists. Proxima full suite 147 files / 879 tests using the accepted serialized full-suite
 command; `bridgeDisclosure` isolated 1 file / 3 tests passed.
-Physical RecordStore writes now exist only behind the unbound infrastructure adapter.
-No human or agent semantic mutation path reaches them. Six Stage 0 boxes remain open where
-record revisions, bulk-action results and UI-versus-agent equivalence still require real
+Stage 7 / slice 4, real Papers restart retention, creator-accepted on Proxima branch
+`stage7-record-store-contract` at `a91b2de`: OPFS acquisition was corrected to preserve the
+real StorageManager receiver, and an isolated real-host evidence harness created one disposable
+canonical record through the accepted backend, closed the first Papers Electron application,
+launched a second Papers process against the same isolated userData under a different PID,
+returned to the exact stable Proxima Backpack origin, instantiated a fresh OPFS backend and
+canonical RecordStore, reread the exact record, and conditionally deleted it. Papers source
+remained unchanged and clean. Proxima full suite remains 147 files / 879 tests using the
+accepted serialized command; `bridgeDisclosure` isolated 1 file / 3 tests passed.
+Physical RecordStore writes remain infrastructure-only. No human or agent semantic mutation
+path reaches them. Mutation/recovery authority, process-kill behavior, multi-caller conflict
+handling, semantic-action containment and import remain open. Six Stage 0 boxes remain open
+where record revisions, bulk-action results and UI-versus-agent equivalence require real
 semantic mutation callers. Every ticked box names the commit that closed it.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
@@ -215,12 +225,11 @@ a second caller and the record store exist. Every ticked box names the commit th
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 7 slice 4 — prove that the accepted browser OPFS RecordStore backend
-retains a disposable canonical record across a normal Papers restart under the same stable
-Proxima Backpack origin, with programmatic setup and verification and no creator gesture.
-This is the outstanding Stage 7 `Restart retains records` acceptance operation only; do not
-yet wire semantic mutation actions, recovery/journal/coordinator behavior, process-kill
-handling, multi-caller concurrency, import/migration/cutover, creator-vault writes or release.
+**Next operation** Stage 7 slice 5 — begin the crash-durability infrastructure by putting
+record updates behind the existing prepared → commit → committed mutation/recovery semantics
+and the reserved durable `record-store/recovery/` namespace, while keeping semantic mutation
+actions unavailable. Do not yet claim process-kill recovery, multi-caller concurrency,
+semantic-action containment, creator-vault/tree-diff acceptance or any Stage 8 import work.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1270,7 +1279,7 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 ## Acceptance
 
 - [x] Create/read/update/delete record through headless APIs. — `3b1af20`
-- [ ] Restart retains records.
+- [x] Restart retains records. — `a91b2de` *(isolated real Papers profile; first Electron application closed; second Electron launch reused the same userData under a different PID and the same stable Proxima Backpack origin; a fresh accepted OPFS backend/RecordStore reread the exact disposable canonical record and conditionally deleted it)*
 - [x] Corrupt JSON reports error. — `3b1af20`
 - [x] Stale update refuses. — `3b1af20`
 - [ ] Two independent action callers race same revision: one winner.
