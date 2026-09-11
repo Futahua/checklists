@@ -331,14 +331,23 @@ physical-candidate identities on replanning, records duplicate legacy aliases as
 groups, and leaves references through multi-candidate project aliases explicitly ambiguous
 with no selected canonical target. Legacy Markdown, canonical Record Store and staging
 remain unwritten; unsupported-frontmatter remains policy-pending.
+Stage 8 / slice 3, canonical conversion-plan semantics, creator-accepted on Proxima branch
+`stage7-record-store-contract` at `173b45e`, committed `2026-09-11T15:04:55+07:00`: every
+readable physical candidate now carries the compatibility interpretation needed for dry-run
+conversion without creating a second Markdown parser. Legacy task status is split into the
+accepted independent execution-state and project-workflow meanings; legacy order is expressed
+as separate Elastic-execution and project/workflow-stage candidate scopes rather than surviving
+as a universal canonical order; and legacy projectType is explicitly compatibility/import
+metadata with canonical capabilities remaining data/workspace-derived. No canonical payload,
+workflow-stage record, Record Store write or staging materialization occurs; unsupported-
+frontmatter remains policy-pending.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 3 — canonical conversion-plan semantics for successfully
-decoded candidates: translate legacy task status into separate execution/workflow meaning,
-translate legacy order into the accepted scoped-order model, and treat legacy projectType as
-compatibility-only input, still without staging materialization or deciding the unresolved
-unsupported-frontmatter policy.
+**Next operation** Stage 8 slice 4 — first-class schema/settings conversion-plan foundation:
+translate legacy property-schema interpretation into canonical schema/option identity plans
+needed for later custom-property and relation conversion, while keeping relation targets,
+staging materialization, unsupported-frontmatter policy and HARD GATE C separate.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1452,12 +1461,12 @@ Legacy Markdown is input only.
 - [x] A durable import mapping records legacy provenance → new opaque record identity for reconciliation of relationships. — `be3efdf` @ `2026-09-11T14:52:38+07:00` *(versioned provenance→opaque-ID manifest is keyed by physical kind/source rather than ambiguous legacy alias, has an explicit durable load/save port, preserves prior reservations, and reuses persisted candidate identities on replanning; canonical staging remains separate)*
 - [x] Project references are translated to new project IDs. — `0fd5f51` @ `2026-09-11T14:28:25+07:00`; `be3efdf` @ `2026-09-11T14:52:38+07:00` *(unambiguous task/event project aliases resolve through planned opaque project identity; absent aliases remain `missing`, while aliases backed by multiple physical project candidates are explicitly `ambiguous` with null selected target and all candidate opaque IDs disclosed)*
 - [ ] Relations are translated to record IDs.
-- [ ] Legacy status is translated separately into:
-  - [ ] execution state;
-  - [ ] workflow stage.
+- [x] Legacy status is translated separately into: — `173b45e` @ `2026-09-11T15:04:55+07:00` *(the dry-run conversion plan preserves one legacy status input while independently deriving Elastic execution meaning and project-scoped workflow-stage-candidate meaning; no final workflow-stage record is materialized yet)*
+  - [x] execution state; — `173b45e` @ `2026-09-11T15:04:55+07:00` *(existing compatibility Elastic classification becomes canonical `backlog|running|finished`, including completion override and unknown-valid-status → running behavior)*
+  - [x] workflow stage. — `173b45e` @ `2026-09-11T15:04:55+07:00` *(resolved projects receive a project-scoped legacy-status stage candidate; absent/ambiguous project identity remains explicitly unresolved rather than choosing a stage target)*
 
-- [ ] Legacy ordering is translated into the appropriate scoped orders.
-- [ ] Legacy project type informs import compatibility only; it does not create a permanent silo.
+- [x] Legacy ordering is translated into the appropriate scoped orders. — `173b45e` @ `2026-09-11T15:04:55+07:00` *(legacy order seeds independent validated Elastic-execution and, when resolvable, project/workflow-stage-candidate positions; no universal canonical `orderIndex` is emitted)*
+- [x] Legacy project type informs import compatibility only; it does not create a permanent silo. — `173b45e` @ `2026-09-11T15:04:55+07:00` *(`task|schedule` is retained only as compatibility import metadata; both labels declare canonical capability authority as associated data/workspace rather than a type filter)*
 - [ ] Schema/settings needed to interpret custom properties become first-class schema records.
 - [ ] Legacy wikilink relations never remain canonical relation values.
 - [ ] Notes/drawings/attachments are **not copied** into the record store.
@@ -1559,6 +1568,8 @@ These are semantic administrative actions with typed results.
 - [x] Dry-run import planner contract tests. — `0fd5f51` @ `2026-09-11T14:28:25+07:00` *(existing compatibility-reader reuse, machine-readable zero-write plan, HARD-GATE-A identity assignment/refusal, project-ID reconciliation, source byte/revision preservation, and unsupported-frontmatter policy-pending disclosure)*
 
 - [x] Durable identity / duplicate-candidate planning contract tests. — `be3efdf` @ `2026-09-11T14:52:38+07:00` *(pre-dedup physical candidate enumeration, versioned provenance→opaque-ID manifest persistence/reuse, dedicated `vault-duplicates` collision accounting, and explicit ambiguous-project-reference refusal without staging writes)*
+
+- [x] Canonical conversion-plan semantics tests. — `173b45e` @ `2026-09-11T15:04:55+07:00` *(physical-candidate status decomposition, completion override, unknown-status execution compatibility, project-scoped workflow-stage planning, independent scoped-order planning, ambiguous-project workflow refusal, and projectType compatibility-only treatment; zero staging/Record Store writes)*
 
 - Full import against all four existing fixture vaults.
 - Dedicated duplicate-ID fixture assertions.
