@@ -4,7 +4,7 @@
 
 ## Status
 
-**Updated** 2026-09-11 · **Repo** Futahua/proxima-backpack
+**Updated** 2026-09-12 · **Repo** Futahua/proxima-backpack
 
 **Where everything is.** Windows paths. The short names beside these are symlinks into
 `Products\<Name>\<Role>` and both forms work, so a tool reporting one when you typed the
@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–38 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6` and `7f96a71` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–39 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71` and `ead7927` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `7f96a71` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 179 files / 1192 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:52:46+07:00`, verified under **default parallelism** as well. At the previous points: `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `ead7927` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 179 files / 1203 tests; committer `2026-09-12T02:02:58+07:00`. At `7f96a71` the same steps were 179 files / 1192 tests (the file count did not move: four existing files each gained cases), and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -45,7 +45,8 @@ Stage 5 slice 5, detailed Notes tree/preview interactions, at `fa5bb33`, and Sta
 detailed Task Board interactions, at `c8e35c3`, and Stage 5 slice 7, detailed Backlog interactions,
 at `b281cab`, Stage 5 slice 8, detailed Deadlines interactions, at `d3dbb59`, and Stage 5
 slice 9, detailed Schedule interactions, at `36fcc08`, and Stage 5 slice 10, workspace
-ownership closeout, at `cb92cae`.
+ownership closeout, at `cb92cae`, and Stage 5 slice 39, the Notes read side, the Timekeeping
+reuse and the workspace acceptance boxes, at `ead7927` — **Stage 5 is complete.**
 Stage 6 slice 1, Canvas selection and read-only node inspection, at `ace9bac`.
 Stage 6 slice 2, Canvas geometry preview refusal, at `4e8bed7`.
 Stage 6 slice 3, Canvas removal intent/confirmation/refusal, at `8e20d0d`.
@@ -746,17 +747,44 @@ ticks name `d83e158` (hub inventory), `dbea424` (lifecycle refusals), `68e11b6` 
 evidence is new — and `1ffdd55` for the lifecycle controls, because the write-control audit is what proved
 they carry typed refusals.
 
-**Next operation** Slice 39 — the rest of Stage 5, 21 boxes: **Notes — read side** (10), **Task Board — read
-side** (6), § Deadlines (1) and § Acceptance (4). Same method, and the same expectation: most of this is
-already implemented — `src/browser/projectNotes.ts`, `projectTaskBoard.ts` and `projectDeadlines.ts` exist
-with their own suites — so read each box against the implementation **and** against its test, add evidence
-only where a claim has none, and tick with the commit that made it true. Two boxes need care rather than
-mechanical ticking: **Canvas preview** and **Excalidraw preview where supported** depend on what
-`loadProjectNotePreview` actually renders (the asset path is the one place wikilink syntax lives, per the
-boundary test), and **Project Notes can inspect ordinary vault files without treating them as database
-records** is a claim about the whole Notes surface, so it belongs with the Acceptance boxes where it can be
-argued once. § Deadlines' single box is a reuse claim that `tests/projectWorkspacePanels.test.ts` already
-asserts, so it should close quickly.
+**Slice 39 is done**, `ead7927` at `2026-09-12T02:02:58+07:00` — **twenty-one boxes**, which closes the read
+half of Stage 5 outright, including its § Acceptance section and its four `## Evidence` bullets. The audit
+repeated slices 30 and 38's finding: the panels existed and their suites were real, but specific claims had no
+case behind them. Four new cases in `tests/projectNotes.test.ts` (nine now): expansion is driven through the
+machine-key harness — a collapsed root renders no file buttons at all and `aria-expanded` tracks it — and the
+linked root's toggle gained `data-c1-key="project-note-root-<projectId>-<path>"` so it is addressable like
+every other control; the hover affordance is pinned as the stylesheet's `.project-note-entry:hover` on exactly
+the interactive entries, so a hover reaches no handler and an unreadable root has nothing to hover; a drag over
+a file previews nothing while the same drag over a folder previews `source -> target` and the drop clears it;
+and the whole read side was run against a vault whose writer members throw, with every byte re-read unchanged.
+Four cases in `tests/projectTaskBoard.test.ts` (eight now): a column is painted only for a validated hex value
+(`#112233` yes, `  #abc  ` trimmed and yes, `red;display:none` and `url(...)` nothing), a status the vault does
+not define still gets a column after the defined ones, display order survives tied and missing indices, and the
+pickup report plus the placeholder geometry are asserted while the record stays byte-identical. **One
+production change, and it removes a restatement rather than adding a feature:** `projectDeadlines.ts` derived
+`remainingMs < 0` for the overdue/upcoming split even though it already imported the Timekeeping deadline
+projection, so that split now runs through the exported `countdownBucketForRemaining`; the case asserts row
+order, day, value and state against both Timekeeping functions, including the boundary where a deadline equal
+to `now` is `upcoming`, not `overdue`. § Acceptance's two substantive boxes were argued where each claim could
+be made once: a markdown file carrying record-shaped frontmatter is previewed byte-for-byte as text rather than
+parsed, and the same five workspace panels render byte-identically for the same project typed `task` and typed
+`schedule` — the A4 silo removal seen from the workspace side. Every other tick names the commit that made the
+behaviour true (`fa5bb33` Notes, `c8e35c3` Task Board, `d3dbb59` Deadlines, `dadd610` workspace panels and the
+cross-tab/zero-write acceptance case, `2450828` navigation keys) with `ead7927` only where the evidence is new.
+Two of the new cases were wrong first and the suite caught both: a file key I meant to drag over was inside a
+collapsed folder, and `localeCompare` orders `Deep/…` after `data.json`, which code-unit sort does not.
+
+**Next operation** Slice 40 — the Proxima checklist's remaining open boxes are all gated, so the dependency-safe
+work moves to the next unfinished checklist under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
+checklists whose titles say `Complete Implementation Checklist` (`papers\quick-run.md` 280 open,
+`papers\adopted-window-surfaces.md` 173, `papers\window-layout-consistency-and-auto-tracking.md` 172), against
+the Papers tree those documents name in their own Status blocks. Proxima's own residue is three product
+decisions and the HARD GATE C half: **Tag filtering** has no tag model to filter on (a tag is a schema property,
+a frontmatter list or its own record — the creator's call, not one a slice can settle), the Task modal's
+**workflow stage where project-scoped** and **recurrence if task recurrence remains supported** are the same
+kind of product choice, and Stage 8's staging materialization, mixed-mode prohibition, byte-hash proof and
+unsupported-frontmatter policy plus Stages 9–17's write halves wait on HARD GATE C. Nothing in Proxima is
+parked or uncommitted; the tree is clean and the branch is pushed.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -1455,43 +1483,43 @@ No record migration dependency.
 
 ### Notes — read side
 
-- [ ] Project-linked vault artifact tree.
-- [ ] Folder expand/collapse.
-- [ ] File selection.
-- [ ] Markdown preview.
-- [ ] Canvas preview.
-- [ ] Excalidraw preview where supported.
-- [ ] Hover affordances.
-- [ ] Context menu opens programmatically.
-- [ ] Read/open/reveal-like operations remain presentation.
-- [ ] Drag targets can preview valid folder destinations without committing moves yet.
+- [x] Project-linked vault artifact tree. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` *(`loadProjectNotesTree` walks each `linkedFolders` root and nothing else, so a vault file outside those roots is absent from the snapshot rather than filtered out later; a root whose path is not vault-relative is typed `unavailable` and an absent one `missing`, and the panel draws all three states. `tests/projectNotes.test.ts` pins the entry list, the exclusion of a file outside the roots, and both degraded roots.)*
+- [x] Folder expand/collapse. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(`expandedPaths` decides both `aria-expanded` and whether the children are rendered at all, so a collapsed folder emits no file buttons; the linked root's own toggle now carries `data-c1-key="project-note-root-<projectId>-<path>"`, so it is addressable like every other control. The slice-39 case drives the root and a nested folder open and shut through the machine-key harness and asserts all four DOM states, including that expanding selects nothing.)*
+- [x] File selection. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` *(a click on a file reports its path and the renderer marks exactly that entry `selected` and `aria-current="true"`; selection is view state, so the panel is a pure function of it rather than of the DOM.)*
+- [x] Markdown preview. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(`.md` and `.markdown` render the stored text verbatim as `kind:'markdown'`; slice 39 adds that a file whose frontmatter looks like a record (`id:`, `status:`, `weight:`) is still previewed byte-for-byte and never parsed into one, which is what keeps the Notes read side out of the record store.)*
+- [x] Canvas preview. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` *(`.canvas` is summarised as node and edge counts plus a bounded node list (`MAX_PROJECT_CANVAS_PREVIEW_NODES`), and a canvas that is not JSON, or that lacks node/edge arrays, fails as `canvas-invalid` instead of drawing an empty canvas; the fixture asserts 2 nodes and 1 edge.)*
+- [x] Excalidraw preview where supported. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` *(`recogniseExcalidraw` decides by file content, not by extension, and a scene that cannot be read fails as `excalidraw-unavailable` — the "where supported" clause is a typed failure rather than a silent omission; the fixture asserts the `excalidraw` preview kind and that it carries the rendered SVG and its element census fields.)*
+- [x] Hover affordances. — `ead7927` @ `2026-09-12T02:02:58+07:00` *(`public/index.html` styles `.project-note-entry:hover`; the slice-39 case asserts that every interactive entry the renderer emits carries that class, that a root the vault cannot read carries none because there is nothing to hover, that only files are `draggable`, and that a hover reaches no handler — the affordance is the stylesheet's, not a second code path.)*
+- [x] Context menu opens programmatically. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` *(a context-menu event on any entry reports its path and the panel renders the menu from `contextPath` under `data-project-note-context-path`; Escape closes it. Its three write verbs — Rename, Move, Delete — are drawn disabled with `action-not-available`, so opening the menu cannot write.)*
+- [x] Read/open/reveal-like operations remain presentation. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(the read side is handed a `VaultReader` and the panel's handlers only set view state — selection, expansion, context, drag. Slice 39 runs the whole read side against a vault whose writer members throw and re-reads every file byte-identical afterwards, so the strongest available statement is not "it did not write" but "it had no way to".)*
+- [x] Drag targets can preview valid folder destinations without committing moves yet. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(`dragover` reacts only to an element carrying `data-project-note-directory-path`, so a file is not a destination: slice 39 asserts that a drag over another file previews nothing while the same drag over a folder previews `source -> target` on the panel and reports it, and that `drop` clears the preview and reports a refusal instead of a move.)*
 
 ### Task Board — read side
 
-- [ ] Project workflow columns.
-- [ ] Card click.
-- [ ] Column presentation colors.
-- [ ] Local display order.
-- [ ] Drag pickup/placeholders implemented.
-- [ ] Durable workflow transition still disabled until corrected domain/store exists.
+- [x] Project workflow columns. — `c8e35c3` @ `2026-09-10T19:54:34+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(`renderProjectTaskBoard` draws one column per vault status definition in declaration order, then appends a column for any status a project task actually uses but the vault does not define — slice 39 pins that orphan column, its label and its drop slot — and the panel is scoped to the project, so another project's card is not drawn.)*
+- [x] Card click. — `c8e35c3` @ `2026-09-10T19:54:34+07:00` *(a click on a card opens the read-only inspector for that task (`data-project-board-inspector-task-id`), which escapes the task's own text — the fixture's `<script>` description renders as text — and Escape closes it.)*
+- [x] Column presentation colors. — `c8e35c3` @ `2026-09-10T19:54:34+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(a column is painted only when the status colour is a validated hex value: slice 39 asserts that `#112233` becomes `border-top:3px solid #112233` plus the echoed `data-project-status-color`, that a padded `  #abc  ` is trimmed and accepted, and that `red;display:none` and a `url(...)` value paint nothing and echo empty.)*
+- [x] Local display order. — `c8e35c3` @ `2026-09-10T19:54:34+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(cards sort by `orderIndex` with the task id as the tiebreak; slice 39 adds that equal indices fall back to id order and that a missing index is treated as zero. The order is display only — `orderIndex` in the record is never rewritten by this panel.)*
+- [x] Drag pickup/placeholders implemented. — `c8e35c3` @ `2026-09-10T19:54:34+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(`dragstart` reports the picked-up task, `dragover` marks the slot (`data-project-board-preview="true"`) and opens its insertion placeholder to 54px, and the drop reports the move intent; slice 39 pins the pickup report and the placeholder geometry. The slots are drawn before, between and after the cards, so the reported index is a real position rather than a column append.)*
+- [x] Durable workflow transition still disabled until corrected domain/store exists. — `c8e35c3` @ `2026-09-10T19:54:34+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(the panel declares `data-project-board-write-authority="unavailable"`, its Edit and Delete controls are disabled with `action-not-available`, and a drop reports a refusal whose text says the task data was not changed; slice 39 asserts the record state is byte-identical across the whole drag-and-refuse sequence.)*
 
 ### Deadlines
 
-- [ ] Reuse the Timekeeping interaction implementation project-scoped rather than independently reinventing it.
+- [x] Reuse the Timekeeping interaction implementation project-scoped rather than independently reinventing it. — `d3dbb59` @ `2026-09-10T20:15:12+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(the panel imports `deadlineCalendarProjection` from `timekeepingCockpit` for the deadlines themselves and declares `data-project-deadline-projection="timekeeping"`; slice 39 removes the last restatement of Timekeeping semantics by routing the overdue/upcoming split through the exported `countdownBucketForRemaining` instead of re-deriving `remainingMs < 0`, and asserts row order, day, value and state against those two functions — including the boundary where a deadline equal to `now` is `upcoming`, not `overdue`.)*
 
 ## Acceptance
 
-- [ ] Opening a project changes the cockpit, not canonical data.
-- [ ] Project Notes can inspect ordinary vault files without treating them as database records.
-- [ ] Same task can be visible in project Board, Backlog and Deadlines.
-- [ ] Project can eventually show both tasks and events; no new UI work assumes `projectType` is permanent.
+- [x] Opening a project changes the cockpit, not canonical data. — `dadd610` @ `2026-09-10T17:32:11+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(opening a project decides which project the five workspace panels project: the slice-39 case opens one project and then another, sees the board's `data-project-board-project-id` and its cards change, and asserts the state JSON is byte-identical after each render. Separately, `tests/projectNotes.test.ts` runs the notes read side against a vault whose writer members throw and re-reads every byte unchanged. `tests/projectWorkspacePanels.test.ts` asserts the same state-JSON invariant per tab, and `tests/zeroWriteWitness.test.ts` proves the disk-level witness fails when it should.)*
+- [x] Project Notes can inspect ordinary vault files without treating them as database records. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(a linked folder's ordinary files are listed whatever they are — `.md`, `.canvas`, `.excalidraw`, and files no previewer claims — and the snapshot is a tree (`projectId`, `roots`, `fileCount`), not a record set. Slice 39 asserts that a markdown file carrying record-shaped frontmatter is previewed verbatim as text, that an unclaimed `.json` is still listed but fails as `unsupported-format`, and that the whole read side runs against a vault whose writer members throw with every byte unchanged.)*
+- [x] Same task can be visible in project Board, Backlog and Deadlines. — `dadd610` @ `2026-09-10T17:32:11+07:00` *(`tests/projectWorkspacePanels.test.ts` renders one project's `shared-task` in the Task Board, the Backlog and the Deadlines tab of the same cockpit, with a second project's task absent from all three.)*
+- [x] Project can eventually show both tasks and events; no new UI work assumes `projectType` is permanent. — `dadd610` @ `2026-09-10T17:32:11+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(the acceptance fixture is a `schedule` project whose Task Board, Backlog and Deadlines are populated and whose Schedule tab carries the events; slice 39 adds the other half — rendering the same five panels for the same project typed `task` produces byte-identical panel HTML — so the panels branch on nothing but the records they are given. The legacy label survives only as a presentation caption (`src/browser/projectPresentation.ts`) and an import concern.)*
 
 ## Evidence
 
-- Programmatic project navigation tests.
-- File-tree read/preview fixture tests.
-- Cross-tab projection tests.
-- Zero-write proof for all read-only project navigation.
+- Programmatic project navigation tests. — `2450828` @ `2026-09-09T21:49:58+07:00` *(the four surfaces, both Tasks modes, all six Schedule modes and the five project tabs are pinned by machine key in `tests/cockpitNavigation.test.ts`, with `cockpitSubmode` asserted per surface)*; `dadd610` @ `2026-09-10T17:32:11+07:00` *(each workspace tab is opened and read back through its own `data-project-workspace-panel` in `tests/projectWorkspacePanels.test.ts`)*
+- File-tree read/preview fixture tests. — `fa5bb33` @ `2026-09-10T19:43:38+07:00` *(tree shape, Markdown/Canvas/Excalidraw previews, unsafe roots and unsupported formats, all against real fixture bytes in a memory vault)*; `ead7927` @ `2026-09-12T02:02:58+07:00` *(nine cases in `tests/projectNotes.test.ts`: expansion states, hover affordances, valid and invalid drop targets, and ordinary files that are not records)*
+- Cross-tab projection tests. — `dadd610` @ `2026-09-10T17:32:11+07:00` *(one project's task is read in the Task Board, the Backlog and the Deadlines tab and its event in the Schedule tab, each scoped against a second project)*
+- Zero-write proof for all read-only project navigation. — `dadd610` @ `2026-09-10T17:32:11+07:00` *(every workspace tab render in `tests/projectWorkspacePanels.test.ts` is asserted to leave `JSON.stringify(state)` identical)*; `ead7927` @ `2026-09-12T02:02:58+07:00` *(opening another project is asserted the same way in that file, and `tests/projectNotes.test.ts` runs the whole notes read side against a vault whose writer members throw and re-reads every file unchanged)*; `7c0c69d` @ `2026-09-06T22:18:57+07:00` *(`tests/zeroWriteWitness.test.ts` proves the witness records a smuggled write, fails when it was never wired to anything, and detects a file changed behind its back)*
 
 ---
 
