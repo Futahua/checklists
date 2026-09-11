@@ -55,6 +55,9 @@ believes it. Both are allowed; pretending is not.
 
 ## Attaching to the AUTHOR tab
 
+Read [LOCAL-BROWSER.md](LOCAL-BROWSER.md) first for this machine's exact Chrome profile,
+launcher, CDP endpoint, and cross-harness ownership rules.
+
 Claim the exact tab, then drive it by role — never by screen coordinates, never by taking
 over the mouse.
 

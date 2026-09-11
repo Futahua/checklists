@@ -30,6 +30,8 @@ reversible without reading the log — but it is a line, not a diary.
 ## Before touching anything
 
 - [AGENTS.md](AGENTS.md) — the loop and the handful of things that go wrong. One page.
+- [LOCAL-BROWSER.md](LOCAL-BROWSER.md) — this machine's Chrome executable, persistent
+  signed-in profile, launcher, CDP endpoint, and attachment rules for another harness.
 - [BROWSER.md](BROWSER.md) — the AUTHOR's brief. At the start of a session, hand the browser
   model a raw URL pinned to the exact intended SHA:
   `https://raw.githubusercontent.com/Futahua/long-horizon/<sha>/BROWSER.md`. Never use a
