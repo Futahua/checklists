@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–27 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16` and `bdea4a1` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–28 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17` and `7825d20` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `bdea4a1` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 173 files / 1087 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T00:34:29+07:00`. At the previous point `9b59d16`: 172 files / 1056 tests. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `7825d20` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 174 files / 1105 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T00:44:55+07:00`. At the previous point `bdea4a1`: 173 files / 1087 tests. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -576,26 +576,27 @@ having been assessed, which needs a browser.
 Start with what the existing modal scaffolding already proves and extend from there; the same pattern
 applies: project the modal's state in `src/app/`, test it in Node, then let the renderer draw it.
 
-**Slice 28a is done and in flight.** `src/app/taskEditor.ts` now decides every field the Task modal shows:
-the ten task fields, one field per schema property whether or not the task has set it, and any record
-value the schema does not declare (shown rather than hidden, because a value nobody can see is a value the
-editor would silently drop). Each field carries the control its type calls for — text, number, date,
-checkbox, select, multi-select, relation, or derived for rollups and formulas, which are shown and not
-editable because their value is not the record's to set. A draft is `null` while nothing has been edited,
-which is what makes Cancel exact, and `dirty` is the draft differing from the record it was seeded from.
-`tests/taskEditor.test.ts` walks the field list and the draft. **No box is ticked by 28a on purpose:** the
-boxes say the modal must *represent* these fields, and nothing draws them yet.
+**Slice 28 is done**, in two commits: 28a, `src/app/taskEditor.ts` at `7ec8d17`, decides every field the
+Task modal shows — the ten task fields, one field per schema property whether or not the task has set it,
+and any record value the schema does not declare — and 28b, `7825d20` at `2026-09-12T00:44:55+07:00`, makes
+the modal that editor: `renderTaskModal` consumes `projectTaskEditor`, draws a control per type, and holds
+provisional form state that Cancel and Escape discard. `editorDraft` is threaded through
+`ElasticCockpitRenderOptions` and `TimekeepingCockpitRenderOptions` (one modal, two surfaces) and owned by
+`main.ts`. An edit is reported through `ElasticCockpitHandlers.editTask` and deliberately does **not**
+re-render, so a keystroke cannot take the field away from the reader; the drawn draft updates on the next
+render. Twenty § Task modal boxes are ticked.
 
-**Next operation** Slice 28b — draw it and wire it. Have `renderTaskModal` in
-`src/browser/elasticCockpit.ts` consume `projectTaskEditor` instead of its six hard-coded read-only inputs
-and its property pills; thread `editorDraft` through `ElasticCockpitRenderOptions` (both the Elastic and
-Timekeeping surfaces call that modal, so `timekeepingCockpit.ts` and its options need it too) and add the
-edit, Cancel/Escape and Save handlers to `ElasticCockpitHandlers` and `main.ts`. Then the § Task modal
-boxes tick with happy-dom evidence: a field of every kind, a typed edit, Escape discarding the draft back
-to the record, and Save answering the typed `action-not-available` refusal. Two boxes stay open and this is
-the reason: **workflow stage where project-scoped** has no model (HARD GATE A2 owns it, and the legacy
-status is not the same thing), and **recurrence if task recurrence remains supported** is the creator's
-product decision — no task recurrence model exists.
+**Next operation** Slice 29 — the Event modal (Stage 6, ten boxes: name, description, project, start, end,
+colour if event metadata supports it, recurrence controls, until/end condition, exception/scope UX, and
+Save/Delete unavailable until write cutover). `CalendarEvent` carries name, description, projectId,
+startDate, deadline, isCompleted and properties — the same shape the Task editor just proved, so the same
+pattern applies: project the modal's state in `src/app/`, test it in Node, and let the renderer draw it.
+The schedule surface already renders event modals in three places (`scheduleProjection.ts`,
+`scheduleTimeGrid.ts`, `scheduleRecurrence.ts`), so check what those already represent before adding a
+fourth. The two boxes that stay open in the Task modal are deliberate and should not be quietly closed
+later: **workflow stage where project-scoped** has no model (HARD GATE A2 owns it — the legacy status is not
+the same thing), and **recurrence if task recurrence remains supported** is the creator's product decision,
+because no task recurrence model exists.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -1364,28 +1365,28 @@ Still before migration.
 
 All existing meaningful fields must be representable:
 
-- [ ] name;
-- [ ] project;
-- [ ] execution state;
+- [x] name; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(the modal is now the editor `src/app/taskEditor.ts` describes: `renderTaskModal` consumes `projectTaskEditor` instead of six hard-coded read-only inputs, and each field is drawn with the control its type calls for. Name is a text input holding the record's value; typed edits are held as a draft and never reach the record.)*
+- [x] project; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a select over the active projects plus "No project", so a task can be taken out of a project as well as moved between them)*
+- [x] execution state; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a select over the vault's own status vocabulary, each option labelled with the Elastic column it maps to; a vault that declares no statuses gets a text field and a note saying so rather than an empty select)*
 - [ ] workflow stage where project-scoped;
-- [ ] weight;
-- [ ] fixed-duration enable/value;
-- [ ] maximum duration;
-- [ ] start date;
-- [ ] deadline;
-- [ ] completion;
-- [ ] custom text property;
-- [ ] number;
-- [ ] select;
-- [ ] multi-select;
-- [ ] date;
-- [ ] checkbox;
-- [ ] relation;
-- [ ] derived rollup;
-- [ ] derived formula;
+- [x] weight; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a number input, with the one sentence that says what weight does)*
+- [x] fixed-duration enable/value; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(the enable flag is a checkbox and the minutes are their own number field; while the flag is off the minutes field says it is not counted, which is the relationship the record encodes as "only meaningful when true")*
+- [x] maximum duration; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a number input, described as the cap on how far an elastic task may stretch)*
+- [x] start date; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a text input holding the stored value on purpose: the vault stores ISO instants, and a date input would normalise `2026-03-10T00:00:00.000Z` to `2026-03-10` on sight and report a change nobody made. The same reasoning covers deadline and every date property.)*
+- [x] deadline; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(as start date; an absent deadline shows as empty rather than as the word "null")*
+- [x] completion; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a checkbox over `isCompleted`)*
+- [x] custom text property; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(the property list comes from `state.taskSchema`, not from the record: a property the schema declares but this task has never set is still a field, because a field nobody can see is a field nobody can fill in. A record value with no schema entry is shown too, so an editor cannot silently drop it.)*
+- [x] number; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a `number` schema type is a number input)*
+- [x] select; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a select over the schema's own options, with the stored option selected)*
+- [x] multi-select; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a checkbox group, one box per option; the binder reports the whole remaining selection rather than a removal the model would have to infer, which is asserted in happy-dom by unticking one of two chosen options)*
+- [x] date; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a date-typed property is shown and edited as a date field of the same text-input kind the task's own dates use, for the ISO reason above)*
+- [x] checkbox; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(only a stored `true` is ticked; any other value — including the string `"true"` — is not)*
+- [x] relation; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(shown as a field holding the target record id, with the field itself saying there is no picker until relations are canonical (HARD GATE A6). Representable, and honest about what is not there yet.)*
+- [x] derived rollup; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(shown with its aggregation and target property, with nothing to type in: a derived value is not the record's to set. Asserted by there being no `input` or `select` inside it.)*
+- [x] derived formula; — `7825d20` @ `2026-09-12T00:44:55+07:00` *(as the rollup, showing the expression)*
 - [ ] recurrence if task recurrence remains supported.
-- [ ] Cancel/Escape discards provisional form state.
-- [ ] Save is disabled/refused until the new record write path exists.
+- [x] Cancel/Escape discards provisional form state. — `7825d20` @ `2026-09-12T00:44:55+07:00` *(a draft is `null` while nothing has been edited, so discarding is `null` rather than a rebuild that hopes to reproduce the record; `dirty` is the draft differing from the record it was seeded from, so an undone edit goes back to not dirty. Cancel and Escape both discard, asserted in happy-dom by typing, seeing the unsaved-changes line, pressing Escape and reading the record's value back. Deliberately, an edit does not re-render — a keystroke must not take the field away from the reader — so the drawn draft updates on the next render.)*
+- [x] Save is disabled/refused until the new record write path exists. — `7825d20` @ `2026-09-12T00:44:55+07:00` *(the button is present and disabled, carrying `data-task-editor-save-refusal="action-not-available"`, with the reason next to it: a form that cannot save says so where the button is rather than hiding it. Delete carries the same refusal.)*
 
 ## Event modal
 
