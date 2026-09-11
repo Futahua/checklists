@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–41 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a` and `08e505d` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–42 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d` and `8dc3841` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `08e505d` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 179 files / 1207 tests; committer `2026-09-12T02:16:06+07:00`. At `215777a` the same steps were 179 files / 1205 tests, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `8dc3841` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 180 files / 1210 tests; committer `2026-09-12T02:22:54+07:00`. At `08e505d` the same steps were 179 files / 1207 tests, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -50,7 +50,9 @@ reuse and the workspace acceptance boxes, at `ead7927` — **Stage 5 is complete
 `## Acceptance` section is complete as of `215777a`, which also closed Stage 0's action-union
 box and annotated the two of its four kinds that remain vocabulary rather than implementation.
 **Stage 18's interaction-feel pass is complete on its read half as of `08e505d`** — 51 of its
-58 boxes, with the remaining seven named and gated individually.
+58 boxes, with the remaining seven named and gated individually. **Stage 19's convergence claim
+is proven on its read half as of `8dc3841`** — 18 of its 28 boxes, and every box left open names
+the write, the agent path or the un-extracted renderer that blocks it.
 Stage 6 slice 1, Canvas selection and read-only node inspection, at `ace9bac`.
 Stage 6 slice 2, Canvas geometry preview refusal, at `4e8bed7`.
 Stage 6 slice 3, Canvas removal intent/confirmation/refusal, at `8e20d0d`.
@@ -813,14 +815,39 @@ one of them needs a record write to exist. Stage 18's `## Evidence` bullets are 
 them is **not** claimed: making the interaction trace itself an executable conformance matrix is Stage 17's own
 line, not something a pass over the suites can assert.
 
-**Next operation** Slice 42 — Stage 19, "Cross-surface and agent convergence" (28 boxes), audited the way this
-slice audited Stage 18: read each box against the suites, tick what a case already asserts, write the case where a
-claim has none, and name what is gated. After that the Proxima residue is entirely gated and the loop moves to the
-Papers checklists: **Tag filtering** has no tag model to filter on, **workflow stage where project-scoped** needs
-canonical records to reach the Task modal, **recurrence if task recurrence remains supported** is a product
-choice, and Stage 8's staging, mixed-mode prohibition, byte-hash proof and unsupported-frontmatter policy plus
-Stages 9–17's write halves wait on HARD GATE C — as do Stage 20's scaffolding removal and HARD GATE D's four notes
-boxes. Nothing in Proxima is parked or uncommitted; the tree is clean and the branch is pushed.
+**Slice 42 is done**, `8dc3841` @ `2026-09-12T02:22:54+07:00` — Stage 19, **eighteen of its twenty-eight
+boxes**, and the first slice this session that had to *build* its evidence rather than find it. Nothing can write
+a record, so the change a surface must notice can only arrive the way another program makes it — in the vault — and
+`tests/surfaceConvergence.test.ts` does exactly that: it edits a task's file behind an open cockpit (a later
+deadline and a move to the Running column), reloads it the way the application does, and asks eight surfaces what
+they show. The project Task Board's card, the Backlog row, the project Deadlines list, the Task editor's field, the
+Countdowns, the deadline Calendar and the Timeline/Gantt all report the new deadline, the Elastic card is in the
+running column, the Hub's next-deadline metric follows the earliest deadline to the *other* task, and the old value
+is gone from every surface rather than joined by the new one. The second case does the same for an event moved and
+renamed: Day, 4-Day, Week, Month and Agenda all draw it, the time grids name the new instant, and Year is excluded
+with its reason rather than asserted false. The third case is the one that keeps view state honest: a query and a
+selection survive the data changing underneath them, the marked-but-hidden row is still reported, and the vault
+holds the peer's edit and nothing else. Ten boxes stay open and each names its blocker — the three group parents
+because their *origin* is a refused write (Stage 9, 12 and 14), the archive box because the navigator list is
+rendered inline by `main.ts` with no exported surface for a test to mount, schema reprojection because the legacy
+reader returns `taskSchema: []` and property definitions arrive with the record store, the two agent directions
+because the bridge is a read-only reader, and the manual-refresh box because today a refresh *is* the mechanism the
+checklist's own paragraph preserves. Stage 19's `## Evidence` bullets are annotated, and the UI+agent concurrency
+bullet is explicitly **not** claimed.
+
+**Next operation** Slice 43 — Proxima has no read-side box left that a slice can close: Stage 17's 58 boxes are
+write coverage (a typed request *and* an invocation test per action), Stage 20's 38 remove scaffolding that exists
+only because writes are unavailable, Stages 9–16 are the write halves, Stage 8's 13 and HARD GATE C's 14 are the
+import, HARD GATE D's 4 are the Notes/drawings writes, and the remaining annotated boxes in Stages 0, 3, 6, 19 and
+HARD GATE A wait on the creator's three product decisions (tags, the Task modal's workflow stage, task recurrence).
+So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
+documents whose titles say `Complete Implementation Checklist`. Their recon notes already gate two of them —
+`adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both manipulate **live foreign
+windows**, which is not reversible by a later commit and is the one line this loop does not cross unattended — and
+`quick-run.md`'s 280 boxes are gated by the creator's hotkey-chord decision **except** its STAGE 0 pure modules,
+which is where the next slice starts after reading that document's STAGE 0 end to end and the Papers tree's own
+`README.md`, `AGENTS.md` and `HERMES.md`. Nothing in Proxima is parked or uncommitted; the tree is clean and the
+branch is pushed.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -2941,49 +2968,73 @@ The cockpit must behave as one system, not a collection of independently updated
 
 ## Work
 
-- [ ] Task changed on Elastic updates:
-  - [ ] Backlog;
-  - [ ] project Task Board;
-  - [ ] Timekeeping;
-  - [ ] task modal;
-  - [ ] project metrics.
+- [ ] Task changed on Elastic updates: *(The **origin** is gated: an Elastic edit is a record mutation and is
+  refused, so no task can be changed *on* Elastic yet — Stage 9's write half owns that, under HARD GATE C. The
+  **convergence** is proven: with the change made at the source, every surface below moves together on the next
+  read, asserted by `tests/surfaceConvergence.test.ts` at `8dc3841` @ `2026-09-12T02:22:54+07:00`.)*
+  - [x] Backlog; — `8dc3841` *(the row shows the new deadline and the old value is gone from the table, not merely joined by the new one.)*
+  - [x] project Task Board; — `8dc3841` *(the card shows the new deadline, and the status change moves it to the other column.)*
+  - [x] Timekeeping; — `8dc3841` *(all three Timekeeping projections the panels draw from — Countdowns, the deadline Calendar and the Timeline/Gantt — report the new deadline for the same record.)*
+  - [x] task modal; — `8dc3841` *(the Task editor's fields are the reloaded record's, including the deadline it answers with.)*
+  - [x] project metrics. — `8dc3841` *(the Hub's next-deadline metric follows the earliest deadline across records: moving the earliest task past the other one makes the card report the other, so the metric is derived from state rather than copied from a task.)*
 
-- [ ] Deadline changed in Gantt updates:
-  - [ ] Countdowns;
-  - [ ] deadline Calendar;
-  - [ ] task modal;
-  - [ ] project Hub next-deadline metric.
+- [ ] Deadline changed in Gantt updates: *(Same split as the group above: the Gantt drag is refused, so the Gantt
+  cannot originate a deadline change — Stage 14's write half owns that. A deadline change arriving from the source
+  propagates to every surface here, `8dc3841` @ `2026-09-12T02:22:54+07:00`.)*
+  - [x] Countdowns; — `8dc3841` *(the countdown entry for the record carries the new deadline.)*
+  - [x] deadline Calendar; — `8dc3841` *(the calendar projection's entry carries the new deadline.)*
+  - [x] task modal; — `8dc3841` *(the editor shows the new value.)*
+  - [x] project Hub next-deadline metric. — `8dc3841` *(read above.)*
 
-- [ ] Event changed in Week updates:
-  - [ ] Day;
-  - [ ] 4-Day;
-  - [ ] Month;
-  - [ ] Year;
-  - [ ] Agenda.
+- [ ] Event changed in Week updates: *(The Week origin is a Schedule write and is refused, so Stage 12 owns it; the
+  propagation is proven at `8dc3841` @ `2026-09-12T02:22:54+07:00` for a change made at the source.)*
+  - [x] Day; — `8dc3841` *(the card names the new instant and the new name, and the old instant appears nowhere in the view.)*
+  - [x] 4-Day; — `8dc3841` *(as Day.)*
+  - [x] Month; — `8dc3841` *(the occurrence button draws the new name; the old one is gone.)*
+  - [x] Year; — `215777a` @ `2026-09-12T02:11:10+07:00` *(Year draws a per-date occurrence count and no per-event element, so it is asserted through those counts by the six-view convergence case rather than through the event's own values.)*
+  - [x] Agenda. — `8dc3841` *(the date group and the row carry the new name and start.)*
 
-- [ ] Project archive updates navigator/Hub/workspace everywhere.
-- [ ] Relation/schema changes reproject Backlog without restart.
-- [ ] Agent write appears on human cockpit without a manual Refresh click.
-- [ ] Human cockpit write becomes visible to agent inspection without manual refresh.
-- [ ] Multiple independent Proxima surfaces converge to the same record revision.
-- [ ] Each surface may keep independent local view state.
+- [ ] Project archive updates navigator/Hub/workspace everywhere. *(Half of it is demonstrable and half is not
+  built to be tested: the Hub and the workspace read the project record on every render, so a status change
+  arriving from the source moves the project between the Active and Archived filters and changes the workspace
+  eyebrow. The **navigator** list is rendered inline by `src/browser/main.ts`, which has no exported surface for a
+  test to mount, so this box stays open until that rendering is extracted or covered — and the archive *action*
+  itself is a record mutation, which Stage 11 owns under HARD GATE C.)*
+- [ ] Relation/schema changes reproject Backlog without restart. *(The Backlog already draws a column per declared
+  property on every render, so reprojection is structural — but the schema it reads is canonical record data: the
+  legacy reader returns `taskSchema: []` and property definitions arrive with the record store (HARD GATE A5,
+  accepted, plus the cutover). Closes when a schema record can change at runtime.)*
+- [ ] Agent write appears on human cockpit without a manual Refresh click. *(There is no agent write path: the
+  loopback bridge is a read-only vault reader that serves list/read/walk and refuses writes. The source-refresh
+  mechanism this would build on exists and is what `8dc3841` exercises from the human side.)*
+- [ ] Human cockpit write becomes visible to agent inspection without manual refresh. *(The human side cannot write
+  a record yet either, so there is nothing for inspection to notice; the inspection projection and its revision
+  reporting exist and are asserted.)*
+- [x] Multiple independent Proxima surfaces converge to the same record revision. — `8dc3841` @ `2026-09-12T02:22:54+07:00` *(the record's revision changes in the loader's map while the other records' revisions do not, and every surface listed above renders from that one reloaded state; in the record-store age the record revision takes the source revision's place and the convergence contract does not change.)*
+- [x] Each surface may keep independent local view state. — `8dc3841` @ `2026-09-12T02:22:54+07:00` *(a Backlog query and a selection survive the data changing underneath them: the same view state renders the renamed task under the new query and still reports the marked-but-hidden row, so view state and record state are independent in both directions.)*
 
 Current action dispatch already has state revisions and source-replacement semantics; preserve that concept while moving canonical state to the record store.
 
 ## Acceptance
 
-- [ ] Agent modifies task while Board and Backlog are open; both converge.
-- [ ] UI and agent race one record; stale loser explicit.
-- [ ] Separate records update independently.
-- [ ] Local surface selections do not bleed into canonical storage.
-- [ ] No manual source-refresh control is required for normal record-store coherence.
+- [ ] Agent modifies task while Board and Backlog are open; both converge. *(The Board-and-Backlog half is
+  proven — `8dc3841` changes a task at the source and asserts both surfaces move together — and the "agent
+  modifies" half waits on an agent write path, which does not exist: the bridge is read-only. Closes with the
+  first agent-capable mutation (Stage 17's agent parity, under HARD GATE C).)*
+- [ ] UI and agent race one record; stale loser explicit. *(The contract this needs is already built and
+  conformance-tested at the store level: observed revision in, `stale-revision` out, no silent merge (Gate 13,
+  `052c3b4`, `10dc3c3`, `eb0f3fe`). What is missing is two writers to race — the UI cannot write a record and
+  neither can an agent.)*
+- [x] Separate records update independently. — `8dc3841` @ `2026-09-12T02:22:54+07:00` *(one task's file changes and its revision, its surfaces and its deadline move; the other task's and the event's revisions are unchanged, and every view of them still shows what it showed.)*
+- [x] Local surface selections do not bleed into canonical storage. — `8dc3841` @ `2026-09-12T02:22:54+07:00` *(after a marked selection, a reader query and a reload, every file in the vault is byte-for-byte what it was — the peer's edit and nothing else. A selection is how this reader is looking at the table.)*
+- [ ] No manual source-refresh control is required for normal record-store coherence. *(Today a refresh **is** the mechanism, and the checklist's own paragraph below preserves source-replacement semantics until canonical state moves to the record store. The box becomes true with the first mutation that reprojects every surface by itself — Stage 9 onward, under HARD GATE C.)*
 
 ## Evidence
 
-- Multi-surface integration tests.
-- UI+agent concurrent-operation tests.
-- Revision convergence report.
-- Local-state isolation report.
+- Multi-surface integration tests. — `8dc3841` @ `2026-09-12T02:22:54+07:00` *(`tests/surfaceConvergence.test.ts` edits a vault behind an open cockpit, reloads it the way the application does, and asks eight surfaces what they show: the project Task Board, the Backlog, the project Deadlines list, the Elastic cockpit's column, the Task editor, the Countdowns, the deadline Calendar and the Timeline/Gantt — plus the six Schedule views and the event editor for an event change.)*
+- UI+agent concurrent-operation tests. *(Not available: there is no agent write path and no UI write path, so no two writers can race. The store-level concurrency conformance suite stands in for the contract and is cited on the acceptance box above; this bullet closes with the first writer pair.)*
+- Revision convergence report. — `8dc3841` @ `2026-09-12T02:22:54+07:00` *(the report is the per-surface table the test asserts: every named surface reports the changed value, the changed record's revision moves in the loader's map, and the untouched records' revisions do not.)*
+- Local-state isolation report. — `8dc3841` @ `2026-09-12T02:22:54+07:00` *(the third case: a query and a selection survive the data changing under them, a marked-but-hidden row is reported rather than covered, and the vault holds exactly the peer's edit.)*
 
 ---
 
