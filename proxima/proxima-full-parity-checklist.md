@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30` and `e898a04` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4` and `ed09e3d` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `e898a04` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `ed09e3d` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -63,6 +63,8 @@ refreshes and switches, and a legacy edit or a deletion moves neither the surfac
 **as of `d6e2b30` its choice half is too**: activation has a marker that can be refused, startup chooses
 the store only for an intact activated one and reports every other answer, and the browser shell holds
 nothing but a read-only source. The write stages are no longer gated; they are simply not written yet.
+**As of `abf8204` the first of them is written**: an Elastic drop submits one accepted task mutation through
+the operation layer and the surfaces then read the store, so the cutover is no longer a read-side claim only.
 Stage 6 slice 1, Canvas selection and read-only node inspection, at `ace9bac`.
 Stage 6 slice 2, Canvas geometry preview refusal, at `4e8bed7`.
 Stage 6 slice 3, Canvas removal intent/confirmation/refusal, at `8e20d0d`.
@@ -560,6 +562,50 @@ exit 0.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
+Slice 48, Stage 9's first wiring, pushed on Proxima branch `stage7-record-store-contract` at `abf8204`,
+committed `2026-09-12T03:20:05+07:00` and **awaiting creator acceptance**: an Elastic drop writes. The gesture is
+`src/app/taskMoveGesture.ts` — it submits **one** accepted mutation (`execution-state` and `execution-order`
+together, because a card in a new column at its old index is not a state a reader should ever observe) and only
+then re-reads the source, so nothing is drawn as saved before the store says so, which is why a refusal needs no
+undo path: the authoritative record never changed. A lost race is the one refusal where the board was showing a
+revision the store no longer holds, so that case re-reads before the refusal is rendered and reports the revision
+that beat the caller, while every other refusal leaves the world as it was and does not redraw. A refresh that
+fails after an accepted write does not undo the write. The shell receives **operations, never storage**:
+`src/adapters/browserTaskMutations.ts` composes the OPFS backend, the recovery journal, Stage 7's recovery gate
+and the activation marker, and returns three callables or a typed reason there are none (`not-activated`,
+`recovery-blocked`, `store-unreadable`); a run still reading legacy Markdown has no record write path at all and
+says so rather than appearing to work. Six UI-wiring boxes tick: both column drags, the in-column reorder, "UI does
+not update authoritative record until accepted", the stale return-to-place with refusal feedback, and
+"storage/recovery failure does not leave a card optimistically saved". `docs/DECISIONS.md` D55 records the choice
+and its reversal condition. **Two guards were relaxed deliberately in the same commit, and neither assertion was
+deleted**: `recordMutationContainment` now asserts the sharper rule — the drop is routed to operation layer and is
+deliberately *not* dispatched, no file under `src/browser/` composes a store, and the sanctioned composition names
+all three refusal reasons — and `uiSemanticActionParity` follows the two gesture names to
+`src/app/taskMoveGesture.ts`, where the canonical vocabulary now lives.
+
+Slice 49, the stage's two acceptance cases, at `e62e8f4`, committed `2026-09-12T03:21:44+07:00`: one task is moved
+by a drop and a second by the equivalent submitted operation, and the two stored records are compared field by
+field with only identity and the human-typed title removed — they are equal, down to completion, workflow order and
+the resulting revision both callers are told. The Elastic lock case now also derives a progress presentation at a
+tick moment: a real dispatcher over the store's own projection takes the target, locks, draws progress and unlocks,
+and every task revision is byte-identical afterwards with the store holding exactly the records it held before.
+Two acceptance boxes tick — "human-style drag and direct semantic action produce identical durable task state" and
+"Elastic lock/progress remains local and does not increment task revision". The seventh UI-wiring box, provisional
+drag feedback, was already built and tested rather than written here: `57860d3` @ `2026-09-10T09:14:42+07:00`
+introduced `elastic-insertion-placeholder`, and `tests/elasticCockpit.test.ts` proves a correctly sized placeholder
+is shown at the drop target during the drag while no move has been emitted, that it follows the pointer to a second
+slot, and that exactly one semantic move is emitted on drop.
+
+Slice 50, the same wiring made executable, at `ed09e3d`, committed `2026-09-12T03:25:34+07:00`: the sequence that
+joins a binder's drop intent to the semantic write path lived inline in `main.ts`, where the only thing that could
+check it was reading the file as text. It is now `src/app/elasticDropAction.ts`, and four cases execute it against a
+real store — resolve, write, refresh, render, in that order, asserted — so nothing is drawn before the store has
+answered and been re-read. The sinks are dependencies rather than globals, which is what makes the order checkable,
+and the shell supplies no storage: the containment guard now asserts that of this module too. The four cases cover
+the whole reachable surface of a drop: the accepted path, a run with no write path (refused by name, one render, no
+refresh, record untouched), a card the board is not showing (no write path is even resolved and nothing is redrawn),
+and a lost race, where the drop carries the revision the board was *rendering* rather than a fresher one.
+
 Slice 27, the Backlog's query controls as values, pushed on Proxima branch
 `stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
 `2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
@@ -742,7 +788,13 @@ panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered b
 Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
 never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
-Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser.
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `ed09e3d` the
+document stands at 581 ticked / 259 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
+HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), HARD GATE C 5, Stage 9 8,
+Stage 10 20, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
+Stage 17 58, Stage 18 7, Stage 19 10, Stage 20 12 and the final release gate 26. Stage 9 is the only stage
+whose write boxes are now being closed rather than only counted, because HARD GATE C's cutover is what every
+other write stage waits on.
 
 **Slice 38 is done**, `7f96a71` at `2026-09-12T01:52:46+07:00` — **nineteen boxes**, and the audit found the
 same thing slice 30 did: the work was done, the evidence was not. `tests/projectsHub.test.ts` covered only
@@ -931,15 +983,19 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Next operation** Slice 48 — Stage 9's UI-wiring half, and the first wiring must relax that containment guard
-**deliberately and in the same commit**: the honest shape is a smaller, sharper rule ("a mutation is executed through
-the sanctioned path or refused with a typed reason, and the browser shell still holds no store authority") rather
-than a deleted assertion. Start with `task.execution.move` from an Elastic drop — it is the gesture the stage is
-named for, its durable effect is two mutations that already exist and are tested, and its refusal path is the one the
-checklist wants returned to the card. Then the New Task modal's Save (`task.create`), the card editor
-(`task.update`), Delete, and the stale-refusal return-to-place, with the Elastic lock/progress revision case written
-alongside them, since it belongs in the same test. Nothing in Proxima or LongHorizon is parked or uncommitted; both
-trees are clean and both branches are pushed.
+**Next operation** Slice 51 — the rest of Stage 9's UI wiring, which is now the only thing between the write path and
+the three boxes that name it: the card editor's Save calls `updateTask` with the draft projected onto the closed typed
+mutation union and Delete calls `deleteTask`, both carrying the revision the card was read at, so the editor's Save
+and Delete buttons stop being rendered disabled-by-policy and start being refused by the store; then the New Task
+modal's Save calls `task.create`. The renderer half is the work: `renderTaskModal` hardcodes `TASK_EDITOR_SAVE_REFUSAL`
+into both buttons, so enabling them is a deliberate change to what the modal claims and the write path has to be the
+thing that decides. The pattern is already set by the drop — a sequence in the app layer that tests execute, with the
+shell supplying only sinks — so the editor's save/delete should be extracted the same way rather than written inline.
+Slack, if the budget allows: the five agent-parity boxes. They compare a UI caller with a programmatic one and the
+programmatic half now exists as an operation, but an agent cannot *submit* one yet — the dispatcher refuses every
+record mutation and the loopback bridge is a read-only vault reader — so those five close with the agent-facing
+caller, not with another UI path. Nothing in Proxima or LongHorizon is parked or uncommitted; both trees are clean
+and both branches are pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -2351,13 +2407,38 @@ First full DATA WRITE surface.
 - [ ] New Task Save calls `task.create`.
 - [ ] Card edit Save calls typed task mutation.
 - [ ] Delete calls `task.delete`.
-- [ ] Drag Backlog → Running calls `task.execution.move`.
-- [ ] Drag Running → Finished calls same semantic family.
-- [ ] In-column card reorder calls `task.execution.reorder`.
-- [ ] UI uses provisional card/placeholder feedback during drag.
-- [ ] UI does not update authoritative record until accepted.
-- [ ] Stale refusal returns card to authoritative location and shows refusal feedback.
-- [ ] Storage/recovery failure does not leave a card optimistically "saved."
+- [x] Drag Backlog → Running calls `task.execution.move`. — `abf8204` @ `2026-09-12T03:20:05+07:00` *(the drop
+      is routed through the app-layer drop sequence (`src/app/elasticDropAction.ts`, extracted at `ed09e3d`) into
+      `moveTaskByGesture`, which submits one `execution-state` + `execution-order` mutation through the
+      semantic operation layer and then refreshes; the gesture names the operation from the column change, so a
+      Backlog → Running drop reports `task.execution.move` and a within-column drop reports the reorder.)*
+- [x] Drag Running → Finished calls same semantic family. — `abf8204` @ `2026-09-12T03:20:05+07:00` *(the same
+      gesture with a different target column; completion follows it, because the write path derives `isCompleted`
+      from the execution state, and the case asserts a Running card lands in Finished complete and unmodified
+      elsewhere.)*
+- [x] In-column card reorder calls `task.execution.reorder`. — `abf8204` @ `2026-09-12T03:20:05+07:00` *(a drop
+      whose target column equals the card's own is the reorder operation and nothing else: the case asserts the
+      action type, the new order and an unchanged execution state, so a reorder can never be reported as a move it
+      did not make.)*
+- [x] UI uses provisional card/placeholder feedback during drag. — `57860d3` @ `2026-09-10T09:14:42+07:00` *(built
+      with the cockpit and already covered: `tests/elasticCockpit.test.ts` drives a real drag through the binder and
+      asserts a correctly sized insertion placeholder appears at the drop target while no move has been emitted, that
+      it moves to the slot under the pointer, and that exactly one semantic move leaves on drop.)*
+- [x] UI does not update authoritative record until accepted. — `abf8204` @ `2026-09-12T03:20:05+07:00` *(the
+      gesture writes first and the render reads the store afterwards — there is no optimistic card at any point, so
+      there is nothing that can disagree with the record. The nine-case file asserts the store is the authority: the
+      record's revision advances once, the projection is re-read through the product's own refresh controller, and a
+      refused gesture leaves both the record and the store's revision untouched.)*
+- [x] Stale refusal returns card to authoritative location and shows refusal feedback. — `abf8204` @
+      `2026-09-12T03:20:05+07:00` *(a lost race is the one refusal where the board is showing a revision the store no
+      longer holds, so the gesture re-reads before it returns, reports the revision that beat the caller, and the
+      shell draws the typed reason in the refusal banner beside the authoritative card. Every other refusal leaves
+      the world as it was and deliberately does not redraw.)*
+- [x] Storage/recovery failure does not leave a card optimistically "saved." — `abf8204` @
+      `2026-09-12T03:20:05+07:00` *(no write is attempted until the sanctioned path resolves, and that resolution
+      refuses by name — `not-activated`, `recovery-blocked`, `store-unreadable` — so a store behind an unresolved
+      recovery journal cannot be written at all. A failed write moves nothing; a failed refresh after an accepted
+      write does not undo the write, and the card is never drawn from a guess.)*
 
 ## Agent parity
 
@@ -2392,20 +2473,29 @@ Never "200 OK but it didn't move."
 
 ## Acceptance
 
-- [ ] Human-style drag and direct semantic action produce identical durable task state. *(Not yet: the direct semantic action exists — an Elastic drag's durable effect is exactly an `execution-state` plus an `execution-order` mutation, both implemented and tested at `e898a04` — but no drag calls them yet. This is the UI-wiring half of the stage.)*
+- [x] Human-style drag and direct semantic action produce identical durable task state. — `e62e8f4` @
+      `2026-09-12T03:21:44+07:00` *(one task is moved by a drop and a second by the equivalent submitted operation,
+      and the two stored records are compared field by field with only identity and the human-typed title removed:
+      they are equal — execution state, order, completion and workflow order — and both callers are told the same
+      resulting revision. The drag is not a second implementation of the move; it is a caller of the one operation.)*
 - [x] Two agents/surfaces race same task revision: one wins, stale caller learns it lost. — `e898a04` @ `2026-09-12T03:10:20+07:00` *(asserted against the real store and the real coordinator: two callers hold the same revision and submit different names; the first is accepted, the second is refused as `stale-revision` **with the revision that beat it**, its own value never reaches the record, and retrying from that observed revision succeeds. Both halves of the box are checked — one wins, and the loser is told rather than left with a silent overwrite. A stale delete is refused the same way and the record survives it.)*
-- [ ] Elastic lock/progress remains local and does not increment task revision. *(Not yet asserted as a case. It is true by construction — lock, unlock and the run target are `local-state` actions, and nothing in `elasticCockpit`/`shouldTickElasticProgress` takes a store or a coordinator — and the write path at `e898a04` increments a revision only when a record is actually written. What is missing is a case that holds a store, drives a lock and a progress tick, and asserts every revision is unchanged; it belongs with the Elastic drag wiring, where the same test can cover both.)*
+- [x] Elastic lock/progress remains local and does not increment task revision. — `e62e8f4` @
+      `2026-09-12T03:21:44+07:00` *(asserted rather than assumed: a real dispatcher over the store's own projection
+      takes the run target, locks the run, has an execution presentation derived from that session at a tick moment
+      and unlocks, and afterwards every task's observed revision is byte-identical and the store holds exactly the
+      records it held before. The tick predicate is the renderer's own — a live run asks for one and a deterministic
+      run derives the same numbers on demand — so neither path can reach a record.)*
 - [x] Completion semantics are consistent when moving into/out of Finished. — `e898a04` @ `2026-09-12T03:10:20+07:00` *(completion is **derived** from the execution state on every move rather than set beside it, so a task in Finished is complete and one that is not is not — the case moves a task in and back out and asserts both, and that the workflow stage and its position are untouched by either move. A standalone `completion` mutation exists for data edits, and it deliberately does not move the execution state: a caller that wants the board to change says so separately.)*
 - [x] Reordering Elastic does not alter workflow-stage order. — `e898a04` @ `2026-09-12T03:10:20+07:00` *(execution order and workflow order are separate mutations, and the case asserts both directions: an execution reorder leaves `workflowOrder` and the canonical workflow-stage projection identical, and a workflow-order change leaves `executionOrder` where it was. Two rules the canonical codec enforces are also enforced here with sentences rather than store rejections — a task in a stage must carry its position in it, and a project change may not leave a stage behind from another project.)*
 
 ## Evidence
 
-- Semantic action tests. — `e898a04` @ `2026-09-12T03:10:20+07:00` *(`tests/taskMutations.test.ts`: `task.create`, `task.update` and `task.delete` over the real store boundary and the real recovery coordinator — creation with a dozen typed refusals that leave every revision untouched, closed-field updates including property and duration clears, completion and both orderings, a contested write, and a delete that honours its revision. The required-action inventory is now real code: create/update/delete, property set and clear (relations ride the property value union), dates, weight and durations, both orderings, execution-state moves and recurrence set/clear. What is deliberately absent is the UI that calls it: no gesture dispatches these yet, and the containment guard still requires every registered record-mutation action to be refused through the dispatcher.)*
-- UI/agent equivalence tests. *(Not yet: no UI operation calls the semantic path, so there is nothing to compare it with. The other direction is prepared — the write path's failures speak the action taxonomy's vocabulary, so one operation can be reported identically to a human and an agent once both exist.)*
-- Stale race tests.
-- Automated drag tests.
-- Restart/read-back tests.
-- Mutation journal request-ID attribution.
+- Semantic action tests. — `e898a04` @ `2026-09-12T03:10:20+07:00` *(`tests/taskMutations.test.ts`: `task.create`, `task.update` and `task.delete` over the real store boundary and the real recovery coordinator — creation with a dozen typed refusals that leave every revision untouched, closed-field updates including property and duration clears, completion and both orderings, a contested write, and a delete that honours its revision. The required-action inventory is now real code: create/update/delete, property set and clear (relations ride the property value union), dates, weight and durations, both orderings, execution-state moves and recurrence set/clear. What is deliberately absent is the UI that calls it: no gesture dispatches these yet, and the containment guard still requires every registered record-mutation action to be refused through the dispatcher.)* **The UI now has a caller as of the drop wiring** — `abf8204` and `ed09e3d` route an Elastic drop into this path, and the containment guard was relaxed deliberately in that commit to the sharper rule it now asserts (the drop is routed to the operation layer and is deliberately *not* dispatched, no file under `src/browser/` composes a store, and the sanctioned composition names all three refusal reasons). What is still absent from the UI half is everything else the stage names: the card editor's Save and Delete, and the New Task modal.
+- UI/agent equivalence tests. *(Half of it now exists: a UI caller reaches the operation for one gesture, and `tests/taskMoveGesture.test.ts` compares a drop against a directly submitted operation and finds the same durable state and the same reported revision. The comparison the box actually asks for is still missing because an **agent cannot submit a mutation at all** — the dispatcher refuses every record-mutation action and the loopback bridge is a read-only vault reader — so this closes with the agent-facing caller, not with another UI path.)*
+- Stale race tests. *(Two callers of one record: the two-writer race at `e898a04` over the real coordinator, and a *gesture* that lost a race at `abf8204` — the drop carries the revision the board was rendering, is refused, re-reads, and reports the revision that beat it.)*
+- Automated drag tests. *(Three levels, all exercised rather than asserted as text: the binder's real drag through `tests/elasticCockpit.test.ts` at `57860d3`, the shell's drop sequence executed against a real store in the `Stage 9 shell glue` cases of `tests/taskMoveGesture.test.ts` at `ed09e3d`, and the gesture-to-record loop at `abf8204`.)*
+- Restart/read-back tests. *(Open for task mutations specifically. The coordinator's own durability is covered — `recordMutationBeforeCommitProcessDeath.evidence.mjs` and `recordMutationAfterCommitProcessDeath.evidence.mjs` kill and restart a real process over a disposable root — and `tests/recordStoreActivation.test.ts` closes and reopens a store, but no case yet writes a task through the semantic path, reopens the backend and reads it back.)*
+- Mutation journal request-ID attribution. *(Covered at the coordinator: `tests/recordMutationCoordinator.test.ts` asserts an outcome reports the caller's own `requestId` against the prepared/committed journal sequence, the durable record shape carries it (`RecoveryRecord.requestId`, persisted by the file-backed store), and `tests/recordMutationConcurrency.test.ts` asserts two callers keep distinct ids and that a loser retries under a new one. What the write path adds is that its refusals speak the same vocabulary the action result reports.)*
 
 ---
 
