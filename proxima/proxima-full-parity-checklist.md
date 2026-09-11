@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25`, `6dfad33`, `08d31b5` and `e325f6e` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25`, `6dfad33`, `08d31b5`, `e325f6e` and `9dcc5d6` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `e325f6e` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 195 files / 1315 tests; committer `2026-09-12T04:18:31+07:00`. At `08d31b5` the same steps were 194 files / 1307 tests, committer `2026-09-12T04:11:16+07:00`; at `6dfad33` 193 files / 1299 tests, committer `2026-09-12T04:05:45+07:00`; at `1029a25` 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `9dcc5d6` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 196 files / 1322 tests; committer `2026-09-12T04:21:48+07:00`. At `e325f6e` the same steps were 195 files / 1315 tests, committer `2026-09-12T04:18:31+07:00`. At `08d31b5` the same steps were 194 files / 1307 tests, committer `2026-09-12T04:11:16+07:00`; at `6dfad33` 193 files / 1299 tests, committer `2026-09-12T04:05:45+07:00`; at `1029a25` 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -740,6 +740,21 @@ destination feedback, the stale refusal restoring the winner's state, moving a s
 execution state alone, and both acceptance claims that name them — *Running + Review remains Running* and
 *project-board reorder leaves Elastic order unchanged*.
 
+*project-board reorder leaves Elastic order unchanged*.
+
+Slice 60, bulk actions, at `9dcc5d6`, committed `2026-09-12T04:21:48+07:00`: a bulk action is not one write
+but one write per marked record, each with its own observed revision, and `src/app/bulkTaskActions.ts` says so
+in four rules — zero silent omissions (every marked task appears in `entities`, written or refused), no overall
+success unless it is one (`accepted` only when every member was, `partial` when some were, `refused` when none
+were, and an empty selection is `refused` because zero writes is not a success), a stale member as a result
+rather than an abort (one raced record must not cost the whole action), and retry left to the caller (exactly
+one attempt per entity, asserted by *counting* the durable journal writes, since an internal retry would show
+up there as extras). Completion moves a task to Finished, because that is what a reader means by "complete" and
+what the board shows; the finer distinction — completed but still Running — stays available through the
+editor's own field. **Five boxes tick**: the four bulk-contract promises and Stage 0's **per-entity bulk-action
+result**, which had been deliberately left open waiting for the first bulk action that could run rather than
+being filled with a shape no producer wrote. What remains of Stage 10 is the Backlog's buttons calling these
+actions, schema management, and the three acceptance claims those two carry.
 Slice 27, the Backlog's query controls as values, pushed on Proxima branch
 `stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
 `2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
@@ -922,13 +937,14 @@ panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered b
 Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
 never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
-Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `e325f6e` the
-document stands at 608 ticked / 232 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `9dcc5d6` the
+document stands at 613 ticked / 227 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
 HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), **HARD GATE C 3**, **Stage 9 0**,
-**Stage 10 8**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
+**Stage 10 4**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
 Stage 17 58, Stage 18 5, Stage 19 8, Stage 20 11 and the final release gate 26. **Stage 9 is the first write
-stage to close**, and Stage 10's Board UI section is now complete: what remains in the stage is the Backlog's
-bulk actions, schema management, and the three acceptance claims those two carry.
+stage to close**, and Stage 10's Board UI and
+its bulk-action contracts are now complete: what remains in the stage is the Backlog's buttons calling those
+actions, schema management, and the three acceptance claims those two carry.
 
 **Slice 38 is done**, `7f96a71` at `2026-09-12T01:52:46+07:00` — **nineteen boxes**, and the audit found the
 same thing slice 30 did: the work was done, the evidence was not. `tests/projectsHub.test.ts` covered only
@@ -1117,18 +1133,19 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Next operation** Slice 60 — Stage 10's Backlog mutation actions, which are now the largest unblocked piece
-of the stage: `task.bulk.complete` and `task.bulk.delete` over a marked selection, with the four boxes that
-describe what a bulk action owes its caller (zero silent omissions, no "overall success" when some members
-failed unless the result says partial, stale members defined, retry caller-controlled). Three facts shape it.
-The Backlog's selection already exists and its bulk controls already refuse with a typed reason, so the
-controls have a place to start working. **Stage 0's bulk-result box is waiting on exactly this** — "a per-entity
-result shape belongs with the first bulk action that can run" — so the result shape and the first action that
-fills it should land together rather than a shape no producer fills. And `deleteTask`/`updateTask` already take
-one record with one expected revision, so a bulk action is a loop over entities with per-entity outcomes rather
-than a new storage path: the honest shape is a sequence in the app layer that calls the operations once per
-marked task and reports each outcome, which is also what makes "partial" a fact rather than a summary. Nothing
-in Proxima or LongHorizon is parked or uncommitted; both trees are clean and both branches are pushed.
+**Next operation** Slice 61 — the Backlog's buttons calling the bulk actions, which is the last piece of
+Stage 10's mutation parity before schema management. Everything it needs exists: `bulkCompleteTasks` and
+`bulkDeleteTasks` take a marked selection and return a per-entity report whose status cannot overstate it, the
+Backlog already marks rows and already draws both bulk controls (currently disabled with a typed refusal), and
+the report is a value a surface can render directly — one row per marked task, accepted or refused with its
+reason. The work is therefore the same shape as the last three surfaces: give the Backlog a report to draw,
+enable the two controls exactly when a write path resolved, and route their clicks to the app-layer sequences
+through the shell. What that closes is Stage 10's own acceptance claim that **bulk complete from UI and agent
+produce the same results** — which becomes a comparison of two callers of one sequence, the case Stage 9's
+parity suite already established the pattern for. `Bulk delete survives restart` follows from the delete path
+already writing through the recovery coordinator, and wants a case that reopens the store rather than a new
+mechanism. Nothing in Proxima or LongHorizon is parked or uncommitted; both trees are clean and both branches
+are pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -1349,7 +1366,7 @@ The current action dispatcher is synchronous and typed but only understands four
   product produces one, so there is no "a record changed" case to fill in. The record store's
   own mutation results do carry per-record revisions, so this closes with the first semantic
   record action the product dispatcher can actually run — HARD GATE C.)*
-- [ ] Define bulk-action results per entity so partial success can never be mistaken for complete success. *(The selection half exists: the Backlog marks rows, reports how many the query is hiding, and refuses Bulk Complete and Bulk Delete with a typed reason rather than acting on part of a selection. A per-entity result shape belongs with the first bulk action that can run — Stage 10's write parity, under HARD GATE C. A shape no producer fills is vocabulary a reviewer cannot check.)*
+- [x] Define bulk-action results per entity so partial success can never be mistaken for complete success. — `9dcc5d6` @ `2026-09-12T04:21:48+07:00` *(this box was left open on purpose — "a shape no producer fills is vocabulary a reviewer cannot check" — and the first bulk action that can run now fills it: `src/app/bulkTaskActions.ts` reports one `BulkEntityOutcome` per requested task (id, accepted-with-revision, or refused-with-reason and the revision that beat it when the refusal was a race) plus a `status` that is `accepted` only when every member was, `partial` when some were and `refused` when none were. The per-entity shape and the action shipped together, which is what the box was waiting for.)*
 - [x] Make the inspection contract expose: — `2a2ff0c` raises `src/app/inspection.ts` to
   schema 3 and makes the projection state what it does not know; `2450828` adds the cockpit
   `localState` (surface, selection, modes, tab, calendar month). Reverting `2a2ff0c` returns
@@ -2672,10 +2689,10 @@ If stage order itself is determined to have semantic workflow meaning, move that
 
 Bulk contracts must identify every requested task and outcome.
 
-- [ ] zero silent omissions;
-- [ ] no "overall success" if some members failed unless result explicitly reports partial success;
-- [ ] stale member behavior defined;
-- [ ] retry is caller-controlled.
+- [x] zero silent omissions; — `9dcc5d6` @ `2026-09-12T04:21:48+07:00` *(the report carries one `entities` entry per requested task, in the requested order, whether it was written or refused — including a member that is not loaded (`unknown-task`) and one whose record vanished after the world was read (`not-found`, the write path's own word for it). The two are deliberately different reasons: "the selection does not know this id" and "the record went away" are different facts, and collapsing them would hide which one happened. Every case asserts the entity list, not only the counts.)*
+- [x] no "overall success" if some members failed unless result explicitly reports partial success; — `9dcc5d6` @ `2026-09-12T04:21:48+07:00` *(`status` is `accepted` only when every member was accepted, `partial` when some were, and `refused` when none were — so a caller that reads only the summary cannot mistake a partial run for a complete one. The partial case writes two of three and asserts exactly that word, with the refused member's reason beside its id. An empty selection is `refused` rather than `accepted`: zero writes is not a success.)*
+- [x] stale member behavior defined; — `9dcc5d6` @ `2026-09-12T04:21:48+07:00` *(defined and asserted: a member whose revision moved is refused `stale-revision` with the revision that beat it, the other members are still attempted, and the store is asserted afterwards to show the two accepted tasks finished and the raced one untouched with the winner's name. One raced record does not cost the whole action — stopping would make a single concurrent edit discard an otherwise valid bulk run.)*
+- [x] retry is caller-controlled. — `9dcc5d6` @ `2026-09-12T04:21:48+07:00` *(exactly one attempt is made per entity and nothing is retried internally, which is what makes running a bulk action twice safe. The case asserts it by *counting*: two accepted updates journal a prepared and a committed record each, so the durable journal gains exactly four writes — an internal retry would show up there as extras. A caller that wants the refused members again asks again with those ids.)*
 
 ## Task-property edits
 
