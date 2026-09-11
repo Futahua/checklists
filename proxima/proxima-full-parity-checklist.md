@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `hard-gate-a10-no-hidden-database` @ `efdfa11` — pushed, creator-accepted through HARD GATE A / A10; HARD GATE A closed |
+| Accepted branch | `stage7-record-store-contract` @ `3b1af20` — pushed, creator-accepted through Stage 7 slice 1 |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `efdfa11` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 144 files / 842 tests |
+| Suite at `3b1af20` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 145 files / 853 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -173,16 +173,21 @@ recurrence cross the future import boundary; and dedicated fixtures prove combin
 projects plus independent execution/workflow movement. No Record Store, persistence, write,
 import execution or mutation capability exists. Proxima full suite 144 files / 842 tests.
 HARD GATE A is closed.
+Stage 7 / slice 1, Record-store contract and headless JSON adapter, accepted on Proxima
+branch `stage7-record-store-contract` at `3b1af20`: the pathless RecordStore port and JSON
+adapter provide opaque-ID filenames, mandatory codec validation, typed read metadata,
+conditional create/update/delete, visible corrupt-file failures, and explicit separation from
+creator-vault FSA authority. No physical backing location or mutation authority was selected.
+Proxima full suite 145 files / 853 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Ask the AUTHOR for the exact next bounded guarded packet for
-Stage 7 — Define and implement the Proxima-owned Record Store. HARD GATE B remains
-open and must close before real import. Keep every eventual mutation typed-unavailable
-until record-store cutover.
+**Next operation** Ask the AUTHOR for the exact next bounded guarded packet for Stage 7
+slice 2 — complete canonical-domain-v2 record codec/validation at the RecordStore boundary.
+Do not choose or wire a physical backing location; HARD GATE B remains open.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1171,30 +1176,30 @@ This stage is storage infrastructure, not user parity yet.
 
 ## Record-store contract
 
-- [ ] One JSON file per durable record.
-- [ ] Filename carries no human/domain meaning.
-- [ ] Every JSON document validates against the current domain schema.
-- [ ] Unknown/corrupt record files fail visibly.
-- [ ] No arbitrary partial JSON patch is exposed as the semantic application API.
-- [ ] Reader returns:
-  - [ ] typed record;
-  - [ ] opaque ID;
-  - [ ] kind;
-  - [ ] observed revision.
+- [x] One JSON file per durable record. — `3b1af20` *(adapter contract: one opaque-ID JSON file per record)*
+- [x] Filename carries no human/domain meaning. — `3b1af20` *(opaque record ID only)*
+- [ ] Every JSON document validates against the current domain schema. *(mandatory codec seam exists at `3b1af20`; complete canonical-v2 codec still open)*
+- [x] Unknown/corrupt record files fail visibly. — `3b1af20`
+- [x] No arbitrary partial JSON patch is exposed as the semantic application API. — `3b1af20`
+- [x] Reader returns: — `3b1af20`
+  - [x] typed record; — `3b1af20`
+  - [x] opaque ID; — `3b1af20`
+  - [x] kind; — `3b1af20`
+  - [x] observed revision. — `3b1af20`
 
-- [ ] Writer supports:
-  - [ ] create-if-absent;
-  - [ ] update-if-unchanged;
-  - [ ] delete-if-unchanged.
+- [x] Writer supports: — `3b1af20`
+  - [x] create-if-absent; — `3b1af20`
+  - [x] update-if-unchanged; — `3b1af20`
+  - [x] delete-if-unchanged. — `3b1af20`
 
-- [ ] Physical move/rename of a record JSON is not required for changing any human-facing record property.
+- [x] Physical move/rename of a record JSON is not required for changing any human-facing record property. — `3b1af20`
 
 ## Single-writer boundary
 
-- [ ] Record-store write authority is explicitly distinct from creator-vault FSA write authority.
-- [ ] D51 remains intact for shared creator files.
+- [x] Record-store write authority is explicitly distinct from creator-vault FSA write authority. — `3b1af20`
+- [x] D51 remains intact for shared creator files. — `3b1af20` *(existing vault writer/co-writer boundary untouched)*
 - [ ] A new record-store boundary may enable writes because the record location is Proxima-owned and not a live Obsidian source.
-- [ ] The code makes it difficult to accidentally pass a creator-vault root into the record writer.
+- [x] The code makes it difficult to accidentally pass a creator-vault root into the record writer. — `3b1af20`
 - [ ] Record-store adapter never receives arbitrary user vault paths from semantic actions.
 
 ## Crash durability
@@ -1228,21 +1233,21 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 
 ## Acceptance
 
-- [ ] Create/read/update/delete record through headless APIs.
+- [x] Create/read/update/delete record through headless APIs. — `3b1af20`
 - [ ] Restart retains records.
-- [ ] Corrupt JSON reports error.
-- [ ] Stale update refuses.
+- [x] Corrupt JSON reports error. — `3b1af20`
+- [x] Stale update refuses. — `3b1af20`
 - [ ] Two independent action callers race same revision: one winner.
 - [ ] Process-kill tests classify every recovery state.
 - [ ] No creator-vault file changed during record-store test suite.
 
 ## Evidence
 
-- RecordStore adapter tests.
+- [x] RecordStore adapter tests. — `3b1af20`
 - Mutation coordinator conformance tests.
 - Durable recovery/process-kill tests.
 - Tree diff showing writes confined to the Proxima-owned store.
-- Explicit test that a creator-vault path cannot be supplied as a record-store target.
+- [x] Explicit test that a creator-vault path cannot be supplied as a record-store target. — `3b1af20`
 
 ---
 
