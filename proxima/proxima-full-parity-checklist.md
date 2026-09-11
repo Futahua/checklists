@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4` and `ed09e3d` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627` and `18c2e48` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `ed09e3d` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `18c2e48` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 187 files / 1265 tests; committer `2026-09-12T03:37:24+07:00`. At `cab1627` the same steps were 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -606,6 +606,35 @@ the whole reachable surface of a drop: the accepted path, a run with no write pa
 refresh, record untouched), a card the board is not showing (no write path is even resolved and nothing is redrawn),
 and a lost race, where the drop carries the revision the board was *rendering* rather than a fresher one.
 
+Slice 51, the Task editor's write path, at `cab1627`, committed `2026-09-12T03:31:18+07:00`:
+`planTaskEditorSave` compares the draft against the record it was seeded from and emits one typed
+mutation per field that **actually changed** — nothing else, because a field nobody touched is a field a
+concurrent editor may already have changed, and rewriting it would be this form overwriting work it never
+saw. It refuses values the record could not hold (an empty name, an unreadable date, weight that is not a
+number, a fixed duration with no minutes) instead of half-writing the form, and it refuses a column that is
+not one of the three canonical execution states: a vault's own status id is not a column, and inventing one
+is how two vocabularies start sharing a field. Custom properties are refused **by name** with the reason —
+their values reached the editor through a compatibility projection, a select's option id having become its
+label, so writing one back needs the canonical mapping Stage 10 owns; refusing loudly is the honest half of
+that and dropping the edit silently would be the dishonest one. `saveTaskFromEditor` and
+`deleteTaskFromEditor` are the sequence over the real store and the real recovery gate, carrying the
+revision the card was read at, and the convergence rule the drop established is now one module
+(`src/app/writeConvergence.ts`) that both callers share. Ten cases.
+
+Slice 52, the editor's Save and Delete as real controls, at `18c2e48`, committed
+`2026-09-12T03:37:24+07:00`: the modal is told what this run may do by the same resolution a gesture uses,
+so the two cannot disagree — a resolved write path makes Save and Delete real, and anything else is the
+typed reason they are not. Save is offered only when there is something to write, because a form matching
+the record has no save and a disabled button saying so beats a click that comes back refused. What happens
+to the form *after* a write is a rule rather than an accident, and it is testable because the sequences
+report it instead of reaching for the shell's state: a **refused** save keeps the edits, so a reader retries
+from the authoritative revision rather than retyping, and only an accepted one clears them. An accepted
+delete closes the editor; a refused one leaves it open. The containment guard now covers this path too. Two
+UI-wiring boxes tick — **Card edit Save calls typed task mutation** and **Delete calls `task.delete`** — and
+the Timekeeping surface's copy of the modal keeps the typed-unavailable constant on purpose, because its
+binder has no form handlers at all: its write parity is Stage 14's, and half-wiring a read-only form would
+be worse than saying so.
+
 Slice 27, the Backlog's query controls as values, pushed on Proxima branch
 `stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
 `2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
@@ -788,9 +817,9 @@ panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered b
 Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
 never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
-Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `ed09e3d` the
-document stands at 581 ticked / 259 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
-HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), HARD GATE C 5, Stage 9 8,
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `18c2e48` the
+document stands at 583 ticked / 257 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
+HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), HARD GATE C 5, Stage 9 6,
 Stage 10 20, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
 Stage 17 58, Stage 18 7, Stage 19 10, Stage 20 12 and the final release gate 26. Stage 9 is the only stage
 whose write boxes are now being closed rather than only counted, because HARD GATE C's cutover is what every
@@ -983,19 +1012,18 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Next operation** Slice 51 — the rest of Stage 9's UI wiring, which is now the only thing between the write path and
-the three boxes that name it: the card editor's Save calls `updateTask` with the draft projected onto the closed typed
-mutation union and Delete calls `deleteTask`, both carrying the revision the card was read at, so the editor's Save
-and Delete buttons stop being rendered disabled-by-policy and start being refused by the store; then the New Task
-modal's Save calls `task.create`. The renderer half is the work: `renderTaskModal` hardcodes `TASK_EDITOR_SAVE_REFUSAL`
-into both buttons, so enabling them is a deliberate change to what the modal claims and the write path has to be the
-thing that decides. The pattern is already set by the drop — a sequence in the app layer that tests execute, with the
-shell supplying only sinks — so the editor's save/delete should be extracted the same way rather than written inline.
-Slack, if the budget allows: the five agent-parity boxes. They compare a UI caller with a programmatic one and the
-programmatic half now exists as an operation, but an agent cannot *submit* one yet — the dispatcher refuses every
-record mutation and the loopback bridge is a read-only vault reader — so those five close with the agent-facing
-caller, not with another UI path. Nothing in Proxima or LongHorizon is parked or uncommitted; both trees are clean
-and both branches are pushed.
+**Next operation** Slice 53 — the last of Stage 9's three UI-wiring boxes, **New Task Save calls
+`task.create`**, and it is new UI rather than new plumbing: nothing in the tree offers "new task" at all
+(`renderElasticCockpit` draws cards, the session controls and the Task editor; the Projects Hub's New Project
+modal is the only creation form). So the slice is a creation form with the same shape the editor already
+established — a modal whose Save plans a closed typed request, a sequence in the app layer that a test can
+execute against a real store, and the shell supplying only its own state and sinks. `createTask` already
+takes a closed typed request and refuses a dozen invalid shapes before a byte moves; what it needs is a form
+that can express the fields it accepts. Slack, if the budget allows: the five agent-parity boxes. They
+compare a UI caller with a programmatic one and the programmatic half now exists as an operation, but an
+agent cannot *submit* one yet — the dispatcher refuses every record mutation and the loopback bridge is a
+read-only vault reader — so those five close with the agent-facing caller, not with another UI path. Nothing
+in Proxima or LongHorizon is parked or uncommitted; both trees are clean and both branches are pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -2404,9 +2432,9 @@ First full DATA WRITE surface.
 
 ## UI wiring
 
-- [ ] New Task Save calls `task.create`.
-- [ ] Card edit Save calls typed task mutation.
-- [ ] Delete calls `task.delete`.
+- [ ] New Task Save calls `task.create`. *(Still open, and the honest reason is that there is no New Task control anywhere in the tree yet: `renderElasticCockpit` draws cards, the session controls and the Task editor, and nothing offers "new task" at all — the Projects Hub's New Project modal is the only creation form. So this box needs a modal, not a wiring: a creation form whose Save calls `task.create` with the same closed typed request the write path already takes. It is the last of the three UI-wiring boxes on this list that needs new UI rather than new plumbing.)*
+- [x] Card edit Save calls typed task mutation. — `cab1627` @ `2026-09-12T03:31:18+07:00` and `18c2e48` @ `2026-09-12T03:37:24+07:00` *(`planTaskEditorSave` turns the draft into one typed mutation per field that actually changed — nothing else, so a field nobody touched cannot be rewritten over a concurrent editor's work — and refuses anything the record could not hold rather than half-writing the form; custom properties are refused by name because their values arrived through a compatibility projection and writing them back needs Stage 10's canonical mapping. `cab1627` is that plan and its sequence over the real store; `18c2e48` makes the modal's Save a real control, offered only when there is something to write, and reports the click through the real binder. A refused save keeps the edits so a reader retries from the authoritative revision; an accepted one clears them.)*
+- [x] Delete calls `task.delete`. — `18c2e48` @ `2026-09-12T03:37:24+07:00` *(the modal's Delete is a real control whenever a write path resolved, it carries the revision the card was read at, and an accepted delete closes the editor while a refused one leaves it open — the bookkeeping is reported by the app layer rather than reached for, which is what makes it testable. The Timekeeping surface's copy of the same modal still passes the typed-unavailable constant on purpose: its binder has no form handlers at all, so its editor is read-only until Stage 14's write parity gives it some.)*
 - [x] Drag Backlog → Running calls `task.execution.move`. — `abf8204` @ `2026-09-12T03:20:05+07:00` *(the drop
       is routed through the app-layer drop sequence (`src/app/elasticDropAction.ts`, extracted at `ed09e3d`) into
       `moveTaskByGesture`, which submits one `execution-state` + `execution-order` mutation through the
