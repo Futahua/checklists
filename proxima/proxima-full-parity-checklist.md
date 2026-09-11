@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–31 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a` and `d7e6270` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–32 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270` and `9d6062c` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `d7e6270` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 176 files / 1131 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:06:10+07:00`. At the previous points: `fef3b8a` 176 / 1126, `b20cdca` 176 / 1124, `7825d20` 174 / 1105. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `9d6062c` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 176 files / 1135 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:11:58+07:00`. At the previous points: `d7e6270` 176 / 1131, `fef3b8a` 176 / 1126, `b20cdca` 176 / 1124, `7825d20` 174 / 1105. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -629,16 +629,34 @@ name, falling back to the stored key — the projection had used the raw key, wh
 editor and the property pills. The bulk controls are drawn where a selection would act, disabled, carrying
 the same typed refusal every other write carries.
 
-**Next operation** Slice 32 — the Backlog's remaining interaction boxes: **Row selection**, **Select all**,
-**Multi-selection** and **Task row/name click opens editor**. All four belong in `ProjectBacklogViewState`
-and the projection rather than in markup, in the shape slices 26–27 established: a selection set in the view
-state, a projection that reports which rows are selected and whether every visible row is, and a binder that
-reports the click. Selection is view state, so **Search/filter/sort never mutate records** continues to
-hold and a selection must survive a query change without selecting a hidden row — decide that explicitly
-and write it down. Then **Resizable columns** and **Custom-property columns** (layout work, both about the
-column table the renderer still does not draw), **Property filters** (engine work on `task.properties`), and
-**Tag filtering**, which is blocked on tags having no model — that one is the creator's, not a gap to fill.
-Stage 6's remaining blocks afterwards are Template UI (6 boxes) and its Acceptance section (4 boxes).
+**Slice 32 is done**, `9d6062c` at `2026-09-12T01:11:58+07:00`, three § Backlog boxes: Row selection, Select
+all, Multi-selection. `BacklogViewState.selectedTaskIds` holds the marked tasks in the order they were
+marked, and the projection reports three separate facts about it — how many *shown* rows are marked, how
+many marked tasks the query hides, and whether every shown row is marked — so a bulk action can never be
+read as covering a row nobody can see. Select all means the rows on screen; a hidden mark is left to
+whatever marked it before; clearing clears hidden marks too. Each row carries a real checkbox keyed by task
+and the binder reports which task it is for rather than deciding what that means. The transitions are pure
+functions in `app/backlogControls.ts` beside the query controls.
+
+**Deliberately not in slice 32: Task row/name click opens editor.** The Backlog's row click opens its own
+inspector, and opening the Task editor modal from this panel needs a decision about where that modal is
+mounted — the Backlog panel does not render it today. That is its own slice, and it is the one Backlog box
+left that is a wiring decision rather than a feature.
+
+**Next operation** Slice 33 — Stage 6's **Acceptance** section, four boxes, as an audit before any more
+features. Three of them are claims that should already hold and need evidence assembled rather than code
+written: *Every old editor can be opened programmatically* (what counts as an editor, and which surfaces
+open one), *Every unsaved field can be changed and cancelled without durable change* (the Task editor draft,
+the Project create modal, the Event modal's inert controls — three different answers that need stating
+plainly rather than averaged), and *All future Save/Delete buttons currently produce a typed unavailable
+result rather than fake success* — that last one is a sweep worth doing properly: every Save/Delete/Edit
+control across the product, its refusal code, and whether it can be clicked at all. Then *Relation/rollup/
+formula projection works without wikilink semantics leaking into UI code*, which is a boundary claim
+`tests/boundaries.test.ts` and the projection modules should already answer. After that: **Resizable
+columns** and **Custom-property columns** (layout work, both about the column table the renderer still does
+not draw), **Property filters** (engine work on `task.properties`), **Tag filtering** (blocked on tags having
+no model — the creator's, not a gap to fill), Template UI (6 boxes), and the Task modal's two deliberate
+opens.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -1393,9 +1411,9 @@ Still before migration.
 - [x] Sort indicator. — `9b59d16` @ `2026-09-12T00:23:35+07:00` *(the renderer emits `data-project-backlog-sort-indicator` carrying the sorted field and direction with a ▲/▼ mark, and omits the whole toolbar when no query is active so the unqueried markup is byte-identical to what it rendered before)*
 - [ ] Custom-property columns.
 - [ ] Resizable columns.
-- [ ] Row selection.
-- [ ] Select all.
-- [ ] Multi-selection.
+- [x] Row selection. — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(every row carries a real checkbox keyed by task id, and the binder reports which task it is for rather than deciding what that means; `toggleBacklogSelection` keeps the order the marks were made in, because that is the order a bulk action would act in. Selection is view state — `BacklogViewState.selectedTaskIds` — so no record is written, asserted.)*
+- [x] Select all. — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(Select all means the rows on screen: `selectAllBacklogVisible` adds the visible tasks and leaves a marked task the query hides to whatever marked it before, because a hidden row is not something the creator can see they are selecting. The control disables itself when every shown row is already marked, and when nothing is shown there is nothing to select.)*
+- [x] Multi-selection. — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(a selection is memory, not a filter: the projection reports how many shown rows are marked, how many marked tasks the query is hiding, and whether every shown row is marked — three separate facts, so a bulk action can never be read as covering a row nobody can see. `allVisibleSelected` is false when nothing is visible, because an empty list has nothing selected and saying otherwise would let a bulk action look safe to run. Clearing the selection clears hidden marks too.)*
 - [ ] Task row/name click opens editor.
 - [x] Relation display. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(a row now draws the property cells the projection already computed, so a relation property is visible where a reader looks for it, carrying `data-project-backlog-cell-kind="relation"` so a target id can be told from an entered value. Property columns are labelled with the schema's name for the property — the projection had used the raw stored key, which disagreed with how the Task editor and the property pills already name one.)*
 - [x] Rollup display. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(shown with `data-project-backlog-cell-kind="rollup"`, displaying the value the record holds. Stated residual: computing a rollup from its relations is not this surface's job yet, so what is displayed is the stored value rather than a freshly aggregated one.)*
