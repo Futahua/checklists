@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `e961b94` — pushed, creator-accepted through Stage 7 slice 17 semantic-action path containment |
+| Accepted branch | `stage7-record-store-contract` @ `b612cdb` — pushed, creator-accepted through Stage 7 slice 18 semantic/UI mutation-containment closeout |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `e961b94` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 151 files / 903 tests; semantic path-containment / JSON RecordStore focused 1 file / 12 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
+| Suite at `b612cdb` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 152 files / 906 tests; semantic/UI mutation-containment focused 1 file / 3 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -321,13 +321,18 @@ cannot reach its backend. Even when tests deliberately bypass the OpaqueRecordId
 brand, Windows, traversal-shaped and POSIX creator-vault paths are rejected by runtime
 opaque-ID validation before any backend read/update/delete call. Backend call counts remain
 zero and storage remains empty. No semantic/UI mutation authority is enabled.
-Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
-revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
-a second caller and the record store exist. Every ticked box names the commit that closed it.
+Stage 7 / slice 18, semantic/UI mutation-containment closeout, creator-accepted on Proxima
+branch `stage7-record-store-contract` at `b612cdb`: all eleven currently registered
+record-mutation actions are exhaustively proven typed-unavailable through programmatic semantic
+dispatch. ActionDispatcherOptions exposes no RecordStore/backend/recovery/coordinator mutation
+authority; semantic dispatch makes no RecordStore mutation call; and browser mutation intents
+either route through that same typed-unavailable dispatcher or have no browser wiring.
+Browser source contains no RecordStore/coordinator/recovery mutation authority. This is
+tests-only containment evidence; no semantic or UI mutation capability is enabled.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 7 slice 18 — semantic/UI mutation-containment closeout only.
+**Next operation** None authorized. Stage 8 is the next checklist stage, but remains closed until the creator explicitly authorizes importer work.
 Keep explicit caller refetch/retry/no-silent-merge, semantic-action containment, creator-vault/tree-diff acceptance
 and all Stage 8 import work separate until explicitly accepted.
 
@@ -1395,6 +1400,7 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 - [x] Same-record observed-revision concurrency tests. — `052c3b4` *(update/delete caller shapes bind to observed revision; two independent same-revision coordinator callers produce one winner plus one typed stale loser, with winner bytes/revision preserved)*
 - [x] Different-record independence concurrency tests. — `10dc3c3` *(two independent coordinator callers bind to distinct observed revisions; both different-record updates succeed and retain their own bytes/revisions without cross-record interference)*
 - [x] Explicit refetch/retry no-silent-merge concurrency tests. — `eb0f3fe` *(stale refusal performs no automatic third write; explicit caller refetch observes the winner revision, and only a new revision-bound execute commits exact replacement bytes without merge)*
+- [x] Semantic/UI mutation-containment closeout tests. — `b612cdb` *(all eleven registered record-mutation actions remain typed-unavailable through programmatic dispatch; ActionDispatcherOptions and dispatcher execution expose no RecordStore mutation authority; browser mutation intents route only through that dispatcher and browser source contains no RecordStore/coordinator/recovery mutation wiring)*
 - [x] Process-death recovery evidence: `9bbedbd` *(before-commit kill: durable prepared survives; physical effect absent; startup → recovered)*; `97970b7` *(after-commit kill: intended physical effect survives while durable journal remains prepared; startup → committed without rollback)*; `7c89491` *(single-run aggregate executable matrix invokes both unchanged accepted harnesses exactly once and requires the exact `not-applied → recovered` / `effect-present → committed` classification pair)*
 - [x] Durable recovery/process-kill tests. — `7c89491` *(single-run aggregate matrix executes both accepted real child-process death boundaries against durable recovery/record fixtures and requires the complete complementary classification pair)*
 - [x] Tree diff showing writes confined to the Proxima-owned store. — `4cdbeea` *(disposable physical-tree probe changes exactly the opaque record JSON and `record-store/recovery/journal.json`, both beneath the Proxima-owned root; sibling creator-vault fixture remains unchanged)*
