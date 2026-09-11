@@ -20,7 +20,7 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `a8c1b1e` — pushed, creator-accepted through Stage 7 slice 2 |
+| Accepted branch | `stage7-record-store-contract` @ `a08340c` — pushed, creator-accepted through HARD GATE B physical-store decision; executable code remains `a8c1b1e` |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
@@ -186,18 +186,25 @@ recurrence families, opaque IDs and scoped ordering; the canonical JSON RecordSt
 always supplies this codec, and malformed, legacy/local and path-bearing shapes fail visibly.
 No physical backing location or mutation/recovery authority was selected. Proxima full suite
 146 files / 869 tests.
+HARD GATE B, physical Proxima-owned Record Store location, creator-accepted on Proxima
+branch `stage7-record-store-contract` at `a08340c`: canonical records are assigned to
+the OPFS owned by the stable Proxima Backpack origin
+`papers-backpack://bp-954ea2cd-6261-410d-baf8-0d1fbd8ca0b1`, with fixed
+`record-store/records/` and `record-store/recovery/` namespaces. Authority is reacquired
+programmatically from the origin with `navigator.storage.getDirectory()`; no picker,
+creator-vault path, project-root database, direct agent storage access or Papers capability is
+introduced. This is a decision-only commit: executable code remains `a8c1b1e`, whose accepted
+suite is 146 files / 869 tests. No physical backend or mutation/recovery implementation exists yet.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** HARD GATE B — physical Proxima-owned Record Store location decision.
-This is a decision gate, not an implementation slice. The next AUTHOR operation must
-determine, with the creator, what concrete backing location/API satisfies the existing
-restart, authority-restoration, Obsidian-boundary, Proxima-action, recovery-journal and
-no-direct-agent-access constraints. No physical location is selected here; no
-mutation/recovery implementation begins until that decision exists.
+**Next operation** Stage 7 slice 3 — implement the browser OPFS `RecordStoreFileBackend`
+against the fixed `record-store/records/` namespace, with bounded adapter/conformance evidence
+only. Do not yet wire semantic record mutations, the durable recovery coordinator, multi-caller
+concurrency, real import/migration/cutover, Papers, the live vault, main, release or install.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -209,8 +216,10 @@ columns, pointer delta over one column width, ties away from zero, no time of da
 is 96 fifteen-minute slots per civil day, position from local minutes since midnight, height
 from duration over 1440. Mixing them yields geometry that looks plausible and is wrong.
 
-**Open** HARD GATE B — where the Proxima-owned record store physically lives — is unanswered
-and gates the import. Stages 1–6 do not need it.
+**HARD GATE B is closed** at Proxima `a08340c`: the physical backing API is the stable
+Proxima Backpack origin's OPFS under `record-store/records/` plus
+`record-store/recovery/`. Real import still does not begin: the remaining Stage 7 physical
+backend, restart, mutation/recovery and concurrency acceptance must close first.
 
 **`npm` cannot run on this machine.** The C: drive is at zero bytes free and npm dies with
 ENOSPC before executing anything. Run the same steps directly instead —
@@ -1263,22 +1272,28 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 
 # HARD GATE B — Physical store location must be settled before real import
 
-The storage **format** is decided; the exact physical backing location/API is not established by `608bcdc` or the prompt.
+The storage **format** and physical backing API are decided.
 
-Before importing the real database, answer:
+**Chosen location/API — `a08340c`:** the canonical Proxima Record Store is the
+Origin Private File System of the stable Proxima Backpack origin
+`papers-backpack://bp-954ea2cd-6261-410d-baf8-0d1fbd8ca0b1`, reacquired with
+`navigator.storage.getDirectory()`. Its fixed namespace is
+`record-store/records/` for canonical record JSON and `record-store/recovery/` for the
+durable recovery journal. Chromium's private on-disk implementation path is not an
+application path contract.
 
-> Where exactly do the Proxima-owned JSON files and recovery journal live such that they persist across Papers restarts, require no recurring creator gesture, are not edited by Obsidian, and remain available to Proxima's semantic action service?
+- [x] Backing location chosen. — `a08340c`
+- [x] Authority restoration is programmatic after initial unavoidable enrollment, if any. — `a08340c` *(OPFS root is reacquired from the stable origin; no Record Store picker or external handle is required)*
+- [x] Store survives normal Papers restart. — `a08340c` *(location is the stable Backpack origin in Papers' persistent profile; Stage 7's separate implemented restart-retention acceptance row remains open until the backend exists)*
+- [x] Obsidian does not treat it as the live task/project/event database. — `a08340c` *(origin-private browser storage, not the creator vault)*
+- [x] Agent access occurs through Proxima actions, not direct backing-store access. — `a08340c` *(OPFS handles remain adapter-private)*
+- [x] Recovery journal survives wherever the record store survives. — `a08340c` *(same OPFS root, sibling `record-store/recovery/` namespace)*
 
-Possible implementation choices should be judged against those requirements, but this checklist does **not** invent the answer.
+**HARD GATE B CLOSED** — `a08340c`
 
-- [ ] Backing location chosen.
-- [ ] Authority restoration is programmatic after initial unavoidable enrollment, if any.
-- [ ] Store survives normal Papers restart.
-- [ ] Obsidian does not treat it as the live task/project/event database.
-- [ ] Agent access occurs through Proxima actions, not direct backing-store access.
-- [ ] Recovery journal survives wherever the record store survives.
-
-**Do not start real migration until this closes.**
+Closing this decision gate does not itself implement the store and does not authorize real
+migration. Complete Stage 7 physical-backend, restart, mutation/recovery and concurrency
+acceptance before beginning real import.
 
 ---
 
@@ -2325,12 +2340,6 @@ These should not be silently "resolved" by whoever implements the checklist.
 > Is `unsupported-frontmatter` importable when the compatibility reader produced a usable record, or is it an import blocker?
 
 This must be answered before real migration activation.
-
-### Physical Proxima-owned store location
-
-> What concrete backing store/location satisfies one-JSON-file-per-record, restart durability, no recurring owner click, no Obsidian co-writer and agent access only through Proxima?
-
-Must close before real import.
 
 ### Durable all-day intent
 
