@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `hard-gate-a3-scoped-ordering` @ `bf56679` — pushed, creator-accepted through HARD GATE A / A3 |
+| Accepted branch | `hard-gate-a4-project-capabilities` @ `795f019` — pushed, creator-accepted through HARD GATE A / A4 |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `bf56679` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 137 files / 801 tests |
+| Suite at `795f019` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 138 files / 804 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -112,6 +112,14 @@ rather than a third durable task-order field. The typed `task.timeline.change.ta
 contract remains present while its durable mutation leg remains unavailable. Legacy
 `Task.orderIndex` compatibility behavior remains unchanged; no persistence, write, import
 execution or mutation capability exists. Proxima full suite 137 files / 801 tests.
+HARD GATE A / A4, Project-type silo removed, accepted on Proxima branch
+`hard-gate-a4-project-capabilities` at `795f019`: active projects may associate with tasks
+and events simultaneously; task/calendar visibility and selection no longer depend on the
+legacy `projectType` label; capabilities derive from available task/event/workspace data;
+inspection schema v5 exposes those capabilities rather than `projectType`; and legacy
+`projectType` remains import/presentation metadata only. Obsolete pre-A4 silo assertions
+were corrected without altering the legacy reader. No persistence, write, import execution
+or mutation capability exists. Proxima full suite 138 files / 804 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
@@ -119,7 +127,7 @@ a second caller and the record store exist. Every ticked box names the commit th
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
 **Next operation** Ask the AUTHOR for the exact next bounded guarded packet for HARD GATE A /
-A4 — Project-type silo removed. Keep every eventual mutation typed-unavailable until
+A5 — Schema is canonical data. Keep every eventual mutation typed-unavailable until
 record-store cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
@@ -1000,13 +1008,14 @@ The single current `orderIndex` cannot remain the universal answer.
 
 ## A4 — Project-type silo removed
 
-- [ ] Project can associate with tasks and events simultaneously.
-- [ ] Project UI capabilities are determined by available data/workspace configuration, not immutable `task|schedule` type.
-- [ ] Existing legacy `projectType` is import metadata only if needed for faithfully reconstructing old presentation.
-- [ ] No selector filters task visibility merely because a project was formerly labeled schedule.
-- [ ] No selector filters event visibility merely because a project was formerly labeled task.
+- [x] Project can associate with tasks and events simultaneously. — `795f019`
+- [x] Project UI capabilities are determined by available data/workspace configuration, not immutable `task|schedule` type. — `795f019`
+- [x] Existing legacy `projectType` is import metadata only if needed for faithfully reconstructing old presentation. — `795f019`
+- [x] No selector filters task visibility merely because a project was formerly labeled schedule. — `795f019`
+- [x] No selector filters event visibility merely because a project was formerly labeled task. — `795f019`
 
-The current inspection and selectors still expose/project on `projectType`, so both projection and inspection contracts must change.
+The inspection and selector contracts no longer use `projectType` as capability or visibility
+authority; inspection schema v5 exposes data/workspace-derived capabilities instead. — `795f019`
 
 ---
 
