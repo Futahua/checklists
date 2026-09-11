@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–22 are pushed at `bd64a34`, `394179c`, `c62a7dc` and `d7e6a6c` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–23 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c` and `d66622f` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `d7e6a6c` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 169 files / 1025 tests; Stage 8 focused 17 files / 119 tests; committer `2026-09-12T00:09:34+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `d66622f` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 170 files / 1028 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T00:12:36+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -531,19 +531,28 @@ survive without the record being dropped; `projectType` stays compatibility meta
 and record identity is opaque with same-title records receiving distinct ids. Evidence: focused 17 files /
 119 tests, full suite 169 files / 1025 tests, every step exit 0.
 
+Stage 8 / slice 23, import identity idempotence, pushed on Proxima branch
+`stage7-record-store-contract` at `d66622fb1c1f05d00b537d6d02e2426b70f0cee1`, committed
+`2026-09-12T00:12:36+07:00` and **awaiting creator acceptance**: `tests/importIdempotence.test.ts` proves
+that re-planning the same vault reuses every identity from the durable mapping, and that an interrupted
+run resumed from the stored manifest alone comes back identical — through a duplicated legacy alias too,
+and stable on a third pass. The proof rests on giving every run a *disjoint allocator range*: a shared
+counter would have hidden exactly the failure under test, because a re-derived identity would still have
+looked like reuse. Evidence: focused 18 files / 122 tests, full suite 170 files / 1028 tests, every step
+exit 0.
+
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 23 — the staging-representation boundary, scoped honestly rather than
-assumed. The open boxes are: import can materialize a staging record store; valid records may be converted
-into staging while blockers are reported; staging is not canonical until activation; re-running the same
-import is idempotent with respect to already assigned import identities; an interrupted import
-resumes/replans without producing duplicate canonical records; no hidden "some records now JSON, some
-still Markdown" live mode; and other valid records may be prepared in staging. Staging landed at `9c0c2dc`
-and `42a0361`, so first establish which of these a read-only plan/staging run against the fixture vaults
-can actually prove — idempotent re-plan through the durable identity mapping is the likeliest, since the
-planner already consumes a prior mapping — then close those and leave any whose acceptance needs
-activation or a real import run open with the blocking reason stated, rather than argued shut. Stay
-read-only: no live Record Store, activation, legacy Markdown or creator-vault writes.
+**Next operation** Slice 24 — Stage 8 is now at its read-only boundary, so recon the three untouched
+checklists, which hold most of the remaining work: `papers/quick-run.md` (280 open),
+`papers/adopted-window-surfaces.md` (173 open) and
+`papers/window-layout-consistency-and-auto-tracking.md` (172 open). They target the Papers host tree at
+`D:\Letters\MatTroiSeConMoc\Products\Papers\Source` (`Futahua/Papers-3`, currently on `gate10-relay` at
+`d2a3c74`), not Proxima, so establish for each which boxes are reachable without activation or a real
+import run, name the suite each one needs, and then take the largest reachable packet. Stage 8's own
+remaining boxes are gated rather than merely unattempted: staging materialization and the mixed-mode
+prohibition need activation behind HARD GATE C, the legacy byte-hash evidence needs a real import run, and
+the unsupported-frontmatter policy is a creator-owned question that must not be answered by assertion.
 
 **The AUTHOR loop changed on 2026-09-11, by creator instruction.** The browser reviewer is retired: it
 was too slow, and it existed mainly to keep an agent working through the creator's night rather than to
@@ -1688,8 +1697,8 @@ Use staged activation, not a half-cut-over live database.
 - [ ] Import can materialize a staging record store.
 - [ ] Valid records may be converted into staging while blockers are reported.
 - [ ] Staging is not canonical until activation.
-- [ ] Re-running the same import is idempotent with respect to already assigned import identities.
-- [ ] An interrupted import resumes/replans without producing duplicate canonical records.
+- [x] Re-running the same import is idempotent with respect to already assigned import identities. — `d66622f` @ `2026-09-12T00:12:36+07:00` *(re-planning the same vault with a fresh allocator in a disjoint id range reuses every identity from the durable mapping, so a re-run cannot mint a second record for a source that already has one; the conversion ids and the manifest agree, and no identity is held by two records)*
+- [x] An interrupted import resumes/replans without producing duplicate canonical records. — `d66622f` @ `2026-09-12T00:12:36+07:00` *(a run that stops is resumed from the stored manifest alone: the test persists the mapping, discards the plan, and re-plans with an allocator in a disjoint range — identities come back identical, a third pass is a fixed point rather than drifting, and a duplicated legacy alias still keeps both physical records distinct. The claim proven is identity reuse on replan; canonical materialization remains staged and not activated.)*
 - [ ] No hidden "some records now JSON, some still Markdown" live mode is allowed unless explicitly designed and tested.
 
 > Slice 9 proves these invariants only for canonical-ready schema records in an isolated
