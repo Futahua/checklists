@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `hard-gate-a5-canonical-schema` @ `289754d` — pushed, creator-accepted through HARD GATE A / A5 |
+| Accepted branch | `hard-gate-a6-id-relations` @ `26c84d4` — pushed, creator-accepted through HARD GATE A / A6 |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `289754d` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 139 files / 811 tests |
+| Suite at `26c84d4` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 140 files / 817 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -128,6 +128,15 @@ and presentation-only option colors, column widths and collapsed state are expli
 LOCAL STATE. Legacy schema types remain compatibility-only and the legacy reader is unchanged.
 No persistence, write, import execution or mutation capability exists. Proxima full suite 139
 files / 811 tests.
+HARD GATE A / A6, Relations are ID-based, accepted on Proxima branch
+`hard-gate-a6-id-relations` at `26c84d4`: canonical relation values contain only the opaque
+relation-schema ID and opaque target-record IDs; resolution is entirely by canonical record
+identity with schema target-kind enforcement; duplicate, missing and disallowed targets fail
+explicitly; title changes and legacy source moves leave relation identity intact; and
+wikilink/filename-shaped values are refused at the canonical boundary. Canonical relation
+semantics contain no target filename, source path or `targetFolder`; existing legacy
+compatibility code remains untouched. No persistence, write, import execution or mutation
+capability exists. Proxima full suite 140 files / 817 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
@@ -135,8 +144,8 @@ a second caller and the record store exist. Every ticked box names the commit th
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
 **Next operation** Ask the AUTHOR for the exact next bounded guarded packet for HARD GATE A /
-A6 — Relations are ID-based. Keep every eventual mutation typed-unavailable until
-record-store cutover.
+A7 — Names are independent from storage representation. Keep every eventual mutation
+typed-unavailable until record-store cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1042,12 +1051,12 @@ authority; inspection schema v5 exposes data/workspace-derived capabilities inst
 
 ## A6 — Relations are ID-based
 
-- [ ] Relation values contain logical record IDs.
-- [ ] Relation semantics do not contain wikilinks.
-- [ ] Relation semantics do not depend on target filenames.
-- [ ] Relation schemas do not use `targetFolder` as the conceptual target.
-- [ ] Rename/move of a human-facing record representation cannot break relation identity.
-- [ ] Markdown/wikilink conversion exists only inside legacy import/export compatibility code if required.
+- [x] Relation values contain logical record IDs. — `26c84d4`
+- [x] Relation semantics do not contain wikilinks. — `26c84d4`
+- [x] Relation semantics do not depend on target filenames. — `26c84d4`
+- [x] Relation schemas do not use `targetFolder` as the conceptual target. — `26c84d4`
+- [x] Rename/move of a human-facing record representation cannot break relation identity. — `26c84d4`
+- [x] Markdown/wikilink conversion exists only inside legacy import/export compatibility code if required. — `26c84d4` *(canonical domain introduces no Markdown/wikilink conversion; existing compatibility code remains outside canonical relation semantics)*
 
 ---
 
