@@ -9,6 +9,14 @@ default hotkey chord is deliberately unchosen.
 
 **Where it would land** `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — `Futahua/Papers-3`.
 
+**Reachability** (recon 2026-09-12). Host baseline is green: `Futahua/Papers-3` at `d2a3c74`, 99 files
+(98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The 280 open boxes are feature
+acceptance criteria (28 in §1), prohibitions (31 across §3 and §6), architecture invariants (19), STAGE 3
+index work (62), STAGE 17 test requirements (92) and Definition of Done (47); STAGE 0's pure-search
+sections carry **no** boxes. Implementation is gated by the unchecked item at the foot of this file: the
+hotkey chord is the creator's to choose and must not be invented. STAGE 0's pure modules need neither a
+chord nor any native capability, so they are the only part that could begin before that decision.
+
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering

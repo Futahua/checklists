@@ -8,6 +8,15 @@
 
 **Where it would land** `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — `Futahua/Papers-3`. Nothing is built, so no branch is named yet.
 
+**Reachability** (recon 2026-09-12). Host baseline is green: `Futahua/Papers-3` at `d2a3c74`, 99 files
+(98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The 173 open boxes are invariants
+(16), product-honesty limits (15), prohibitions (18), stage work (21 + 15 + 9 + 5 + 7), STAGE 14 test
+requirements (33) and Definition of Done (34). The feature is built on **live foreign windows**: Papers
+takes over their visibility, rectangle and Z-order, and its own STAGE 0 is a viability proof for exactly
+that. None of it may be attempted autonomously on the creator's desktop overnight — moving or hiding
+another application's windows is not reversible by a later commit, which is the line this loop does not
+cross without the creator present.
+
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here verbatim (only

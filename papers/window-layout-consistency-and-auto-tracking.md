@@ -12,6 +12,14 @@
 "remove invalidated processes immediately", or a Chrome tab switch will silently delete
 Chrome and Obsidian from the creator's layouts during ordinary use.
 
+**Reachability** (recon 2026-09-12). Host baseline is green: `Futahua/Papers-3` at `d2a3c74`, 99 files
+(98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The 172 open boxes are prohibitions
+(23), stage work (4 + 6 + 15), STAGE 22 test requirements (80) and Definition of Done (41). Two blockers
+stand before any stage begins: the reviewer's first open item — "Resolve the window-tag lifetime
+contradiction … record the answer before Stage 1" — is unanswered, and the feature manipulates **live
+foreign windows** (moving, hiding, Z-ordering them), which must not be attempted autonomously on the
+creator's desktop overnight.
+
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering

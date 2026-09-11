@@ -543,16 +543,31 @@ exit 0.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Slice 24 — Stage 8 is now at its read-only boundary, so recon the three untouched
-checklists, which hold most of the remaining work: `papers/quick-run.md` (280 open),
-`papers/adopted-window-surfaces.md` (173 open) and
-`papers/window-layout-consistency-and-auto-tracking.md` (172 open). They target the Papers host tree at
-`D:\Letters\MatTroiSeConMoc\Products\Papers\Source` (`Futahua/Papers-3`, currently on `gate10-relay` at
-`d2a3c74`), not Proxima, so establish for each which boxes are reachable without activation or a real
-import run, name the suite each one needs, and then take the largest reachable packet. Stage 8's own
-remaining boxes are gated rather than merely unattempted: staging materialization and the mixed-mode
-prohibition need activation behind HARD GATE C, the legacy byte-hash evidence needs a real import run, and
-the unsupported-frontmatter policy is a creator-owned question that must not be answered by assertion.
+**Next operation** Slice 25 — Proxima Stage 6 Backlog presentation, **not** the papers. Slice 24's recon
+corrected an error in slice 23's own handoff: Stage 8 sitting at its read-only boundary says nothing about
+the other 459 open boxes, and the papers are not the nearest work.
+
+Open boxes by section: Stage 6 (71), Stage 5 (40), Stage 17 (58), Stage 18 (58), Stage 19 (28), the final
+release gate (26), Stages 9–16 (135 across eight DATA WRITE stages), Stage 20 (12), Stage 0 (10), HARD
+GATE C (14), Stage 8 (13), HARD GATE D (4), and one each in Stages 3 and 4.
+
+HARD GATE C — "Do not enable any real record-editing UI until this gate closes" — gates Stages 9–14 and
+the DATA WRITE half of Stage 17, so that entire block is blocked rather than merely unattempted. Stages 5
+and 6 are **presentation**: Stage 6 alone is 71 boxes of concrete, self-contained UI behaviour — Backlog
+search, tag filtering, property filters with type-appropriate comparison operators, multiple filters,
+filter removal, ascending/descending sort and a sort indicator. That is the largest un-gated pool in the
+project and it is provable read-only against the fixtures. Take it as the next packet.
+
+**Papers checklists recon, 2026-09-12 (slice 24).** All three are greenfield: every Status reads "Not
+started. No implementation exists. Design only." Their boxes are feature-level acceptance criteria,
+test-stage requirements and Definition-of-Done gates — not verification gaps — so no read-only pass can
+close them. Each of the two largest also carries an explicitly unresolved pre-implementation gate that
+only the creator can close: Quick Run — "Pin the default workspace hotkey chord. Not chosen yet; do not
+invent one silently."; Window Layout — "Resolve the window-tag lifetime contradiction … record the answer
+before Stage 1." Two of the three (adopting foreign windows, window layout and auto-tracking) require
+moving and Z-ordering *live foreign windows*, which must not be attempted autonomously on the creator's
+desktop overnight under a non-destructive mandate. Papers host baseline is green: `Futahua/Papers-3` at
+`d2a3c74`, 99 files (98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s.
 
 **The AUTHOR loop changed on 2026-09-11, by creator instruction.** The browser reviewer is retired: it
 was too slow, and it existed mainly to keep an agent working through the creator's night rather than to
