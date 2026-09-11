@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25`, `6dfad33`, `08d31b5`, `e325f6e`, `9dcc5d6`, `e9117b2` and `9b197e2` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25`, `6dfad33`, `08d31b5`, `e325f6e`, `9dcc5d6`, `e9117b2`, `9b197e2` and `04d0bc4` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `9b197e2` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 198 files / 1330 tests; committer `2026-09-12T04:32:15+07:00`. At `e9117b2` the same steps were 197 files / 1325 tests, committer `2026-09-12T04:25:46+07:00`. At `9dcc5d6` the same steps were 196 files / 1322 tests, committer `2026-09-12T04:21:48+07:00`. At `e325f6e` the same steps were 195 files / 1315 tests, committer `2026-09-12T04:18:31+07:00`. At `08d31b5` the same steps were 194 files / 1307 tests, committer `2026-09-12T04:11:16+07:00`; at `6dfad33` 193 files / 1299 tests, committer `2026-09-12T04:05:45+07:00`; at `1029a25` 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `04d0bc4` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 199 files / 1335 tests; committer `2026-09-12T04:36:08+07:00`. At `9b197e2` the same steps were 198 files / 1330 tests, committer `2026-09-12T04:32:15+07:00`. At `e9117b2` the same steps were 197 files / 1325 tests, committer `2026-09-12T04:25:46+07:00`. At `9dcc5d6` the same steps were 196 files / 1322 tests, committer `2026-09-12T04:21:48+07:00`. At `e325f6e` the same steps were 195 files / 1315 tests, committer `2026-09-12T04:18:31+07:00`. At `08d31b5` the same steps were 194 files / 1307 tests, committer `2026-09-12T04:11:16+07:00`; at `6dfad33` 193 files / 1299 tests, committer `2026-09-12T04:05:45+07:00`; at `1029a25` 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -785,6 +785,22 @@ and compares the report with a directly submitted call over an identical world: 
 per-entity outcomes, with the record ids the only difference because the worlds differ. **Two boxes tick** —
 Stage 10's last acceptance claim and Stage 18's `bulk actions`, which had been waiting on the same controls
 since the interaction-feel pass.
+
+Slice 63, project lifecycle operations, at `04d0bc4`, committed `2026-09-12T04:36:08+07:00`: four of the five
+project operations are ordinary record writes and are decided here — create, update, archive and restore, over
+the same store boundary and the same recovery coordinator every task write uses, because a project is a record
+like any other and a second write path would be a second place for a stale write to slip through. The fifth is
+not decided here, and the code says so: the checklist names three possible answers for what deleting a project
+does with its members and states that the source cannot answer what the creator wants, so `deleteProject` is a
+**deterministic typed refusal** — `policy-not-decided`, a sentence naming the member counts, no write at all —
+which is the honest shape of an open question rather than a plausible guess. An empty project is refused for the
+same reason and with the same code as a full one, so the eventual answer is a decision rather than a side effect
+of how many rows happen to exist. `docs/DECISIONS.md` D56 records it with what would reverse it. Archiving is a
+status change and nothing else, proven the only way that means anything: every member record is asserted
+byte-identical afterwards. **Four boxes tick** — the prohibition on inferring the old plugin's filesystem
+behaviour, deletion's deterministic typed refusal, archive not deleting records, and the combined task/event
+project behaving correctly — and the stage's open question is left standing as the creator's, with the state of
+its three sub-answers written down rather than quietly resolved.
 Slice 27, the Backlog's query controls as values, pushed on Proxima branch
 `stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
 `2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
@@ -967,10 +983,10 @@ panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered b
 Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
 never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
-Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `9b197e2` the
-document stands at 618 ticked / 222 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `04d0bc4` the
+document stands at 622 ticked / 218 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
 HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), **HARD GATE C 3**, **Stage 9 0**,
-**Stage 10 0**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
+**Stage 10 0**, **Stage 11 14**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
 Stage 17 58, Stage 18 5, Stage 19 8, Stage 20 11 and the final release gate 26. **Stage 9 is the first write
 stage to close**, and Stage 10's Board UI and
 its bulk-action contracts are now complete: what remains in the stage is the Backlog's buttons calling those
@@ -1163,18 +1179,19 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Next operation** Slice 63 — Stage 11, project lifecycle parity, which is now the largest unblocked block
-whose actions are already named in the taxonomy: `project.create`, `project.archive`, `project.restore` and
-`project.delete` are all registered `record-mutation` actions that the dispatcher refuses today, and the Hub
-already draws every one of the controls with its typed refusal. Two facts make it the right next stage rather
-than Stage 12: the write path exists for records (a project is a canonical record like a task, and
-`createIfAbsent`/conditional update/delete are the same two boundaries), and the stage's own section names the
-questions that must be answered *before* the UI is wired — what deletion means for a project that holds tasks
-and events, and whether archive is a status change or something else — because those answers have to appear
-identically in the UI and in an agent action. So the first slice is the lifecycle operations in the app layer
-with those questions answered in code and asserted, not the buttons. The dependency to respect is HARD GATE C's
-remaining item: the shipped activation trigger, without which none of this reaches an ordinary run. Nothing in
-Proxima or LongHorizon is parked or uncommitted; both trees are clean and both branches are pushed.
+**Next operation** Slice 64 — Stage 11's UI, which is now four operations with nowhere to be clicked: the Hub
+already draws New Project, the lifecycle controls (archive or restore, plus delete) and they all refuse with a
+typed reason today, so the work is the shape the last four surfaces used — give the Hub the same resolution the
+Elastic board has, enable exactly the controls whose operation exists, route their clicks to the app-layer
+sequences through the shell, and draw each refusal where the control is. Delete stays typed-unavailable for a
+specific reason rather than a generic one: its refusal is `policy-not-decided`, which a reader can answer, and
+the UI should say that rather than \"unavailable until cutover\", which is now false. Two of the stage's own
+boxes come with it (`Whatever choice is made appears identically in UI and agent actions` and `UI buttons call
+the same actions`), and so does `Project card/hub updates immediately after accepted mutation`, which is the
+convergence rule every other surface already follows. **One box cannot close by working**: the delete-semantics
+question is the creator's, it is the only thing gating the delete UI beyond the wiring, and D56 records exactly
+what each of its three answers would change. Nothing in Proxima or LongHorizon is parked or uncommitted; both
+trees are clean and both branches are pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -2787,23 +2804,23 @@ No `projectType` mutation should survive as an ordinary successor operation unle
 
 Must be explicit before implementation:
 
-- [ ] Define whether deleting a project:
+- [ ] Define whether deleting a project: *(**the creator's question, and the only thing between Stage 11 and its UI wiring.** The three candidates are unchanged — leave members uncategorised, require an explicit cascading action, or refuse while members exist — and `04d0bc4` deliberately implements none of them: `deleteProject` refuses with `policy-not-decided` and names the member counts so the question can be answered from the message. `docs/DECISIONS.md` D56 records the choice and what each possible answer would change; when the creator answers, that one function changes and every caller follows, because there is one operation rather than one per surface.)*
   - [ ] leaves tasks/events uncategorized;
   - [ ] requires explicit cascading action;
   - [ ] or refuses while members exist.
 
-- [ ] Do not infer old plugin filesystem behavior as the answer.
-- [ ] Whatever choice is made appears identically in UI and agent actions.
+- [x] Do not infer old plugin filesystem behavior as the answer. — `04d0bc4` @ `2026-09-12T04:36:08+07:00` *(asserted rather than promised: the deletion path reads the record store and nothing else — no vault port, no filesystem adapter, no path in its refusal — and the case asserts that every record file is byte-identical after a refused delete, which is what \
+- [ ] Whatever choice is made appears identically in UI and agent actions. *(Half of it is structural and the other half waits on the choice: the UI and an agent already meet at one operation per lifecycle verb (`src/app/projectMutations.ts`), so a choice cannot appear differently in two places — but there is no UI caller yet, so this closes with the Hub's buttons rather than with another operation.)*
 
 This is an **open semantic question**; source cannot answer what the creator wants after removing the old storage model.
 
 ## Acceptance
 
-- [ ] Agent can create/archive/restore/delete without UI.
+- [ ] Agent can create/archive/restore/delete without UI. *(Four of the five are true as of `04d0bc4`: create, update, archive and restore are ordinary operations with no UI in the path, validated and refused in the taxonomy's vocabulary. Delete is callable and answers with a typed refusal rather than deleting, because what it should do with the members is the creator's decision above — so this box closes with that answer, not with more wiring.)*
 - [ ] UI buttons call the same actions.
-- [ ] Project deletion has deterministic typed effect/refusal.
-- [ ] Archive does not silently delete records.
-- [ ] Project with both tasks and events behaves correctly.
+- [x] Project deletion has deterministic typed effect/refusal. — `04d0bc4` @ `2026-09-12T04:36:08+07:00` *(the refusal is the effect, and it is deterministic and typed: policy-not-decided, the same words for the same request, asserted twice in one case, with a stale caller refused as stale-revision before the policy question is even reached. It names how many tasks and events the project holds, so the person who owns the question can answer it, and it writes nothing at all. An empty project is refused for the same reason and with the same code as a full one — the answer is a decision rather than a side effect of how many rows happen to exist.)*
+- [x] Archive does not silently delete records. — `04d0bc4` @ `2026-09-12T04:36:08+07:00` *(archiving sets status and rchivedAt on the project record and consults nothing else; the case snapshots every member record's exact bytes and revision before and after and asserts they are unchanged, through both the archive and the restore that follows it. That is the only assertion that means anything here: an archive that moved or marked a task would still leave the members present, and would still be a delete wearing another word.)*
+- [x] Project with both tasks and events behaves correctly. — `04d0bc4` @ `2026-09-12T04:36:08+07:00` *(A4 made a combined project ordinary, and the case builds one — a project holding a task and an event — then archives it and restores it: the project's status moves and comes back, the archive date is set and then cleared with it, and both members survive untouched and still resolve to their project in the projection. The same project is the subject of the delete-refusal case, where the refusal reports 1 task(s) and 1 event(s), so the combined shape is exercised on both paths.)*
 
 ## Evidence
 
