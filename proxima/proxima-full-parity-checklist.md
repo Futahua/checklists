@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slice 19 at `bd64a34` is pushed and **awaiting acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19 and 20 are pushed at `bd64a34` and `394179c` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `bd64a34` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 168 files / 1014 tests; Stage 8 focused 16 files / 108 tests; committer `2026-09-11T23:57:13+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `394179c` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 168 files / 1015 tests; Stage 8 focused 16 files / 109 tests; committer `2026-09-12T00:02:14+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -493,16 +493,29 @@ remains typed-unavailable. Evidence: focused 16 files / 108 tests, full suite 16
 (which includes `browserBoundary` and `bridgeDisclosure`), every step exit 0, run directly rather than
 through the npm scripts.
 
+Stage 8 / slice 20, machine-visible remaining ambiguity, pushed on Proxima branch
+`stage7-record-store-contract` at `394179c1137d16a26e2029ad430f3d695c34a3fa`, committed
+`2026-09-12T00:02:14+07:00` and **awaiting creator acceptance**: `import.status` now reports the plan's
+outstanding project references (`unresolvedProjectReferences`, `ambiguousProjectReferences`) and the
+`appliedProjectSelection`, and `import.commit` refuses with those counts in machine-readable
+`error.outstandingProjectReferences` while either is nonzero, instead of merely being typed-unavailable. A
+fresh `import.plan` clears the applied selection, so status never describes a decision belonging to a
+superseded plan, and once the references are acknowledged the ambiguity-specific reason disappears while
+the policy refusal remains. **The administrative action envelope version is now 2** — the status payload
+gained required fields, so a version-1 consumer would reject it and the version is the signal. Evidence:
+focused 16 files / 109 tests, full suite 168 files / 1015 tests, every step exit 0.
+
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 20 — make the remaining ambiguity machine-visible, so activation cannot
-claim the migration is clean while references are unacknowledged (the open box directly above
-`import.resolve`). The plan already carries `counts.ambiguousProjectReferences` and
-`counts.unresolvedProjectReferences`; the slice must expose the outstanding counts and the applied
-resolution decision on the administrative action surface, and make `import.commit` refuse *specifically*
-while those counts are nonzero rather than only being typed-unavailable. Decide explicitly whether that
-changes the action-envelope schema version, and say so in the evidence. Stay read-only: no live Record
-Store, staging, activation, legacy Markdown or creator-vault writes.
+**Next operation** Stage 8 slice 21 — the same visibility for malformed records, so activation cannot
+silently omit them as though the import were complete (the open box in the malformed-records section). The
+plan already carries `problems[]` with its dispositions, plus `counts.readerProblems` and
+`counts.unsupportedFrontmatter`; the slice must expose the outstanding malformed/unsupported counts and
+the dispositions that remain pending through `import.status`, and extend `import.commit`'s specific
+refusal so an unacknowledged malformed record refuses commit for that reason — machine-readably, beside
+the ambiguity counts from slice 20. The unsupported-frontmatter *policy* question directly above stays
+open and creator-owned: do not answer it by assertion. Stay read-only: no live Record Store, staging,
+activation, legacy Markdown or creator-vault writes.
 
 **The AUTHOR loop changed on 2026-09-11, by creator instruction.** The browser reviewer is retired: it
 was too slow, and it existed mainly to keep an agent working through the creator's night rather than to
@@ -1664,7 +1677,7 @@ Do **not** silently choose one source file.
 - [x] The duplicate legacy alias is recorded as a collision. — `be3efdf` @ `2026-09-11T14:52:38+07:00` *(machine-readable collision groups retain the shared legacy alias plus every physical candidate's source provenance and separately allocated opaque identity)*
 - [x] Any legacy relation/project reference that resolves through that duplicate alias remains explicitly unresolved/ambiguous. — `be3efdf` @ `2026-09-11T14:52:38+07:00` *(a project alias with multiple physical candidate mappings yields `resolution: ambiguous`, null selected project ID and the complete candidate-ID set; general non-project relation conversion remains open)*
 - [x] No arbitrary filesystem/index order picks the target. — `be3efdf` @ `2026-09-11T14:52:38+07:00` *(all candidate identities may be deterministically listed, but a duplicate target alias never resolves by first/last/index order)*
-- [ ] Canonical activation cannot claim the migration is clean while ambiguous references remain unacknowledged.
+- [x] Canonical activation cannot claim the migration is clean while ambiguous references remain unacknowledged. — `394179c` @ `2026-09-12T00:02:14+07:00` *(`import.status` reports the plan's outstanding `unresolvedProjectReferences`/`ambiguousProjectReferences` and the `appliedProjectSelection`, and `import.commit` refuses with those counts in machine-readable `error.outstandingProjectReferences` while either is nonzero, so the only machine path toward activation provably refuses rather than reading clean; canonical activation itself remains gated behind HARD GATE C)*
 - [x] A machine-callable import-resolution operation exists if ambiguous identities require explicit mapping. — `bd64a34` @ `2026-09-11T23:57:13+07:00` *(`import.resolve` accepts the explicitly selected candidate project record id, resolves every ambiguous project reference whose candidate set contains it, and returns the resolved in-memory dry-run plan; an id that is a candidate of no ambiguous reference is refused as `invalid-action-input` rather than silently ignored, and `import.commit` stays typed-unavailable)*
 - [x] Resolution decisions are included in the import evidence. — `bd64a34` @ `2026-09-11T23:57:13+07:00` *(the resolution returns the resolved schema-v1 plan as the action's evidence, so each affected reference, task workflow stage, workflow-order scope and event project association names the selected project and the reference counts are recomputed; the verification that described the pre-resolution plan is discarded and `import.inspect` re-verifies the resolved plan)*
 
