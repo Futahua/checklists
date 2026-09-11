@@ -38,6 +38,3 @@ Everything else — why these rules exist, what a cheap executor does with hedge
 examples, the cost of a full-file artifact — is in
 [reference/design-history.md](reference/design-history.md). Read it once if you want the
 reasoning. It is not law.
-
-When more than one EXECUTOR is active, coordinate assignments, baselines, dependencies,
-acceptance, and frontier advancement using [MULTI-WORKER.md](MULTI-WORKER.md).
