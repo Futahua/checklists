@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–34 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55` and `d21f434` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–35 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434` and `8cadd24` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `d21f434` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 178 files / 1167 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:26:26+07:00`, verified under **default parallelism** as well. At the previous points: `1ffdd55` 177 / 1147, `9d6062c` 176 / 1135, `d7e6270` 176 / 1131, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `8cadd24` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 178 files / 1172 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:31:08+07:00`, verified under **default parallelism** as well. At the previous points: `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `9d6062c` 176 / 1135, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -674,20 +674,30 @@ rather than keeping a second copy of what the text means, because a preview that
 text is exactly how a preview and a parser drift apart. Writing the tests found a real bug — value
 complaints reported a zero-based column, so `weight: heavy` pointed one character early.
 
-**Next operation** Slice 35 — the Backlog's **column table**: **Custom-property columns** and **Resizable
-columns**, two boxes about the same missing thing. The projection already supplies `columns` (the eight
-field columns plus one per custom property the data declares) and a `cells` array per row; what the renderer
-still draws is the legacy list, so the work is to draw the table those two already describe. Column widths
-belong in `ProjectBacklogViewState`, not in the projection: a width is how this reader is looking at the
-table, not what the table means. For resizing, follow the schedule's precedent — a drag edge carrying
-`data-*-resize-edge`, driven through the interaction harness in happy-dom — and remember the lesson from
-slice 33: a control that cannot act must carry a typed refusal rather than being silently inert, which does
-*not* apply to a resize edge because resizing is presentation, not a write. After that, Stage 6 is down to
-**Task row/name click opens editor** (a mounting decision for the Task editor modal in the Backlog panel),
-**Property filters** (engine work on `task.properties`), **Tag filtering** (blocked on tags having no model —
-the creator's decision, not a gap to fill), and the Task modal's two deliberate opens (**workflow stage where
-project-scoped**, owned by HARD GATE A2, and **task recurrence**, which is the creator's product choice —
-the canonical recurrence model can own a task, so the question is whether the product wants that).
+**Slice 35 is done**, `8cadd24` at `2026-09-12T01:31:08+07:00` — the deferral paid off. Slice 34's handoff
+warned that rewriting the Backlog's row markup into a column table would break the evidence slices 26–32
+built on it, so this slice drew the table *around* the rows instead: a header above the existing list, one
+entry per custom-property column, and the cells the rows already drew now keyed to those columns by id and
+sharing their width. Every earlier assertion about rows, drop slots, chips and controls still passes
+untouched, and the two boxes are genuinely closed. **Custom-property columns** and **Resizable columns** are
+ticked, with the design notes recorded: widths live in view state because they are how this reader looks at
+the table rather than what it means, the clamp stops a drag from making a label unreadable or letting one
+column swallow the table, and a resize edge needs no typed refusal because resizing is presentation, not a
+write. The drag is driven end to end through the harness, clamps included.
+
+**Next operation** Slice 36 — **Property filters**, the last real feature box left in the Backlog. The
+engine filters the nine typed fields and not `task.properties`; a property filter needs a field vocabulary
+that is data-driven, so the design is: extend `BacklogField` handling so a filter may name a property key
+(`property.<key>`), take the operators from the schema's type where the schema declares one and from text
+where it does not, and let the filter menu offer the property keys the project's tasks actually declare —
+the same rule the columns follow. The engine's existing promise must hold: an operator a field does not
+admit raises `BacklogQueryError` rather than being skipped, and a numeric property compared against text
+still matches nothing. `tests/backlogQuery.test.ts` is where that contract lives. Afterwards Stage 6 is down
+to **Task row/name click opens editor** (a mounting decision for the Task editor modal in the Backlog
+panel), **Tag filtering** (blocked on tags having no model — the creator's decision, not a gap to fill), and
+the Task modal's two deliberate opens (**workflow stage where project-scoped**, owned by HARD GATE A2, and
+**task recurrence**, which is the creator's product choice — the canonical recurrence model can own a task,
+so the question is whether the product wants that).
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -1440,8 +1450,8 @@ Still before migration.
 - [x] Remove filter. — `bdea4a1` @ `2026-09-12T00:34:29+07:00` *(`applyBacklogControl({kind:'remove-filter'})` drops the filter the chip names and returns the same query when the id is already gone, so removing a filter twice is harmless; the chip renders a remove button carrying `data-project-backlog-filter-remove`, the binder reads the id from it and nothing else, and `tests/projectBacklog.test.ts` drives the whole loop in happy-dom — a click on the rendered chip brings the task that filter was hiding back into the list. Removal is view state only: the query is replaced, never edited, and `tests/backlogControls.test.ts` asserts the state and every record are byte-identical after a session of controls.)*
 - [x] Sort ascending/descending. — `9b59d16` @ `2026-09-12T00:23:35+07:00` *(ordering is ascending or descending on any field column, and it is a total order: ties fall through the legacy order index then the record id, so equal keys never swap between renders. A missing value sorts last ascending and first descending, which is stated because "no deadline" is not a deadline of zero.)*
 - [x] Sort indicator. — `9b59d16` @ `2026-09-12T00:23:35+07:00` *(the renderer emits `data-project-backlog-sort-indicator` carrying the sorted field and direction with a ▲/▼ mark, and omits the whole toolbar when no query is active so the unqueried markup is byte-identical to what it rendered before)*
-- [ ] Custom-property columns.
-- [ ] Resizable columns.
+- [x] Custom-property columns. — `8cadd24` @ `2026-09-12T01:31:08+07:00` *(the projection has supplied the columns and a `cells` array per row since slice 26; the renderer drew the legacy list. It now draws the table: a header above the list with one entry per custom-property column, labelled with the schema's name, and each row's cells keyed to those columns by id — so a value sits under its own heading. A column appears because the data declares it, which is the projection's rule and now the table's too; a project whose tasks declare no properties renders no header rather than an empty one. The **field** columns are deliberately not repeated: a row already shows its name, description and deadline on one line, and a header promising columns the body does not draw would be worse than no header.)*
+- [x] Resizable columns. — `8cadd24` @ `2026-09-12T01:31:08+07:00` *(each column header carries a drag edge; the width lives in `ProjectBacklogViewState.columnWidths` because how wide this reader has a column is not a fact about the table, and `resizeBacklogColumn`/`clampBacklogColumnWidth` are pure functions beside the other controls. The clamp is what stops a drag off either edge from making a label unreadable (96px) or letting one column swallow the table (640px), and rounding to whole pixels keeps a rendered width and a stored width the same number. The drag follows the schedule's gesture shape — the pointer moves update what is on screen and only the release reports a width, because re-rendering mid-drag would replace the element the pointer is holding — and it is driven end to end through the interaction harness, including both clamps. A resize edge needs no typed refusal, because resizing is presentation rather than a write; that is the line slice 33's write-control audit draws.)*
 - [x] Row selection. — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(every row carries a real checkbox keyed by task id, and the binder reports which task it is for rather than deciding what that means; `toggleBacklogSelection` keeps the order the marks were made in, because that is the order a bulk action would act in. Selection is view state — `BacklogViewState.selectedTaskIds` — so no record is written, asserted.)*
 - [x] Select all. — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(Select all means the rows on screen: `selectAllBacklogVisible` adds the visible tasks and leaves a marked task the query hides to whatever marked it before, because a hidden row is not something the creator can see they are selecting. The control disables itself when every shown row is already marked, and when nothing is shown there is nothing to select.)*
 - [x] Multi-selection. — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(a selection is memory, not a filter: the projection reports how many shown rows are marked, how many marked tasks the query is hiding, and whether every shown row is marked — three separate facts, so a bulk action can never be read as covering a row nobody can see. `allVisibleSelected` is false when nothing is visible, because an empty list has nothing selected and saying otherwise would let a bulk action look safe to run. Clearing the selection clears hidden marks too.)*
