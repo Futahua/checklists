@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `hard-gate-a9-canonical-recurrence` @ `ed147ea` — pushed, creator-accepted through HARD GATE A / A9 |
+| Accepted branch | `hard-gate-a10-no-hidden-database` @ `efdfa11` — pushed, creator-accepted through HARD GATE A / A10; HARD GATE A closed |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `ed147ea` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 143 files / 835 tests |
+| Suite at `efdfa11` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 144 files / 842 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -163,15 +163,26 @@ explicit without filename or source-layout dependence. Detached special occurren
 their original series identity while referencing a separate canonical record when required.
 No persistence, write, import execution or mutation capability exists. Proxima full suite
 143 files / 835 tests.
+HARD GATE A / A10, No hidden second database, accepted on Proxima branch
+`hard-gate-a10-no-hidden-database` at `efdfa11`: domain schema version 2 classifies
+retained information into canonical Proxima record/schema data, disposable Backpack-local
+state, or external vault-artifact reference/provenance; no canonical semantic value is
+allowed to survive only in local state; the architecture/import mapping records how legacy
+status, ordering, project type, schema, relations, names, artifact associations and
+recurrence cross the future import boundary; and dedicated fixtures prove combined task+event
+projects plus independent execution/workflow movement. No Record Store, persistence, write,
+import execution or mutation capability exists. Proxima full suite 144 files / 842 tests.
+HARD GATE A is closed.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Ask the AUTHOR for the exact next bounded guarded packet for HARD GATE A /
-A10 — No hidden second database. Keep every eventual mutation typed-unavailable until
-record-store cutover.
+**Next operation** Ask the AUTHOR for the exact next bounded guarded packet for
+Stage 7 — Define and implement the Proxima-owned Record Store. HARD GATE B remains
+open and must close before real import. Keep every eventual mutation typed-unavailable
+until record-store cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1119,23 +1130,25 @@ authority; inspection schema v5 exposes data/workspace-derived capabilities inst
 
 Every durable piece of information is classified as one of:
 
-- [ ] canonical Proxima record/schema data;
-- [ ] disposable Backpack-local state;
-- [ ] external vault-artifact provenance/reference.
+- [x] canonical Proxima record/schema data; — `efdfa11`
+- [x] disposable Backpack-local state; — `efdfa11`
+- [x] external vault-artifact provenance/reference. — `efdfa11`
 
-Nothing semantic is allowed to survive only in an opaque equivalent of Obsidian plugin settings.
+Nothing semantic is allowed to survive only in an opaque equivalent of Obsidian plugin settings. — `efdfa11`
 
 ### Evidence closing HARD GATE A
 
-- Revised domain types.
-- New domain-schema version.
-- Tests covering every separation above.
-- Architecture/import mapping document.
-- A fixture demonstrating combined task+event project.
-- A fixture demonstrating independent execution/workflow movement.
-- ID-based relation test surviving title changes.
-- Scoped-order independence tests.
-- No canonical-domain import of filesystem, Papers or Obsidian APIs.
+- [x] Revised domain types. — `71b0a2b` through `efdfa11`
+- [x] New domain-schema version. — `efdfa11` *(canonical domain/record schema version 2)*
+- [x] Tests covering every separation above. — `efdfa11` *(10-file / 61-test HARD GATE A closeout matrix)*
+- [x] Architecture/import mapping document. — `efdfa11` *(`docs/canonical-domain-ownership.md`)*
+- [x] A fixture demonstrating combined task+event project. — `efdfa11`
+- [x] A fixture demonstrating independent execution/workflow movement. — `efdfa11`
+- [x] ID-based relation test surviving title changes. — `26c84d4`
+- [x] Scoped-order independence tests. — `bf56679`
+- [x] No canonical-domain import of filesystem, Papers or Obsidian APIs. — `efdfa11` *(Gate 20B remains green)*
+
+**HARD GATE A CLOSED** — `efdfa11`
 
 ### What breaks if this gate is skipped
 
