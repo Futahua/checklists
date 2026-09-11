@@ -2,16 +2,17 @@
 
 **AUTHOR** — ChatGPT in the attached browser. Writes the change and its technical acceptance
 conditions. No hands; cannot run anything.
-**EXECUTOR** — Hermes. Applies the AUTHOR's packet and runs its commands. Does not redesign
-or make semantic decisions.
+**EXECUTOR** — whichever supported disk/tool-side agent is active: Claude, Codex, or Hermes.
+Applies the AUTHOR's packet and runs its commands. Does not redesign or make semantic
+decisions.
 **The creator** — outside the active loop. Reviews later, on their own time, and alone gives
 final product acceptance.
 
 ```
-AUTHOR writes → Hermes applies and runs → Hermes returns evidence
+AUTHOR writes → EXECUTOR applies and runs → EXECUTOR returns evidence
                                              ↓
                                      AUTHOR judges evidence
-                                      sufficient → Hermes commits and pushes feature branch
+                                      sufficient → EXECUTOR commits and pushes feature branch
                                       insufficient → back to AUTHOR
 ```
 
@@ -23,14 +24,16 @@ That is the workflow. The rest of this page is the handful of things that go wro
 
 ## Five rules
 
-1. **Hermes never judges its own evidence sufficient.** The AUTHOR judges Hermes's reported
-   evidence against the technical acceptance conditions it set. That judgment technically
-   closes the slice; it is not final product acceptance. The creator alone gives that.
-2. The AUTHOR decides what the code means. Hermes never does.
-3. Hermes may fix *how* something was delivered — a mangled patch, a short SHA, a wrong
-   path — when it can show the result is identical. Never *what* it does.
-4. Hermes declares every transport fix it made. Working is not a reason to leave it out.
-5. The AUTHOR never claims that it ran tests or commands. It may state that Hermes's
+1. **The EXECUTOR never judges its own evidence sufficient.** The AUTHOR judges the
+   EXECUTOR's reported evidence against the technical acceptance conditions it set. That
+   judgment technically closes the slice; it is not final product acceptance. The creator
+   alone gives that.
+2. The AUTHOR decides what the code means. The EXECUTOR never does.
+3. The EXECUTOR may fix *how* something was delivered — a mangled patch, a short SHA, a
+   wrong path — when it can show the result is identical. Never *what* it does.
+4. The EXECUTOR declares every transport fix it made. Working is not a reason to leave it
+   out.
+5. The AUTHOR never claims that it ran tests or commands. It may state that the EXECUTOR's
    reported evidence satisfies the stated technical acceptance conditions, but that is not
    creator acceptance.
 
@@ -47,8 +50,8 @@ Guarded replacements, not diffs — hunk metadata does not survive the browser.
 Baseline SHA, whether it applied, the commands **exactly as authored** with their exit
 codes, changed files, and the first real failure — not the cascade. Full logs stay on disk.
 
-Any fix Hermes made, and whether it can *prove* the result was identical or only believes
-it. Both are allowed; pretending is not.
+Any fix the EXECUTOR made, and whether it can *prove* the result was identical or only
+believes it. Both are allowed; pretending is not.
 
 ## Attaching to the AUTHOR tab
 
@@ -229,10 +232,10 @@ finished while you were away.
 
 ## Pushing
 
-After the AUTHOR judges Hermes's evidence sufficient for the stated technical acceptance
-conditions, Hermes may commit and push the feature branch so there is something reviewable.
-That is technical closure, not final product acceptance. Do not push per edit, a stream of
-one-line commits, or work the AUTHOR has not technically closed.
+After the AUTHOR judges the EXECUTOR's evidence sufficient for the stated technical
+acceptance conditions, the EXECUTOR may commit and push the feature branch so there is
+something reviewable. That is technical closure, not final product acceptance. Do not push
+per edit, a stream of one-line commits, or work the AUTHOR has not technically closed.
 
 Feature branches only. **These wait for the creator, however long that takes:** merging to
 main, force-push, rewriting history, deleting branches, anything touching their vault or
@@ -242,18 +245,18 @@ Keep big files out of context — read the part you need.
 
 ## Keeping the checklist handoff-able
 
-This repository exists because sessions run out of usage mid-task. The next Hermes session
-has only what is written down.
+This repository exists because EXECUTOR sessions run out of usage mid-task. The next
+EXECUTOR session has only what is written down.
 
 Every checklist carries a **Status** block at the top: AUTHOR-closed feature branch and SHA,
 work not yet technically closed and where it is parked, current suite totals, what is done,
 what is in flight, and the exact next operation. Update it whenever any of those change.
 
 **Status also names the absolute path of every directory the work touches.** A remote is not
-a location. A Hermes session that knows the repo is `Futahua/proxima-backpack` still cannot
-find it on this machine, and searching the disk for it costs real time — that has already
-happened here. Name the working tree, the fixture data, and any read-only reference checkout,
-in Windows form, and say which are read-only.
+a location. An EXECUTOR session that knows the repo is `Futahua/proxima-backpack` still
+cannot find it on this machine, and searching the disk for it costs real time — that has
+already happened here. Name the working tree, the fixture data, and any read-only reference
+checkout, in Windows form, and say which are read-only.
 
 Two traps worth knowing before you use those paths:
 
@@ -265,9 +268,8 @@ Two traps worth knowing before you use those paths:
   cost a session once already.
 
 **Replace that block in place. Never append to it.** A running progress log grows without
-bound and costs every future Hermes session the whole history whether or not it needs it.
-Status is
-current state only; history lives in git, where it costs nothing to ignore.
+bound and costs every future EXECUTOR session the whole history whether or not it needs it.
+Status is current state only; history lives in git, where it costs nothing to ignore.
 
 ## Ticking a box
 
@@ -281,22 +283,22 @@ current state only; history lives in git, where it costs nothing to ignore.
 
 The SHA is what makes the work reversible. Without it, undoing one decision means reading
 the whole log to find out which commit made it; with it, `git show` and `git revert` are one
-command away, and a later Hermes session can tell what a box actually bought.
+command away, and a later EXECUTOR session can tell what a box actually bought.
 
-Write the **critical** change — what a reverting Hermes session needs to know, and anything
-that
-would surprise them. Not how you got there, not what you tried first. A box that closed
+Write the **critical** change — what a reverting EXECUTOR session needs to know, and anything
+that would surprise them. Not how you got there, not what you tried first. A box that closed
 alongside its sub-items is annotated on the parent only; annotating every child is the diary
 this rule is not.
 
 If two commits closed one box, name both. If a commit is later reverted, untick its boxes
 and say so in Status — a tick whose commit is gone is worse than no tick.
 
-Do not commit or push a slice before the AUTHOR has judged Hermes's evidence sufficient for
-its stated technical acceptance conditions. If a run must end before that judgment, preserve
-the work locally without committing it, record its exact location and state in Status, and
-return the evidence or blocker to the AUTHOR. After technical closure, Hermes may commit and
-push the feature branch. Losing an hour of applied work to an exhausted session is avoidable.
+Do not commit or push a slice before the AUTHOR has judged the EXECUTOR's evidence sufficient
+for its stated technical acceptance conditions. If a run must end before that judgment,
+preserve the work locally without committing it, record its exact location and state in
+Status, and return the evidence or blocker to the AUTHOR. After technical closure, the
+EXECUTOR may commit and push the feature branch. Losing an hour of applied work to an
+exhausted session is avoidable.
 
 ## What ends the run
 
@@ -319,9 +321,10 @@ plainly rather than promising an autonomy the setup does not have.
 
 ## Pace
 
-The ChatGPT AUTHOR session and Hermes EXECUTOR both have finite capacity, and running out
-mid-project is the failure that matters, not the cost. Watch the active session limits; the
-creator should never have to.
+The ChatGPT AUTHOR session and the active EXECUTOR session both have finite capacity.
+Claude, Codex, and Hermes each have their own limits, and running out mid-project is the
+failure that matters, not the cost. Watch the active session limits; the creator should
+never have to.
 
 Then measure it against the work remaining, not against the clock. A checklist with
 hundreds of boxes and a rate of two or three per session will not finish, and the answer is
@@ -354,13 +357,14 @@ Inspect the rendered AUTHOR page for the red notice **“chat session has reache
 limits”** before trying to send another packet. If it appears, treat that chat as exhausted:
 start a new browser ChatGPT session and give it a compact handoff before requesting work.
 The handoff must include the AUTHOR brief URL; the explicit role map (ChatGPT in the attached
-browser is the AUTHOR, Hermes is the EXECUTOR, and the creator alone gives final product
-acceptance); the repository and docs paths; current feature branch and AUTHOR-closed SHA;
-checklist/docs SHA and suite totals; the exact next operation; and the standing rules (apply
-packets verbatim, do not redesign, no live-vault/main writes, explicitly click **Send
-prompt**, verify the send transition, then use the Stop answering / Stop thinking watcher
-until it appears and disappears). Re-read the rendered new page to confirm the handoff
-arrived before continuing; do not assume a new session received it.
+browser is the AUTHOR, the EXECUTOR is whichever supported disk/tool-side agent is active —
+Claude, Codex, or Hermes — and the creator alone gives final product acceptance); the
+repository and docs paths; current feature branch and AUTHOR-closed SHA; checklist/docs SHA
+and suite totals; the exact next operation; and the standing rules (apply packets verbatim,
+do not redesign, no live-vault/main writes, explicitly click **Send prompt**, verify the send
+transition, then use the Stop answering / Stop thinking watcher until it appears and
+disappears). Re-read the rendered new page to confirm the handoff arrived before continuing;
+do not assume a new session received it.
 
 ## Elsewhere
 
