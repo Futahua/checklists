@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–23 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c` and `d66622f` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–25 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f` and `a31c74c` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `d66622f` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 170 files / 1028 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T00:12:36+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `a31c74c` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 171 files / 1045 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T00:19:34+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -543,20 +543,33 @@ exit 0.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Slice 25 — Proxima Stage 6 Backlog presentation, **not** the papers. Slice 24's recon
-corrected an error in slice 23's own handoff: Stage 8 sitting at its read-only boundary says nothing about
-the other 459 open boxes, and the papers are not the nearest work.
+**Next operation** Slice 26 — an app-level Backlog view model, so the § Backlog capabilities become
+*verifiable* rather than merely implemented. Build a pure projection in `src/app/` taking the loaded state,
+the selected project and a `BacklogViewState` that carries the `BacklogQuery`, returning the rows plus the
+presentation facts `src/browser/projectBacklog.ts` currently computes inline: the cells each column shows,
+the sort field and direction behind the sort indicator, and the active filter descriptors behind the
+chips. Test it against the fixture vaults. That should close Search, Property filters, Type-appropriate
+comparison operators, Multiple filters, Remove filter, Sort ascending/descending and Sort indicator on
+evidence; Tag filtering stays open until tags have a model; and `renderProjectBacklog` reduces to a
+renderer over the projection.
 
-Open boxes by section: Stage 6 (71), Stage 5 (40), Stage 17 (58), Stage 18 (58), Stage 19 (28), the final
-release gate (26), Stages 9–16 (135 across eight DATA WRITE stages), Stage 20 (12), Stage 0 (10), HARD
-GATE C (14), Stage 8 (13), HARD GATE D (4), and one each in Stages 3 and 4.
+**Why the § Backlog boxes stay open after slice 25 — the finding that sets slice 26.** Those boxes are
+user-facing capabilities ("Search.", "Multiple filters.", "Sort indicator."), and a query module does not
+by itself make any of them reachable. `src/browser/projectBacklog.ts` filters and sorts inline from
+`state.tasks` with its own comparator and does not consume the new module — and **no test in this
+repository imports `src/browser/` at all**, so wiring it there would change behaviour that nothing
+verifies, and a tick on it would be a claim without evidence. Slice 25 therefore closed nothing, and says
+so rather than counting the module as progress against the boxes.
 
-HARD GATE C — "Do not enable any real record-editing UI until this gate closes" — gates Stages 9–14 and
-the DATA WRITE half of Stage 17, so that entire block is blocked rather than merely unattempted. Stages 5
-and 6 are **presentation**: Stage 6 alone is 71 boxes of concrete, self-contained UI behaviour — Backlog
-search, tag filtering, property filters with type-appropriate comparison operators, multiple filters,
-filter removal, ascending/descending sort and a sort indicator. That is the largest un-gated pool in the
-project and it is provable read-only against the fixtures. Take it as the next packet.
+Slice 25, the Backlog query surface, pushed on Proxima branch `stage7-record-store-contract` at
+`a31c74c9d1c78436e542523823c5e94f5b045ca2`, committed `2026-09-12T00:19:34+07:00` and **awaiting creator
+acceptance**: `src/domain/backlogQuery.ts` with `tests/backlogQuery.test.ts` (17 tests) gives search over
+name and description, nine filter fields restricted to the operators their type admits, conjunction of
+multiple filters, removal by filter id, ascending/descending ordering with a missing value last ascending
+and first descending, and a total order — ties fall through `orderIndex` then `id`, so equal keys never
+swap between runs. A numeric field compared against a non-number does not match: `9` is not `"9"`, which
+the engine coerced until the test caught it. Evidence: full suite 171 files / 1045 tests, every step
+exit 0.
 
 **Papers checklists recon, 2026-09-12 (slice 24).** All three are greenfield: every Status reads "Not
 started. No implementation exists. Design only." Their boxes are feature-level acceptance criteria,
