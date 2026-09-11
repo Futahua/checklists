@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25`, `6dfad33` and `08d31b5` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25`, `6dfad33`, `08d31b5` and `e325f6e` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `08d31b5` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 194 files / 1307 tests; committer `2026-09-12T04:11:16+07:00`. At `6dfad33` the same steps were 193 files / 1299 tests, committer `2026-09-12T04:05:45+07:00`; at `1029a25` 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `e325f6e` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 195 files / 1315 tests; committer `2026-09-12T04:18:31+07:00`. At `08d31b5` the same steps were 194 files / 1307 tests, committer `2026-09-12T04:11:16+07:00`; at `6dfad33` 193 files / 1299 tests, committer `2026-09-12T04:05:45+07:00`; at `1029a25` 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -724,6 +724,22 @@ ticks — the project board's **placeholder during drag**, which `c8e35c3` built
 drives through the real binder — and **destination feedback** is narrowed rather than claimed: the hovered slot
 is marked today, and the column-level feedback the box is really about arrives with the board's stage grouping.
 
+Slice 59, the workflow board, at `e325f6e`, committed `2026-09-12T04:18:31+07:00`: the projection carried
+stages and the gesture moved tasks between them, and nothing drew either. `src/browser/projectWorkflowBoard.ts`
+is a board of its own rather than a mode of the status board — that separation *is* A2, since one groups by
+execution state and this one by project workflow stage — and a card carries both facts, so a task in Review
+visibly draws "running". Its attributes are its own namespace for the reason the two Task editors have separate
+hooks: both boards can be on the page, and one binder answering the other's drop is the failure that prevents.
+A task in no stage gets a trailing column rather than being hidden, and a drag marks the column under the
+pointer while opening its 54px placeholder — the column-level destination feedback that box was narrowed on
+last round. `src/app/workflowBoardDrop.ts` derives the stage a card is leaving from the world the board was
+*rendering*, not from a fresh read, so a drop built on a revision the reader never saw cannot happen; writing it
+surfaced a small real mismatch (the board reports a slot index for every column, and leaving the workflow has
+no position in it) which is now handled where it belongs. **Seven boxes tick**: both drags, the placeholder,
+destination feedback, the stale refusal restoring the winner's state, moving a stage leaving the Elastic
+execution state alone, and both acceptance claims that name them — *Running + Review remains Running* and
+*project-board reorder leaves Elastic order unchanged*.
+
 Slice 27, the Backlog's query controls as values, pushed on Proxima branch
 `stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
 `2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
@@ -906,14 +922,13 @@ panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered b
 Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
 never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
-Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `08d31b5` the
-document stands at 601 ticked / 239 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `e325f6e` the
+document stands at 608 ticked / 232 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
 HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), **HARD GATE C 3**, **Stage 9 0**,
-**Stage 10 15**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
+**Stage 10 8**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
 Stage 17 58, Stage 18 5, Stage 19 8, Stage 20 11 and the final release gate 26. **Stage 9 is the first write
-stage to close**, and Stage 10 has both halves of its workflow work now: the projection carries stages and the
-gesture moves them, so what remains there is the board that drives it, the Backlog's bulk actions and schema
-management.
+stage to close**, and Stage 10's Board UI section is now complete: what remains in the stage is the Backlog's
+bulk actions, schema management, and the three acceptance claims those two carry.
 
 **Slice 38 is done**, `7f96a71` at `2026-09-12T01:52:46+07:00` — **nineteen boxes**, and the audit found the
 same thing slice 30 did: the work was done, the evidence was not. `tests/projectsHub.test.ts` covered only
@@ -1102,18 +1117,18 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Next operation** Slice 59 — the board that drives the workflow gesture, which is now the only thing between
-Stage 10's six Board UI boxes and the two acceptance claims that name them. The pieces exist: the readable
-world carries `workflowStages` and each task's `workflowStageId`/`workflowOrder`, `moveTaskToWorkflowStage`
-writes the right mutation for each of the three moves and is asserted against the real store, and the project
-board already draws columns, drop slots and a 54px placeholder. What is missing is the *grouping*: the board
-groups by `state.statuses` today, so the work is to group by the project's stages when the state declares any
-(keeping status grouping for a legacy vault, which declares none), give the drag a stage intent beside its
-status one, and add the destination column feedback the Elastic board has. The two acceptance boxes —
-*Running + Review remains Running after a workflow drag* and *project-board reorder leaves Elastic order
-unchanged* — are the same A2 claim the gesture's suite already asserts at the data level, so closing them is a
-matter of asserting it through the rendered board. Nothing in Proxima or LongHorizon is parked or uncommitted;
-both trees are clean and both branches are pushed.
+**Next operation** Slice 60 — Stage 10's Backlog mutation actions, which are now the largest unblocked piece
+of the stage: `task.bulk.complete` and `task.bulk.delete` over a marked selection, with the four boxes that
+describe what a bulk action owes its caller (zero silent omissions, no "overall success" when some members
+failed unless the result says partial, stale members defined, retry caller-controlled). Three facts shape it.
+The Backlog's selection already exists and its bulk controls already refuse with a typed reason, so the
+controls have a place to start working. **Stage 0's bulk-result box is waiting on exactly this** — "a per-entity
+result shape belongs with the first bulk action that can run" — so the result shape and the first action that
+fills it should land together rather than a shape no producer fills. And `deleteTask`/`updateTask` already take
+one record with one expected revision, so a bulk action is a loop over entities with per-entity outcomes rather
+than a new storage path: the honest shape is a sequence in the app layer that calls the operations once per
+marked task and reports each outcome, which is also what makes "partial" a fact rather than a summary. Nothing
+in Proxima or LongHorizon is parked or uncommitted; both trees are clean and both branches are pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -2643,12 +2658,12 @@ If stage order itself is determined to have semantic workflow meaning, move that
 
 ## Board UI
 
-- [ ] Drag task between project workflow stages.
-- [ ] Drag task within stage.
-- [x] Placeholder during drag. — `c8e35c3` @ `2026-09-10T19:54:34+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(the project board's own drag already does this and has since Stage 5 slice 6: a `dragover` on a drop slot opens that slot's insertion placeholder to 54px and marks the slot `data-project-board-preview`, and the drop or a `dragend` clears it. `tests/projectTaskBoard.test.ts` drives the real binder and asserts the 54px height in the hovered slot before release — twice now, once in the preview case and once in the pickup/refusal case — so the evidence is a case exercising the production binder rather than a claim about markup. The box is about the placeholder, which does not depend on which dimension the board groups by.)*
-- [ ] Destination feedback. *(Partly present, and the part that is missing is named. The hovered drop slot **is** marked today (`data-project-board-preview` set on the slot, with the placeholder inside it growing), so the feedback a drag gets is "this is the slot you would land in". What the box leaves open is column-level feedback once the board groups by workflow stages — the Elastic board's destination column takes an outline (`57860d3`, asserted in `tests/elasticCockpit.test.ts`), and the project board has no equivalent because its columns are statuses today and will be stages after this stage's Board UI work lands.)*
-- [ ] Stale refusal restores authoritative state.
-- [ ] Moving workflow stage does not alter Elastic execution state.
+- [x] Drag task between project workflow stages. — `e325f6e` @ `2026-09-12T04:18:31+07:00` *(the board groups by the project's stages (`src/browser/projectWorkflowBoard.ts`), a drag reports the stage it landed on through the binder's own `data-project-workflow-*` namespace, and `src/app/workflowBoardDrop.ts` writes it: the stage the card is leaving comes from the world the board was *rendering* rather than a fresh read, so a drop built on a revision the reader never saw cannot happen. Cases drive the real binder and then the real store: a card dropped on Review is in Review afterwards, and a card dropped on the trailing "No stage" column leaves the workflow with both its stage and its position cleared.)*
+- [x] Drag task within stage. — `e325f6e` @ `2026-09-12T04:18:31+07:00` *(a drop whose target stage equals the card's own is an order change and nothing else — `workflowMutationsFor` emits a single `workflow-order`, and the case asserts the stage did not move and the Elastic order did not either. Within a column the board orders by `workflowOrder`, so the new position is what the reader sees.)*
+- [x] Placeholder during drag. — `c8e35c3` @ `2026-09-10T19:54:34+07:00`, `ead7927` @ `2026-09-12T02:02:58+07:00` and `e325f6e` @ `2026-09-12T04:18:31+07:00` *(the project board's own drag already did this and has since Stage 5 slice 6: a `dragover` on a drop slot opens that slot's insertion placeholder to 54px and marks the slot `data-project-board-preview`, and the drop or a `dragend` clears it — asserted twice in `tests/projectTaskBoard.test.ts` through the real binder. The workflow board carries the same behaviour in its own binder, where the case asserts the 54px placeholder in the slot under the pointer before release.)*
+- [x] Destination feedback. — `e325f6e` @ `2026-09-12T04:18:31+07:00` *(this was narrowed rather than claimed last round because the missing half was column-level feedback, and the workflow board is where it arrived: during a `dragover` the column under the pointer carries `data-project-workflow-drag-target="true"` while every other column is set to false, and the slot under the pointer opens its placeholder. The case asserts both, and asserts the other column is *not* marked — feedback that marked everything would look the same as feedback that marked nothing.)*
+- [x] Stale refusal restores authoritative state. — `e325f6e` @ `2026-09-12T04:18:31+07:00` *(a lost race re-reads before the refusal is drawn, by the same rule the Elastic drop follows: the sequence reports `stale-revision`, the refresh runs, and the case asserts the card is at the position the *winner* wrote — in the store and in the projection — rather than at the position the losing drop asked for. Every other refusal leaves the world as it was and does not redraw.)*
+- [x] Moving workflow stage does not alter Elastic execution state. — `e325f6e` @ `2026-09-12T04:18:31+07:00` *(asserted three ways in the board's own suite: the store's record after an accepted drop, the projected task the surfaces render, and the card's markup, which carries both its stage and its execution state — a task dropped into Review is still Running and still complete-or-not as it was. The reorder case makes the same assertion for the other move.)*
 
 ## Backlog mutation actions
 
@@ -2683,8 +2698,8 @@ Because the creator does not manually maintain wiring:
 
 ## Acceptance
 
-- [ ] Running + Review task remains Running after workflow drag.
-- [ ] Project-board reorder leaves Elastic order unchanged.
+- [x] Running + Review task remains Running after workflow drag. — `e325f6e` @ `2026-09-12T04:18:31+07:00` *(the sentence is now an assertion in three places: the card in the Review column carries `data-project-workflow-execution-state="running"` and draws "running" as its status, the store's record after the drop still has `executionState: 'running'`, and the projection every surface reads reports the same. A2's whole point is that these are two answers to two questions, so the case asserts both answers rather than one.)*
+- [x] Project-board reorder leaves Elastic order unchanged. — `e325f6e` @ `2026-09-12T04:18:31+07:00` *(a drop inside a stage emits `workflow-order` alone, and the case asserts the record's `executionOrder` is still 4 — the same assertion the Elastic suite makes from the other direction, where an execution reorder leaves `workflowOrder` alone. Between the two, the independence holds whichever board moves first.)*
 - [ ] Search/filter/sort remain presentation only.
 - [ ] Bulk complete from UI and agent produce same results.
 - [ ] Bulk delete survives restart.
