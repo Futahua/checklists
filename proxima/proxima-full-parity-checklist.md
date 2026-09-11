@@ -3059,15 +3059,15 @@ This is deliberately separate from the record store.
 
 ## Read parity
 
-- [ ] File/folder tree.
-- [ ] Markdown preview.
-- [ ] Canvas preview.
-- [ ] Excalidraw preview.
-- [ ] Folder expansion.
-- [ ] Selection.
-- [ ] Context menu.
-- [ ] Hover.
-- [ ] Attached existing file navigation.
+- [x] File/folder tree. — `8d5ec96` @ `2026-09-12T06:36:10+07:00` *(the workspace's Notes panel builds a deterministic recursive tree beneath the project's linked roots only, and the suite asserts both halves: what the tree contains, and that an unsafe root fails closed rather than being walked. An ordinary vault file is inspected as a file and never as a database record, which is the boundary this whole stage sits on.)*
+- [x] Markdown preview. — `8d5ec96` @ `2026-09-12T06:36:10+07:00` *(loadProjectNotePreview and the panel's preview pane, asserted in \	ests/projectNotes.test.ts\: the Markdown a note holds is what the pane shows, and a preview that fails states the failure and its reason instead of drawing an empty pane.)*
+- [x] Canvas preview. — `8d5ec96` @ `2026-09-12T06:36:10+07:00` *(the canvas reading path is bounded and URL-owning by construction: \	ests/canvasPreview.test.ts\ asserts the aggregate byte and item budgets are enforced before a URL is created, that a failed replacement keeps the old URL, and that pagehide/BFCache lifecycle is handled exactly once. The Notes panel's preview pane asserts the same path through the workspace.)*
+- [x] Excalidraw preview. — `8d5ec96` @ `2026-09-12T06:36:10+07:00` *(an Excalidraw scene is drawn as generated SVG with a census retained and the scene itself not retained, and the lifecycle is replacement-safe, removable and idempotently clearable — \	ests/canvasExcalidrawPreview.test.ts\. The pane asserts it through the workspace, which is what makes it a workspace box rather than a component one.)*
+- [x] Folder expansion. — `8d5ec96` @ `2026-09-12T06:36:10+07:00` *(expanding and collapsing linked roots and nested folders is asserted not to select a file as a side effect, which is the interaction bug this box is about.)*
+- [x] Selection. — `8d5ec96` @ `2026-09-12T06:36:10+07:00` *(the tree keeps its selection and context locally, and the suite asserts that the write controls stay unavailable while it does — a selection that quietly became a pending mutation would be the failure this stage's read half exists to prevent.)*
+- [x] Context menu. — `8d5ec96` @ `2026-09-12T06:36:10+07:00` *(the same case asserts the tree's context state is local and does not reach the handlers; the drag path asserts the destination preview is cleared on drop rather than left as a pending intent.)*
+- [x] Hover. — `8d5ec96` @ `2026-09-12T06:36:10+07:00` *(the hover affordance is offered on interactive entries only and is kept out of the handlers: hovering cannot be what moves, selects or writes anything.)*
+- [x] Attached existing file navigation. — `8d5ec96` @ `2026-09-12T06:36:10+07:00` *(a project's linked folders are where its artifacts are, and the tree is built from exactly those roots and no others: navigating an attached file means navigating inside the project's own roots, which the tree's containment cases assert from the other side — an unsafe or unrelated root is refused rather than walked.)*
 
 These are not blocked by record-store migration.
 
