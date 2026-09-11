@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `b612cdb` — pushed, creator-accepted through Stage 7 slice 18 semantic/UI mutation-containment closeout |
+| Accepted branch | `stage7-record-store-contract` @ `0fd5f51` — pushed, creator-accepted through Stage 8 slice 1 read-only dry-run import planner foundation |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `b612cdb` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 152 files / 906 tests; semantic/UI mutation-containment focused 1 file / 3 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
+| Suite at `0fd5f51` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 153 files / 910 tests; Stage 8 import-planner focused 1 file / 4 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -321,20 +321,23 @@ cannot reach its backend. Even when tests deliberately bypass the OpaqueRecordId
 brand, Windows, traversal-shaped and POSIX creator-vault paths are rejected by runtime
 opaque-ID validation before any backend read/update/delete call. Backend call counts remain
 zero and storage remains empty. No semantic/UI mutation authority is enabled.
-Stage 7 / slice 18, semantic/UI mutation-containment closeout, creator-accepted on Proxima
-branch `stage7-record-store-contract` at `b612cdb`: all eleven currently registered
-record-mutation actions are exhaustively proven typed-unavailable through programmatic semantic
-dispatch. ActionDispatcherOptions exposes no RecordStore/backend/recovery/coordinator mutation
-authority; semantic dispatch makes no RecordStore mutation call; and browser mutation intents
-either route through that same typed-unavailable dispatcher or have no browser wiring.
-Browser source contains no RecordStore/coordinator/recovery mutation authority. This is
-tests-only containment evidence; no semantic or UI mutation capability is enabled.
+Stage 8 / slice 1, read-only dry-run import planner foundation, creator-accepted on Proxima
+branch `stage7-record-store-contract` at `0fd5f51`, committed `2026-09-11T14:28:25+07:00`:
+Stage 8 now begins from the existing Markdown compatibility reader rather than a second
+interpretation. A schema-v1 machine-readable dry-run plan assigns HARD-GATE-A opaque
+identities to every successfully loaded legacy project/task/event, keeps legacy identity and
+source provenance separate, translates loaded task/event project references to planned
+canonical project IDs, preserves missing targets as explicit unresolved references, and
+reports unsupported-frontmatter as a distinct policy-pending condition without deciding its
+migration rule. The planner accepts only VaultReader and performs zero legacy, Record Store
+or staging writes.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** None authorized. Stage 8 is the next checklist stage, but remains closed until the creator explicitly authorizes importer work.
-Keep explicit caller refetch/retry/no-silent-merge, semantic-action containment, creator-vault/tree-diff acceptance
-and all Stage 8 import work separate until explicitly accepted.
+**Next operation** Stage 8 slice 2 — extend the import plan from compatibility-loaded records
+to durable provenance/identity reconciliation and physical-candidate disposition, including the
+duplicate-ID foundation, without materializing canonical staging or deciding the unresolved
+unsupported-frontmatter policy.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1441,12 +1444,12 @@ Legacy Markdown is input only.
 
 ## Import architecture
 
-- [ ] Importer uses the existing compatibility reader/parser rather than creating another Markdown interpretation.
-- [ ] Import has a dry-run/planning phase.
-- [ ] Import plan is machine-readable.
-- [ ] Import assigns final opaque record IDs according to HARD GATE A.
+- [x] Importer uses the existing compatibility reader/parser rather than creating another Markdown interpretation. — `0fd5f51` @ `2026-09-11T14:28:25+07:00` *(the dry-run planner calls `loadVaultState` directly and contains no Markdown/frontmatter/discovery parser)*
+- [x] Import has a dry-run/planning phase. — `0fd5f51` @ `2026-09-11T14:28:25+07:00` *(schema-v1 planner is explicitly `mode: dry-run` and has no writer authority)*
+- [x] Import plan is machine-readable. — `0fd5f51` @ `2026-09-11T14:28:25+07:00` *(plain JSON-serializable schema-v1 identity/reference/problem/census plan with explicit zero-write declaration)*
+- [x] Import assigns final opaque record IDs according to HARD GATE A. — `0fd5f51` @ `2026-09-11T14:28:25+07:00` *(every compatibility-loaded record receives a separately allocated `pxr_...` identity validated by the accepted opaque-ID and legacy-provenance boundary; invalid, reused and silently promoted legacy identity is refused)*
 - [ ] A durable import mapping records legacy provenance → new opaque record identity for reconciliation of relationships.
-- [ ] Project references are translated to new project IDs.
+- [x] Project references are translated to new project IDs. — `0fd5f51` @ `2026-09-11T14:28:25+07:00` *(loaded task/event project references resolve through the planned project identity mapping; absent projects remain explicit `missing` references with null canonical target rather than being guessed)*
 - [ ] Relations are translated to record IDs.
 - [ ] Legacy status is translated separately into:
   - [ ] execution state;
@@ -1506,7 +1509,7 @@ The repository currently has a real unresolved semantic mismatch: repository loa
 
 > Is an otherwise readable record containing `unsupported-frontmatter` importable using the interpreted fields with legacy source preserved as provenance, or must import block until the unsupported construct is resolved?
 
-- [ ] Until answered, importer reports it distinctly from an ordinary malformed record.
+- [x] Until answered, importer reports it distinctly from an ordinary malformed record. — `0fd5f51` @ `2026-09-11T14:28:25+07:00` *(`unsupported-frontmatter` is emitted as `unsupported-frontmatter-policy-pending`, while ordinary frontmatter parse failures remain separate reader problems; no importability policy is invented)*
 - [ ] Tests encode the decided rule only after the decision exists.
 
 ## Byte-preservation proof
@@ -1551,6 +1554,8 @@ The creator must not have to perform migration by clicking through a wizard.
 These are semantic administrative actions with typed results.
 
 ## Evidence closing import
+
+- [x] Dry-run import planner contract tests. — `0fd5f51` @ `2026-09-11T14:28:25+07:00` *(existing compatibility-reader reuse, machine-readable zero-write plan, HARD-GATE-A identity assignment/refusal, project-ID reconciliation, source byte/revision preservation, and unsupported-frontmatter policy-pending disclosure)*
 
 - Full import against all four existing fixture vaults.
 - Dedicated duplicate-ID fixture assertions.
