@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `3846805` — pushed, creator-accepted through Stage 8 slice 12 malformed/problem staging evidence |
+| Accepted branch | `stage7-record-store-contract` @ `97c9dd9` — pushed, creator-accepted through Stage 8 slice 18 read-only legacy import actions |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `3846805` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 162 files / 967 tests; Stage 8 focused 10 files / 61 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests; committer `2026-09-11T19:22:40+07:00` |
+| Suite at `97c9dd9` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 168 files / 1011 tests; Stage 8 focused 16 files / 105 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests; committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -429,14 +429,64 @@ manifest is the only writable boundary. Focused evidence is 10 files / 61 tests,
 1 / 4, bridgeDisclosure 1 / 3, and full suite 162 files / 967 tests. Activation omission,
 unsupported-frontmatter policy, and valid physical payload staging remain open.
 
+Stage 8 / slice 13, canonical project payload planning and isolated project-record staging,
+creator-accepted on Proxima branch `stage7-record-store-contract` at
+`b92b2d408f87fda332dec9b84dbc701cf4485c7f`, committed `2026-09-11T19:43:23+07:00`: already-
+interpreted project fields and accepted external-artifact bindings now form canonical V2 project
+payloads and eligible projects materialize through the staging-only seam. Malformed, unsupported,
+duplicate and otherwise ineligible projects remain explicit blockers; live Record Store, activation,
+task/event staging and import commit authority remain absent. Focused evidence is 11 files / 68
+tests, browserBoundary 1 / 4, bridgeDisclosure 1 / 3, and full suite 163 files / 974 tests.
+
+Stage 8 / slice 14, canonical task payload planning and isolated task-record staging,
+creator-accepted on Proxima branch `stage7-record-store-contract` at
+`27691bd9c1284fc8fbdcea1554e42abbd349e9af`, committed `2026-09-11T19:53:28+07:00`: eligible
+tasks now carry canonical V2 payloads with execution/workflow identities, scoped ordering and
+resolved property values, and materialize only through the staging-only seam. Missing, ambiguous,
+malformed, unsupported and conflicting dependencies remain explicit blockers; live Record Store,
+activation, event staging and import commit authority remain absent. Focused evidence is 12 files /
+75 tests, browserBoundary 1 / 4, bridgeDisclosure 1 / 3, and full suite 164 files / 981 tests.
+
+Stage 8 / slice 15, canonical event payload planning and isolated event-record staging,
+creator-accepted on Proxima branch `stage7-record-store-contract` at
+`0a89f534ff966b3757255210fcf0ea8d4fd695f5`, committed `2026-09-11T20:03:54+07:00`: eligible
+events now form canonical V2 payloads with canonical associations and recurrence data and materialize
+only through the staging-only seam. Malformed, unsupported, ambiguous and conflicting dependencies
+remain explicit blockers; live Record Store, activation and import commit authority remain absent.
+Focused evidence is 13 files / 82 tests, browserBoundary 1 / 4, bridgeDisclosure 1 / 3, and full
+suite 165 files / 988 tests.
+
+Stage 8 / slice 16, import source byte preservation, creator-accepted on Proxima branch
+`stage7-record-store-contract` at `184765e2b125b85bccea18e13cba7966ef4371f4`, committed
+`2026-09-11T20:19:14+07:00`: the import evidence boundary now proves source bytes and source hashes
+remain unchanged across planning and staging for valid, malformed and unsupported inputs, without
+granting content rewrite or live-vault authority. Focused evidence is 14 files / 89 tests,
+browserBoundary 1 / 4, bridgeDisclosure 1 / 3, and full suite 166 files / 995 tests.
+
+Stage 8 / slice 17, staged legacy import semantics, creator-accepted on Proxima branch
+`stage7-record-store-contract` at `7ffa63f6a4ac37714bedb58c2bca76916cc95259`, committed
+`2026-09-11T20:29:17+07:00`: staged project, task and event payloads are checked against the
+legacy interpretation and canonical conversion contracts, with explicit refusal for malformed,
+unsupported, duplicate and dependency-invalid records; staging remains isolated and no live-store
+or activation authority is introduced. Focused evidence is 15 files / 97 tests, browserBoundary
+1 / 4, bridgeDisclosure 1 / 3, and full suite 167 files / 1003 tests.
+
+Stage 8 / slice 18, read-only legacy import actions, creator-accepted on Proxima branch
+`stage7-record-store-contract` at `97c9dd9e68ad2e21222acf91a58502eecb278abd`, committed
+`2026-09-11T20:42:20+07:00`: machine-callable read-only import inspection and status actions expose
+the staged legacy plan and bounded evidence while import commit remains typed-unavailable. Invalid,
+unknown and mutation-shaped requests return typed refusals without storage or activation writes.
+Focused evidence is 16 files / 105 tests, browserBoundary 1 / 4, bridgeDisclosure 1 / 3, and full
+suite 168 files / 1011 tests.
+
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 13 — canonical project payload planning and isolated project-record
-staging: carry the already-interpreted project fields and accepted external-artifact bindings into a
-canonical V2 project payload, materialize only eligible projects through the staging-only seam, and
-keep malformed/unsupported/duplicate blockers explicit. Do not stage tasks or events until their
-own payload dependencies are authored; keep activation, verification, resolution/commit authority,
-and live-store writes separate.
+**Next operation** Stage 8 slice 19 — machine-callable read-only ambiguous-project resolution:
+expose `import.resolve` for an explicitly selected candidate project record, apply the selection only
+to an in-memory dry-run plan, update dependent task workflow-stage/workflow-order and event
+association evidence, and expose the resolved plan through `import.inspect`/`import.status` while
+keeping `import.commit` typed-unavailable. Do not write the live Record Store, staging, activation,
+legacy Markdown, or the creator vault.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
