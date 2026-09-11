@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `3b1af20` — pushed, creator-accepted through Stage 7 slice 1 |
+| Accepted branch | `stage7-record-store-contract` @ `a8c1b1e` — pushed, creator-accepted through Stage 7 slice 2 |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `3b1af20` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 145 files / 853 tests |
+| Suite at `a8c1b1e` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 146 files / 869 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -179,15 +179,25 @@ adapter provide opaque-ID filenames, mandatory codec validation, typed read meta
 conditional create/update/delete, visible corrupt-file failures, and explicit separation from
 creator-vault FSA authority. No physical backing location or mutation authority was selected.
 Proxima full suite 145 files / 853 tests.
+Stage 7 / slice 2, canonical-domain-v2 RecordStore codec/validation, accepted on Proxima
+branch `stage7-record-store-contract` at `a8c1b1e`: complete runtime validation now covers
+task, project, event, schema and workflow-stage records, all accepted canonical property and
+recurrence families, opaque IDs and scoped ordering; the canonical JSON RecordStore factory
+always supplies this codec, and malformed, legacy/local and path-bearing shapes fail visibly.
+No physical backing location or mutation/recovery authority was selected. Proxima full suite
+146 files / 869 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Ask the AUTHOR for the exact next bounded guarded packet for Stage 7
-slice 2 — complete canonical-domain-v2 record codec/validation at the RecordStore boundary.
-Do not choose or wire a physical backing location; HARD GATE B remains open.
+**Next operation** HARD GATE B — physical Proxima-owned Record Store location decision.
+This is a decision gate, not an implementation slice. The next AUTHOR operation must
+determine, with the creator, what concrete backing location/API satisfies the existing
+restart, authority-restoration, Obsidian-boundary, Proxima-action, recovery-journal and
+no-direct-agent-access constraints. No physical location is selected here; no
+mutation/recovery implementation begins until that decision exists.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1178,7 +1188,7 @@ This stage is storage infrastructure, not user parity yet.
 
 - [x] One JSON file per durable record. — `3b1af20` *(adapter contract: one opaque-ID JSON file per record)*
 - [x] Filename carries no human/domain meaning. — `3b1af20` *(opaque record ID only)*
-- [ ] Every JSON document validates against the current domain schema. *(mandatory codec seam exists at `3b1af20`; complete canonical-v2 codec still open)*
+- [x] Every JSON document validates against the current domain schema. — `a8c1b1e` *(canonical-domain-v2 codec is bound to the canonical JSON RecordStore factory; malformed, legacy/local and path-bearing record shapes fail at the boundary)*
 - [x] Unknown/corrupt record files fail visibly. — `3b1af20`
 - [x] No arbitrary partial JSON patch is exposed as the semantic application API. — `3b1af20`
 - [x] Reader returns: — `3b1af20`
