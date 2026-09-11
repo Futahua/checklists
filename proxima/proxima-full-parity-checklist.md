@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `052c3b4` — pushed, creator-accepted through Stage 7 slice 12 observed-revision same-record concurrency contract |
+| Accepted branch | `stage7-record-store-contract` @ `10dc3c3` — pushed, creator-accepted through Stage 7 slice 13 different-record independence |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `052c3b4` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 151 files / 900 tests; observed-revision/concurrency focused 2 files / 8 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
+| Suite at `10dc3c3` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 151 files / 901 tests; concurrency/coordinator focused 2 files / 9 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -286,13 +286,19 @@ the same observed `record-r1` cannot silently last-write-wins: exactly one condi
 update succeeds at `record-r2`, while the other returns typed `stale` with
 `actualRevision = record-r2` and cannot overwrite the winner. This is tests-only evidence;
 no semantic UI action, locking, retry or merge behavior is added.
+Stage 7 / slice 13, different-record independence, creator-accepted on Proxima branch
+`stage7-record-store-contract` at `10dc3c3`: two independent pathless record-mutation
+coordinators are proven able to commit distinct records independently. Each caller binds to
+its own observed revision, both conditional effects succeed, and both final records retain
+their own intended bytes/revisions without cross-record blocking or overwrite. This is
+tests-only evidence; no locking, retry, merge or semantic UI mutation behavior is added.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 7 slice 13 — different-record independence only.
+**Next operation** Stage 7 slice 14 — explicit caller refetch/retry with no silent storage-layer merge only.
 Keep explicit caller refetch/retry/no-silent-merge, semantic-action containment, creator-vault/tree-diff acceptance
 and all Stage 8 import work separate until explicitly accepted.
 
@@ -1338,7 +1344,7 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 - [x] Two concurrent Proxima operations on the same observed revision cannot silently last-write-wins. — `052c3b4` *(two independent coordinators prepare against the same `record-r1`; the conditional store permits one `record-r2` winner and refuses the second operation as stale)*
 - [x] Winner succeeds. — `052c3b4` *(exactly one same-record concurrent result succeeds and its returned revision becomes the stored revision)*
 - [x] Loser receives typed stale/conflict. — `052c3b4` *(exactly one concurrent loser returns typed `reason: stale` with `actualRevision` equal to the winner's revision)*
-- [ ] Different records may commit independently.
+- [x] Different records may commit independently. — `10dc3c3` *(two independent coordinators bind distinct record mutations to their own observed revisions; both conditional effects succeed and both records retain their own intended bytes/revisions without cross-record blocking or overwrite)*
 - [ ] Semantic caller may explicitly refetch/retry; storage layer does not silently merge.
 
 ## Acceptance
@@ -1358,6 +1364,7 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 - [x] Record startup recovery/authority conformance tests. — `d07fa61` *(durable load-before-authority, load-failure blocking, prepared effect-present → committed, and recovery-required effect-absent → recovered)*; `a937aa4` *(ambiguous peer bytes → durable blocked authority; corrupt recovery journal → blocked before record access)*; `188209e` *(repeated terminal committed/recovered/blocked startup is idempotent: no further journal writes, no record access, no duplicate state/outcomes, same authority decision)*
 - [x] Machine-readable recovery disclosure contract tests. — `155c736` *(actual coordinator recovery-required → typed ActionFailure; actual blocked startup → bounded pathless blocked inspection; stable codes/fields and storage-target non-disclosure proven)*
 - [x] Same-record observed-revision concurrency tests. — `052c3b4` *(update/delete caller shapes bind to observed revision; two independent same-revision coordinator callers produce one winner plus one typed stale loser, with winner bytes/revision preserved)*
+- [x] Different-record independence concurrency tests. — `10dc3c3` *(two independent coordinator callers bind to distinct observed revisions; both different-record updates succeed and retain their own bytes/revisions without cross-record interference)*
 - Process-death recovery evidence: `9bbedbd` *(before-commit kill: durable prepared survives; physical effect absent; startup → recovered)*; `97970b7` *(after-commit kill: intended physical effect survives while durable journal remains prepared; startup → committed without rollback)*
 - Durable recovery/process-kill tests.
 - Tree diff showing writes confined to the Proxima-owned store.
