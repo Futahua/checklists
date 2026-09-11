@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `42a0361` — pushed, creator-accepted through Stage 8 slice 11 physical-candidate identity staging |
+| Accepted branch | `stage7-record-store-contract` @ `3846805` — pushed, creator-accepted through Stage 8 slice 12 malformed/problem staging evidence |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `42a0361` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 161 files / 961 tests; Stage 8 focused 9 files / 55 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests; committer `2026-09-11T19:14:55+07:00` |
+| Suite at `3846805` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 162 files / 967 tests; Stage 8 focused 10 files / 61 tests; `browserBoundary` 1 file / 4 tests; `bridgeDisclosure` 1 file / 3 tests; committer `2026-09-11T19:22:40+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -418,13 +418,25 @@ activation write is introduced. Focused evidence is 9 files / 55 tests, browserB
 bridgeDisclosure 1 / 3, and full suite 161 files / 961 tests. The duplicate-candidate staging row
 is now closed; broad physical payload staging and activation remain open.
 
+Stage 8 / slice 12, durable malformed-record and unsupported-frontmatter staging evidence,
+creator-accepted on Proxima branch `stage7-record-store-contract` at
+`3846805f02aa421f33ae78955b99836a6d3f07ed`, committed `2026-09-11T19:22:40+07:00`: structured
+frontmatter parse failures are grouped by physical source as unresolved malformed-record evidence
+with exact source/kind/identity context, stable problem codes and the accepted bounded diagnostic;
+unsupported-frontmatter remains a separate policy-pending disposition. Source bytes remain
+unchanged, no canonical payload or record is guessed, and the idempotent interruption-safe problem
+manifest is the only writable boundary. Focused evidence is 10 files / 61 tests, browserBoundary
+1 / 4, bridgeDisclosure 1 / 3, and full suite 162 files / 967 tests. Activation omission,
+unsupported-frontmatter policy, and valid physical payload staging remain open.
+
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 12 — durable malformed-record and unsupported-frontmatter staging
-evidence: persist structured parse-failure blockers with exact source/kind/identity context and
-bounded diagnostics, keep unsupported-frontmatter explicitly policy-pending, preserve source bytes,
-and maintain an idempotent interruption-safe staging problem manifest. Create no canonical payloads;
-keep activation, import verification, resolution/commit authority, and live-store writes separate.
+**Next operation** Stage 8 slice 13 — canonical project payload planning and isolated project-record
+staging: carry the already-interpreted project fields and accepted external-artifact bindings into a
+canonical V2 project payload, materialize only eligible projects through the staging-only seam, and
+keep malformed/unsupported/duplicate blockers explicit. Do not stage tasks or events until their
+own payload dependencies are authored; keep activation, verification, resolution/commit authority,
+and live-store writes separate.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1581,17 +1593,17 @@ Do **not** silently choose one source file.
 
 ## Malformed records
 
-- [ ] Parse/validation-blocking malformed record produces a structured import failure containing:
-  - [ ] source path/reference;
-  - [ ] record kind if known;
-  - [ ] problem code;
-  - [ ] bounded diagnostic.
+- [x] Parse/validation-blocking malformed record produces a structured import failure containing: — `3846805` @ `2026-09-11T19:22:40+07:00` *(staging-only problem manifest groups each physical source and preserves the structured evidence)*
+  - [x] source path/reference; — `3846805` @ `2026-09-11T19:22:40+07:00`
+  - [x] record kind if known; — `3846805` @ `2026-09-11T19:22:40+07:00`
+  - [x] problem code; — `3846805` @ `2026-09-11T19:22:40+07:00`
+  - [x] bounded diagnostic. — `3846805` @ `2026-09-11T19:22:40+07:00` *(uses `DIAGNOSTIC_LIMITS.problemDetail`)*
 
-- [ ] No JSON record is created from guessed fields.
-- [ ] Original malformed Markdown remains byte-identical.
+- [x] No JSON record is created from guessed fields. — `3846805` @ `2026-09-11T19:22:40+07:00` *(canonical payload materialization and canonical staging-record creation are both zero)*
+- [x] Original malformed Markdown remains byte-identical. — `3846805` @ `2026-09-11T19:22:40+07:00` *(the accepted proof compares source bytes before and after)*
 - [ ] Other valid records may be prepared in staging.
 - [ ] Canonical activation does not silently omit malformed records as though import were complete.
-- [ ] A machine-readable unresolved-record count remains nonzero until deliberately resolved/skipped according to an explicit migration policy.
+- [x] A machine-readable unresolved-record count remains nonzero until deliberately resolved/skipped according to an explicit migration policy. — `3846805` @ `2026-09-11T19:22:40+07:00` *(manifest exposes `unresolvedRecordCount`; activation and resolution policy remain open)*
 
 ## Unsupported-frontmatter open question
 
