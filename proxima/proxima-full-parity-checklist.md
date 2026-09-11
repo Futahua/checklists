@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–26 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c` and `9b59d16` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–27 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16` and `bdea4a1` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `9b59d16` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 172 files / 1056 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T00:23:35+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `bdea4a1` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 173 files / 1087 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T00:34:29+07:00`. At the previous point `9b59d16`: 172 files / 1056 tests. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -543,38 +543,47 @@ exit 0.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-Slice 26, the Backlog view projection and query-aware rendering, pushed on Proxima branch
-`stage7-record-store-contract` at `9b59d16ee17bd0de601fdd0fc1b28e296fece5f2`, committed
-`2026-09-12T00:23:35+07:00` and **awaiting creator acceptance**: `src/app/backlogView.ts` turns loaded
-state plus a view state into everything the Backlog draws — the rows, the eight field columns plus one per
-custom property the data declares, cells formatted per type, both counts, the sort indicator, the filter
-chips, and why the list is empty — and `renderProjectBacklog` now consumes it instead of filtering inline
-with its own comparator. Five § Backlog boxes are ticked: Search, Type-appropriate comparison operators,
-Multiple filters, Sort ascending/descending, Sort indicator. Evidence: full suite 172 files / 1056 tests,
-every step exit 0.
+Slice 27, the Backlog's query controls as values, pushed on Proxima branch
+`stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
+`2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
+control a value — set-search, add-filter, remove-filter, sort-by, clear-sort, clear-query — and
+`applyBacklogControl` the whole of what one does, so nothing in the browser layer decides what a control
+means and a control that cannot change the query returns that same query. The filter menu is built from
+the engine's own tables (`BACKLOG_FIELDS`, `operatorsForField`, `valueTypeForField`), and a test walks
+every field and every comparison it admits, builds the filter and puts it through `assertBacklogQuery`, so
+the menu cannot offer a comparison the matcher would refuse. The Backlog now draws a search field, the
+filter menu, a sort button per sortable column and a remove button on every chip, all disabled when the
+view belongs to another project. Two boxes are ticked: **Remove filter** and Stage 6's **Search/filter/sort
+never mutate records**.
 
-**`src/browser/` now has unit coverage, and that is the real result here.** `renderProjectBacklog` returns
-an HTML string and imports only types, so `tests/backlogView.test.ts` drives the *production* renderer in
-Node — the first test in this repository to import the browser layer. That is what turned those five boxes
-into evidence rather than claims, and it is the pattern the rest of Stages 5, 6, 17 and 18 needs.
-`bindProjectBacklogInteractions` was left character-identical on purpose: it needs a DOM, nothing tests it,
-and rewriting it could only add risk.
+**The controls are driven, not just called.** Every control carries a `data-c1-key`, so the happy-dom
+harness runs the real loop — render, click or type, apply, render — against the production renderer and
+binder. `tests/projectBacklog.test.ts` now proves that typing searches, that the menu adds the filter it
+was left on, that the chip's remove button brings the hidden task back, that a mistyped number is refused
+with its reason and leaves the query alone, that a column sorts ascending then descending then clears, and
+that none of it writes to a record. That file was the last place the Backlog's binder was untested: it is
+no longer character-identical on purpose, it is covered.
 
-**What the Backlog still lacks.** No control sets the query — there is no search input, filter menu,
-column-click sort or chip removal — so it renders a query the shell supplies rather than one the creator
-can raise. Tag filtering stays open because tags have no model; Property filters stay open because the
-engine filters the nine typed fields and not `task.properties`; Remove filter stays open because
-`removeBacklogFilter` exists but nothing calls it; Custom-property columns stay open because the projection
-supplies the columns while the renderer still draws the legacy list rather than a column table.
+**What the Backlog still lacks.** Tag filtering stays open because tags have no model; Property filters
+stay open because the engine filters the nine typed fields and not `task.properties`; Custom-property
+columns stay open because the projection supplies the columns while the renderer still draws the legacy
+list rather than a column table; Resizable columns, Row selection, Select all and bulk actions have no
+implementation. Stage 18's lowercase `search;`/`filters;`/`sort;` items stay open on purpose — that
+section is an *interaction-feel* pass, and the three capabilities existing is not the same as their feel
+having been assessed, which needs a browser.
 
-**Next operation** Slice 27 — the query controls, as testable logic rather than DOM plumbing. Add a pure
-control module in `src/app/` mapping a control event to the next query: set search, add a filter, remove a
-filter by id, set the sort field, toggle its direction. Test it, then have the shell call it and keep each
-listener trivial. That closes Remove filter on evidence and gives the five boxes above their controls.
+**Next operation** Slice 28 — the Task modal, which is Stage 6's largest remaining block (21 open boxes).
+Start with what the existing modal scaffolding already proves and extend from there; the same pattern
+applies: project the modal's state in `src/app/`, test it in Node, then let the renderer draw it.
 
-**Resolved by slice 26.** Those boxes stayed open after slice 25 because the renderer filtered inline and
-nothing in this repository imported `src/browser/`. Slice 26 added the projection *and* a test that drives
-the production renderer, so both halves of that gap are closed.
+Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
+`2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
+the Backlog draws — rows, the eight field columns plus one per custom property the data declares, cells
+formatted per type, both counts, the sort indicator, the filter chips, and why the list is empty — and
+`renderProjectBacklog` consumes it instead of filtering inline with its own comparator. Five § Backlog
+boxes were ticked: Search, Type-appropriate comparison operators, Multiple filters, Sort
+ascending/descending, Sort indicator. `src/browser/` gained unit coverage there, which is what turned
+those five boxes into evidence rather than claims.
 
 Slice 25, the Backlog query surface, pushed on Proxima branch `stage7-record-store-contract` at
 `a31c74c9d1c78436e542523823c5e94f5b045ca2`, committed `2026-09-12T00:19:34+07:00` and **awaiting creator
@@ -1315,7 +1324,7 @@ Still before migration.
 - [ ] Property filters.
 - [x] Type-appropriate comparison operators. — `9b59d16` @ `2026-09-12T00:23:35+07:00` *(nine filter fields each admit only the operators their type supports, decided in one place so a menu and the matcher cannot disagree; a numeric field compared against a non-number does not match instead of coercing, dates compare as instants, a boolean never equals its string spelling, and a query naming an operator its field does not admit is refused by name rather than silently skipping the filter)*
 - [x] Multiple filters. — `9b59d16` @ `2026-09-12T00:23:35+07:00` *(filters conjoin — a task must satisfy every one — and the projection exposes each as a chip carrying its id, field, operator and a readable label, which the renderer draws. Raising new filters from the UI is part of the unwired control work.)*
-- [ ] Remove filter.
+- [x] Remove filter. — `bdea4a1` @ `2026-09-12T00:34:29+07:00` *(`applyBacklogControl({kind:'remove-filter'})` drops the filter the chip names and returns the same query when the id is already gone, so removing a filter twice is harmless; the chip renders a remove button carrying `data-project-backlog-filter-remove`, the binder reads the id from it and nothing else, and `tests/projectBacklog.test.ts` drives the whole loop in happy-dom — a click on the rendered chip brings the task that filter was hiding back into the list. Removal is view state only: the query is replaced, never edited, and `tests/backlogControls.test.ts` asserts the state and every record are byte-identical after a session of controls.)*
 - [x] Sort ascending/descending. — `9b59d16` @ `2026-09-12T00:23:35+07:00` *(ordering is ascending or descending on any field column, and it is a total order: ties fall through the legacy order index then the record id, so equal keys never swap between renders. A missing value sorts last ascending and first descending, which is stated because "no deadline" is not a deadline of zero.)*
 - [x] Sort indicator. — `9b59d16` @ `2026-09-12T00:23:35+07:00` *(the renderer emits `data-project-backlog-sort-indicator` carrying the sorted field and direction with a ▲/▼ mark, and omits the whole toolbar when no query is active so the unqueried markup is byte-identical to what it rendered before)*
 - [ ] Custom-property columns.
@@ -1398,7 +1407,7 @@ All existing meaningful fields must be representable:
 
 - [ ] Every old editor can be opened programmatically.
 - [ ] Every unsaved field can be changed and cancelled without durable change.
-- [ ] Search/filter/sort never mutate records.
+- [x] Search/filter/sort never mutate records. — `bdea4a1` @ `2026-09-12T00:34:29+07:00` *(the Backlog is Stage 6's only search/filter/sort surface, and the whole path is proven read-only: `tests/backlogControls.test.ts` drives projection and markup through a session of controls and asserts the loaded state is byte-identical, every task is the same object with the same keys, and the query's own filters array is replaced rather than edited; the happy-dom session in `tests/projectBacklog.test.ts` does the same after real clicks and typing. A modal that later gains a query surface must meet this same bar — this tick covers the query surfaces that exist.)*
 - [ ] Relation/rollup/formula projection works without wikilink semantics leaking into UI code.
 - [ ] All future Save/Delete buttons currently produce a typed unavailable result rather than fake success.
 
