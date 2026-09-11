@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451` and `e4e319b` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b` and `c74003f` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `e4e319b` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 189 files / 1271 tests; committer `2026-09-12T03:44:25+07:00`. At `9a04451` the same steps were 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `c74003f` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 191 files / 1286 tests; committer `2026-09-12T03:54:01+07:00`. At `e4e319b` the same steps were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -664,6 +664,19 @@ converges the cockpit by itself, and the interval policy covers changes made els
 three boxes it could *not* close and said so: Stage 18's **Save** and **Delete** now name which modal is wired
 and which two are not, and Stage 19's **UI and agent race** records that one of the two writers now exists.
 
+Slice 55, the New Task form, at `c74003f`, committed `2026-09-12T03:54:01+07:00`: nothing in the tree
+offered "new task" at all, so the last of Stage 9's three UI-wiring boxes needed *UI* rather than wiring.
+The form is built in the shape the card editor established rather than a second idiom — a `FormDraft`, a
+projection over the same `TaskEditorField` vocabulary, a plan that turns the draft into one closed typed
+request, and a sequence that executes it through operations rather than a store — and its own hooks
+(`data-new-task-field`), because both forms can be on the board at once and one binder answering the other's
+keystroke is the failure those hooks exist to prevent. `planTaskCreate` refuses by field before the write path
+is asked, the form offers only the fields the request can carry (custom properties are absent, not
+shown-and-refused), and a new card lands at the top of its column because where it belongs among peers is a
+drag. Save is a real control exactly when a write path resolved and is offered only once the form holds a
+name; a refused create leaves the form open with what was typed. Fifteen cases. **Stage 9's UI-wiring half is
+now complete: what remains in the stage is its five agent-parity boxes, which need an agent-facing caller.**
+
 Slice 27, the Backlog's query controls as values, pushed on Proxima branch
 `stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
 `2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
@@ -846,9 +859,9 @@ panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered b
 Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
 never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
-Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `e4e319b` the
-document stands at 590 ticked / 250 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
-HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), **HARD GATE C 3**, Stage 9 6,
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `c74003f` the
+document stands at 591 ticked / 249 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
+HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), **HARD GATE C 3**, Stage 9 5,
 Stage 10 20, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
 Stage 17 58, Stage 18 5, Stage 19 8, Stage 20 11 and the final release gate 26. Stage 9 is the only stage
 whose write boxes are now being closed rather than only counted, because HARD GATE C's cutover is what every
@@ -1042,19 +1055,16 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Next operation** Slice 55 — the last of Stage 9's three UI-wiring boxes, **New Task Save calls
-`task.create`**, and it is new UI rather than new plumbing: nothing in the tree offers "new task" at all
-(`renderElasticCockpit` draws cards, the session controls and the Task editor; the Projects Hub's New Project
-modal is the only creation form). The shape is established twice over already, so the slice is mostly
-mechanical: a `projectNewTaskEditor`/`planTaskCreate` pair in `src/app/` over the same `FormDraft` and
-`TaskEditorField` vocabulary the card editor uses — with its own hooks from `taskEditorFields.ts`, because two
-binders answering one keystroke is the failure that extraction exists to prevent — a sequence that calls
-`createTask` with the closed typed request it already takes, and a modal the board renders with Save offered
-only when a write path resolved. Then HARD GATE C's remaining two are the honest end of this stage: item 2 is a
-shipped activation trigger, which is the import's commit path, and item 7 is the shipped-default statement that
-follows it. Slack, if the budget allows: the five agent-parity boxes, which need an agent-facing caller — the
-dispatcher refuses every record mutation and the loopback bridge is a read-only vault reader. Nothing in
-Proxima or LongHorizon is parked or uncommitted; both trees are clean and both branches are pushed.
+**Next operation** Stage 9's UI-wiring half is complete, so the next slice is either of two things and both
+are named rather than guessed. The first is Stage 9's five agent-parity boxes, which need an agent-facing
+caller: the operations exist and two UI callers execute them, but an agent cannot *submit* one — the dispatcher
+refuses every record mutation and the loopback bridge is a read-only vault reader. The honest shape of that
+work is a bounded semantic request into the same operation layer the UI uses (`resolveBrowserTaskMutations`
+returns exactly that), so the parity boxes become a comparison of two callers of one operation rather than a
+second implementation. The second is HARD GATE C's item 2, the shipped activation trigger — the import's commit
+path — which is what turns "mutations exist" into "the ordinary product reaches them", and which also closes
+item 7. Nothing in Proxima or LongHorizon is parked or uncommitted; both trees are clean and both branches are
+pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -2463,7 +2473,7 @@ First full DATA WRITE surface.
 
 ## UI wiring
 
-- [ ] New Task Save calls `task.create`. *(Still open, and the honest reason is that there is no New Task control anywhere in the tree yet: `renderElasticCockpit` draws cards, the session controls and the Task editor, and nothing offers "new task" at all — the Projects Hub's New Project modal is the only creation form. So this box needs a modal, not a wiring: a creation form whose Save calls `task.create` with the same closed typed request the write path already takes. It is the last of the three UI-wiring boxes on this list that needs new UI rather than new plumbing.)*
+- [x] New Task Save calls `task.create`. — `c74003f` @ `2026-09-12T03:54:01+07:00` *(there was no New Task control anywhere in the tree — `renderElasticCockpit` drew cards, the session controls and the Task editor, and the Projects Hub's New Project modal was the only creation form — so the box needed a form rather than a wiring. `src/app/taskCreate.ts` is that form's model: a `FormDraft` defaulted from the reader's selection (a real project, or no project when the selection is only a filter), a projection over the same `TaskEditorField` vocabulary the card editor uses, and `planTaskCreate`, which turns the draft into one closed typed request — name, project, column, weight, dates, durations, and `executionOrder: 0`, because where a new card belongs among its peers is a drag and inventing an order here would claim a position nobody chose. Every refusal names its field, and the form offers only fields the request can carry: custom properties are absent rather than shown-and-refused, which is the same boundary the card editor's property refusal shows from the other side. `src/browser/newTaskModal.ts` draws it with hooks of its own (`data-new-task-field`), because the editor and the form can both be on the board and one binder answering the other's keystroke is the failure those hooks exist to prevent; Escape closes whichever modal is actually open. Save is a real control exactly when a write path resolved, is offered only once the form holds a name, and a refused create leaves the form open with what was typed. Fifteen cases: ten over the real store and the real recovery gate and five through the real renderer and binder.)*
 - [x] Card edit Save calls typed task mutation. — `cab1627` @ `2026-09-12T03:31:18+07:00` and `18c2e48` @ `2026-09-12T03:37:24+07:00` *(`planTaskEditorSave` turns the draft into one typed mutation per field that actually changed — nothing else, so a field nobody touched cannot be rewritten over a concurrent editor's work — and refuses anything the record could not hold rather than half-writing the form; custom properties are refused by name because their values arrived through a compatibility projection and writing them back needs Stage 10's canonical mapping. `cab1627` is that plan and its sequence over the real store; `18c2e48` makes the modal's Save a real control, offered only when there is something to write, and reports the click through the real binder. A refused save keeps the edits so a reader retries from the authoritative revision; an accepted one clears them.)*
 - [x] Delete calls `task.delete`. — `18c2e48` @ `2026-09-12T03:37:24+07:00` *(the modal's Delete is a real control whenever a write path resolved, it carries the revision the card was read at, and an accepted delete closes the editor while a refused one leaves it open — the bookkeeping is reported by the app layer rather than reached for, which is what makes it testable. The Timekeeping surface's copy of the same modal still passes the typed-unavailable constant on purpose: its binder has no form handlers at all, so its editor is read-only until Stage 14's write parity gives it some.)*
 - [x] Drag Backlog → Running calls `task.execution.move`. — `abf8204` @ `2026-09-12T03:20:05+07:00` *(the drop
