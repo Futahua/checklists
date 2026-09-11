@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–28 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17` and `7825d20` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–29 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193` and `b20cdca` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `7825d20` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 174 files / 1105 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T00:44:55+07:00`. At the previous point `bdea4a1`: 173 files / 1087 tests. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `b20cdca` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 176 files / 1124 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T00:56:55+07:00`. At the previous point `7825d20`: 174 files / 1105 tests. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -572,10 +572,6 @@ implementation. Stage 18's lowercase `search;`/`filters;`/`sort;` items stay ope
 section is an *interaction-feel* pass, and the three capabilities existing is not the same as their feel
 having been assessed, which needs a browser.
 
-**Next operation** Slice 28 — the Task modal, which is Stage 6's largest remaining block (21 open boxes).
-Start with what the existing modal scaffolding already proves and extend from there; the same pattern
-applies: project the modal's state in `src/app/`, test it in Node, then let the renderer draw it.
-
 **Slice 28 is done**, in two commits: 28a, `src/app/taskEditor.ts` at `7ec8d17`, decides every field the
 Task modal shows — the ten task fields, one field per schema property whether or not the task has set it,
 and any record value the schema does not declare — and 28b, `7825d20` at `2026-09-12T00:44:55+07:00`, makes
@@ -586,17 +582,41 @@ provisional form state that Cancel and Escape discard. `editorDraft` is threaded
 re-render, so a keystroke cannot take the field away from the reader; the drawn draft updates on the next
 render. Twenty § Task modal boxes are ticked.
 
-**Next operation** Slice 29 — the Event modal (Stage 6, ten boxes: name, description, project, start, end,
-colour if event metadata supports it, recurrence controls, until/end condition, exception/scope UX, and
-Save/Delete unavailable until write cutover). `CalendarEvent` carries name, description, projectId,
-startDate, deadline, isCompleted and properties — the same shape the Task editor just proved, so the same
-pattern applies: project the modal's state in `src/app/`, test it in Node, and let the renderer draw it.
-The schedule surface already renders event modals in three places (`scheduleProjection.ts`,
-`scheduleTimeGrid.ts`, `scheduleRecurrence.ts`), so check what those already represent before adding a
-fourth. The two boxes that stay open in the Task modal are deliberate and should not be quietly closed
-later: **workflow stage where project-scoped** has no model (HARD GATE A2 owns it — the legacy status is not
-the same thing), and **recurrence if task recurrence remains supported** is the creator's product decision,
-because no task recurrence model exists.
+**Slice 29 is done**, in two commits: 29a, `e88e193`, added `src/app/eventEditor.ts` and extracted the draft
+mechanics both editors share into `src/app/formDraft.ts` (the Task editor re-exports them under its own
+names, so its callers and tests are unchanged and the two editors cannot drift on what "dirty" means); 29b,
+`b20cdca` at `2026-09-12T00:56:55+07:00`, made `src/browser/eventModal.ts` the one renderer for both event
+editors — the month/year/agenda one and the time grid's, which before this were two copies of five read-only
+inputs with no Save, no Delete and no recurrence at all. The modal shows name, description, project, start,
+end and completion, the recurrence rule read by the schedule's own rule reader, and three statements where
+the fields are: event records carry no colour, an event that does not recur still gets the controls, and a
+recurrence the reader refuses is reported as unusable rather than shown as absent. Eleven § Event modal boxes
+are ticked, including **color if event metadata supports it**, whose condition is false — nothing in the
+record or the vault format declares a colour, and the modal says so rather than omitting silently.
+
+**Two things this slice states for the next agent.** The event editor takes a narrow input
+(`events` + `projectChoices`) rather than the loaded state, because the schedule surfaces carry a project
+name lookup, not the schema — so event custom properties are deliberately *not* listed, and adding that
+data path is a separate change no § Event modal box asks for. And every control in the event modal is
+**inert**: the modal represents each field rather than accepting an edit, which is why **Cancel/Escape
+loses no data** is ticked on the grounds that nothing can be lost yet. That box reopens the moment the
+event editor becomes editable at the record-store cutover.
+
+**Also corrected here:** the § Task modal box **recurrence if task recurrence remains supported** stays
+open, but the earlier reason given for it was wrong. A canonical recurrence model exists
+(`src/domain/canonicalRecurrence.ts`) and its owner kind is `'event' | 'task'`, with an exceptions model for
+cancelled, rescheduled and detached occurrences. So the question is not whether recurrence can own a task —
+it can — but whether the product wants task recurrence, which is the creator's decision. **workflow stage
+where project-scoped** stays open because no project-scoped workflow stage model exists (HARD GATE A2 owns
+it; the legacy status is not the same thing).
+
+**Next operation** Slice 30 — the § Project modal and § Recurrence-scope modal, eight boxes between them,
+and the cheapest remaining Stage 6 work. The Project modal's four boxes are name, description, metadata that
+survives the corrected model, and not requiring task-versus-schedule type in the successor record shape;
+three of those are statements about the model rather than new UI, so read `docs/DECISIONS.md` and HARD GATE
+A4/A5 before writing any of them, and expect some to be closable on the strength of what is already true
+rather than on new code. The Recurrence-scope modal's four boxes should be checked against
+`src/browser/scheduleRecurrence.ts`, which already renders the scope modal and records the chosen scope.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -1390,17 +1410,17 @@ All existing meaningful fields must be representable:
 
 ## Event modal
 
-- [ ] name.
-- [ ] description.
-- [ ] project.
-- [ ] start.
-- [ ] end.
-- [ ] color if event metadata supports it.
-- [ ] recurrence controls.
-- [ ] until/end condition.
-- [ ] exception/scope UX.
-- [ ] Save/Delete unavailable until write cutover.
-- [ ] Cancel/Escape loses no data.
+- [x] name. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(the Event modal is now the editor `src/app/eventEditor.ts` describes, rendered by `src/browser/eventModal.ts`: before this the month/year/agenda modal and the time-grid modal were two copies of five read-only inputs with no Save, no Delete and no recurrence at all. Name is a text input holding the record's value, readonly.)*
+- [x] description. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(a textarea holding the record's description, readonly)*
+- [x] project. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(a select over the project names the surface knows, plus "No project", with the held one marked selected; the choices are passed in rather than read from loaded state, which is why the editor takes a narrow input.)*
+- [x] start. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(a text input holding the stored start, which is an ISO instant — the same reasoning the Task editor's dates use: a date input would normalise the value on sight and report a change nobody made)*
+- [x] end. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(a text input holding the record's deadline, with a note saying that is what the field is)*
+- [x] color if event metadata supports it. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(the condition is false, and the modal says so rather than omitting silently: `CalendarEvent` carries no colour field and no vault format declares one, so there is no colour control. The projection exposes `colourNote` and the modal renders it at `data-c1-key="schedule-event-colour-note"`; a test asserts the note, and asserts that no field id mentions colour. If event metadata ever grows a colour, this is the box to reopen.)*
+- [x] recurrence controls. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(frequency, interval, end condition, end date and count, read from the record by the schedule's own rule reader so the editor and the projections cannot disagree about whether an event recurs. They are offered even for an event that does not recur, because the end-condition select includes "Does not recur" — one control answers both whether it recurs and how it ends. Recurrence the record carries that the reader refuses is reported as unusable rather than shown as absent.)*
+- [x] until/end condition. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(the end-condition select carries the four answers — does not recur, never ends, ends on a date, ends after a number of times — and the two value fields say when they are the ones in use. Asserted against a weekly rule ending on a date, a monthly rule ending after a count, and a rule that never ends.)*
+- [x] exception/scope UX. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(the choice itself is the existing occurrence/series scope modal, which `tests/scheduleRecurrence.test.ts` already drives — it renders for a recurring occurrence, reports its mode and records the chosen scope. What this slice adds is that the editor states the question where the fields are, so a reader is not left to discover that changing one occurrence is not changing the series.)*
+- [x] Save/Delete unavailable until write cutover. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(both buttons are present and disabled, Save carrying `data-schedule-event-save-refusal="action-not-available"` with the reason beside it: a form that cannot save says so where the button is rather than hiding it)*
+- [x] Cancel/Escape loses no data. — `b20cdca` @ `2026-09-12T00:56:55+07:00` *(every control in this modal is inert — text and date inputs are readonly, selects and checkboxes are disabled, asserted in happy-dom — so there is no provisional state for a cancel to lose and closing the modal cannot change a record. Stated residual: Escape is not bound to close this modal, which is an affordance rather than a data question; when the event editor becomes editable at the record-store cutover, this box must be re-examined, because that is when a draft starts to exist.)*
 
 ## Project modal
 
