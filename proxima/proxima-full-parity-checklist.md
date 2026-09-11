@@ -841,13 +841,16 @@ only because writes are unavailable, Stages 9–16 are the write halves, Stage 8
 import, HARD GATE D's 4 are the Notes/drawings writes, and the remaining annotated boxes in Stages 0, 3, 6, 19 and
 HARD GATE A wait on the creator's three product decisions (tags, the Task modal's workflow stage, task recurrence).
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
-documents whose titles say `Complete Implementation Checklist`. Their recon notes already gate two of them —
-`adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both manipulate **live foreign
-windows**, which is not reversible by a later commit and is the one line this loop does not cross unattended — and
-`quick-run.md`'s 280 boxes are gated by the creator's hotkey-chord decision **except** its STAGE 0 pure modules,
-which is where the next slice starts after reading that document's STAGE 0 end to end and the Papers tree's own
-`README.md`, `AGENTS.md` and `HERMES.md`. Nothing in Proxima is parked or uncommitted; the tree is clean and the
-branch is pushed.
+documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
+rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
+manipulate **live foreign windows** on the creator's desktop — moving, hiding and Z-ordering other applications'
+windows — which is not reversible by a later commit and is the one line this loop does not cross unattended; the
+second also has an unanswered reviewer item (the window-tag lifetime contradiction) standing before its Stage 1.
+`quick-run.md`'s 280 boxes are gated by the creator's hotkey-chord decision, and the one part that is not — STAGE 0's
+pure modules — lands at `public/app/quick-run/` in the **As-you-Go Backpack** tree, which is not checked out on this
+machine: the only trace is `Backups\as-you-go\as-you-go-state-20260901-093748.json`, a state file with no `.git` and
+no `public/`. That fact is now recorded in `papers\quick-run.md`'s own Status block. Nothing in Proxima or
+LongHorizon is parked or uncommitted; both trees are clean, both branches are pushed.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything

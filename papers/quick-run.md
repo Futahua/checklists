@@ -17,6 +17,15 @@ sections carry **no** boxes. Implementation is gated by the unchecked item at th
 hotkey chord is the creator's to choose and must not be invented. STAGE 0's pure modules need neither a
 chord nor any native capability, so they are the only part that could begin before that decision.
 
+**STAGE 0's landing tree is not on this machine** (checked 2026-09-12). § 0.1 names
+`public/app/quick-run/quick-run-index.js`, `-search.js` and `-types.js` — that is the **As-you-Go
+Backpack** tree, not Papers: this document's own baselines list `as-you-go-backpack main: 8000c88`
+alongside `Papers-3 main: cbe2a75`. The only trace of that product here is
+`D:\Letters\MatTroiSeConMoc\Backups\as-you-go\as-you-go-state-20260901-093748.json` — a state file, not a
+checkout (no `.git`, no `public/`). So STAGE 0 cannot begin until the As-you-Go Backpack is cloned to a
+working tree and named in this block; whoever does that should record its path, branch and baseline SHA
+here before writing the first module.
+
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
