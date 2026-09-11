@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `a08340c` — pushed, creator-accepted through HARD GATE B physical-store decision; executable code remains `a8c1b1e` |
+| Accepted branch | `stage7-record-store-contract` @ `e7e7362` — pushed, creator-accepted through Stage 7 slice 3 browser OPFS RecordStoreFileBackend |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `a8c1b1e` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 146 files / 869 tests |
+| Suite at `e7e7362` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 147 files / 879 tests; `bridgeDisclosure` isolated 1 file / 3 tests passed |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -193,18 +193,34 @@ the OPFS owned by the stable Proxima Backpack origin
 `record-store/records/` and `record-store/recovery/` namespaces. Authority is reacquired
 programmatically from the origin with `navigator.storage.getDirectory()`; no picker,
 creator-vault path, project-root database, direct agent storage access or Papers capability is
-introduced. This is a decision-only commit: executable code remains `a8c1b1e`, whose accepted
-suite is 146 files / 869 tests. No physical backend or mutation/recovery implementation exists yet.
+introduced.
+Stage 7 / slice 3, browser OPFS RecordStoreFileBackend, creator-accepted on Proxima branch
+`stage7-record-store-contract` at `e7e7362`: the accepted HARD GATE B decision now has a
+physical browser backend for `record-store/records/`. It reacquires the stable Backpack
+origin's OPFS programmatically, creates/opens only the fixed record namespace, exposes only
+the pathless RecordStoreFileBackend seam, rejects non-opaque/path-shaped target names, keeps
+raw handles private, and preserves conditional create/update/delete, observed revisions,
+stale refusal and visible corrupt/schema-invalid failures. The reserved
+`record-store/recovery/` namespace remains unimplemented. No semantic mutation action,
+recovery coordinator, restart proof, process-kill proof, multi-caller race policy or import
+exists. Proxima full suite 147 files / 879 tests using the accepted serialized full-suite
+command; `bridgeDisclosure` isolated 1 file / 3 tests passed.
+Physical RecordStore writes now exist only behind the unbound infrastructure adapter.
+No human or agent semantic mutation path reaches them. Six Stage 0 boxes remain open where
+record revisions, bulk-action results and UI-versus-agent equivalence still require real
+semantic mutation callers. Every ticked box names the commit that closed it.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 7 slice 3 — implement the browser OPFS `RecordStoreFileBackend`
-against the fixed `record-store/records/` namespace, with bounded adapter/conformance evidence
-only. Do not yet wire semantic record mutations, the durable recovery coordinator, multi-caller
-concurrency, real import/migration/cutover, Papers, the live vault, main, release or install.
+**Next operation** Stage 7 slice 4 — prove that the accepted browser OPFS RecordStore backend
+retains a disposable canonical record across a normal Papers restart under the same stable
+Proxima Backpack origin, with programmatic setup and verification and no creator gesture.
+This is the outstanding Stage 7 `Restart retains records` acceptance operation only; do not
+yet wire semantic mutation actions, recovery/journal/coordinator behavior, process-kill
+handling, multi-caller concurrency, import/migration/cutover, creator-vault writes or release.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -218,8 +234,9 @@ from duration over 1440. Mixing them yields geometry that looks plausible and is
 
 **HARD GATE B is closed** at Proxima `a08340c`: the physical backing API is the stable
 Proxima Backpack origin's OPFS under `record-store/records/` plus
-`record-store/recovery/`. Real import still does not begin: the remaining Stage 7 physical
-backend, restart, mutation/recovery and concurrency acceptance must close first.
+`record-store/recovery/`. The physical `record-store/records/` backend is accepted at
+`e7e7362`. Real import still does not begin: the remaining Stage 7 restart,
+mutation/recovery and concurrency acceptance must close first.
 
 **`npm` cannot run on this machine.** The C: drive is at zero bytes free and npm dies with
 ENOSPC before executing anything. Run the same steps directly instead —
@@ -1217,7 +1234,7 @@ This stage is storage infrastructure, not user parity yet.
 
 - [x] Record-store write authority is explicitly distinct from creator-vault FSA write authority. — `3b1af20`
 - [x] D51 remains intact for shared creator files. — `3b1af20` *(existing vault writer/co-writer boundary untouched)*
-- [ ] A new record-store boundary may enable writes because the record location is Proxima-owned and not a live Obsidian source.
+- [x] A new record-store boundary may enable writes because the record location is Proxima-owned and not a live Obsidian source. — `e7e7362` *(browser OPFS backend provides conditional physical record CRUD only; semantic mutation authority remains unavailable)*
 - [x] The code makes it difficult to accidentally pass a creator-vault root into the record writer. — `3b1af20`
 - [ ] Record-store adapter never receives arbitrary user vault paths from semantic actions.
 
@@ -1262,7 +1279,7 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 
 ## Evidence
 
-- [x] RecordStore adapter tests. — `3b1af20`
+- [x] RecordStore adapter tests. — `3b1af20` *(headless JSON adapter)*; `e7e7362` *(browser OPFS physical-backend/conformance coverage)*
 - Mutation coordinator conformance tests.
 - Durable recovery/process-kill tests.
 - Tree diff showing writes confined to the Proxima-owned store.
