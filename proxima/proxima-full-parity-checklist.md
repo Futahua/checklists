@@ -858,14 +858,20 @@ reader treats `unsupported-frontmatter` and `frontmatter-parse-failure` as warni
 the *existing* conversion is correct by default or must be withheld — it is not a question about the machinery.
 
 **Next operation** Slice 44 — **HARD GATE C itself**, which is now the critical path and is not blocked by anything
-except its own work. Its first three items are plumbing that needs no UI write: the source abstraction must be
-generalized so the product does not care whether state came from legacy Markdown or the record store, inspection
-must name the record-store source and revision instead of pretending JSON records are Markdown provenance, and the
-FSA creator-vault write boundary must stay blocked for record files *because they are no longer creator-vault
-files*. Those are testable in this repo against the OPFS/JSON store and the existing conformance suites, and they
-are what Stage 9's write halves will stand on. The two boxes Stage 8 leaves open are the creator's answer about
-`unsupported-frontmatter` and the tests that encode it afterwards; nothing else in Stage 8 is waiting. Nothing in
-Proxima is parked or uncommitted; the tree is clean and the branch is pushed.
+except its own work. Recon for it, done at `9f4a01a`, so the next agent does not repeat it: the source seam exists
+(`src/app/sourceSession.ts`, `refreshController.ts`, `refreshPolicy.ts`, `browser/sourceFactory.ts`) but it is built
+on a `VaultReader` plus a `LoadResult` from `loadVaultState`, and its modes are `'fixture' | 'external'` — there is
+no third mode and no loader abstraction to hang one on. More importantly, **a canonical-records → `ProximaState`
+projection does not exist anywhere in the tree**: the record store holds `CanonicalRecordV2` and every surface reads
+the legacy compatibility shape, so item 5 ("the UI does not care whether state originated from legacy import
+fixtures or record store") needs that projection built before a record-store source can be a candidate at all —
+project/task/event/schema records to the UI shape, workflow stage to board columns, canonical execution state to
+the legacy status field, and stored properties to `properties`. That projection is item 5's real content and the
+first thing slice 44 should build, with the source seam generalized around it second. Item 7's guard (the FSA
+creator-vault boundary stays closed for record files) and item 6's label are small and follow it; items 1–4 and the
+acceptance boxes are the cutover proper. The two boxes Stage 8 leaves open are the creator's answer about
+`unsupported-frontmatter` and the tests that encode it afterwards. Nothing in Proxima is parked or uncommitted; the
+tree is clean and the branch is pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
