@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19 and 20 are pushed at `bd64a34` and `394179c` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19, 20 and 21 are pushed at `bd64a34`, `394179c` and `c62a7dc` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `394179c` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 168 files / 1015 tests; Stage 8 focused 16 files / 109 tests; committer `2026-09-12T00:02:14+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `c62a7dc` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 168 files / 1016 tests; Stage 8 focused 16 files / 110 tests; committer `2026-09-12T00:05:59+07:00`. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -505,17 +505,29 @@ the policy refusal remains. **The administrative action envelope version is now 
 gained required fields, so a version-1 consumer would reject it and the version is the signal. Evidence:
 focused 16 files / 109 tests, full suite 168 files / 1015 tests, every step exit 0.
 
+Stage 8 / slice 21, unconvertible records visible before commit, pushed on Proxima branch
+`stage7-record-store-contract` at `c62a7dcf06982b05ffedb1c2e7c5fb3efa686eca`, committed
+`2026-09-12T00:05:59+07:00` and **awaiting creator acceptance**: `import.status` reports the plan's
+`readerProblems` and `unsupportedFrontmatter`, and `import.commit` refuses carrying both in
+machine-readable `error.outstandingRecords` whenever a record could not be converted. The two refusal
+reasons are independent, which the test pins down on a fixture that carries an ambiguous project
+reference *and* unconvertible records: acknowledging the references clears only the reference reason,
+so clearing ambiguity can never make an incomplete import read as complete. The message names the
+surviving reason instead of collapsing into the generic policy sentence. Evidence: focused 16 files /
+110 tests, full suite 168 files / 1016 tests, every step exit 0.
+
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 8 slice 21 — the same visibility for malformed records, so activation cannot
-silently omit them as though the import were complete (the open box in the malformed-records section). The
-plan already carries `problems[]` with its dispositions, plus `counts.readerProblems` and
-`counts.unsupportedFrontmatter`; the slice must expose the outstanding malformed/unsupported counts and
-the dispositions that remain pending through `import.status`, and extend `import.commit`'s specific
-refusal so an unacknowledged malformed record refuses commit for that reason — machine-readably, beside
-the ambiguity counts from slice 20. The unsupported-frontmatter *policy* question directly above stays
-open and creator-owned: do not answer it by assertion. Stay read-only: no live Record Store, staging,
-activation, legacy Markdown or creator-vault writes.
+**Next operation** Stage 8 slice 22 — the parity/census bundle, taken as one packet rather than one box
+per round. The open boxes in the census section assert, of a planned import: the same count of valid
+physical task/project/event records accounted for; every imported source has an explicit disposition;
+names, descriptions and dates preserved; task durations/weights preserved; project associations mapped;
+recurrence mapped where representable; archived/completed state preserved; no legacy `projectType` silo
+leaks into capability filtering; and no record filename derived from record title. These are
+plan-level properties, so they are provable read-only against the existing fixture vaults — write the
+assertions in a dedicated parity test and close the boxes that genuinely hold, leaving open any whose
+acceptance needs a real import run. The unsupported-frontmatter *policy* question stays open and
+creator-owned: do not answer it by assertion.
 
 **The AUTHOR loop changed on 2026-09-11, by creator instruction.** The browser reviewer is retired: it
 was too slow, and it existed mainly to keep an agent working through the creator's night rather than to
@@ -1692,7 +1704,7 @@ Do **not** silently choose one source file.
 - [x] No JSON record is created from guessed fields. — `3846805` @ `2026-09-11T19:22:40+07:00` *(canonical payload materialization and canonical staging-record creation are both zero)*
 - [x] Original malformed Markdown remains byte-identical. — `3846805` @ `2026-09-11T19:22:40+07:00` *(the accepted proof compares source bytes before and after)*
 - [ ] Other valid records may be prepared in staging.
-- [ ] Canonical activation does not silently omit malformed records as though import were complete.
+- [x] Canonical activation does not silently omit malformed records as though import were complete. — `c62a7dc` @ `2026-09-12T00:05:59+07:00` *(`import.status` reports the plan's `readerProblems` and `unsupportedFrontmatter`, and `import.commit` carries them in machine-readable `error.outstandingRecords` whenever any record could not be converted — including after the project references are acknowledged, so clearing ambiguity cannot make an incomplete import read as complete. Records the importer cannot convert are counted, not dropped; activation itself remains gated behind HARD GATE C.)*
 - [x] A machine-readable unresolved-record count remains nonzero until deliberately resolved/skipped according to an explicit migration policy. — `3846805` @ `2026-09-11T19:22:40+07:00` *(manifest exposes `unresolvedRecordCount`; activation and resolution policy remain open)*
 
 ## Unsupported-frontmatter open question
