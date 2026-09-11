@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–36 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24` and `3fa16bc` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–37 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc` and `ba50cc6` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `3fa16bc` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 178 files / 1184 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:41:25+07:00`, verified under **default parallelism** as well. At the previous points: `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `ba50cc6` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 178 files / 1185 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:48:47+07:00`, verified under **default parallelism** as well. At the previous points: `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -701,18 +701,41 @@ tiebreak, and it was invisible until two kinds of filter could exist in one quer
 lists and the test asserts two filters have two distinct ids. Worth remembering as a pattern: the unit tests
 each knew their own list, and only a test that drove the whole surface saw them meet.
 
-**Next operation** Slice 37 — **Task row/name click opens editor**, the last Backlog box, and the one that
-has been deliberately deferred twice because it is a mounting decision rather than a feature. The Backlog's
-row click currently opens its own read-only inspector, and the Task editor modal lives in
-`elasticCockpit.ts`'s `renderTaskModal`, which the Backlog panel does not render. Decide where the editor is
-mounted when the Backlog opens it — rendering it inside the Backlog panel from `main.ts` is the smallest
-change, since the modal already takes a draft and the Backlog already has view state for what it is showing
-— then wire the row click to the editor and keep the inspector for the details line, or fold them together
-and say so. Either way the editor is inert (Save refused), so this cannot write a record. Afterwards Stage 6
-holds only the boxes that are not mine to close: **Tag filtering** (tags have no model — the creator's
+**Slice 37 is done**, `ba50cc6` at `2026-09-12T01:48:47+07:00` — the last Backlog box, and **Stage 6 is now
+down to three boxes that are not mine to close**: **Tag filtering** (tags have no model — the creator's
 decision) and the Task modal's two deliberate opens (**workflow stage where project-scoped**, owned by HARD
 GATE A2, and **task recurrence**, the creator's product choice, since the canonical recurrence model can
 already own a task).
+
+The row click opens the Task editor **in the panel**, not the board's modal, and the reason is worth
+keeping: both binders listen on the application root, so rendering the board's modal here would have meant
+two binders answering one keystroke and a Backlog edit landing in the board's draft. The Backlog draws the
+same `projectTaskEditor` projection through a new `src/browser/taskEditorFields.ts` that takes the surface's
+hook names — the extraction is markup-identical, which the Elastic suites proved by passing unchanged. The
+read-only inspector is retired rather than duplicated: it was a placeholder for exactly this editor. Two
+probes were rewritten rather than deleted — the row-click case now asserts the editor opens for that task
+with the record's values, and the write-control audit's expectation for this surface moved from the
+inspector's `Edit`/`Delete` to the editor's `Delete`/`Save`, both typed. The audit caught that change,
+which is what it is for.
+
+**Where the work goes next, by the numbers.** A count of open boxes per stage says the largest untapped
+block is not a new feature at all: **Stage 5, "Restore Projects Hub and read-only project workspaces", has
+40 open boxes and zero ticked** — yet the Status block records its slices 1–9 as pushed, and the workspace
+panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered by tests. Like Stage 6's
+Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
+never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
+complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser.
+
+**Next operation** Slice 38 — **audit Stage 5's 40 boxes against what already exists**, section by section,
+in the shape slice 30 established: read each box, find the implementation and the test that already covers
+it, tick it with **the commit that made the behaviour true** (not the audit's own commit) plus this one where
+the evidence is new, and leave open — with the reason written down — anything that is genuinely missing.
+Start with "Projects Hub work" and "Workspace work", which the Stage 5 slices 1–9 SHAs in the Status block
+should map onto directly, then "Notes — read side", "Task Board — read side" and "Deadlines". Expect some
+boxes to be creator decisions (the same shape as Tag filtering) and to stay open on purpose. Slice 39 should
+then be Stage 5's `## Acceptance` and `## Evidence` sections, which are claims about the whole stage rather
+than about one panel.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -1470,7 +1493,7 @@ Still before migration.
 - [x] Row selection. — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(every row carries a real checkbox keyed by task id, and the binder reports which task it is for rather than deciding what that means; `toggleBacklogSelection` keeps the order the marks were made in, because that is the order a bulk action would act in. Selection is view state — `BacklogViewState.selectedTaskIds` — so no record is written, asserted.)*
 - [x] Select all. — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(Select all means the rows on screen: `selectAllBacklogVisible` adds the visible tasks and leaves a marked task the query hides to whatever marked it before, because a hidden row is not something the creator can see they are selecting. The control disables itself when every shown row is already marked, and when nothing is shown there is nothing to select.)*
 - [x] Multi-selection. — `9d6062c` @ `2026-09-12T01:11:58+07:00` *(a selection is memory, not a filter: the projection reports how many shown rows are marked, how many marked tasks the query is hiding, and whether every shown row is marked — three separate facts, so a bulk action can never be read as covering a row nobody can see. `allVisibleSelected` is false when nothing is visible, because an empty list has nothing selected and saying otherwise would let a bulk action look safe to run. Clearing the selection clears hidden marks too.)*
-- [ ] Task row/name click opens editor.
+- [x] Task row/name click opens editor. — `ba50cc6` @ `2026-09-12T01:48:47+07:00` *(clicking a row opens the Task editor for that task, in the Backlog panel. It draws the same `projectTaskEditor` projection the Elastic board's modal draws, through a new `src/browser/taskEditorFields.ts` that takes the surface's hook names: both binders listen on the application root, so shared attribute names would have meant two binders answering one keystroke and a Backlog edit landing in the board's draft. The extraction is markup-identical — the Elastic suites passed unchanged before the Backlog's editor existed. The read-only inspector is retired rather than duplicated, since it was a placeholder for exactly this editor; the fields it showed are now editable, with Save and Delete refused with a typed result and Cancel discarding the draft. A typed edit becomes a draft that Cancel discards while the loaded state stays byte-identical, asserted; and the write-control audit's expectation for this surface moved from the inspector's Edit/Delete to the editor's Delete/Save, both typed.)*
 - [x] Relation display. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(a row now draws the property cells the projection already computed, so a relation property is visible where a reader looks for it, carrying `data-project-backlog-cell-kind="relation"` so a target id can be told from an entered value. Property columns are labelled with the schema's name for the property — the projection had used the raw stored key, which disagreed with how the Task editor and the property pills already name one.)*
 - [x] Rollup display. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(shown with `data-project-backlog-cell-kind="rollup"`, displaying the value the record holds. Stated residual: computing a rollup from its relations is not this surface's job yet, so what is displayed is the stored value rather than a freshly aggregated one.)*
 - [x] Formula display. — `d7e6270` @ `2026-09-12T01:06:10+07:00` *(shown with `data-project-backlog-cell-kind="formula"`, displaying the stored value; the same residual as the rollup — the expression is not evaluated here)*
