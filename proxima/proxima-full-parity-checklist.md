@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–32 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270` and `9d6062c` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–33 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c` and `1ffdd55` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `9d6062c` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 176 files / 1135 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:11:58+07:00`. At the previous points: `d7e6270` 176 / 1131, `fef3b8a` 176 / 1126, `b20cdca` 176 / 1124, `7825d20` 174 / 1105. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `1ffdd55` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 177 files / 1147 tests; Stage 8 focused 18 files / 122 tests; committer `2026-09-12T01:19:47+07:00`. At the previous points: `9d6062c` 176 / 1135, `d7e6270` 176 / 1131, `fef3b8a` 176 / 1126, `7825d20` 174 / 1105. **One test is load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds, and slice 33 verified the full suite under **default parallelism** as well as on the evidence path. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -643,20 +643,40 @@ inspector, and opening the Task editor modal from this panel needs a decision ab
 mounted — the Backlog panel does not render it today. That is its own slice, and it is the one Backlog box
 left that is a wiring decision rather than a feature.
 
-**Next operation** Slice 33 — Stage 6's **Acceptance** section, four boxes, as an audit before any more
-features. Three of them are claims that should already hold and need evidence assembled rather than code
-written: *Every old editor can be opened programmatically* (what counts as an editor, and which surfaces
-open one), *Every unsaved field can be changed and cancelled without durable change* (the Task editor draft,
-the Project create modal, the Event modal's inert controls — three different answers that need stating
-plainly rather than averaged), and *All future Save/Delete buttons currently produce a typed unavailable
-result rather than fake success* — that last one is a sweep worth doing properly: every Save/Delete/Edit
-control across the product, its refusal code, and whether it can be clicked at all. Then *Relation/rollup/
-formula projection works without wikilink semantics leaking into UI code*, which is a boundary claim
-`tests/boundaries.test.ts` and the projection modules should already answer. After that: **Resizable
-columns** and **Custom-property columns** (layout work, both about the column table the renderer still does
-not draw), **Property filters** (engine work on `task.properties`), **Tag filtering** (blocked on tags having
-no model — the creator's, not a gap to fill), Template UI (6 boxes), and the Task modal's two deliberate
-opens.
+**Slice 33 is done**, `1ffdd55` at `2026-09-12T01:19:47+07:00` — Stage 6's Acceptance section, all four
+remaining boxes ticked, and the audit paid for itself. **It found two real violations and they are fixed:**
+the Task editor's and the Event editor's Delete buttons were `disabled` with no stated reason, which is
+indistinguishable from a broken button — both now carry a typed `action-not-available` refusal as their Save
+buttons already did. `tests/modalAudit.test.ts` checks the invariant against the rendered document, and the
+two controls that stay clickable (the project create Save and the create-event Save) each have a case that
+clicks them and asserts the refusal *and* that no record was created.
+
+**How the audit selects what to check is itself a finding.** The first version picked write controls by
+their words and immediately failed on two controls that order and filter — the Backlog's sort button
+labelled "Completed" and the Projects Hub's "Archived" filter. A label cannot tell a write from an order or
+a view. It now selects by the product's own convention (a `*-refusal`, `*-write-action` or
+`*-lifecycle-action` hook) with one narrow safety net for a button labelled exactly a write verb.
+
+**And one flake fixed rather than tolerated.** `tests/bridgeDisclosure.test.ts` starts a real bridge child
+process and allowed five seconds for `listening`; under parallel load that expired while the same file
+passed alone in half a second. A flaky suite makes every tick in this file unverifiable, which is the one
+thing an evidence-driven loop cannot afford, so the bound is now thirty seconds and slice 33 verified the
+suite under default parallelism as well as on the evidence path.
+
+**Next operation** Slice 34 — Stage 6's **Template UI**, six boxes: paste/type, parse, preview, structured
+parse errors, execution disabled until record write actions exist, and the note that the old textual
+mini-language is not assumed immutable. Nothing about templates exists in the repository today, so this is
+greenfield: build `src/app/templateComposer.ts` first — a structured template text parsed into a planned
+task list with typed, positioned errors, and a preview projection — and test it in Node, in the shape
+slices 25 and 28 established. **Decide the format rather than reverse-engineering the legacy one:** the
+sixth box explicitly refuses to treat the old mini-language as fixed, so the composer should define a
+readable structured format of its own and *say* that it is not the legacy syntax, instead of modelling
+against a plugin-era language. The UI half (a composer panel with the textarea, the preview and the error
+list) follows in slice 35 and depends on nothing else. Then the remaining Stage 6 work:
+**Custom-property columns** and **Resizable columns** (layout, the column table the renderer still does not
+draw), **Task row/name click opens editor** (a mounting decision for the Task editor modal in the Backlog
+panel), **Property filters** (engine work on `task.properties`), **Tag filtering** (blocked on tags having
+no model — the creator's decision, not a gap to fill), and the Task modal's two deliberate opens.
 
 Slice 26, the Backlog view projection and query-aware rendering, pushed at `9b59d16`, committed
 `2026-09-12T00:23:35+07:00`: `src/app/backlogView.ts` turns loaded state plus a view state into everything
@@ -1487,11 +1507,11 @@ All existing meaningful fields must be representable:
 
 ## Acceptance
 
-- [ ] Every old editor can be opened programmatically.
-- [ ] Every unsaved field can be changed and cancelled without durable change.
+- [x] Every old editor can be opened programmatically. — `1ffdd55` @ `2026-09-12T01:19:47+07:00` *(five editors, each opened from state alone with no pointer: `tests/modalAudit.test.ts` renders the Task editor in the Elastic surface, the Event editor and the create-event variant in the time grid, the New Project modal, and the recurrence scope modal — and asserts each is present. The editors open because a view state names what is being edited (`elasticSelectedTaskId`, `selectedScheduleEventId`, `seededEvent`, `newProjectOpen`, `selectedRecurringOccurrence`), so a test or an agent drives them the same way a click does; the older suites that open each one by clicking remain as the second path.)*
+- [x] Every unsaved field can be changed and cancelled without durable change. — `1ffdd55` @ `2026-09-12T01:19:47+07:00` *(three surfaces, three honest answers, all read-only in effect. **The Task editor** has real provisional state: a draft is `null` until something is typed, Cancel and Escape discard it, and a draft equal to its seed is not dirty (`tests/elasticCockpit.test.ts`, `tests/taskEditor.test.ts`). **The New Project modal** has provisional name and description that Cancel, Escape and a re-open all discard, with the state byte-identical throughout (`tests/projectCreateModal.test.ts`). **The Event editor** has no provisional state at all: every control is inert and reads the record, so there is nothing a cancel could lose (`tests/eventModal.test.ts`) — that is stated rather than dressed up as an editing form.)*
 - [x] Search/filter/sort never mutate records. — `bdea4a1` @ `2026-09-12T00:34:29+07:00` *(the Backlog is Stage 6's only search/filter/sort surface, and the whole path is proven read-only: `tests/backlogControls.test.ts` drives projection and markup through a session of controls and asserts the loaded state is byte-identical, every task is the same object with the same keys, and the query's own filters array is replaced rather than edited; the happy-dom session in `tests/projectBacklog.test.ts` does the same after real clicks and typing. A modal that later gains a query surface must meet this same bar — this tick covers the query surfaces that exist.)*
-- [ ] Relation/rollup/formula projection works without wikilink semantics leaking into UI code.
-- [ ] All future Save/Delete buttons currently produce a typed unavailable result rather than fake success.
+- [x] Relation/rollup/formula projection works without wikilink semantics leaking into UI code. — `1ffdd55` @ `2026-09-12T01:19:47+07:00` *(`tests/boundaries.test.ts` now enforces it rather than describing it: `[[target]]` syntax or the word for it appears in exactly three modules — `domain/excalidraw.ts`, `domain/excalidrawAssets.ts` and `app/excalidrawAssetLoader.ts`, the one place a raw `![[asset]]` embed is really decoded — and nowhere in `src/browser/`. A relation is a record id: the Task editor shows the target id and says there is no picker until relations are canonical (HARD GATE A6), the Backlog draws relation, rollup and formula values from `task.properties` with the kind the schema declares, and nothing resolves a link out of text. The pattern demands a closing `]]`, because a nested array literal looks like `[[` too — the first version of the check flagged `app/inspection.ts` for an array of pairs.)*`
+- [x] All future Save/Delete buttons currently produce a typed unavailable result rather than fake success. — `1ffdd55` @ `2026-09-12T01:19:47+07:00` *(audited and **two real violations found and fixed in this slice**: the Task editor's and the Event editor's Delete buttons were disabled with no stated reason, which is indistinguishable from broken — both now carry a typed `action-not-available` refusal as their Save buttons did. `tests/modalAudit.test.ts` checks the invariant against the rendered document for the Task editor, the Backlog inspector and bulk controls, the Projects Hub lifecycle controls and the Event editor; the two controls that stay clickable (`project-create-save`, the create-event Save) are routed to the dispatcher and each has a case that clicks it and asserts the refusal and that no record was created. The population is the product's own convention — a `*-refusal`, `*-write-action` or `*-lifecycle-action` hook — with a narrow safety net for a button labelled exactly "Save", "Delete", "Edit", "Archive", "Restore" or "Complete" that is enabled with no hook. Selection by words alone was tried and failed: the Backlog's completion *sort* button reads "Completed" and the Projects Hub's "Archived" is a filter.)*
 
 ## Evidence
 
