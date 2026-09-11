@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `188209e` — pushed, creator-accepted through Stage 7 slice 10 reconciliation idempotence |
+| Accepted branch | `stage7-record-store-contract` @ `155c736` — pushed, creator-accepted through Stage 7 slice 11 machine-readable recovery-required/blocked disclosure |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `188209e` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 149 files / 896 tests; record-recovery startup focused 1 file / 9 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
+| Suite at `155c736` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 150 files / 898 tests; recovery disclosure/coordinator/startup focused 3 files / 17 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -270,15 +270,22 @@ outcome, and `blocked` remains blocked with one observational blocked outcome. R
 startup performs no further journal status write or record access, creates no duplicate
 recovery state/outcome, preserves terminal durable state, and returns the same
 mutation-authority decision. This is tests-only evidence; production behavior is unchanged.
+Stage 7 / slice 11, machine-readable recovery-required/blocked disclosure,
+creator-accepted on Proxima branch `stage7-record-store-contract` at `155c736`:
+an actual record-coordinator `recovery-required` result now maps into the existing schema-v4
+typed ActionFailure vocabulary with stable `outcome/error.code = recovery-required`, while
+an actual blocked record-startup result maps into a bounded pathless schema-v1 inspection
+with stable code `record-recovery-blocked`. Neither disclosure exposes record filenames,
+recovery paths, storage handles or direct record authority. No semantic action or UI mutation
+path is enabled.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 7 slice 11 — agent receives machine-readable recovery-required/blocked outcome only.
-Keep concurrency,
-multi-caller concurrency, semantic-action containment, creator-vault/tree-diff acceptance
+**Next operation** Stage 7 slice 12 — begin Multiple Proxima callers with the first observed-revision/concurrency contract only.
+Keep semantic-action containment, creator-vault/tree-diff acceptance
 and all Stage 8 import work separate until explicitly accepted.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
@@ -1313,7 +1320,7 @@ The existing coordinator records the prior bytes, intended update bytes, revisio
 - [x] Process-death injection exists before commit. — `9bbedbd` *(real child process is killed after fsynced durable `prepared` state and before the checked record backend commit is entered; fresh startup observes unchanged prior bytes and reconciles `not-applied` → `recovered`)*
 - [x] Process-death injection exists after file commit but before journal finalization. — `97970b7` *(real child process is killed after the checked record update durably commits `new @ record-r2` but while the durable journal still says `prepared`; fresh startup classifies effect-present → committed without rollback)*
 - [x] Reconciliation is idempotent. — `188209e` *(repeated record startup over terminal committed/recovered/blocked journal state performs no further journal write or record access, creates no duplicate recovery state/outcome, and preserves the same mutation-authority decision)*
-- [ ] Agent receives machine-readable recovery-required/blocked outcome.
+- [x] Agent receives machine-readable recovery-required/blocked outcome. — `155c736` *(actual coordinator `recovery-required` maps into the existing typed ActionFailure result vocabulary; actual blocked startup maps into bounded pathless inspection code `record-recovery-blocked`, with no direct storage authority exposed)*
 
 ## Multiple Proxima callers
 
@@ -1341,6 +1348,7 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 - [x] RecordStore adapter tests. — `3b1af20` *(headless JSON adapter)*; `e7e7362` *(browser OPFS physical-backend/conformance coverage)*
 - [x] Mutation coordinator conformance tests. — `4d61e20` *(prepared-before-effect ordering, committed-after-effect ordering, definite stale recovery, prepare-write refusal, uncertain post-effect journal failure and checked delete)*
 - [x] Record startup recovery/authority conformance tests. — `d07fa61` *(durable load-before-authority, load-failure blocking, prepared effect-present → committed, and recovery-required effect-absent → recovered)*; `a937aa4` *(ambiguous peer bytes → durable blocked authority; corrupt recovery journal → blocked before record access)*; `188209e` *(repeated terminal committed/recovered/blocked startup is idempotent: no further journal writes, no record access, no duplicate state/outcomes, same authority decision)*
+- [x] Machine-readable recovery disclosure contract tests. — `155c736` *(actual coordinator recovery-required → typed ActionFailure; actual blocked startup → bounded pathless blocked inspection; stable codes/fields and storage-target non-disclosure proven)*
 - Process-death recovery evidence: `9bbedbd` *(before-commit kill: durable prepared survives; physical effect absent; startup → recovered)*; `97970b7` *(after-commit kill: intended physical effect survives while durable journal remains prepared; startup → committed without rollback)*
 - Durable recovery/process-kill tests.
 - Tree diff showing writes confined to the Proxima-owned store.
