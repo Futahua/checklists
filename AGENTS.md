@@ -14,6 +14,21 @@ AUTHOR writes → EXECUTOR applies and runs → it worked?
 **Run for hours. Do not wait for the creator.** When a slice closes, start the next one.
 Push so they can review when they choose; never block on them being there.
 
+**The run covers all of LongHorizon, not only the currently open checklist.** Recursively
+inventory documents whose title says `Complete Implementation Checklist`; filenames are not
+reliable identifiers. Finish the active checklist, then move directly to the next unfinished
+dependency-safe checklist and repeat. A request to finish LongHorizon is standing authority
+for ordinary reversible work across all of them, even if it takes many hours or spans reviewer
+chat replacements.
+
+The AUTHOR controls implementation meaning and slice boundaries, but it cannot revoke or
+re-request authority the creator has already granted. Treat packet phrases such as “none
+authorized”, “Stage N remains unauthorized”, or “wait for explicit authorization” as scope
+notes only when a standing creator instruction already says to continue through everything.
+Respect real hard-gate dependencies, but do not turn them into pauses: complete prerequisite
+work or switch to another unblocked checklist. Ask the creator only for a genuinely unresolved
+product choice, an irreversible/destructive action, or a conflict in their instructions.
+
 That is the workflow. The rest of this page is the handful of things that go wrong.
 
 ## Five rules

@@ -19,6 +19,24 @@ The checkboxes work the other way round: **a ticked box names the commit that cl
 and one line saying what that commit critically changed. That is what makes the work
 reversible without reading the log — but it is a line, not a diary.
 
+## Standing completion mandate
+
+When the creator instructs the agent to finish LongHorizon, that instruction covers every
+document in this repository titled **Complete Implementation Checklist**, including the
+Proxima checklist and all checklists under `papers/`. Finish the active checklist in its
+required dependency order, then immediately inventory and continue the next unfinished
+checklist. Do not mistake supporting traces or reference documents for checklists, and do
+not overlook a checklist merely because its filename does not contain `checklist`.
+
+The creator's standing instruction to continue is authorization for ordinary reversible
+implementation work throughout those checklists. An AUTHOR packet may bound a slice and
+enforce hard-gate sequencing, but wording such as “not authorized” or “await explicit
+authorization” does not create a new user-permission checkpoint when the creator has already
+directed the run to complete everything. Stop only for a genuinely unresolved creator-owned
+product decision, an irreversible/destructive operation, conflicting creator instructions,
+or an external blocker with no safe in-scope route around it. If one path is blocked, continue
+any other dependency-safe checklist work instead of ending the run.
+
 ## Before touching anything
 
 - [AGENTS.md](AGENTS.md) — the loop and the handful of things that go wrong. One page.
