@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `4d61e20` — pushed, creator-accepted through Stage 7 slice 5 crash-durability coordinator/journal foundation |
+| Accepted branch | `stage7-record-store-contract` @ `d07fa61` — pushed, creator-accepted through Stage 7 slice 6 durable startup journal loading/reconciliation foundation |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `4d61e20` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 148 files / 887 tests; `bridgeDisclosure` isolated 1 file / 3 tests passed |
+| Suite at `d07fa61` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 149 files / 891 tests; startup/recovery focused 4 files / 25 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -228,17 +228,26 @@ stale/missing refusal is recorded as `recovered` rather than successful; uncerta
 post-effect journal finalization returns `recovery-required`; semantic mutation authority
 remains unavailable. Proxima full suite is 148 files / 887 tests using the accepted
 serialized command; `bridgeDisclosure` isolated 1 file / 3 tests passed.
+Stage 7 / slice 6, durable startup journal loading and bounded restart reconciliation,
+creator-accepted on Proxima branch `stage7-record-store-contract` at `d07fa61`: the
+record-specific startup gate now loads and reconciles the existing durable recovery journal
+before returning any RecordMutationCoordinator. Journal-load or reconciliation failure
+blocks authority and exposes no coordinator. Prepared/recovery-required record entries
+reuse the existing recovery semantics: an already-present intended effect becomes
+`committed`, while unchanged prior bytes become `recovered`. No semantic action is wired
+to this authority gate. Proxima full suite is 149 files / 891 tests using the accepted
+serialized command; focused startup/recovery evidence is 4 files / 25 tests and
+`bridgeDisclosure` isolated is 1 file / 3 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 7 slice 6 — continue crash durability with the existing durable
-journal loading/startup authority and bounded restart-reconciliation contract. Keep
-process-kill injection, multi-caller concurrency, semantic-action containment,
-creator-vault/tree-diff acceptance and all Stage 8 import work separate until explicitly
-accepted.
+**Next operation** Stage 7 slice 7 — record-recovery ambiguous/corrupt-state blocking only.
+Keep process-kill injection, reconciliation idempotence, agent recovery outcomes,
+multi-caller concurrency, semantic-action containment, creator-vault/tree-diff acceptance
+and all Stage 8 import work separate until explicitly accepted.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
 click must not create anything, which is right for Elastic and the Deadline Calendar but
@@ -1263,11 +1272,11 @@ Reuse the existing mutation/recovery semantics rather than inventing another jou
 The existing coordinator records the prior bytes, intended update bytes, revisions, request IDs and durable state, then classifies uncertain operations.
 
 - [x] Record updates go through a coordinator with equivalent prepared → commit → committed semantics. — `4d61e20` *(pathless record update/delete coordinator durably prepares before the checked physical effect and commits the recovery entry only after successful effect; semantic mutation authority remains unavailable)*
-- [ ] Durable journal loads before record mutation authority becomes available.
-- [ ] Prepared entries reconcile on restart.
-- [ ] `recovery-required` entries reconcile.
-- [ ] Effect-present operation classifies committed.
-- [ ] Effect-absent operation classifies recovered/no-op.
+- [x] Durable journal loads before record mutation authority becomes available. — `d07fa61` *(startup reconciliation completes before a RecordMutationCoordinator can be returned; load/recovery failure blocks authority and returns no coordinator)*
+- [x] Prepared entries reconcile on restart. — `d07fa61` *(record startup reuses the existing durable recovery reconciler before authority exposure)*
+- [x] `recovery-required` entries reconcile. — `d07fa61` *(record startup passes unresolved recovery-required entries through the existing reconciliation semantics before authority exposure)*
+- [x] Effect-present operation classifies committed. — `d07fa61` *(prepared update with intended bytes already present is persisted as committed before coordinator exposure)*
+- [x] Effect-absent operation classifies recovered/no-op. — `d07fa61` *(recovery-required update with unchanged prior bytes is persisted as recovered before coordinator exposure)*
 - [ ] Ambiguous/corrupt state blocks rather than guesses.
 - [ ] Process-death injection exists before commit.
 - [ ] Process-death injection exists after file commit but before journal finalization.
@@ -1299,6 +1308,7 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 
 - [x] RecordStore adapter tests. — `3b1af20` *(headless JSON adapter)*; `e7e7362` *(browser OPFS physical-backend/conformance coverage)*
 - [x] Mutation coordinator conformance tests. — `4d61e20` *(prepared-before-effect ordering, committed-after-effect ordering, definite stale recovery, prepare-write refusal, uncertain post-effect journal failure and checked delete)*
+- [x] Record startup recovery/authority conformance tests. — `d07fa61` *(durable load-before-authority, load-failure blocking, prepared effect-present → committed, and recovery-required effect-absent → recovered)*
 - Durable recovery/process-kill tests.
 - Tree diff showing writes confined to the Proxima-owned store.
 - [x] Explicit test that a creator-vault path cannot be supplied as a record-store target. — `3b1af20`
