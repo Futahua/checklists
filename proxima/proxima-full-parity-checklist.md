@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` @ `d07fa61` — pushed, creator-accepted through Stage 7 slice 6 durable startup journal loading/reconciliation foundation |
+| Accepted branch | `stage7-record-store-contract` @ `a937aa4` — pushed, creator-accepted through Stage 7 slice 7 record-recovery ambiguous/corrupt-state blocking |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `d07fa61` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 149 files / 891 tests; startup/recovery focused 4 files / 25 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
+| Suite at `a937aa4` | typecheck 0, build 0, `git diff --check` 0, vitest 0 via `--no-file-parallelism`, 149 files / 893 tests; record-recovery focused 1 file / 6 tests passed; `bridgeDisclosure` isolated 1 file / 3 tests passed |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -238,14 +238,22 @@ reuse the existing recovery semantics: an already-present intended effect become
 to this authority gate. Proxima full suite is 149 files / 891 tests using the accepted
 serialized command; focused startup/recovery evidence is 4 files / 25 tests and
 `bridgeDisclosure` isolated is 1 file / 3 tests.
+Stage 7 / slice 7, record-recovery ambiguous/corrupt-state blocking, creator-accepted on
+Proxima branch `stage7-record-store-contract` at `a937aa4`: the existing record startup
+recovery path is proven to block rather than guess when unresolved record bytes match neither
+the prior nor intended state, persisting that recovery entry as `blocked` and exposing no
+mutation coordinator. Malformed durable recovery-journal data likewise blocks during load
+before record access or authority exposure. This is tests-only evidence; production behavior
+is unchanged. Proxima full suite is 149 files / 893 tests; focused record-recovery evidence
+is 1 file / 6 tests and `bridgeDisclosure` isolated is 1 file / 3 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
 
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
-**Next operation** Stage 7 slice 7 — record-recovery ambiguous/corrupt-state blocking only.
-Keep process-kill injection, reconciliation idempotence, agent recovery outcomes,
+**Next operation** Stage 7 slice 8 — process-death injection before commit only.
+Keep the second process-death point, reconciliation idempotence, agent recovery outcomes,
 multi-caller concurrency, semantic-action containment, creator-vault/tree-diff acceptance
 and all Stage 8 import work separate until explicitly accepted.
 
@@ -1277,7 +1285,7 @@ The existing coordinator records the prior bytes, intended update bytes, revisio
 - [x] `recovery-required` entries reconcile. — `d07fa61` *(record startup passes unresolved recovery-required entries through the existing reconciliation semantics before authority exposure)*
 - [x] Effect-present operation classifies committed. — `d07fa61` *(prepared update with intended bytes already present is persisted as committed before coordinator exposure)*
 - [x] Effect-absent operation classifies recovered/no-op. — `d07fa61` *(recovery-required update with unchanged prior bytes is persisted as recovered before coordinator exposure)*
-- [ ] Ambiguous/corrupt state blocks rather than guesses.
+- [x] Ambiguous/corrupt state blocks rather than guesses. — `a937aa4` *(record startup persists ambiguous third-party bytes as blocked and exposes no coordinator; malformed durable journal state blocks during load before record access or authority exposure)*
 - [ ] Process-death injection exists before commit.
 - [ ] Process-death injection exists after file commit but before journal finalization.
 - [ ] Reconciliation is idempotent.
@@ -1308,7 +1316,7 @@ Even with no Obsidian co-writer, UI surfaces and agents may observe stale revisi
 
 - [x] RecordStore adapter tests. — `3b1af20` *(headless JSON adapter)*; `e7e7362` *(browser OPFS physical-backend/conformance coverage)*
 - [x] Mutation coordinator conformance tests. — `4d61e20` *(prepared-before-effect ordering, committed-after-effect ordering, definite stale recovery, prepare-write refusal, uncertain post-effect journal failure and checked delete)*
-- [x] Record startup recovery/authority conformance tests. — `d07fa61` *(durable load-before-authority, load-failure blocking, prepared effect-present → committed, and recovery-required effect-absent → recovered)*
+- [x] Record startup recovery/authority conformance tests. — `d07fa61` *(durable load-before-authority, load-failure blocking, prepared effect-present → committed, and recovery-required effect-absent → recovered)*; `a937aa4` *(ambiguous peer bytes → durable blocked authority; corrupt recovery journal → blocked before record access)*
 - Durable recovery/process-kill tests.
 - Tree diff showing writes confined to the Proxima-owned store.
 - [x] Explicit test that a creator-vault path cannot be supplied as a record-store target. — `3b1af20`
