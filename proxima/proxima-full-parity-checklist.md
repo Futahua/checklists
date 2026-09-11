@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25` and `6dfad33` and **await acceptance** |
+| Accepted branch | `stage7-record-store-contract` — creator-accepted through Stage 8 slice 18 at `97c9dd9`; slices 19–47 are pushed at `bd64a34`, `394179c`, `c62a7dc`, `d7e6a6c`, `d66622f`, `a31c74c`, `9b59d16`, `bdea4a1`, `7ec8d17`, `7825d20`, `e88e193`, `b20cdca`, `fef3b8a`, `d7e6270`, `9d6062c`, `1ffdd55`, `d21f434`, `8cadd24`, `3fa16bc`, `ba50cc6`, `7f96a71`, `ead7927`, `215777a`, `08e505d`, `8dc3841`, `d9d8c5e`, `738bb53`, `06c0702`, `d6e2b30`, `e898a04`, `abf8204`, `e62e8f4`, `ed09e3d`, `cab1627`, `18c2e48`, `9a04451`, `e4e319b`, `c74003f`, `1029a25`, `6dfad33` and `08d31b5` and **await acceptance** |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `6dfad33` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 193 files / 1299 tests; committer `2026-09-12T04:05:45+07:00`. At `1029a25` the same steps were 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
+| Suite at `08d31b5` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 194 files / 1307 tests; committer `2026-09-12T04:11:16+07:00`. At `6dfad33` the same steps were 193 files / 1299 tests, committer `2026-09-12T04:05:45+07:00`; at `1029a25` 192 files / 1291 tests, committer `2026-09-12T03:59:36+07:00`; at `c74003f` 191 files / 1286 tests, committer `2026-09-12T03:54:01+07:00`. At `e4e319b` they were 189 files / 1271 tests, committer `2026-09-12T03:44:25+07:00`; at `9a04451` 188 files / 1269 tests, committer `2026-09-12T03:40:29+07:00`. At `18c2e48` they were 187 files / 1265 tests, committer `2026-09-12T03:37:24+07:00`; at `cab1627` 187 files / 1260 tests, committer `2026-09-12T03:31:18+07:00`. At `ed09e3d` they were 186 files / 1250 tests; committer `2026-09-12T03:25:34+07:00`. At `e62e8f4` the same steps were 186 files / 1246 tests, committer `2026-09-12T03:21:44+07:00`; at `abf8204` 186 files / 1245 tests, committer `2026-09-12T03:20:05+07:00`. At `e898a04` they were 185 files / 1235 tests; committer `2026-09-12T03:10:20+07:00`. At `d6e2b30` the same steps were 184 files / 1230 tests. At `06c0702` the same steps were 183 files / 1225 tests, at `738bb53` 182 / 1220, at `d9d8c5e` 181 / 1214, at `8dc3841` 180 / 1210, at `08e505d` 179 / 1207, at `215777a` 179 / 1205, at `ead7927` 179 / 1203, at `7f96a71` 179 / 1192, and at `ba50cc6` 178 / 1185, `3fa16bc` 178 / 1184, `8cadd24` 178 / 1172, `d21f434` 178 / 1167, `1ffdd55` 177 / 1147, `7825d20` 174 / 1105. **One test was load-sensitive and was fixed, not tolerated:** `tests/bridgeDisclosure.test.ts` starts a real bridge child process and allowed it five seconds to print `listening`; under parallel load that expired while the file passed alone in half a second, which is a flake that makes the whole suite untrustworthy. The bound is now thirty seconds. **The same flake class recurred and was fixed the same way at `d6e2b30`:** that file had raised its *bridge-start* bound to thirty seconds but left its three cases on vitest's five-second default, so with the suite at 184 files one case timed out under parallel load while passing alone. All three now carry `30_000`. The rule this keeps teaching: when a case spawns a process whose start it bounds, the case's own timeout must be at least that bound, or the bound is decoration. The slice-30 commit message says "177 files"; that is wrong — two existing files each gained a case, so the file count did not move then. At the last accepted point `97c9dd9`: 168 files / 1011 tests, Stage 8 focused 16 files / 105 tests, committer `2026-09-11T20:42:20+07:00` |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -704,6 +704,26 @@ mapping back, both ends read again — for all six editable types in one save, a
 relations use ids, rollups and formulas are not independently writable, and schema validation happens before
 the writer is called (both refusal cases leave the record at its first revision).
 
+Slice 58, the workflow dimension, at `08d31b5`, committed `2026-09-12T04:11:16+07:00`: the stage's board boxes
+needed a fact the readable world did not have — a place for a project workflow stage — and
+`recordStateProjection` reported `workflow-stage-has-no-legacy-slot` on purpose, because `ProximaState` had
+none and A2 keeps the two dimensions independent. The slot is added **without merging them**: `ProximaState`
+gains `workflowStages` (id, owning project, name, and the revision a conditional write would carry — a revision
+rather than a `SourceRef`, because `RecordKind` is the readable world's vocabulary of records with a place on a
+surface and a stage is a column heading), and `Task` gains `workflowStageId` and `workflowOrder` *beside* its
+execution state. The old gap reason is gone and two real ones replace it — a stage whose project is not in the
+store, and a task naming a stage that is not — both reported with the ids the records wrote, which is the
+difference between a report and a rewrite. `src/app/workflowMoveGesture.ts` is the gesture the board will
+drive, with three moves falling out of the two stage ids rather than out of a mode: into a stage writes the
+stage and its position together, inside a stage writes only the order, and out of the workflow clears both —
+and a position supplied for a leave is refused rather than ignored. It reports `actionType: 'task.update'` plus
+a `workflowAction` discriminator, because the taxonomy has no registered workflow type and inventing one where
+nothing could audit it is vocabulary Stage 17 would later find unbacked. Seven cases over the real store carry
+**A2 as data**: after a drop into Review the task is still Running with its Elastic order untouched. One box
+ticks — the project board's **placeholder during drag**, which `c8e35c3` built and `tests/projectTaskBoard.test.ts`
+drives through the real binder — and **destination feedback** is narrowed rather than claimed: the hovered slot
+is marked today, and the column-level feedback the box is really about arrives with the board's stage grouping.
+
 Slice 27, the Backlog's query controls as values, pushed on Proxima branch
 `stage7-record-store-contract` at `bdea4a18182d14d6e62805481e53aeaa2ab53901`, committed
 `2026-09-12T00:34:29+07:00` and **awaiting creator acceptance**: `src/app/backlogControls.ts` makes every
@@ -886,13 +906,13 @@ panels (Notes, Task Board, Deadlines, Schedule, Backlog) exist and are covered b
 Project and Recurrence-scope modals in slice 30, those 40 boxes describe work that is already done and was
 never ticked. Stage 3 is 1 box from complete and Stage 4 is 1 box from complete; HARD GATE A is 1 box from
 complete. Everything else that is large (Stages 9–14's write halves, HARD GATE C, Stage 17's write coverage,
-Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `6dfad33` the
-document stands at 600 ticked / 240 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
+Stage 18's interaction-feel pass) is either gated on HARD GATE C or needs a browser. **As of `08d31b5` the
+document stands at 601 ticked / 239 open**, and the open column is now: Stage 0 7, Stage 3 1, Stage 6 3,
 HARD GATE A 1, Stage 8 2 (both the creator's unsupported-frontmatter answer), **HARD GATE C 3**, **Stage 9 0**,
-**Stage 10 16**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
+**Stage 10 15**, Stage 11 18, Stage 12 20, Stage 13 13, Stage 14 12, Stage 15 18, HARD GATE D 4, Stage 16 14,
 Stage 17 58, Stage 18 5, Stage 19 8, Stage 20 11 and the final release gate 26. **Stage 9 is the first write
-stage to close**, and Stage 10 has started from its most self-contained end — the property mapping Stage 9
-deferred — so what remains there is the workflow Board's drag, the Backlog's bulk actions and schema
+stage to close**, and Stage 10 has both halves of its workflow work now: the projection carries stages and the
+gesture moves them, so what remains there is the board that drives it, the Backlog's bulk actions and schema
 management.
 
 **Slice 38 is done**, `7f96a71` at `2026-09-12T01:52:46+07:00` — **nineteen boxes**, and the audit found the
@@ -1082,18 +1102,18 @@ where the loser is told the revision that beat it and can retry, and a delete th
 of the stage is deliberately untouched: no gesture dispatches these yet, and `recordMutationContainment` still
 asserts every registered record-mutation action is typed-unavailable through the dispatcher.
 
-**Next operation** Slice 58 — Stage 10's workflow Board, which is now the largest unblocked block after the
-property mapping landed: its Board UI boxes (drag between project workflow stages, drag within a stage,
-placeholder, destination feedback, stale refusal restoring authoritative state, and moving a stage without
-altering the Elastic execution state) plus the two acceptance claims that name them. Two facts shape the work
-and neither is a surprise: `src/app/taskMutations.ts` already carries a `workflow-stage` mutation that moves a
-stage and its position together and refuses to leave a foreign stage behind, and `src/domain/canonicalOrdering.ts`
-already scopes workflow order by project and stage — but the **readable world has no slot for a stage**, which
-`recordStateProjection` reports as `workflow-stage-has-no-legacy-slot` on purpose (A2). So the first step is a
-deciding one rather than a wiring one: either the readable `Task` gains a workflow-stage field and the project
-board groups by it, or the board reads stages from a projection of their own. The projection's current refusal
-to invent a slot is the reason this is a decision and not a detail. Nothing in Proxima or LongHorizon is parked
-or uncommitted; both trees are clean and both branches are pushed.
+**Next operation** Slice 59 — the board that drives the workflow gesture, which is now the only thing between
+Stage 10's six Board UI boxes and the two acceptance claims that name them. The pieces exist: the readable
+world carries `workflowStages` and each task's `workflowStageId`/`workflowOrder`, `moveTaskToWorkflowStage`
+writes the right mutation for each of the three moves and is asserted against the real store, and the project
+board already draws columns, drop slots and a 54px placeholder. What is missing is the *grouping*: the board
+groups by `state.statuses` today, so the work is to group by the project's stages when the state declares any
+(keeping status grouping for a legacy vault, which declares none), give the drag a stage intent beside its
+status one, and add the destination column feedback the Elastic board has. The two acceptance boxes —
+*Running + Review remains Running after a workflow drag* and *project-board reorder leaves Elastic order
+unchanged* — are the same A2 claim the gesture's suite already asserts at the data level, so closing them is a
+matter of asserting it through the rendered board. Nothing in Proxima or LongHorizon is parked or uncommitted;
+both trees are clean and both branches are pushed.
 So the loop moves to the next unfinished checklists under `D:\Letters\MatTroiSeConMoc\LongHorizon`: the three Papers
 documents whose titles say `Complete Implementation Checklist`. **All three are blocked, and this is now checked
 rather than assumed.** `adopted-window-surfaces.md` and `window-layout-consistency-and-auto-tracking.md` both
@@ -2625,8 +2645,8 @@ If stage order itself is determined to have semantic workflow meaning, move that
 
 - [ ] Drag task between project workflow stages.
 - [ ] Drag task within stage.
-- [ ] Placeholder during drag.
-- [ ] Destination feedback.
+- [x] Placeholder during drag. — `c8e35c3` @ `2026-09-10T19:54:34+07:00` and `ead7927` @ `2026-09-12T02:02:58+07:00` *(the project board's own drag already does this and has since Stage 5 slice 6: a `dragover` on a drop slot opens that slot's insertion placeholder to 54px and marks the slot `data-project-board-preview`, and the drop or a `dragend` clears it. `tests/projectTaskBoard.test.ts` drives the real binder and asserts the 54px height in the hovered slot before release — twice now, once in the preview case and once in the pickup/refusal case — so the evidence is a case exercising the production binder rather than a claim about markup. The box is about the placeholder, which does not depend on which dimension the board groups by.)*
+- [ ] Destination feedback. *(Partly present, and the part that is missing is named. The hovered drop slot **is** marked today (`data-project-board-preview` set on the slot, with the placeholder inside it growing), so the feedback a drag gets is "this is the slot you would land in". What the box leaves open is column-level feedback once the board groups by workflow stages — the Elastic board's destination column takes an outline (`57860d3`, asserted in `tests/elasticCockpit.test.ts`), and the project board has no equivalent because its columns are statuses today and will be stages after this stage's Board UI work lands.)*
 - [ ] Stale refusal restores authoritative state.
 - [ ] Moving workflow stage does not alter Elastic execution state.
 
