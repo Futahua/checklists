@@ -20,13 +20,13 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 
 | | |
 | --- | --- |
-| Accepted branch | `hard-gate-a6-id-relations` @ `26c84d4` — pushed, creator-accepted through HARD GATE A / A6 |
+| Accepted branch | `hard-gate-a7-name-storage-separation` @ `270f8cb` — pushed, creator-accepted through HARD GATE A / A7 |
 | Accepted host Gate 9.3 | `Futahua/Papers-3` branch `proxima-gate9-native-source-handoff` @ `67b7fa2` — pushed |
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Suite at `26c84d4` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 140 files / 817 tests |
+| Suite at `270f8cb` | typecheck 0, build 0, `git diff --check` 0, vitest 0, 141 files / 822 tests |
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
@@ -137,6 +137,14 @@ wikilink/filename-shaped values are refused at the canonical boundary. Canonical
 semantics contain no target filename, source path or `targetFolder`; existing legacy
 compatibility code remains untouched. No persistence, write, import execution or mutation
 capability exists. Proxima full suite 140 files / 817 tests.
+HARD GATE A / A7, Names are independent from storage representation, accepted on Proxima
+branch `hard-gate-a7-name-storage-separation` at `270f8cb`: task, project and event titles are
+ordinary canonical fields rather than storage identity; filename-hostile and YAML-sensitive
+text remains valid canonical title data; moving or renaming a legacy representation changes
+provenance without changing canonical name or identity; and canonical structured task data
+round-trips through standard JSON without Markdown/frontmatter/YAML interpretation. Existing
+legacy reader behavior remains unchanged. No persistence, write, import execution or mutation
+capability exists. Proxima full suite 141 files / 822 tests.
 Nothing anywhere writes a record. Six Stage 0 boxes stay open on purpose: record
 revisions, bulk-action results and UI-versus-agent equivalence have nothing to bite on until
 a second caller and the record store exist. Every ticked box names the commit that closed it.
@@ -144,7 +152,7 @@ a second caller and the record store exist. Every ticked box names the commit th
 **In flight** Nothing. The tree is clean and the branch is pushed.
 
 **Next operation** Ask the AUTHOR for the exact next bounded guarded packet for HARD GATE A /
-A7 — Names are independent from storage representation. Keep every eventual mutation
+A8 — Project/filesystem association is explicit. Keep every eventual mutation
 typed-unavailable until record-store cutover.
 
 **Slice 1 correction is closed in slice 3.** I had briefed the AUTHOR that an empty-slot
@@ -1062,10 +1070,10 @@ authority; inspection schema v5 exposes data/workspace-derived capabilities inst
 
 ## A7 — Names are independent from storage representation
 
-- [ ] Task/project/event titles are ordinary fields.
-- [ ] Any valid domain title can be represented without changing filename logic.
-- [ ] Colon/YAML quoting rules disappear from canonical record validation.
-- [ ] JSON encoding, not hand-authored source syntax, represents canonical structured values.
+- [x] Task/project/event titles are ordinary fields. — `270f8cb`
+- [x] Any valid domain title can be represented without changing filename logic. — `270f8cb`
+- [x] Colon/YAML quoting rules disappear from canonical record validation. — `270f8cb`
+- [x] JSON encoding, not hand-authored source syntax, represents canonical structured values. — `270f8cb`
 
 ---
 
