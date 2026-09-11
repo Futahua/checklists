@@ -1,31 +1,38 @@
 # The loop
 
-**AUTHOR** — the browser. Writes the change. No hands, cannot run anything.
-**EXECUTOR** — whoever writes to disk. Applies it and runs it. Does not redesign.
-**The creator** — reviews afterwards, on their own time. Not in the loop.
+**AUTHOR** — ChatGPT in the attached browser. Writes the change and its technical acceptance
+conditions. No hands; cannot run anything.
+**EXECUTOR** — Hermes. Applies the AUTHOR's packet and runs its commands. Does not redesign
+or make semantic decisions.
+**The creator** — outside the active loop. Reviews later, on their own time, and alone gives
+final product acceptance.
 
 ```
-AUTHOR writes → EXECUTOR applies and runs → it worked?
-                                             yes → AUTHOR checks the evidence,
-                                                   EXECUTOR commits and pushes
-                                             no  → back to AUTHOR
+AUTHOR writes → Hermes applies and runs → Hermes returns evidence
+                                             ↓
+                                     AUTHOR judges evidence
+                                      sufficient → Hermes commits and pushes feature branch
+                                      insufficient → back to AUTHOR
 ```
 
-**Run for hours. Do not wait for the creator.** When a slice closes, start the next one.
-Push so they can review when they choose; never block on them being there.
+**Run for hours. Do not wait for the creator.** When the AUTHOR technically closes a slice,
+start the next one. After technical closure, commit and push the feature branch so the
+creator can review when they choose; never block on them being there.
 
 That is the workflow. The rest of this page is the handful of things that go wrong.
 
 ## Five rules
 
-1. **The EXECUTOR never accepts its own work.** The AUTHOR judges the evidence against
-   the acceptance conditions it set. That separation is what survives the creator being
-   away — it is not a formality to skip when nobody is watching.
-2. The AUTHOR decides what the code means. The EXECUTOR never does.
-3. The EXECUTOR may fix *how* something was delivered — a mangled patch, a short SHA, a
-   wrong path — when it can show the result is identical. Never *what* it does.
-4. Say every fix you made. Working is not a reason to leave it out.
-5. The AUTHOR never says something passed. It cannot run anything.
+1. **Hermes never judges its own evidence sufficient.** The AUTHOR judges Hermes's reported
+   evidence against the technical acceptance conditions it set. That judgment technically
+   closes the slice; it is not final product acceptance. The creator alone gives that.
+2. The AUTHOR decides what the code means. Hermes never does.
+3. Hermes may fix *how* something was delivered — a mangled patch, a short SHA, a wrong
+   path — when it can show the result is identical. Never *what* it does.
+4. Hermes declares every transport fix it made. Working is not a reason to leave it out.
+5. The AUTHOR never claims that it ran tests or commands. It may state that Hermes's
+   reported evidence satisfies the stated technical acceptance conditions, but that is not
+   creator acceptance.
 
 ## What the AUTHOR sends
 
@@ -40,27 +47,27 @@ Guarded replacements, not diffs — hunk metadata does not survive the browser.
 Baseline SHA, whether it applied, the commands **exactly as authored** with their exit
 codes, changed files, and the first real failure — not the cascade. Full logs stay on disk.
 
-Any fix the executor made, and whether it can *prove* the result was identical or only
-believes it. Both are allowed; pretending is not.
+Any fix Hermes made, and whether it can *prove* the result was identical or only believes
+it. Both are allowed; pretending is not.
 
-## Attaching to the reviewer tab
+## Attaching to the AUTHOR tab
 
 Claim the exact tab, then drive it by role — never by screen coordinates, never by taking
 over the mouse.
 
 1. Ask the connector for browser instances and open tabs.
 2. Tell the Chrome instances apart by browser ID or profile name.
-3. Find the reviewer by its exact title and URL.
+3. Find the AUTHOR browser ChatGPT by its exact title and URL.
 4. Claim that tab by the returned tab ID.
 5. Drive it through the accessibility tree.
 
 ```js
 const state = await cua.getState();
-const reviewerTab = await cua.getTab("returned-tab-id", { browser: "returned-browser-id" });
-const snapshot = await reviewerTab.getAXState();
+const authorTab = await cua.getTab("returned-tab-id", { browser: "returned-browser-id" });
+const snapshot = await authorTab.getAXState();
 
-reviewerTab.playwright.getByRole("textbox", { name: "Chat with ChatGPT" });
-reviewerTab.playwright.getByRole("button", { name: "Send prompt" });
+authorTab.playwright.getByRole("textbox", { name: "Chat with ChatGPT" });
+authorTab.playwright.getByRole("button", { name: "Send prompt" });
 ```
 
 **Submitting a prompt is an explicit click.** Never use `Enter`, keyboard shortcuts,
@@ -77,19 +84,19 @@ or read a response until this send verification succeeds.
 The reusable send-and-watch operation is:
 
 ```js
-const REVIEWER_MESSAGE_LIMIT =
+const AUTHOR_MESSAGE_LIMIT =
   /(?:you(?:'|’)ve reached the maximum length for this conversation|chat session has reached message limits)/i;
 
-async function reviewerMessageLimitVisible(tab) {
+async function authorMessageLimitVisible(tab) {
   const body = await tab.playwright.locator('body').innerText();
-  return REVIEWER_MESSAGE_LIMIT.test(body);
+  return AUTHOR_MESSAGE_LIMIT.test(body);
 }
 
-async function sendAndWaitForReviewerCompletion(tab, prompt, {
+async function sendAndWaitForAuthorCompletion(tab, prompt, {
   intervalMs = 1000,
   timeoutMs = 30 * 60 * 1000,
 } = {}) {
-  if (await reviewerMessageLimitVisible(tab)) {
+  if (await authorMessageLimitVisible(tab)) {
     return { status: 'message-limit' };
   }
 
@@ -147,7 +154,7 @@ async function sendAndWaitForReviewerCompletion(tab, prompt, {
   const startedAt = Date.now();
   let sawGenerating = false;
   while (Date.now() - startedAt < timeoutMs) {
-    if (await reviewerMessageLimitVisible(tab)) {
+    if (await authorMessageLimitVisible(tab)) {
       return { status: 'message-limit' };
     }
 
@@ -174,12 +181,12 @@ status text. When `status: 'message-limit'` is returned, stop using that tab, st
 browser ChatGPT chat, and send the compact handoff described below; verify the new page
 received it before continuing.
 
-Once the reviewer tab is selected, touch nothing else — not the other Chrome instance, not
+Once the AUTHOR tab is selected, touch nothing else — not the other Chrome instance, not
 other tabs. Role locators also avoid a real hazard of synthetic coordinate clicks: they can
 fire page handlers you did not intend, including a copy handler that overwrites the
 creator's clipboard.
 
-## Watching the reviewer tab
+## Watching the AUTHOR tab
 
 One bounded watcher against the same attached tab. Not screenshots, not refreshes, not
 mouse control, not batches of sleeps. Use the send-and-watch operation above when sending
@@ -222,31 +229,31 @@ finished while you were away.
 
 ## Pushing
 
-Push at accepted slice boundaries so there is something reviewable. That is allowed and
-expected; abusing it is not. Not per edit, not a stream of one-line commits, not work that
-does not pass its own acceptance conditions.
+After the AUTHOR judges Hermes's evidence sufficient for the stated technical acceptance
+conditions, Hermes may commit and push the feature branch so there is something reviewable.
+That is technical closure, not final product acceptance. Do not push per edit, a stream of
+one-line commits, or work the AUTHOR has not technically closed.
 
-Feature branches only. **These still wait for the creator, however long that takes:**
-merging to main, force-push, rewriting history, deleting branches, anything touching their
-vault or real data, and anything else that cannot be undone by checking out the previous
-commit.
+Feature branches only. **These wait for the creator, however long that takes:** merging to
+main, force-push, rewriting history, deleting branches, anything touching their vault or
+real data, and anything else that cannot be undone by checking out the previous commit.
 
 Keep big files out of context — read the part you need.
 
 ## Keeping the checklist handoff-able
 
-This repository exists because sessions run out of usage mid-task. Whoever picks the work up
-next has only what is written down.
+This repository exists because sessions run out of usage mid-task. The next Hermes session
+has only what is written down.
 
-Every checklist carries a **Status** block at the top: accepted branch and SHA, unaccepted
-work and where it is parked, current suite totals, what is done, what is in flight, and the
-exact next operation. Update it whenever any of those change.
+Every checklist carries a **Status** block at the top: AUTHOR-closed feature branch and SHA,
+work not yet technically closed and where it is parked, current suite totals, what is done,
+what is in flight, and the exact next operation. Update it whenever any of those change.
 
 **Status also names the absolute path of every directory the work touches.** A remote is not
-a location. An agent that knows the repo is `Futahua/proxima-backpack` still cannot find it
-on this machine, and searching the disk for it costs real time — that has already happened
-here. Name the working tree, the fixture data, and any read-only reference checkout, in
-Windows form, and say which are read-only.
+a location. A Hermes session that knows the repo is `Futahua/proxima-backpack` still cannot
+find it on this machine, and searching the disk for it costs real time — that has already
+happened here. Name the working tree, the fixture data, and any read-only reference checkout,
+in Windows form, and say which are read-only.
 
 Two traps worth knowing before you use those paths:
 
@@ -258,7 +265,8 @@ Two traps worth knowing before you use those paths:
   cost a session once already.
 
 **Replace that block in place. Never append to it.** A running progress log grows without
-bound and costs every future agent the whole history whether or not it needs it. Status is
+bound and costs every future Hermes session the whole history whether or not it needs it.
+Status is
 current state only; history lives in git, where it costs nothing to ignore.
 
 ## Ticking a box
@@ -273,9 +281,10 @@ current state only; history lives in git, where it costs nothing to ignore.
 
 The SHA is what makes the work reversible. Without it, undoing one decision means reading
 the whole log to find out which commit made it; with it, `git show` and `git revert` are one
-command away, and a later agent can tell what a box actually bought.
+command away, and a later Hermes session can tell what a box actually bought.
 
-Write the **critical** change — what a reverting agent needs to know, and anything that
+Write the **critical** change — what a reverting Hermes session needs to know, and anything
+that
 would surprise them. Not how you got there, not what you tried first. A box that closed
 alongside its sub-items is annotated on the parent only; annotating every child is the diary
 this rule is not.
@@ -283,9 +292,11 @@ this rule is not.
 If two commits closed one box, name both. If a commit is later reverted, untick its boxes
 and say so in Status — a tick whose commit is gone is worse than no tick.
 
-Never leave work uncommitted at the end of a run. If a slice is not accepted yet, park it on
-a clearly named side branch with a message saying what fails and why, and keep the accepted
-branch clean. Losing an hour of applied work to an exhausted session is avoidable.
+Do not commit or push a slice before the AUTHOR has judged Hermes's evidence sufficient for
+its stated technical acceptance conditions. If a run must end before that judgment, preserve
+the work locally without committing it, record its exact location and state in Status, and
+return the evidence or blocker to the AUTHOR. After technical closure, Hermes may commit and
+push the feature branch. Losing an hour of applied work to an exhausted session is avoidable.
 
 ## What ends the run
 
@@ -299,7 +310,7 @@ fit inside a single turn.
 
 **Reporting is what kills the run.** A status update hands the turn back and everything
 stops until the creator returns, which may be many hours. So report at real milestones — a
-slice accepted and pushed, a decision only they can make, a blocker with no route around it
+slice technically closed by the AUTHOR and pushed, a decision only they can make, a blocker with no route around it
 — and not at every step. If you find yourself writing a progress summary, ask whether the
 next tool call would serve them better.
 
@@ -308,13 +319,9 @@ plainly rather than promising an autonomy the setup does not have.
 
 ## Pace
 
-Both agents have finite capacity — Claude's five-hour window, Codex's own limits — and
-running out mid-project is the failure that matters, not the cost. Watch your own burn; the
+The ChatGPT AUTHOR session and Hermes EXECUTOR both have finite capacity, and running out
+mid-project is the failure that matters, not the cost. Watch the active session limits; the
 creator should never have to.
-
-```bash
-python "D:/Letters/MatTroiSeConMoc/Tools/claude-usage.py" --brief
-```
 
 Then measure it against the work remaining, not against the clock. A checklist with
 hundreds of boxes and a rate of two or three per session will not finish, and the answer is
@@ -341,21 +348,24 @@ Stop only for a decision that is genuinely the creator's — an irreversible act
 conflict between two things they asked for, or a question the source cannot answer. Leave
 it stated plainly and move to work that is not blocked by it.
 
-## When the reviewer chat reaches its message limit
+## When the AUTHOR chat reaches its message limit
 
-Inspect the rendered reviewer page for the red notice **“chat session has reached message
+Inspect the rendered AUTHOR page for the red notice **“chat session has reached message
 limits”** before trying to send another packet. If it appears, treat that chat as exhausted:
 start a new browser ChatGPT session and give it a compact handoff before requesting work.
-The handoff must include the AUTHOR brief URL, the repository and docs paths, current feature
-branch and accepted SHA, checklist/docs SHA and suite totals, the exact next operation, and
-the standing rules (apply packets verbatim, do not redesign, no live-vault/main writes,
-explicitly click **Send prompt**, verify the send transition, then use the Stop answering /
-Stop thinking watcher until it appears and disappears). Re-read the rendered new page to
-confirm the handoff arrived before continuing; do not assume a new session received it.
+The handoff must include the AUTHOR brief URL; the explicit role map (ChatGPT in the attached
+browser is the AUTHOR, Hermes is the EXECUTOR, and the creator alone gives final product
+acceptance); the repository and docs paths; current feature branch and AUTHOR-closed SHA;
+checklist/docs SHA and suite totals; the exact next operation; and the standing rules (apply
+packets verbatim, do not redesign, no live-vault/main writes, explicitly click **Send
+prompt**, verify the send transition, then use the Stop answering / Stop thinking watcher
+until it appears and disappears). Re-read the rendered new page to confirm the handoff
+arrived before continuing; do not assume a new session received it.
 
 ## Elsewhere
 
-[BROWSER.md](BROWSER.md) is the AUTHOR's brief; hand it that URL at session start.
+[BROWSER.md](BROWSER.md) is the AUTHOR's brief; at session start, hand the browser model a
+raw URL pinned to the exact SHA being used, never a moving branch URL.
 [reference/](reference/) is how all this was worked out, including every failure behind a
 rule. Read it if you want the reasoning. It is not law.
 
