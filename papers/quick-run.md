@@ -253,7 +253,7 @@ because what is searched is the persisted member and not its native resolvabilit
 ticked with those two SHAs. What they do **not** claim is the resolution path: nothing yet resolves a member
 to a live window, so § Availability/native's outcome boxes — `first Enter resolves`, `missing ->
 unavailable`, `ambiguous -> unavailable`, `ambiguous -> zero activate calls` — stay open until that module
-exists. Running totals after this pass: **51 ticked / 230 open.**
+exists.
 **§ 1.5 and § 1.6 read, and they split the remaining work three ways — with one correction to what an earlier
 note here said.** Section 1.5's four default Enter actions are fixed: *Folder → navigate into that folder;
 Shortcut → launch it; Link → open its web URL; Layout Item → activate/focus that exact external application
