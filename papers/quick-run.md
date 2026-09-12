@@ -33,10 +33,14 @@ on that run, and the count is the runner's own rather than a sum of new files.
   replacement window, a malformed capability is rejected, a page cannot supply HWND/PID/path, the
   helper-unavailable failure is typed, and the helper SHA-256 pins are updated and validated. These need
   the Papers host with the helper present.
-- **Actions (6)** — the Definition-of-Done acceptance twins for Folder, Shortcut, Link and Layout Item
-  Enter, the honest failure a missing or ambiguous Layout Item reports, and Ctrl+Enter's
+- **Actions (6)** — the Definition-of-Done acceptance twins for Folder, Shortcut and Link Enter, the honest
+  failure a missing or ambiguous Layout Item reports, Layout Item Enter itself, and Ctrl+Enter's
   navigate-and-select. Source shape is not acceptance; an app-level harness that drives the real workspace
-  would close them.
+  closes **four** of them — Folder, Shortcut, Link and Ctrl+Enter. **The two Layout Item boxes cannot close
+  that way at this revision, and the browser AUTHOR said so on 2026-09-12:** `planQuickRunActivation()` still
+  declares Layout Item activation deferred and the resolver says native enumeration and activation wait for
+  the Papers capability, so a fake command object cannot prove that the exact native window is
+  activated or restored.
 - **Native boundary (4)** — the same capability seen from the host's side, including the fail-closed
   identity rule and the resource hash pins.
 - **Performance (2)** — the integrated renderer targets: p95 on the real corpus and typing inside the
@@ -45,11 +49,22 @@ on that run, and the count is the runner's own rather than a sum of new files.
   already-resolved capability activation primitive. It is a statement about the host change, so it closes
   with the host work above.
 
-**Next operation.** Nothing here is blocked on code. The next slice that can move without the creator is
-the **acceptance harness for the six Actions boxes** — a drive of the real workspace that exercises Enter
-and Ctrl+Enter against the same command object the surface calls — and the two integrated performance
-boxes want that harness to exist first. Everything else waits on a host run (Papers activation, native
-boundary, availability) or on the creator walking `# Creator acceptance walk` at the foot of this file.
+**Next operation.** Nothing here is blocked on code. The next slice that can move without the creator is the
+**app-level acceptance harness, scoped by the browser AUTHOR on 2026-09-12**: extract the smallest Quick Run
+workspace binding/composition seam out of the booting entry file, have the real entry use it, and have the
+harness use that same binding with the production workspace markup, a real store and the real
+`createWorkspaceCommands`. Its acceptance is DOM input → a real ranked row → Enter on a Folder changing
+authoritative workspace navigation and closing Quick Run, Shortcut and Link calling their exact and mutually
+exclusive effects, Ctrl+Enter driving the real navigation/selection path and resolving a duplicated placement
+to the requested occurrence rather than to the shared shortcut record, at least one stale-result mutation
+between render and keypress proving the binding revalidates current state, and no test-side copy of the
+entry's activation algorithm — removing the production binding must break the harness. The two integrated
+**Performance** boxes are not closed by it: their gate is real input-event → result-DOM-commit latency with
+graph mode active on a 10k–20k corpus, so they need a real browser/Electron renderer — this repository already
+has a packaged-Papers Playwright/Electron acceptance route that executes JavaScript inside the real Backpack
+surface, which is the appropriate foundation. Everything else waits on a host run (Papers activation, native
+boundary, availability) or on the creator walking `# Creator acceptance walk` at the foot of this file, which
+no automated evidence replaces.
 
 **The hotkey chord is chosen and bound.** The creator chose **`Alt+Shift+X`** for the workspace scope on
 2026-09-12 — recorded on the open item at the foot of this file, which was the item waiting for it — and it is
