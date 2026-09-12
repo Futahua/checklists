@@ -157,11 +157,11 @@ These decisions are product requirements, not implementation suggestions.
 - [ ] V1 activation works only while the As-you-Go surface itself can receive keyboard input.
 - [ ] OS-global Quick Run activation is explicitly out of scope.
 - [ ] Opening Quick Run shows one focused search input.
-- [ ] Empty query shows no result rows.
-- [ ] Results first appear after the first non-empty search query.
-- [ ] Escape closes Quick Run.
-- [ ] Escape does not create, move, launch, select, navigate, or persist a result action.
-- [ ] Closing Quick Run clears its query/highlight/filter session state.
+- [x] Empty query shows no result rows. — `550e6cc` @ `2026-09-12T08:22:40+07:00` *(the **rule** is implemented and tested in `public/app/quick-run/quick-run-session.js`, exercised by `quick-run-session.test.mjs` inside the suite (1181 pass); the surface that draws the line is a later stage, so this tick claims the rule and not the pixels.)*
+- [x] Results first appear after the first non-empty search query. — `550e6cc` @ `2026-09-12T08:22:40+07:00` *(the **rule** is implemented and tested in `public/app/quick-run/quick-run-session.js`, exercised by `quick-run-session.test.mjs` inside the suite (1181 pass); the surface that draws the line is a later stage, so this tick claims the rule and not the pixels.)*
+- [x] Escape closes Quick Run. — `550e6cc` @ `2026-09-12T08:22:40+07:00` *(the **rule** is implemented and tested in `public/app/quick-run/quick-run-session.js`, exercised by `quick-run-session.test.mjs` inside the suite (1181 pass); the surface that draws the line is a later stage, so this tick claims the rule and not the pixels.)*
+- [x] Escape does not create, move, launch, select, navigate, or persist a result action. — `550e6cc` @ `2026-09-12T08:22:40+07:00` *(the **rule** is implemented and tested in `public/app/quick-run/quick-run-session.js`, exercised by `quick-run-session.test.mjs` inside the suite (1181 pass); the surface that draws the line is a later stage, so this tick claims the rule and not the pixels.)*
+- [x] Closing Quick Run clears its query/highlight/filter session state. — `550e6cc` @ `2026-09-12T08:22:40+07:00` *(the **rule** is implemented and tested in `public/app/quick-run/quick-run-session.js`, exercised by `quick-run-session.test.mjs` inside the suite (1181 pass); the surface that draws the line is a later stage, so this tick claims the rule and not the pixels.)*
 
 The existing Backpack hotkey model already has workspace-scoped actions and configurable bindings, while the keyboard controller is the central workspace keydown seam. Add Quick Run there rather than introducing a second unrelated keybinding system. `workspace.reveal-selection` and `workspace.open-selection` already occupy Ctrl+Enter and Enter in the ordinary workspace, so Quick Run must take over those keys only while its own input surface is active.
 
