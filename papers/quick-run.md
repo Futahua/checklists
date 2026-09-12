@@ -141,6 +141,17 @@ product checkouts (As-you-Go, Proxima, Papers-3) and its recorded timestamp comp
 not an intention here but a checked fact: every ticked box names a commit that exists, and the timestamp
 beside it is the commit's own committer time rather than a number typed from memory. Re-sent, and the same pass now also checks that each checklist Status block still carries its required facts - heading, running totals, handoff and audit note for this file, and the four table rows for the Proxima parity list - because two separate edits of mine silently dropped a fact from a block while every content check kept passing (a suite row that vanished for seven rounds, and a 200-box-stale duplicate totals sentence). Both were found by checking structure rather than content, so the structure check is now part of the ritual; all four blocks passed it on 2026-09-12. Re-run both the same way
 after any future pass that ticks a box by hand.
+**Twenty-six ticked boxes carry no commit reference, and an attempt to fix them all at once was
+reverted.** The audit that resolves every tick's SHA was run over the *ticked-with-a-reference* set, which
+is why this was not visible earlier: a scan of the whole document finds 26 boxes ending in a dangling
+dash. Most are historical and the convention permits that — existing boxes need not be rewritten, only new
+ones must name their commit. Some are this session's, though, and those are real losses: the section 6
+prohibitions ticked at `e38d55d` @ `2026-09-12T09:05:10+07:00` and the universe boxes whose evidence is
+`fc8c1da` @ `2026-09-12T08:54:24+07:00` with `ae3697a` @ `2026-09-12T08:55:55+07:00` depend on those
+annotations for their reversibility. **A bulk re-annotation of all 26 was written and reverted uncommitted**
+because it classified boxes by guessing from their text, which put the wrong SHA on about nineteen of them
+— a fabricated reference is worse than a missing one. The next pass should restore them **section by
+section**, reading each section's own history, not by pattern-matching prose.
 **What the next session should pick up, and what it must not try to do from here.** Quick Run is now
 feature-complete in everything that can be decided or drawn without a machine, and the remainder is
 precisely bounded: **(1) the live half of § 10** — a host that supplies the window list, feeding
