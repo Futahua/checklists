@@ -26,9 +26,7 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
 | Unaccepted work | none |
-| Next operation | Stage 16 template execution, as its own session: a parser that produces a typed intended-operation plan without mutating anything, structured errors for an invalid template, an injected clock for relative dates, and opaque stable IDs for records created together and the relations between them. That is the pure half of the stage and closes five of its eighteen boxes plus the two preview boxes; the executor half then reuses the workspace's existing semantic actions rather than taking RecordStore authority, which is what the remaining boxes and Stage 17's "for every row above" matrix are waiting on. Read src/app/templateComposer.ts and 	ests/templateComposer.test.ts first: the composer already exists and the executor must extend its seam rather than start a second one. |
-| Suite at `c2ef9f1` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 220 files / 1456 tests in 11.3 s, re-run 2026-09-12 at this SHA (the previous row quoted `425a631` and 217 files, which was true then and is now one baseline behind)
-
+| Next operation | Stage 16 template execution, **corrected**: the parser half already exists at `d21f434` @ `2026-09-12T01:26:26+07:00` - `parseTemplatePlan` returns a typed `TemplatePlan`, refusals are structured `TemplateComposerError`s with codes and line numbers, and the module imports nothing at all, so no mutation is possible on parse. What is genuinely missing: the **executor** (translate the plan into the same semantic actions the UI and agents already use, without taking RecordStore authority, with opaque stable IDs for records created together and the relations between them), the **injected clock** for relative dates (the composer keeps a date as written and validates it with `Date.parse`, which is why that box stays open), and Stage 17's Templates row plus the `for every row above` matrix that waits on it. Read `src/app/templateComposer.ts` and `tests/templateComposer.test.ts` first - the executor extends that seam rather than starting a second one. |
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
 the Elastic execution cockpit, at `57860d3`. Stage 3: the Timekeeping shell and Deadline
 Calendar at `760e54d`, Timeline/Gantt at `fb67685`, the Gantt interaction contract at
@@ -3149,10 +3147,10 @@ The old compact template syntax is less important than the resulting operation.
 
 ## Work
 
-- [ ] Parser remains separate from executor.
-- [ ] Preview produces a typed intended-operation plan.
-- [ ] No mutation occurs on parse.
-- [ ] Invalid template produces structured errors.
+- [x] Parser remains separate from executor. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(the parser is `parseTemplatePlan` in src/app/templateComposer.ts, and there is no executor anywhere in the tree - the separation is not a convention but the current state of the code. The composer was introduced at )*
+- [x] Preview produces a typed intended-operation plan. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(the return type is `TemplatePlan` - readonly tasks, readonly errors, lineCount - and the tests assert the plan object itself rather than a description of one. It is an intended-operation plan in the strict sense: nothing in the module can act on it.)*
+- [x] No mutation occurs on parse. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(structural rather than asserted: src/app/templateComposer.ts has no imports at all, so there is no store, no file system and no host in scope for a mutation to reach. The strongest form of the rule, and the test suite passes a string in and inspects a value out.)*
+- [x] Invalid template produces structured errors. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(every refusal is a `TemplateComposerError` with a code from the `TemplateErrorCode` union and the line it happened on; the tests assert the codes and the line numbers for property-before-task, an unknown field, a duplicate field, a non-field line, an empty value and an invalid number.)*
 - [ ] Execution translates the plan into the same semantic actions normal UI/agents use.
 - [ ] Do not give TemplateExecutor direct RecordStore write authority.
 - [ ] Batch creation uses stable opaque IDs.
