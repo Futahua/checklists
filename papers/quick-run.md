@@ -180,7 +180,7 @@ These decisions are product requirements, not implementation suggestions.
 
 ## 1.1 Opening and closing
 
-- [ ] A configurable As-you-Go workspace hotkey opens Quick Run.
+- [x] A configurable As-you-Go workspace hotkey opens Quick Run. — `10f8ae6` @ `2026-09-12T08:29:36+07:00` *(the chord is a catalog entry (`workspace.quick-run`, default `Alt+Shift+X`, so it is configurable through the workspace's own hotkey preferences), the controller reports it (`28ee3ad`, tested), the entry file hands the controller the surface's `open()`, and `open()` shows the layer with one empty line and takes focus. **Residual, stated:** the entry file is not importable in a test and no browser is in this loop, so the join is proved by its halves — controller reaches the callback, callback opens the surface — rather than by pressing the key.)*
 - [ ] V1 activation works only while the As-you-Go surface itself can receive keyboard input.
 - [ ] OS-global Quick Run activation is explicitly out of scope.
 - [ ] Opening Quick Run shows one focused search input.
@@ -2042,7 +2042,7 @@ Quick Run is complete only when all conditions below are true.
 
 ## Search behavior
 
-- [ ] Hotkey opens one empty focused Quick Run line.
+- [x] Hotkey opens one empty focused Quick Run line. — `10f8ae6` @ `2026-09-12T08:29:36+07:00` *(one line, empty, and focused: `open()` resets the session to an empty query, paints (which draws no rows and no chips for an empty query), and calls `focus()` on the input — guarded with `?.` because a caller may mount without a focusable field, and asserted in the surface test. **Same residual as the box above:** the key press itself is not exercised, because the entry file is not importable and this loop has no browser.)*
 - [ ] Empty query shows no results.
 - [ ] First keystroke produces ranked results.
 - [ ] Search remains responsive with 10k–20k searchable occurrences.
