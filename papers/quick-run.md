@@ -108,18 +108,30 @@ file passing a real `openQuickRun` into the keyboard controller and mounting the
 that finally makes the chord open something a reader can see. Nothing in that list requires inventing a
 selector convention: the ids are the implementer's to name, and everything they must contain is already
 decided.
-**Step 4 attempted and reverted, with the diagnosis recorded.** Writing the mounting half of the surface —
-`mountQuickRun({ document, elements, getState })`, which would install the input listener and the key
-handling (Escape, arrows, Tab/Shift+Tab) and hand `open` to the keyboard controller — ended in a revert
-rather than a commit: its first test failed with `TypeError: Cannot read properties of undefined (reading
-'input')` raised from inside the module while the test passed a spread harness, and the session ran out of
-room to diagnose it. The tree is back at `cd9b950`, clean, suite 1191 pass. **What the next pass should
-check first, because it is the likely cause:** the harness in `quick-run-surface.test.mjs` builds elements
-from a `fakeElement()` helper that has no `addEventListener`; the mounting test needs `addEventListener` and
-a `fire(type, event)` on that mock (the wiring is only reachable through listeners), and the failure mode
-above is what a missing/differently-shaped harness produces rather than a fault in the module. Everything
-the module needs already exists and is tested: `paintQuickRunSurface` (committed at `cd9b950`), the four
-elements (`27485d8`) and the six pure modules beneath them.
+**Steps 1–4 of the mounting plan are done, and the diagnosis recorded with the revert was right.** `cd9b950`
+paints the four elements, `aaab87d` adds the mounting half (`mountQuickRun({ document, elements, getState })`
+— the input listener, Escape, the arrows, Tab/Shift+Tab, and `open` handed to the keyboard controller), and
+`10f8ae6` makes the chord open the surface; the failure that forced the earlier revert was the harness after
+all, and `quick-run-surface.test.mjs` now gives `fakeElement()` both `addEventListener` and `fire`. The
+branch `quick-run-stage0` is at `217007f`, suite **1205 pass / 0 fail** against the `8000c88` baseline of
+1153, `main` untouched. **What is left of STAGE 5 is the entry file's activation callback, and it is the one
+part of this feature that lives in the composition root:** Enter has to run § 1.5's plan —
+`planQuickRunActivation`, calling `revalidateQuickRunRow` first — by naming the workspace's own
+`workspace.open-selection` command rather than growing a second launch path, has to surface the deferred
+reason a layout-item row receives instead of showing nothing, and has to render Shift+Enter's affordance and
+its reasons; Ctrl+Enter stays unimplemented, because § 1.6 gives it its own reveal path and forbids reusing
+`reveal-selection` or `revealShortcut()`.
+
+**Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
+per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
+can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
+member persisted as `minimized` is still `unknown`, because normal/minimized is arrangement state and not
+whether a window exists right now (§ 10.1), and a member whose executable no host reports stays searchable,
+because what is searched is the persisted member and not its native resolvability. Four § 5/§ 10.1 boxes are
+ticked with those two SHAs. What they do **not** claim is the resolution path: nothing yet resolves a member
+to a live window, so § Availability/native's outcome boxes — `first Enter resolves`, `missing ->
+unavailable`, `ambiguous -> unavailable`, `ambiguous -> zero activate calls` — stay open until that module
+exists. Running totals after this pass: **51 ticked / 230 open.**
 **§ 1.5 and § 1.6 read, and they split the remaining work three ways — with one correction to what an earlier
 note here said.** Section 1.5's four default Enter actions are fixed: *Folder → navigate into that folder;
 Shortcut → launch it; Link → open its web URL; Layout Item → activate/focus that exact external application
@@ -412,9 +424,9 @@ Classification: HARD LAUNCH CRITERIA
 - [x] Typing performs zero host IPC other than anything strictly necessary for unrelated existing renderer infrastructure. — `4f63739` @ `2026-09-12T08:39:21+07:00` *(one property, asserted at `4f63739` @ `2026-09-12T08:39:21+07:00`: the session captures the workspace rows once at open and every keystroke after that is pure ranking over that snapshot — the test counts the workspace reads and finds exactly one across opening plus a run of keystrokes, arrows and Tab presses. Nothing under public/app/quick-run/ imports a host, a window or the entry file, so there is no path from a keystroke to native work even in principle.)*
 - [x] Ranking is pure local computation. — `8bfc829` @ `2026-09-12T08:13:29+07:00` *(`quick-run-index.js` imports two things: the row builder and the vocabulary module. Normalisation, the four tiers and the ordering are arithmetic over strings and arrays, with no host, no clock, no randomness and no I/O — which is also what makes the tier tests deterministic.)*
 - [x] Breadcrumb generation is based on persisted workspace hierarchy. — `bd24a2c` @ `2026-09-12T08:17:59+07:00` *(the breadcrumb is the parentId chain of the persisted groups, walked once per row — not the graph or UI code the contract tells the implementer to avoid calling per keystroke — and the ancestor **ids** travel with it as readcrumbIds so a caller need not re-walk. Tested in the search and presentation suites.)*
-- [ ] Window-layout result actionability is not guessed from persisted state.
-- [ ] An untouched Layout Item starts availability=unknown, not "Not running."
-- [ ] Missing/ambiguous native targets remain searchable because their persisted member still exists.
+- [x] Window-layout result actionability is not guessed from persisted state. — `217007f` @ `2026-09-12T08:43:01+07:00` *(availability is a function of the row kind and of nothing else: a member persisted as `minimized` still starts `unknown`, which is the one persisted value that would have tempted a guess. § 10.1 states the rule; the test is the assertion.)*
+- [x] An untouched Layout Item starts availability=unknown, not "Not running." — `f78cd16` @ `2026-09-12T08:42:28+07:00` *(`quickRunRowViews` carries `availability` for layout-item rows only; every other row kind keeps `null`, so "Not running" is not merely unused but unrepresentable on a row that cannot have the state.)*
+- [x] Missing/ambiguous native targets remain searchable because their persisted member still exists. — `217007f` @ `2026-09-12T08:43:01+07:00` *(asserted for a member whose executable no host reports: the row is built from the persisted member, and the pure layer never consults a resolution, so neither a missing nor an ambiguous target can remove a row by construction. The resolution path itself is still unbuilt, which is why the outcome boxes in § Availability/native stay open.)*
 - [ ] A failed native resolution never silently substitutes a different matching window.
 - [x] Enter re-reads the selected object from the current state by stable IDs before acting. — `d11206e` @ `2026-09-12T08:40:17+07:00` *(`revalidateQuickRunRow` rebuilds the universe from the current state and finds the row by the pinned stable key, at `d11206e` @ `2026-09-12T08:40:17+07:00` — the test renames the shortcut under the index and asserts the re-read carries the new name while the indexed row keeps the old one, and that a removed occurrence answers a reason instead of an action. The entry-file slice that runs the plan is expected to call this first, which is why it is a function rather than a comment.)*
 - [x] Indexed result payloads are never treated as current authority. — `d11206e` @ `2026-09-12T08:40:17+07:00` *(`revalidateQuickRunRow` rebuilds the universe from the current state and finds the row by the pinned stable key, at `d11206e` @ `2026-09-12T08:40:17+07:00` — the test renames the shortcut under the index and asserts the re-read carries the new name while the indexed row keeps the old one, and that a removed occurrence answers a reason instead of an action. The entry-file slice that runs the plan is expected to call this first, which is why it is a function rather than a comment.)*
@@ -1977,7 +1989,7 @@ Every test proves current-state revalidation.
 
 ## Availability/native
 
-- [ ] untouched Layout Item is unknown.
+- [x] untouched Layout Item is unknown. — `f78cd16` @ `2026-09-12T08:42:28+07:00` and `217007f` @ `2026-09-12T08:43:01+07:00` *(the same two properties as the § 5 box above, stated here as the stage-10 box: an untouched member is `unknown`, and a persisted `minimized` does not change that.)*
 - [ ] searching does zero native resolution.
 - [ ] first Enter resolves.
 - [ ] unique resolution + activate success -> available.
