@@ -134,6 +134,18 @@ binned layout and a layout under the bin — with prompts and Sets present in th
 asserted rather than assumed. Removing the filter fails two of the five cases; that was checked, not
 claimed. Seven section 6 boxes tick with it: whole layouts, prompts, bin contents, items under a binned
 folder, binned placements, binned layouts with their members, and Sets.
+**A verification pass over boxes that were already closed by committed tests.** Twenty-one boxes needed no
+new code, only the mapping from the box to the test that holds it: the filter vocabulary and its cycle
+(`c0737a2`), the session empty-query and fallback rules (`550e6cc`), the index rule that an empty query
+shows nothing because there is no home screen (`8bfc829`), the single workspace read across a run of
+keystrokes (`4f63739`), the scan that finds no observer or timer in any module (`72384be`), the universe
+exclusions and the Sets decision (`fc8c1da`, `ae3697a`), revalidation before an action (`d11206e`,
+`a0c4266`) and the section 3.4 invalidation table (`83ac52f`). Two were left open rather than stretched to
+fit: **Tab/Shift+Tab cycles only available chips**, because the implemented cycle is the five contract names
+with a visible fallback to All rather than a skip, and whether the box means skipping is a design question
+rather than a test; and **Peer document semantic changes refresh Quick Run**, because what is true today is
+that a reopen reflects the document while a peer change during an open session does not, which is
+consistent with section 3.4 but is not obviously what the box asks for.
 **Shift+Enter now has its visible half.** `435f02b` adds the line the reason is shown in — markup, the
 `dom.js` registry and the entry file adapter, so the entry test lockstep check covers all three files at
 once — and the mount reads the key: enabled only for a Layout Item in an active layout, decided by
@@ -155,7 +167,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**151 ticked / 130 open.**
+**172 ticked / 109 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -1982,17 +1994,17 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 
 ## Filters
 
-- [ ] chips only for matched types.
-- [ ] Tab forward.
-- [ ] Shift+Tab backward.
-- [ ] zero-match active filter falls back to All.
+- [x] chips only for matched types. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(the chip builder takes the types the current match set actually has, and the test asserts All plus exactly those, and nothing at all when there are no results.)*
+- [x] Tab forward. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(the cycle is the contract order and it wraps; a second test at )*
+- [x] Shift+Tab backward. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(the same test walks the cycle in both directions, so backward is not inferred from forward.)*
+- [x] zero-match active filter falls back to All. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(the fallback is immediate and the session test asserts the same rule after a keystroke that empties the active filter.)*
 - [x] fallback highlights first All row. — `66fd5f4` @ `2026-09-12T08:32:47+07:00` *(when the active type filter loses its matches, the session falls back to `All`, reports `fellBack: true`, and sets the highlight to the first row of the fallback set — asserted in the session suite (`fellBack` plus `highlightKey === rows[0].resultKey`) and reached through the mount test's Tab handling.)*
 
 ## Empty query
 
-- [ ] empty query gives zero results.
-- [ ] no recents home screen.
-- [ ] no host calls.
+- [x] empty query gives zero results. — `8bfc829` @ `2026-09-12T08:13:29+07:00` *( and )*
+- [x] no recents home screen. — `8bfc829` @ `2026-09-12T08:13:29+07:00` *(the test that says an empty query shows nothing says so because the contract forbids a recents or home surface, and nothing in the seven modules builds one.)*
+- [x] no host calls. — `4f63739` @ `2026-09-12T08:39:21+07:00` *( and )*
 
 ## Actions
 
@@ -2111,8 +2123,8 @@ Quick Run is complete only when all conditions below are true.
 ## Search behavior
 
 - [x] Hotkey opens one empty focused Quick Run line. — `10f8ae6` @ `2026-09-12T08:29:36+07:00` *(one line, empty, and focused: `open()` resets the session to an empty query, paints (which draws no rows and no chips for an empty query), and calls `focus()` on the input — guarded with `?.` because a caller may mount without a focusable field, and asserted in the surface test. **Same residual as the box above:** the key press itself is not exercised, because the entry file is not importable and this loop has no browser.)*
-- [ ] Empty query shows no results.
-- [ ] First keystroke produces ranked results.
+- [x] Empty query shows no results. — `8bfc829` @ `2026-09-12T08:13:29+07:00` *( and )*
+- [x] First keystroke produces ranked results. — `8bfc829` @ `2026-09-12T08:13:29+07:00` *(the index ranks the snapshot on the first non-empty query; the session captures that snapshot once at open, which is what makes the first keystroke a ranking rather than a scan.)*
 - [ ] Search remains responsive with 10k–20k searchable occurrences.
 - [ ] Exact > prefix > word-prefix > fuzzy subsequence.
 - [ ] Recency/frequency only break ties inside a tier.
@@ -2123,10 +2135,10 @@ Quick Run is complete only when all conditions below are true.
 
 ## Filters
 
-- [ ] All/Folders/Shortcuts/Links/Layout Items behave exactly as specified.
-- [ ] Only types with matches produce chips.
+- [x] All/Folders/Shortcuts/Links/Layout Items behave exactly as specified. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(each filter shows its own kind and All keeps the ranked order, asserted over the five names the contract fixes.)*
+- [x] Only types with matches produce chips. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(same rule as the first case, asserted from the other direction: no match, no chip.)*
 - [ ] Tab/Shift+Tab cycles only available chips.
-- [ ] Disappearing active filter falls back to All.
+- [x] Disappearing active filter falls back to All. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(the active filter losing its matches falls back to All and says that it did, so the fallback is visible rather than silent.)*
 
 ## Actions
 
@@ -2152,11 +2164,11 @@ Quick Run is complete only when all conditions below are true.
 
 ## Correctness under mutation
 
-- [ ] Every action revalidates against current state.
+- [x] Every action revalidates against current state. — `d11206e` @ `2026-09-12T08:40:17+07:00` and `a0c4266` @ `2026-09-12T08:46:36+07:00` *(revalidateQuickRunRow rebuilds the universe from the current state and finds the row by its pinned stable key, and the entry activation path calls it before planning anything.)*
 - [ ] Rename/move/bin/delete races cannot execute stale index payload.
 - [ ] Peer document semantic changes refresh Quick Run.
-- [ ] High-frequency member bounds/state updates do not rebuild the index.
-- [ ] Graph/session/view changes do not unnecessarily rebuild the index.
+- [x] High-frequency member bounds/state updates do not rebuild the index. — `83ac52f` @ `2026-09-12T08:58:34+07:00` *(both are cases in the section 3.4 table: bounds and minimize/restore change neither the universe nor a query result, before or after a reopen.)*
+- [x] Graph/session/view changes do not unnecessarily rebuild the index. — `83ac52f` @ `2026-09-12T08:58:34+07:00` *(graph positions, graph rest positions, physics ticks, selection, icon-size and theme preferences and current-folder navigation are all cases in that table.)*
 
 ## Performance
 
@@ -2168,13 +2180,13 @@ Quick Run is complete only when all conditions below are true.
 
 ## Scope/product honesty
 
-- [ ] No prompts.
-- [ ] No whole layouts.
-- [ ] No Bin.
-- [ ] Sets decision explicitly recorded (excluded; confirmed 2026-09-08).
+- [x] No prompts. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(a populated prompt library contributes no row, asserted rather than assumed.)*
+- [x] No whole layouts. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(the four row types are pinned and a layout name appears only inside a member breadcrumb.)*
+- [x] No Bin. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(all four bin shapes are excluded: a binned folder with descendants, a binned placement, a binned layout, and a layout under a binned folder.)*
+- [x] Sets decision explicitly recorded (excluded; confirmed 2026-09-08). — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(the universe test header names the decision and its date - Sets are out for v1, keeping exactly the five chips - and the test asserts that a populated sets array contributes nothing.)*
 - [x] No OS-global hotkey in v1. — `362a00d` @ `2026-09-12T08:19:15+07:00` *(the acceptance side of the same prohibition, on the same evidence: nothing in the tree registers a global shortcut, and Quick Run's catalog entry is workspace-scoped. The hotkey opens the surface only while the As-you-Go window can receive keyboard input, which is the v1 scope the surrounding boxes state.)*
-- [ ] No Papers-level universal search architecture.
-- [ ] No live window availability scanning.
+- [x] No Papers-level universal search architecture. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(v1 is one feature inside the As-you-Go app with a fixed source list and no registry, aggregator or cross-Backpack API; the universe test pins the three sources, and the claim is about this code rather than about what a future version might add.)*
+- [x] No live window availability scanning. — `72384be` @ `2026-09-12T08:48:10+07:00` *(no module under quick-run observes anything or polls on a timer - no MutationObserver, ResizeObserver, setInterval or requestAnimationFrame - and availability is computed from the row kind alone.)*
 
 # Creator acceptance walk
 
