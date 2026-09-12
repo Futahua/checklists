@@ -173,7 +173,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**212 ticked / 69 open.**
+**223 ticked / 58 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -986,17 +986,17 @@ Folder rename/move can change breadcrumbs for every descendant, so full rebuild 
 
 ### Window layouts relevant to members
 
-- [ ] create layout if it receives/contains searchable members;
-- [ ] delete layout;
-- [ ] move layout;
-- [ ] bin layout;
-- [ ] restore layout;
-- [ ] layout name change, because layout name is part of member breadcrumbs;
-- [ ] add member;
-- [ ] remove member;
-- [ ] change member descriptor title;
-- [ ] change member descriptor executable fingerprint;
-- [ ] descriptor replacement/rebinding.
+- [x] create layout if it receives/contains searchable members; — `c1e57d0` @ `2026-09-12T09:06:33+07:00` *(a created layout brings its members into the universe under its own name in the breadcrumb, and the neighbouring layout is asserted untouched.)*
+- [x] delete layout; — `c1e57d0` @ `2026-09-12T09:06:33+07:00` *(the deleted layout takes its member rows with it.)*
+- [x] move layout; — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(the moved layout takes its members to the new ancestor chain, asserted by breadcrumb in quick-run-invalidation.test.mjs.)*
+- [x] bin layout; — `c1e57d0` @ `2026-09-12T09:06:33+07:00` *(binning removes the member rows, and the test follows it with a restore.)*
+- [x] restore layout; — `c1e57d0` @ `2026-09-12T09:06:33+07:00` *(unbinning returns exactly the universe that was there, compared as a key set.)*
+- [x] layout name change, because layout name is part of member breadcrumbs; — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(both members take the new layout name in their breadcrumb.)*
+- [x] add member; — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(one added member is exactly one added row.)*
+- [x] remove member; — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(a removed member leaves the universe.)*
+- [x] change member descriptor title; — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(the renamed member changes name, its neighbour does not, and the occurrence key is unchanged.)*
+- [x] change member descriptor executable fingerprint; — `c1e57d0` @ `2026-09-12T09:06:33+07:00` *(a fingerprint change leaves both the display name and the occurrence key alone: the descriptor describes the window, the member id is the occurrence.)*
+- [x] descriptor replacement/rebinding. — `c1e57d0` @ `2026-09-12T09:06:33+07:00` *(rebinding takes the new title and keeps the member id, which is the distinction the fingerprint case turns on.)*
 
 ## 3.4 Mutations that MUST NOT rebuild
 
