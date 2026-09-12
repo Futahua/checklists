@@ -141,6 +141,18 @@ product checkouts (As-you-Go, Proxima, Papers-3) and its recorded timestamp comp
 not an intention here but a checked fact: every ticked box names a commit that exists, and the timestamp
 beside it is the commit's own committer time rather than a number typed from memory. Re-sent, and the same pass now also checks that each checklist Status block still carries its required facts - heading, running totals, handoff and audit note for this file, and the four table rows for the Proxima parity list - because two separate edits of mine silently dropped a fact from a block while every content check kept passing (a suite row that vanished for seven rounds, and a 200-box-stale duplicate totals sentence). Both were found by checking structure rather than content, so the structure check is now part of the ritual; all four blocks passed it on 2026-09-12. Re-run both the same way
 after any future pass that ticks a box by hand.
+**Shift+Enter's duplicate rule is now decided, and asking for it exposed a defect in shipped code.** The
+AUTHOR ruled on 2026-09-12 that the **persisted descriptor is the durable native identity**, not an
+approximation of one, and named the two fields it carries: `title`, and `executableFingerprint` when present
+— `memberId` and `sourceLayoutId` are occurrence and provenance, not identity. Comparing those fields exactly
+and refusing with `already-in-the-active-layout` is therefore what § 1.6 asks for, so the entry no longer has
+to pass a guess that the member is absent. Checking the model against that ruling found that
+`quick-run-resolution.js` compared `executable` and `fingerprint`, names a persisted member never carries, so
+a member whose fingerprint differed would have matched on title alone; `20b3af0` fixes the vocabulary and
+rebuilds the tests from the shape the model actually writes. The write itself — `addWindowLayoutMember` on an
+exact non-match, refusal otherwise — is the next slice here, and the seam is already identified. The same
+exchange scoped Proxima's next slice away from its composer panel and onto a canonical `template.execute`
+submission path.
 **The browser AUTHOR was consulted on 2026-09-12, over the tab on `https://chatgpt.com/` in the Hermes
 Chrome profile, and two of its rulings changed this document.** First: the four acceptance twins about the
 running app stay **open** — source-shape evidence is strong implementation evidence, but evidence does not
