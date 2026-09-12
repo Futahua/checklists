@@ -167,7 +167,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**178 ticked / 103 open.**
+**188 ticked / 93 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -1983,13 +1983,13 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 
 ## Ranking
 
-- [ ] exact beats prefix.
-- [ ] prefix beats word-prefix.
-- [ ] word-prefix beats subsequence.
-- [ ] subsequence beats no match.
-- [ ] recency never moves a lower tier above a higher tier.
-- [ ] frequency never moves a lower tier above a higher tier.
-- [ ] deterministic fallback stable.
+- [x] exact beats prefix. — `828d475` @ `2026-09-12T09:03:51+07:00` *(one query, four names, one per tier, with the input deliberately in reverse tier order so a ranking that preserved input order would fail; quick-run-ranking.test.mjs.)*
+- [x] prefix beats word-prefix. — `828d475` @ `2026-09-12T09:03:51+07:00` *(the same fixture, and each adjacent pair is also asserted on its own rather than only as a run of four.)*
+- [x] word-prefix beats subsequence. — `828d475` @ `2026-09-12T09:03:51+07:00` *(same fixture: "My note" outranks "Knoten", which matches n-o-t-e in order but at no word boundary.)*
+- [x] subsequence beats no match. — `828d475` @ `2026-09-12T09:03:51+07:00` *(a fuzzy row is ranked with tier 3 and an unmatched row is absent from the answer entirely, which is a different statement from being ranked last.)*
+- [x] recency never moves a lower tier above a higher tier. — `828d475` @ `2026-09-12T09:03:51+07:00` *(there is no recency input at all: the cases carry heavy usage metadata and the order does not move, and the module is scanned for recency, lastUsed and uses.)*
+- [x] frequency never moves a lower tier above a higher tier. — `828d475` @ `2026-09-12T09:03:51+07:00` *(the same scan covers frequency, and the behavioural half is the usage case: a hundred uses on a fuzzy row leaves it below an exact match.)*
+- [x] deterministic fallback stable. — `828d475` @ `2026-09-12T09:03:51+07:00` *(the sort is by tier, then by the position the row had in the universe, so the answer is a function of the universe and the query alone; the test pins both halves - same input, same order, and two rows in one tier keeping the order the universe gave them rather than an alphabetical or recent-first guess.)*
 - [x] duplicate names remain separate by occurrence/resultKey. — `9d78518` @ `2026-09-12T08:23:53+07:00` *(nothing de-duplicates: quickRunRowViews returns one view per occurrence, the two share a primary name and differ in key and breadcrumb, and the highlight rides exactly one of them. The presentation suite asserts the flat list carries no grouping that could merge them.)*
 
 ## Filters
@@ -2126,9 +2126,9 @@ Quick Run is complete only when all conditions below are true.
 - [x] Empty query shows no results. — `8bfc829` @ `2026-09-12T08:13:29+07:00` *( and )*
 - [x] First keystroke produces ranked results. — `8bfc829` @ `2026-09-12T08:13:29+07:00` *(the index ranks the snapshot on the first non-empty query; the session captures that snapshot once at open, which is what makes the first keystroke a ranking rather than a scan.)*
 - [ ] Search remains responsive with 10k–20k searchable occurrences.
-- [ ] Exact > prefix > word-prefix > fuzzy subsequence.
-- [ ] Recency/frequency only break ties inside a tier.
-- [ ] Result ordering is deterministic.
+- [x] Exact > prefix > word-prefix > fuzzy subsequence. — `828d475` @ `2026-09-12T09:03:51+07:00` *(the four tiers, in one ranked answer and then pair by pair.)*
+- [x] Recency/frequency only break ties inside a tier. — `828d475` @ `2026-09-12T09:03:51+07:00` *(stronger than the box asks, and stated as what is true: v1 has no recency or frequency input anywhere in the ranking, so they cannot break a tie inside a tier either - the tie-break is the universe order. If usage metadata is ever added, this box is where the rule will need re-asserting.)*
+- [x] Result ordering is deterministic. — `828d475` @ `2026-09-12T09:03:51+07:00` *(the ranking is a function of the universe and the query, and the universe itself is pinned by the index-domain and invalidation tests, so the same state and query are the same list every time.)*
 - [ ] One shortcut placement = one result.
 - [ ] One layout-member occurrence = one result.
 - [ ] Links use the shortcut index and are classified, not duplicated.
