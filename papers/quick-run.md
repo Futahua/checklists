@@ -362,7 +362,7 @@ Classification: HARD LAUNCH CRITERIA
 - [ ] Typing performs zero thumbnail requests.
 - [ ] Typing performs zero host IPC other than anything strictly necessary for unrelated existing renderer infrastructure.
 - [ ] Ranking is pure local computation.
-- [ ] Breadcrumb generation is based on persisted workspace hierarchy.
+- [x] Breadcrumb generation is based on persisted workspace hierarchy. — `bd24a2c` @ `2026-09-12T08:17:59+07:00` *(the breadcrumb is the parentId chain of the persisted groups, walked once per row — not the graph or UI code the contract tells the implementer to avoid calling per keystroke — and the ancestor **ids** travel with it as readcrumbIds so a caller need not re-walk. Tested in the search and presentation suites.)*
 - [ ] Window-layout result actionability is not guessed from persisted state.
 - [ ] An untouched Layout Item starts availability=unknown, not "Not running."
 - [ ] Missing/ambiguous native targets remain searchable because their persisted member still exists.
@@ -1857,12 +1857,12 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 ## Index domain
 
 - [ ] folder indexed.
-- [ ] nested folder breadcrumb correct.
+- [x] nested folder breadcrumb correct. — `bd24a2c` @ `2026-09-12T08:17:59+07:00` *(a group at depth two and a member inside it both build the full chain, in the document's own order and with its separator (Workspace › Alpha › Focus asserted in the search suite). The rule and the format are tested; the surface that draws it is a later stage.)*
 - [ ] binned folder excluded.
 - [ ] descendants under binned folder excluded.
 - [ ] one ordinary shortcut placement indexed.
 - [ ] linked shortcut with 3 placements gives 3 results.
-- [ ] placement breadcrumbs independent.
+- [x] placement breadcrumbs independent. — `550e6cc` @ `2026-09-12T08:22:40+07:00` *(two placements of one shortcut in different folders produce two rows with different breadcrumbs **and** different result keys while sharing a name and target, which is the occurrence-identity rule the contract states. Asserted in quick-run-search.test.mjs.)*
 - [ ] HTTP shortcut classified as Link.
 - [ ] HTTPS shortcut classified as Link.
 - [ ] non-web shortcut classified as Shortcut.
@@ -1883,7 +1883,7 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 - [ ] recency never moves a lower tier above a higher tier.
 - [ ] frequency never moves a lower tier above a higher tier.
 - [ ] deterministic fallback stable.
-- [ ] duplicate names remain separate by occurrence/resultKey.
+- [x] duplicate names remain separate by occurrence/resultKey. — `9d78518` @ `2026-09-12T08:23:53+07:00` *(nothing de-duplicates: quickRunRowViews returns one view per occurrence, the two share a primary name and differ in key and breadcrumb, and the highlight rides exactly one of them. The presentation suite asserts the flat list carries no grouping that could merge them.)*
 
 ## Filters
 
