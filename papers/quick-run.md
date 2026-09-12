@@ -520,13 +520,13 @@ Do not accidentally broaden "valid item type" to mean every persisted concept in
 
 V1 excludes:
 
-- [x] Whole window layouts. — 
-- [x] Prompts / prompt library entries. — 
-- [x] Bin contents. — 
-- [x] Items whose ancestor folder is currently binned. — 
-- [x] Binned shortcut placements. — 
-- [x] Binned window layouts and their members. — 
-- [x] Sets — see the resolved decision at the top of this document. — 
+- [x] Whole window layouts. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(the exclusion is asserted rather than assumed: quick-run-universe.test.mjs holds it. Re-annotated 2026-09-12: a tick script dropped the original annotation.)*
+- [x] Prompts / prompt library entries. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(the exclusion is asserted rather than assumed: quick-run-universe.test.mjs holds it. Re-annotated 2026-09-12: a tick script dropped the original annotation.)*
+- [x] Bin contents. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(the exclusion is asserted rather than assumed: quick-run-universe.test.mjs holds it. Re-annotated 2026-09-12: a tick script dropped the original annotation.)*
+- [x] Items whose ancestor folder is currently binned. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(the exclusion is asserted rather than assumed: quick-run-universe.test.mjs holds it. Re-annotated 2026-09-12: a tick script dropped the original annotation.)*
+- [x] Binned shortcut placements. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(the exclusion is asserted rather than assumed: quick-run-universe.test.mjs holds it. Re-annotated 2026-09-12: a tick script dropped the original annotation.)*
+- [x] Binned window layouts and their members. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(the exclusion is asserted rather than assumed: quick-run-universe.test.mjs holds it. Re-annotated 2026-09-12: a tick script dropped the original annotation.)*
+- [x] Sets — see the resolved decision at the top of this document. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs: the exclusion is proved, with the excluded shape present in the fixture. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 
 ## If Sets are later included
 
@@ -2052,21 +2052,21 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 
 - [x] folder indexed. — 
 - [x] nested folder breadcrumb correct. — `bd24a2c` @ `2026-09-12T08:17:59+07:00` *(a group at depth two and a member inside it both build the full chain, in the document's own order and with its separator (Workspace › Alpha › Focus asserted in the search suite). The rule and the format are tested; the surface that draws it is a later stage.)*
-- [x] binned folder excluded. — 
-- [x] descendants under binned folder excluded. — 
-- [x] one ordinary shortcut placement indexed. — 
+- [x] binned folder excluded. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs: the exclusion is proved, with the excluded shape present in the fixture. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] descendants under binned folder excluded. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs: the exclusion is proved, with the excluded shape present in the fixture. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] one ordinary shortcut placement indexed. — `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs, which pins the row type or the occurrence count for this case. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 - [x] linked shortcut with 3 placements gives 3 results. — 
 - [x] placement breadcrumbs independent. — `550e6cc` @ `2026-09-12T08:22:40+07:00` *(two placements of one shortcut in different folders produce two rows with different breadcrumbs **and** different result keys while sharing a name and target, which is the occurrence-identity rule the contract states. Asserted in quick-run-search.test.mjs.)*
-- [x] HTTP shortcut classified as Link. — 
-- [x] HTTPS shortcut classified as Link. — 
-- [x] non-web shortcut classified as Shortcut. — 
-- [x] one layout member indexed. — 
-- [x] same descriptor in two layouts gives 2 results. — 
-- [x] whole layout never appears. — 
-- [x] binned layout member excluded. — 
-- [x] prompts excluded. — 
-- [x] Bin entries excluded. — 
-- [x] Sets excluded, with a test/comment referencing the recorded product decision. — 
+- [x] HTTP shortcut classified as Link. — `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs, which pins the row type or the occurrence count for this case. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] HTTPS shortcut classified as Link. — `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs, which pins the row type or the occurrence count for this case. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] non-web shortcut classified as Shortcut. — `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs, which pins the row type or the occurrence count for this case. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] one layout member indexed. — `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs, which pins the row type or the occurrence count for this case. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] same descriptor in two layouts gives 2 results. — `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs, which pins the row type or the occurrence count for this case. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] whole layout never appears. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs: the exclusion is proved, with the excluded shape present in the fixture. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] binned layout member excluded. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs: the exclusion is proved, with the excluded shape present in the fixture. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] prompts excluded. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs: the exclusion is proved, with the excluded shape present in the fixture. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] Bin entries excluded. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs: the exclusion is proved, with the excluded shape present in the fixture. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] Sets excluded, with a test/comment referencing the recorded product decision. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs: the exclusion is proved, with the excluded shape present in the fixture. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 
 ## Ranking
 
@@ -2102,11 +2102,11 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 - [ ] Ctrl+Enter Shortcut reveals exact placement.
 - [ ] Ctrl+Enter Link reveals exact placement.
 - [ ] Ctrl+Enter Layout Item reveals containing layout + member.
-- [x] Shift+Enter disabled for Folder. — 
-- [x] Shift+Enter disabled for Shortcut. — 
-- [x] Shift+Enter disabled for Link. — 
+- [x] Shift+Enter disabled for Folder. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] Shift+Enter disabled for Shortcut. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
+- [x] Shift+Enter disabled for Link. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 - [ ] Shift+Enter Layout Item adds new membership when valid.
-- [x] no active layout disables Shift+Enter. — 
+- [x] no active layout disables Shift+Enter. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 - [ ] duplicate destination membership reports visible status.
 
 ## Stale-index execution
