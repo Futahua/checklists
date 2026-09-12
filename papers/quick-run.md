@@ -134,6 +134,18 @@ binned layout and a layout under the bin — with prompts and Sets present in th
 asserted rather than assumed. Removing the filter fails two of the five cases; that was checked, not
 claimed. Seven section 6 boxes tick with it: whole layouts, prompts, bin contents, items under a binned
 folder, binned placements, binned layouts with their members, and Sets.
+**Resolution now exists as a decision, which is the half that does not need the machine.** `4541f19` adds
+`quick-run-resolution.js`: matching compares only the descriptor fields a member declares, every declared
+field must agree exactly, a descriptor that declares nothing matches nothing, and a host that reported no
+windows resolves nothing — so a failed resolution is a typed missing or ambiguous rather than a plausible
+substitute, which is the invariant the section 5 box states. The plan authorises an activation in exactly
+one case (unique), which is the strongest available form of the ambiguous-zero-activate rule while there is
+no call site. What is deliberately **not** claimed: `availabilityAfterResolution` maps outcomes to
+available/unavailable and is tested, but nothing consumes it into a row yet, so the § 10 boxes that say
+*missing -> unavailable*, *ambiguous -> unavailable* and *result remains searchable after an outcome* stay
+open until the surface carries an ephemeral availability the way § 10.1 describes. That consumption, plus
+the host that supplies windows and the activation itself, is what the next session at the machine should
+build.
 **A second verification pass, on boxes that committed tests already held.** Five more needed no new code:
 one shortcut placement is one result and one layout-member occurrence is one result (both directions
 asserted, including three placements of one record and the same descriptor in two layouts), links are the
@@ -194,7 +206,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**245 ticked / 36 open.**
+**247 ticked / 34 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -500,7 +512,7 @@ Classification: HARD LAUNCH CRITERIA
 - [x] Window-layout result actionability is not guessed from persisted state. — `217007f` @ `2026-09-12T08:43:01+07:00` *(availability is a function of the row kind and of nothing else: a member persisted as `minimized` still starts `unknown`, which is the one persisted value that would have tempted a guess. § 10.1 states the rule; the test is the assertion.)*
 - [x] An untouched Layout Item starts availability=unknown, not "Not running." — `f78cd16` @ `2026-09-12T08:42:28+07:00` *(`quickRunRowViews` carries `availability` for layout-item rows only; every other row kind keeps `null`, so "Not running" is not merely unused but unrepresentable on a row that cannot have the state.)*
 - [x] Missing/ambiguous native targets remain searchable because their persisted member still exists. — `217007f` @ `2026-09-12T08:43:01+07:00` *(asserted for a member whose executable no host reports: the row is built from the persisted member, and the pure layer never consults a resolution, so neither a missing nor an ambiguous target can remove a row by construction. The resolution path itself is still unbuilt, which is why the outcome boxes in § Availability/native stay open.)*
-- [ ] A failed native resolution never silently substitutes a different matching window.
+- [x] A failed native resolution never silently substitutes a different matching window. — `4541f19` @ `2026-09-12T09:11:59+07:00` *(the rule now has a module rather than a hope: quick-run-resolution.js matches only the descriptor fields the member declares, requires every one of them to agree exactly, treats a descriptor that declares nothing as matching nothing, and returns ambiguous with the candidate identities instead of a window. A near miss is a miss, and the test that proves it also records the subtlety that undeclared fields are ignored rather than disqualifying.)*
 - [x] Enter re-reads the selected object from the current state by stable IDs before acting. — `d11206e` @ `2026-09-12T08:40:17+07:00` *(`revalidateQuickRunRow` rebuilds the universe from the current state and finds the row by the pinned stable key, at `d11206e` @ `2026-09-12T08:40:17+07:00` — the test renames the shortcut under the index and asserts the re-read carries the new name while the indexed row keeps the old one, and that a removed occurrence answers a reason instead of an action. The entry-file slice that runs the plan is expected to call this first, which is why it is a function rather than a comment.)*
 - [x] Indexed result payloads are never treated as current authority. — `d11206e` @ `2026-09-12T08:40:17+07:00` *(`revalidateQuickRunRow` rebuilds the universe from the current state and finds the row by the pinned stable key, at `d11206e` @ `2026-09-12T08:40:17+07:00` — the test renames the shortcut under the index and asserts the re-read carries the new name while the indexed row keeps the old one, and that a removed occurrence answers a reason instead of an action. The entry-file slice that runs the plan is expected to call this first, which is why it is a function rather than a comment.)*
 - [x] Quick Run does not invoke the normal full workspace render() on every keystroke. — `72384be` @ `2026-09-12T08:48:10+07:00` *(structural rather than behavioural, because there is nothing to guard at runtime: none of the seven modules contains `render(`, and neither does the entry region that mounts the surface. A keystroke cannot render the workspace that Quick Run holds no reference to, and the scan is the test so a later pass cannot add one quietly.)*
@@ -2068,7 +2080,7 @@ Every test proves current-state revalidation.
 - [ ] unique resolution + activate success -> available.
 - [ ] missing -> unavailable.
 - [ ] ambiguous -> unavailable.
-- [ ] ambiguous -> zero activate calls.
+- [x] ambiguous -> zero activate calls. — `4541f19` @ `2026-09-12T09:11:59+07:00` *(the plan is the only thing that can authorise an activation, and it authorises exactly one outcome: ambiguous comes back with activate false and the candidate list. There is no call site yet, which is why this is the strongest available form of the rule: zero calls follow from the only authoriser saying no, and the live half stays open with the boxes that need the machine.)*
 - [ ] result remains searchable after missing/ambiguous outcome.
 - [x] descriptor change resets prior availability. — `f78cd16` @ `2026-09-12T08:42:28+07:00` and `217007f` @ `2026-09-12T08:43:01+07:00` *(there is no cached availability to reset: availability is computed from the row kind on every paint, so a descriptor change cannot leave a stale state behind - the strongest form of the rule, and the reason the Layout Item boxes above stay open is that the resolution itself is unbuilt.)*
 
