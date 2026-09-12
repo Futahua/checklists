@@ -139,7 +139,7 @@ file and in `proxima/proxima-full-parity-checklist.md` — 786 of them — was r
 product checkouts (As-you-Go, Proxima, Papers-3) and its recorded timestamp compared with
 `git show -s --format=%cI`: **zero unresolvable, zero mismatched**. So the discipline the loop asks for is
 not an intention here but a checked fact: every ticked box names a commit that exists, and the timestamp
-beside it is the commit's own committer time rather than a number typed from memory. Re-run it the same way
+beside it is the commit's own committer time rather than a number typed from memory. Re-sent, and the same pass now also checks that each checklist Status block still carries its required facts - heading, running totals, handoff and audit note for this file, and the four table rows for the Proxima parity list - because two separate edits of mine silently dropped a fact from a block while every content check kept passing (a suite row that vanished for seven rounds, and a 200-box-stale duplicate totals sentence). Both were found by checking structure rather than content, so the structure check is now part of the ritual; all four blocks passed it on 2026-09-12. Re-run both the same way
 after any future pass that ticks a box by hand.
 **What the next session should pick up, and what it must not try to do from here.** Quick Run is now
 feature-complete in everything that can be decided or drawn without a machine, and the remainder is
