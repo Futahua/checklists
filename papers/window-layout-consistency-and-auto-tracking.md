@@ -2131,3 +2131,63 @@ rule. Each is a decision for the stage that owns it:
   proves the instances absent; the same-session case is not stated.
 - **Where "exactly one layout may have `tracking.enabled === true`" is enforced.** 4.1 states the invariant; the
   document does not name the load-time or write-time point that enforces it.
+## Mandatory gates and recommendations, separated (2026-09-13)
+
+The third reviewer item above asks for mandatory gates and recommendations to be separated where a stage mixes
+both. The mixing is real but localised: every stage declares a `Classification:` line, and **ten elements inside
+classified stages are called Recommended, Suggested or Optional by the document itself**. The rule used here is
+the document's own vocabulary rather than a new one - a `HARD ...` classification is a gate, and the words
+Recommended / Suggested / Optional are not - and the stages whose classification is neither are named at the
+bottom rather than sorted by me.
+
+**Table 1 - the stages, read from their own `Classification:` line.**
+
+| stage | its own classification | reading | carries a non-mandatory element |
+| --- | --- | --- | --- |
+| 0 | HARD GO / NO-GO GATE | mandatory | |
+| 1 | HARD SAFETY CRITERION | mandatory | |
+| 2 | HARD MODEL GATE | mandatory | yes - the member shape |
+| 3 | HARD SAFETY CRITERION | mandatory | |
+| 4 | HARD SAFETY CRITERION | mandatory | yes - the outcome shape |
+| 5 | HARD RELIABILITY CRITERION | mandatory | |
+| 6 | HARD AUTO-TRACKING / RETIREMENT INFRASTRUCTURE | mandatory | yes - modules, resources, one event |
+| 7 | HARD PRODUCT/SAFETY GATE | mandatory | yes - a stabilization constant, a policy |
+| 8 | HARD ARCHITECTURE GATE | mandatory | |
+| 9 | HARD MODEL GATE | mandatory | yes - the durable shape |
+| 10 | CORE UX / LAUNCH CRITERION | **named, not sorted** | |
+| 11 | HARD CREATOR UX CRITERION | mandatory | |
+| 12 | CORE FEATURE | **named, not sorted** | |
+| 13 | HARD SAFETY CRITERION | mandatory | |
+| 14 | HARD LAUNCH GATE | mandatory | |
+| 15 | HARD LIFECYCLE GATE | mandatory | |
+| 16 | HARD UX CRITERION | mandatory | |
+| 17 | CORE CONSISTENCY | **named, not sorted** | yes - the display policy |
+| 18 | HARD CORRECTNESS | mandatory | |
+| 19 | CORE FEATURE | **named, not sorted** | |
+| 20 | HARD PERFORMANCE GATE | mandatory | yes - one suggested numeric gate |
+| 21 | HARD DOCUMENTATION CRITERION | mandatory | |
+| 22 | HARD DEFINITION-OF-DONE REQUIREMENTS | mandatory | |
+| 23 | *(no `Classification:` line)* | mandatory by its own wording | |
+
+**Table 2 - what is inside a mandatory stage and is not itself mandatory.** Each row keeps the document's own
+word, so nothing here is a re-grading; the right-hand column says what the gate remains.
+
+| stage | the element | its own word | what stays mandatory |
+| --- | --- | --- | --- |
+| 2 | the persisted member shape (2.1) | "Recommended:" | the model invariants; 4.1 already accepts "alternative equivalent normalized shapes" |
+| 4 | the terminal-versus-nonterminal result shape | "Recommended result shape:" | that outcomes are typed, and that a non-terminal outcome never retires a member |
+| 6 | which modules host the watcher | "Suggested modules:" | that the watcher is a separate process with the detection API (6.1-6.2) |
+| 6 | the resource it uses | "Suggested resource:" | the detection API's contract, not the mechanism behind it |
+| 6 | `NAMECHANGE` for display metadata | "Optional:" | title changes must not affect instance identity, whichever way metadata is refreshed |
+| 7 | `500 ms` stabilization | "Initial recommended" | that stabilization is a named constant with tests |
+| 7 | the v1 eligibility policy | "Recommended v1 policy:" | that eligibility is canonical and its classifier is tested |
+| 9 | the durable per-layout shape | "Recommended per-layout shape:" | 4.1's invariants, including exactly one tracking layout |
+| 17 | the display policy | "Recommended v1:" | "decide one explicit display policy" - the decision is the gate, not this default |
+| 20 | `< 0.5%` average idle CPU | "Suggested gate:" | the stage's performance requirement; this number is a suggestion inside it |
+
+**What this does not decide, named rather than assumed.** Whether a `CORE ...` stage blocks a release: the
+document reserves `HARD` for gates and uses `CORE` for features and consistency, but it never says a `CORE`
+stage is optional either, so those four are listed above and left to their owner. Stage 10 mixes two registers in
+one line - "CORE UX / LAUNCH CRITERION" - so it is named for the same reason. And Stage 23 carries no
+`Classification:` line at all; it is a stop-the-rollout list and reads as mandatory by its own wording, which is
+recorded here rather than converted into a label the document did not write.
