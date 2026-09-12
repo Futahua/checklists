@@ -2056,3 +2056,36 @@ The feature is done only when this complete acceptance walk passes and ordinary 
 - [ ] **Resolve the window-tag lifetime contradiction.** Stage 0 requires the instance tag to survive Papers/helper process death (0.3 "Papers restart on same Windows session") while also being destroyed with the HWND. Confirm which property mechanism actually gives both, and record the answer before Stage 1.
 - [ ] **Define exact startup and reboot state transitions** as a single table, rather than leaving them distributed across Stages 11 and 15.
 - [ ] **Separate mandatory gates from recommendations** where a stage mixes both.
+
+## The window-tag lifetime question, answered by measurement (2026-09-13)
+
+The first reviewer item above asks **which property mechanism actually gives both halves** — a tag that
+survives Papers/helper process death while also being destroyed with the HWND. It is answerable on this
+machine without touching a feature that is not authorized and without going near a foreign window, so it was
+measured rather than argued: `.dsh\win-tag-probe.py` (Python 3.14, ctypes, four separate processes) creates
+windows **of its own**, sets and reads tags across process boundaries, kills the writer, destroys the window and
+reports JSON. It reads, moves, hides and activates no window it did not create, and leaves nothing behind.
+
+| mechanism | readable by another process | survives the writer's death | dies with the window | verdict |
+| --- | --- | --- | --- | --- |
+| window property, tag carried **in the value** (`SetPropW`/`GetPropW`, one pointer-sized slot) | yes, verbatim | **yes** — a full 64-bit value (`0xC000000000000000`) round-tripped exactly after the writer was gone | yes — after `DestroyWindow`, `IsWindow` is false and the property reads 0 | **the mechanism Stage 0 needs** |
+| window property whose value *points at* the tag | the number, yes | the number survives, the memory does not | yes | **cannot carry a tag** — the reader gets an address into a dead process's address space |
+| `GWLP_USERDATA` | yes, in this environment (same user, same session) | yes | yes | **unusable as Papers' private tag** — one shared slot that the owning application may use for its own data, so a foreign writer can clobber it silently |
+| a property **named** after the tag (one distinct name per window) | yes | yes | yes | works, but every distinct name enters the **global atom table**, a bounded system resource, so one fixed name with the tag in the value is the cheaper shape |
+
+Raw evidence from the probe's own report: the writer process set the name property (`true`), read it back in
+itself (`1515852340`), then died; a third process read the same window and got `1515852340` by name and
+`1515852340` from `GWLP_USERDATA`; the pointer-valued property read back as the writer's address
+(`1803701708464`); the holder then destroyed the window (`destroyed=True alive_after=False`) and the same
+property read 0 with `IsWindow` false. The 64-bit run repeated the sequence with `0xC000000000000000` and the
+reader recovered those exact 64 bits.
+
+**What this does not establish, stated rather than implied:** the helper's own implementation — its source is
+not in these trees, so what the shipped helper does today is unverified and this answers only what the
+mechanism can do; the atom cost of a per-window GUID property *name*, which follows from the documented
+string form of `SetProp` rather than from a measurement here; and nothing about HWND reuse beyond this sample,
+where 400 create/destroy cycles produced 400 distinct handle values and never handed back the destroyed one.
+**That last point is the design consequence rather than a gap:** the tag must be *validated* against the live
+window — liveness plus the property's value — because the handle alone is not identity, which is what Stage 1's
+mutation revalidation needs to do.
+- [ ] **Separate mandatory gates from recommendations** where a stage mixes both.
