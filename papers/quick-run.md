@@ -46,7 +46,7 @@ written yet, and `main` is untouched. Two path facts were checked rather than as
 repository that checkout's own `AGENTS.md` names is `D:\Letters\MatTroiSeConMoc\PAPERS 3\Papers-3`, and the
 path this document's own block names (`D:\Letters\MatTroiSeConMoc\Products\Papers\Source`) also exists —
 both are present, and the discrepancy is recorded here rather than resolved by guessing. The next act is
-STAGE 0's first module under `public/app/quick-run/`, with its test, verified by the suite above.
+STAGE 0's first module under `public/app/quick-run/`, with its test, verified by the suite above. **Where to start reading, so the next pass does not have to find it:** the three landing paths are named in this document at L377–379 (`public/app/quick-run/quick-run-index.js`, `-search.js`, `-types.js`), and the sections a module has to satisfy are **§ 0 Product contract** (L76: hotkey → one search line → flat ranked results → highlight → Enter/Ctrl+Enter/Shift+Enter → Escape, with no empty-query home screen, no prompts and no whole-layout result), **§ 1.2 Result presentation** (L123), **§ 2 Searchable universe** (L204, with § 2.1's four included types at L212), **§ 5 Non-negotiable architecture invariants** (L309) and **§ 6 Do NOT attempt in v1** (L333). STAGE 0's own sections carry no acceptance boxes — the boxes live in the stages that depend on the modules — so the order is module first, suite green, then the boxes that consume it.
 
 <!-- /STATUS -->
 
