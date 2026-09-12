@@ -122,6 +122,18 @@ the § 1.6 prohibition: no `revealShortcut`, `revealSelection`, `launchShortcut`
 call may appear beside the activation. Branch `quick-run-stage0` is at `72384be`, suite **1212 pass / 0 fail**
 against the `8000c88` baseline of 1153, `main` untouched.
 
+**The searchable universe is asserted, and one real defect came out of asserting it.** Folders and
+placements arrive through the model `itemsIn`, which already applies the model active rule, so the bin was
+honoured for them. Layout members are reached through their layout instead, and that loop walked every
+layout in state: `fc8c1da` fixes it, so a binned layout or a layout under a binned folder no longer offers
+its members to a query. `activeItem` was exported from the model for exactly this, because a caller that
+reaches a record by another route must ask the rule rather than re-derive it. The new
+`quick-run-universe.test.mjs` holds both halves — the active tree is searched, with the four row types and
+their keys pinned, and the exclusions hold for a binned folder with descendants, a binned placement, a
+binned layout and a layout under the bin — with prompts and Sets present in the fixture so their absence is
+asserted rather than assumed. Removing the filter fails two of the five cases; that was checked, not
+claimed. Seven section 6 boxes tick with it: whole layouts, prompts, bin contents, items under a binned
+folder, binned placements, binned layouts with their members, and Sets.
 **Shift+Enter now has its visible half.** `435f02b` adds the line the reason is shown in — markup, the
 `dom.js` registry and the entry file adapter, so the entry test lockstep check covers all three files at
 once — and the mount reads the key: enabled only for a Layout Item in an active layout, decided by
@@ -409,13 +421,13 @@ Do not accidentally broaden "valid item type" to mean every persisted concept in
 
 V1 excludes:
 
-- [ ] Whole window layouts.
-- [ ] Prompts / prompt library entries.
-- [ ] Bin contents.
-- [ ] Items whose ancestor folder is currently binned.
-- [ ] Binned shortcut placements.
-- [ ] Binned window layouts and their members.
-- [ ] Sets — see the resolved decision at the top of this document.
+- [x] Whole window layouts. — 
+- [x] Prompts / prompt library entries. — 
+- [x] Bin contents. — 
+- [x] Items whose ancestor folder is currently binned. — 
+- [x] Binned shortcut placements. — 
+- [x] Binned window layouts and their members. — 
+- [x] Sets — see the resolved decision at the top of this document. — 
 
 ## If Sets are later included
 
