@@ -2147,3 +2147,53 @@ The feature is done only when this entire acceptance walk succeeds, the performa
 - [x] **Pin the default workspace hotkey chord.** — chosen by the creator on 2026-09-12: **Alt+Shift+X**,
       for the As-you-Go workspace scope. Recorded here rather than inferred: it was the last open item in
       this section, and § at L1032 asks for it to be an explicit binding rather than an invented default.
+
+# The Papers host half as found, and the statement it requires
+
+STAGE 9 asks for one narrowly named host capability — `activateWindowCapability` — and this section
+records what that change actually is, measured against the Papers checkout on 2026-09-12 rather than
+inferred from this checklist. **Nothing in the Papers tree was changed to produce it**, and no box above
+is ticked on the strength of it.
+
+**What already exists.** Every file §9.4 lists is present, and the capability chain around them is
+built: `src/main/windows/windowCapabilityTypes.ts`, `windowCapabilityService.ts` (53 KB),
+`windowCapabilityClient.ts`, `windowHelperFactory.ts`, `src/main/ipc/windowCapabilityIpc.ts`,
+`src/preload/backpackProject.ts`, and both helper scripts under `resources/window-helper/`
+(`window-helper.ps1`, 33 KB, and `window-capability.ps1`, 45 KB). The helper already carries the Win32
+activation primitives — `DwmActivateLivePreview`, `SW_SHOWNOACTIVATE`, and a comment stating the very
+rule §10.4 asks for: activation raises inside the ordinary z-order and is "deliberately never
+HWND_TOPMOST". The service's toggle already chooses `restore` when the observation says `minimized`.
+
+**What is missing.** `activateWindowCapability` has **no occurrence anywhere in the checkout** — a scan
+of all 406 text files outside `node_modules`, `out`, `release` and `.git` returns zero, and the types
+parser's vocabulary is observe, minimize, restore and toggle. So the smallest host change is one named
+method beside those, following the trust boundary this checklist names: parse the opaque capability,
+resolve the exact window, restore it only when it is minimized, otherwise raise and focus it, and answer
+with a typed outcome. The seven Papers activation boxes and the four native-boundary boxes are about
+that method and the helper pins around it, not about building a service that is already there.
+
+**Why it needs the creator before it is written.** `PAPERS 3\Papers-3\HERMES.md` is the Papers contract,
+and it is explicit about this exact case: a request concerning one Backpack does not authorize a
+Papers-wide capability or a source-level abstraction, and Backpack work belongs outside Papers' binaries
+"unless a concrete requirement explicitly needs a Papers-host change". Quick Run has that concrete
+requirement — a Layout Item cannot be activated without it — but the same contract requires a statement
+to the creator before Papers is changed, and it keeps host work separate from any release. In that
+format, for this change:
+
+1. **What the creator is asking to experience.** Pressing Enter on a Layout Item in Quick Run brings
+   that exact native window forward — restored if it was minimized, raised and focused otherwise.
+2. **What is in scope.** One Papers-host method, `activateWindowCapability`, with the tests §9.7 names.
+   The Quick Run side already calls a seam that waits for it, so nothing on the Backpack side moves.
+3. **What this does not authorize.** No release, no installation, no restart of the creator's running
+   Papers, no rebuild, and no new Papers-wide abstraction: the existing window-capability service stays
+   the single implementation.
+4. **Genuinely open product questions.** None for the host method itself. The two Performance boxes and
+   the creator's acceptance walk stay separate, and the performance numbers need the creator's instance.
+5. **Release or installation authorized?** No — and none is requested here.
+6. **Which machines, and why a main-binary change is required.** Only this machine needs the experience
+   now. It belongs in Papers rather than in the Backpack because activating a foreign window is a host
+   capability the Backpack cannot reach — the helper is invoked by Papers' main process, and a renderer
+   cannot supply an HWND, a PID or a path, which is the fail-closed rule §9.6 states.
+
+Until that statement is answered, the fourteen boxes that wait on the host half stay open, the two
+Performance boxes stay open for the reason Status records, and the Papers checkout stays untouched.
