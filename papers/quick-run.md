@@ -26,7 +26,7 @@ directory. Use `D:/...` in scripts: Windows Python cannot resolve msys `/d/...` 
 **Suite at `779c352`.** `npm test` in the working tree above: **1344 tests, 1344 pass, 0 fail, 0 skipped,
 exit 0** in ~16 s (the baseline recorded on `main` is 1153, so this work added 191; the five new ones are
 the app-level acceptance harness). Every slice was gated
-on that run, and the count is the runner's own rather than a sum of new files.
+on that run, and the count is the runner's own rather than a sum of new files. **Re-verified rather than carried:** the suite was run again on 2026-09-12 by the executor - `npm test` exit 0, **1344 pass / 0 fail / 0 skipped**, the recorded figure exactly, with the tree clean afterwards.
 
 **The 18 open boxes, and what each is waiting on.**
 
