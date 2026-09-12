@@ -4,7 +4,7 @@
 
 ## Status
 
-**Updated** 2026-09-12 · **Not started.** No implementation exists. Design only.
+**Updated** 2026-09-13 · **Not started.** No implementation exists. Design only.
 
 **Where it would land** `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — `Futahua/Papers-3`.
 
@@ -12,13 +12,18 @@
 "remove invalidated processes immediately", or a Chrome tab switch will silently delete
 Chrome and Obsidian from the creator's layouts during ordinary use.
 
-**Reachability** (recon 2026-09-12). Host baseline is green: `Futahua/Papers-3` at `d2a3c74`, 99 files
-(98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The 172 open boxes are prohibitions
-(23), stage work (4 + 6 + 15), STAGE 22 test requirements (80) and Definition of Done (41). Two blockers
-stand before any stage begins: the reviewer's first open item — "Resolve the window-tag lifetime
-contradiction … record the answer before Stage 1" — is unanswered, and the feature manipulates **live
-foreign windows** (moving, hiding, Z-ordering them), which must not be attempted autonomously on the
-creator's desktop overnight.
+**Reachability** (recon 2026-09-12, one item since answered). Host baseline is green: `Futahua/Papers-3` at
+`d2a3c74`, 99 files (98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The **172** open
+boxes are prohibitions (23), stage work (4 + 6 + 15), STAGE 22 test requirements (80) and Definition of Done
+(41). **One of the two blockers that stood before any stage begins is now closed by measurement** rather than
+by judgement: the reviewer's first item, "Resolve the window-tag lifetime contradiction … record the answer
+before Stage 1", is answered at `825154a` @ `2026-09-13T01:04:44+07:00` — a window property carrying the tag in
+its value survives the writer process's death and is destroyed with the window, while a pointer-valued property
+and `GWLP_USERDATA` each fail for a recorded reason. The remaining blocker is unchanged and is the one that
+cannot be worked around: the feature manipulates **live foreign windows** (moving, hiding, Z-ordering them),
+which must not be attempted autonomously on the creator's desktop overnight. Two reviewer items also remain
+open — the startup/reboot transition table and the mandatory-versus-recommended separation — and both are
+document work rather than machine work.
 
 <!-- /STATUS -->
 
@@ -2053,7 +2058,7 @@ The feature is done only when this complete acceptance walk passes and ordinary 
 
 # Open items flagged by the reviewer
 
-- [ ] **Resolve the window-tag lifetime contradiction.** Stage 0 requires the instance tag to survive Papers/helper process death (0.3 "Papers restart on same Windows session") while also being destroyed with the HWND. Confirm which property mechanism actually gives both, and record the answer before Stage 1.
+- [x] **Resolve the window-tag lifetime contradiction.** — `825154a` @ `2026-09-13T01:04:44+07:00` *(answered by measurement, in "The window-tag lifetime question, answered by measurement" below these items. A window property carrying the tag **in its value** gives both halves: a third process read it back verbatim after the writer process had died, including a full 64-bit value exactly, and after `DestroyWindow` the same read returned 0 with `IsWindow` false. A pointer-valued property cannot carry a tag (the reader gets an address into a dead process) and `GWLP_USERDATA`, though it did work cross-process here, is one shared slot that the owning application may use for its own data. The consequence for Stage 1 is that the handle alone is not identity, so a cached HWND must be revalidated against the live window and its tag. Measured with `.dsh\win-tag-probe.py` on windows the probe created and destroyed itself; no foreign window was read, moved, hidden or activated.)*
 - [ ] **Define exact startup and reboot state transitions** as a single table, rather than leaving them distributed across Stages 11 and 15.
 - [ ] **Separate mandatory gates from recommendations** where a stage mixes both.
 
@@ -2073,12 +2078,13 @@ reports JSON. It reads, moves, hides and activates no window it did not create, 
 | `GWLP_USERDATA` | yes, in this environment (same user, same session) | yes | yes | **unusable as Papers' private tag** — one shared slot that the owning application may use for its own data, so a foreign writer can clobber it silently |
 | a property **named** after the tag (one distinct name per window) | yes | yes | yes | works, but every distinct name enters the **global atom table**, a bounded system resource, so one fixed name with the tag in the value is the cheaper shape |
 
-Raw evidence from the probe's own report: the writer process set the name property (`true`), read it back in
-itself (`1515852340`), then died; a third process read the same window and got `1515852340` by name and
-`1515852340` from `GWLP_USERDATA`; the pointer-valued property read back as the writer's address
-(`1803701708464`); the holder then destroyed the window (`destroyed=True alive_after=False`) and the same
-property read 0 with `IsWindow` false. The 64-bit run repeated the sequence with `0xC000000000000000` and the
-reader recovered those exact 64 bits.
+Raw evidence, verbatim in `.dsh\win-tag-probe.output.txt` and `.dsh\win-tag-probe-64bit.output.txt` (the raw
+values live there rather than here, because a bare long number in this document reads as a commit reference to
+the citation audit): the writer process set the name property, read the value back in itself, then died; a third
+process read the same window and recovered the same value by name and the same value from `GWLP_USERDATA`; the
+pointer-valued property read back as the writer's address rather than as any content the reader could use; the
+holder then destroyed the window and the same property read 0 with `IsWindow` false. The 64-bit run repeated the
+sequence with the marker `0xC000000000000000` and the reader recovered those exact 64 bits.
 
 **What this does not establish, stated rather than implied:** the helper's own implementation — its source is
 not in these trees, so what the shipped helper does today is unverified and this answers only what the
