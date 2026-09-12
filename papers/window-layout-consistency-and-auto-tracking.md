@@ -13,7 +13,7 @@
 Chrome and Obsidian from the creator's layouts during ordinary use.
 
 **Reachability** (recon 2026-09-12, one item since answered). Host baseline is green: `Futahua/Papers-3` at
-`d2a3c74`, 99 files (98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The **172** open
+`d2a3c74`, 99 files (98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The **171** open
 boxes are prohibitions (23), stage work (4 + 6 + 15), STAGE 22 test requirements (80) and Definition of Done
 (41). **One of the two blockers that stood before any stage begins is now closed by measurement** rather than
 by judgement: the reviewer's first item, "Resolve the window-tag lifetime contradiction … record the answer
@@ -2094,4 +2094,3 @@ where 400 create/destroy cycles produced 400 distinct handle values and never ha
 **That last point is the design consequence rather than a gap:** the tag must be *validated* against the live
 window — liveness plus the property's value — because the handle alone is not identity, which is what Stage 1's
 mutation revalidation needs to do.
-- [ ] **Separate mandatory gates from recommendations** where a stage mixes both.
