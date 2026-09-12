@@ -289,11 +289,11 @@ It must not reuse the existing `workspace.reveal-selection` behavior or `revealS
 
 ### Shift+Enter
 
-- [ ] Enabled only for Layout Items.
-- [ ] Visibly disabled for Folder, Shortcut, and Link results.
-- [ ] Never silently ignore Shift+Enter.
-- [ ] If no active window layout exists, the Layout Item Shift+Enter affordance is disabled with a visible reason.
-- [ ] If the selected window already occurs in the active layout under the defined duplicate rule, report that instead of creating an accidental duplicate.
+- [x] Enabled only for Layout Items. — `56b2fe1` @ `2026-09-12T08:38:24+07:00` *(`planQuickRunShiftEnter` answers an action for a `layout-item` row and a `disabled` reason for everything else; the test walks a folder, a shortcut and a link and asserts each gets `only-layout-items`.)*
+- [x] Visibly disabled for Folder, Shortcut, and Link results. — `56b2fe1` @ `2026-09-12T08:38:24+07:00` *(the plan returns the reason a surface draws — the affordance is not merely inert, it has a sentence to show. **Residual:** the surface that renders the affordance is the entry-file slice, so this tick claims the plan and the reason, not the pixels.)*
+- [x] Never silently ignore Shift+Enter. — `56b2fe1` @ `2026-09-12T08:38:24+07:00` *(the function has no path that returns nothing: every input yields an action or a `disabled` reason, including `null` — which is asserted directly, because a plan that answered `undefined` would let a caller drop the keypress without saying so.)*
+- [x] If no active window layout exists, the Layout Item Shift+Enter affordance is disabled with a visible reason. — `56b2fe1` @ `2026-09-12T08:38:24+07:00` *(`activeLayoutId: null` (and an omitted fact) both answer `no-active-window-layout`, which is a reason a surface can print rather than an absence.)*
+- [x] If the selected window already occurs in the active layout under the defined duplicate rule, report that instead of creating an accidental duplicate. — `56b2fe1` @ `2026-09-12T08:38:24+07:00` *(the caller supplies `alreadyInActiveLayout`, and when it is true the plan answers `already-in-the-active-layout` instead of an add action — the duplicate rule itself belongs to the layout model, so this reads its answer rather than re-deriving it.)*
 
 # 2. Searchable universe
 
