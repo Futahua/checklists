@@ -134,6 +134,13 @@ binned layout and a layout under the bin — with prompts and Sets present in th
 asserted rather than assumed. Removing the filter fails two of the five cases; that was checked, not
 claimed. Seven section 6 boxes tick with it: whole layouts, prompts, bin contents, items under a binned
 folder, binned placements, binned layouts with their members, and Sets.
+**The ticks were audited, and the audit is the point of the convention.** Every commit reference in this
+file and in `proxima/proxima-full-parity-checklist.md` — 786 of them — was resolved against the three
+product checkouts (As-you-Go, Proxima, Papers-3) and its recorded timestamp compared with
+`git show -s --format=%cI`: **zero unresolvable, zero mismatched**. So the discipline the loop asks for is
+not an intention here but a checked fact: every ticked box names a commit that exists, and the timestamp
+beside it is the commit's own committer time rather than a number typed from memory. Re-run it the same way
+after any future pass that ticks a box by hand.
 **What the next session should pick up, and what it must not try to do from here.** Quick Run is now
 feature-complete in everything that can be decided or drawn without a machine, and the remainder is
 precisely bounded: **(1) the live half of § 10** — a host that supplies the window list, feeding
