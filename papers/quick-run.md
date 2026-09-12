@@ -4,8 +4,10 @@
 
 ## Status
 
-**Updated** 2026-09-10 · **Not started.** No implementation exists. Design only. The
-default hotkey chord is deliberately unchosen.
+**Updated** 2026-09-12 · **Not started.** No implementation exists. Design only. **The default
+workspace hotkey chord is chosen: Alt+Shift+X** (creator, 2026-09-12). It is recorded here and on the
+open item at the foot of this file, which was the item waiting for it, and the binding stays an
+explicit configured value rather than a hard-coded one.
 
 **Where it would land** `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — `Futahua/Papers-3`.
 
@@ -13,9 +15,10 @@ default hotkey chord is deliberately unchosen.
 (98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The 280 open boxes are feature
 acceptance criteria (28 in §1), prohibitions (31 across §3 and §6), architecture invariants (19), STAGE 3
 index work (62), STAGE 17 test requirements (92) and Definition of Done (47); STAGE 0's pure-search
-sections carry **no** boxes. Implementation is gated by the unchecked item at the foot of this file: the
-hotkey chord is the creator's to choose and must not be invented. STAGE 0's pure modules need neither a
-chord nor any native capability, so they are the only part that could begin before that decision.
+sections carry **no** boxes. Implementation was gated by the unchecked item at the foot of this file — the
+hotkey chord — and the creator has now chosen it (Alt+Shift+X), so that gate is open. What still gates
+implementation is the missing landing tree recorded below: STAGE 0's pure modules need no chord and no
+native capability, but they do need the As-you-Go Backpack checkout they land in.
 
 **STAGE 0's landing tree is not on this machine** (checked 2026-09-12). § 0.1 names
 `public/app/quick-run/quick-run-index.js`, `-search.js` and `-types.js` — that is the **As-you-Go
@@ -2094,4 +2097,6 @@ The feature is done only when this entire acceptance walk succeeds, the performa
 # Open items to settle before implementation begins
 
 - [x] **Sets decision** — resolved 2026-09-08: excluded from v1.
-- [ ] **Pin the default workspace hotkey chord.** Not chosen yet; do not invent one silently.
+- [x] **Pin the default workspace hotkey chord.** — chosen by the creator on 2026-09-12: **Alt+Shift+X**,
+      for the As-you-Go workspace scope. Recorded here rather than inferred: it was the last open item in
+      this section, and § at L1032 asks for it to be an explicit binding rather than an invented default.
