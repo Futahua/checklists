@@ -3256,7 +3256,7 @@ Shared-vault safety qualification from HARD GATE D applies.
 
 ### Templates
 
-- [ ] execute.
+- [x] execute. — `d0993d9` @ `2026-09-12T09:47:21+07:00`, `314b7d1` @ `2026-09-12T10:04:56+07:00`, `028316e` @ `2026-09-12T10:07:27+07:00`, `5115f70` @ `2026-09-12T09:52:59+07:00`, `c689283` @ `2026-09-12T09:55:15+07:00` and `694fb6a` @ `2026-09-12T10:16:46+07:00` *(a template can now be executed, and **the agent path is the sibling entry rather than a `ProximaAction`**, which is the registration the AUTHOR asked for: src/app/templateSubmission.ts validates the outer wire shape and calls src/app/templateExecuteAction.ts, which parses the text itself and runs src/app/templateExecution.ts through the `TaskCreateOperations` port the UI already calls - no RecordStore, no id allocation of its own, refusal before the first call for an invalid plan or an untranslatable draft field, and a refusal after a creation reported as partial with the ids that did land. The UI route exists too: the composer panel offers Execute and the shell click chain runs the action. Evidence: eight executor tests, six action tests, four submission tests (including one that submits with no panel in the dependency set), the store-level manual-versus-template equivalence with its control, and the restart case that proves ids are opaque and stable. **Residual, stated rather than hidden:** the UI route has no test at the shell level, because the backlog harness binds its own interactions and never runs the click chain - so the matrix box *UI invocation test exists* stays open on this row even though the row itself executes.)*
 
 ## For every row above
 
