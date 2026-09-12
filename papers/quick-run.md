@@ -120,6 +120,20 @@ a `fire(type, event)` on that mock (the wiring is only reachable through listene
 above is what a missing/differently-shaped harness produces rather than a fault in the module. Everything
 the module needs already exists and is tested: `paintQuickRunSurface` (committed at `cd9b950`), the four
 elements (`27485d8`) and the six pure modules beneath them.
+**§ 1.5 read, and it splits the remaining work into one autonomous slice and one that is not.** The four
+default Enter actions are fixed: *Folder → navigate into that folder; Shortcut → launch it; Link → open its
+web URL; Layout Item → activate/focus that exact external application window, restoring it first if
+minimized.* The first three are implementable here and route through commands the workspace already has —
+the keyboard controller owns `workspace.open-selection` (Enter) and `workspace.reveal-selection`
+(Ctrl+Enter, which § 1.6 defines as *"reveal this exact occurrence inside As-you-Go"*, explicitly not an OS
+file-manager reveal) — so Quick Run's activation must call those same commands for a row's target rather
+than grow a second launch implementation, and the row's `type` plus its authority ids (`groupId`,
+`shortcutId`/`placementId`, `layoutId`/`memberId`) are exactly what a caller needs to do it. **The fourth is
+not autonomous work:** activating and focusing a live foreign application window — restoring it if
+minimized — is the class of thing the two window checklists already refuse to attempt without the creator
+present, because moving or focusing another program's window is not reversible by a later commit. So the
+layout-item row's default action waits for a session with the creator at the machine, exactly like those
+173 + 172 boxes, and the other three do not.
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
