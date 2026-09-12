@@ -1725,7 +1725,7 @@ No storage migration dependency.
   no sizing exists yet, so this stays open rather than being closed by a technicality. The
   cockpit has since gained one piece of sizing that is local state — Backlog column widths at
   `8cadd24`, clamped to 96–640 and never written — but panel sizing itself is still unbuilt,
-  and Stage 18's interaction-feel pass is where the panels that need it are named.)*
+  and Stage 18's interaction-feel pass is where the panels that need it are named.)* **Where to start when it is built, so the next pass does not re-derive it:** the Backlog's column resize at `8cadd24` is the pattern this box is asking for — a pure clamp in the app layer, the width held in disposable view state, clamped to a range and never written — so panel sizing is that shape applied to the Timekeeping panels, and the test that closes this box is the one asserting a resize changes no record while the clamp holds at both ends. It is a real UI slice, not a technicality: the box's own note says the panels that need it are named by Stage 18, which is complete, so nothing else gates it.
 
 ### Deadline Calendar
 
