@@ -2094,3 +2094,39 @@ where 400 create/destroy cycles produced 400 distinct handle values and never ha
 **That last point is the design consequence rather than a gap:** the tag must be *validated* against the live
 window — liveness plus the property's value — because the handle alone is not identity, which is what Stage 1's
 mutation revalidation needs to do.
+## The startup and reboot transitions, in one table (2026-09-13)
+
+The second reviewer item above asks for the startup and reboot transitions to be defined **as a single table**
+rather than left distributed across Stages 11 and 15. This is that table. Nothing in it is new policy: every row
+cites the section that already states it, and the cases the document does *not* state are listed under the table
+rather than filled in, because inventing the missing combinations is precisely what the item exists to prevent.
+Rows are also drawn from 3.2, 3.3, 4.1-4.3, 5, 13 and 15.5-15.6, which Stages 11 and 15 cross-reference for the
+membership and tracking halves of the same transitions.
+
+| # | event | memberships | layout record | widget | `tracking.enabled` | source |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | First load after this feature ships, no startup layout ever initialised | none yet; **no existing layout is commandeered** | one **new** ordinary layout created; every existing layout left unchanged | requested immediately via `host.widgetOpen` | ON | 4.2, 11.1 |
+| 2 | Later startup, startup layout exists and is neither deleted nor binned | unchanged; nothing is auto-added at startup | unchanged | opens immediately after safe bootstrap; circle drawn from persisted state | as persisted, ON or OFF | 11.2, 11.3 |
+| 3 | Papers restart, **same OS session**, tracked native windows still alive | **recovered** - the same instance ids re-resolve, so members remain; a Papers restart is *not* native-window death | unchanged | reopens | as persisted | 5, 15.1 |
+| 4 | A tracked native window dies while Papers runs | that instance's memberships are removed immediately, all occurrences if it was in several layouts | other memberships unchanged | unchanged | unchanged | 3.2, 13 |
+| 5 | Full OS reboot, tracking ON | old instance-bound memberships removed once the baseline proves those instances absent | record remains | opens filled | stays ON; eligible new windows auto-added after the **completed** baseline | 3.3, 15.2, 15.3 |
+| 6 | Full OS reboot, tracking OFF | old dead memberships removed; **no** new members auto-added; the layout may remain empty | record remains | opens **outline** | stays OFF; an explicit creator choice is never overridden | 4.3, 11.3, 15.4 |
+| 7 | Startup layout deleted or binned | n/a | a fresh ordinary layout is created and pointed at | opens on it | new layout ON when no separate workspace preference exists; an explicit preference is preserved **if** the final state shape separates it, else a documented migration rule decides | 11.4 |
+| 8 | Creator presses the circle | existing members remain | unchanged | filled becomes outline | true becomes false, durably | 4.3, 10 |
+| 9 | After a complete baseline following a reboot | suppression ids naming dead old instances are pruned | unchanged | - | - | 15.5 |
+| 10 | Distinguishing "Papers restarted, app survived" from "OS reboot, window died" | by **exact native-instance reconciliation only**; never by wall-clock or restart detection | - | - | - | 3.3, 15.6 |
+
+**Combinations the document does not state**, listed so that Stage 1 inherits a visible gap instead of an invented
+rule. Each is a decision for the stage that owns it:
+
+- **Reboot *and* the startup layout was deleted or binned.** 11.4 covers a missing layout at startup and 15.2-15.3
+  cover post-reboot reconciliation, but the document does not say whether the replacement layout is created
+  before, after, or independently of the completed baseline.
+- **What the circle shows during the post-reboot baseline**, before "complete baseline" is reached. The document
+  says the widget opens and that auto-add follows the completed baseline; the interval is not described.
+- **What happens to a layout that tracking-OFF leaves empty** - 15.4 says it "may remain empty" and decides no
+  further: whether it is kept, hidden, or offered for removal is unstated.
+- **Suppression ids across a same-session Papers restart.** 15.5 prunes them after a complete post-reboot baseline
+  proves the instances absent; the same-session case is not stated.
+- **Where "exactly one layout may have `tracking.enabled === true`" is enforced.** 4.1 states the invariant; the
+  document does not name the load-time or write-time point that enforces it.
