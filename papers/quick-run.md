@@ -108,6 +108,18 @@ file passing a real `openQuickRun` into the keyboard controller and mounting the
 that finally makes the chord open something a reader can see. Nothing in that list requires inventing a
 selector convention: the ids are the implementer's to name, and everything they must contain is already
 decided.
+**Step 4 attempted and reverted, with the diagnosis recorded.** Writing the mounting half of the surface —
+`mountQuickRun({ document, elements, getState })`, which would install the input listener and the key
+handling (Escape, arrows, Tab/Shift+Tab) and hand `open` to the keyboard controller — ended in a revert
+rather than a commit: its first test failed with `TypeError: Cannot read properties of undefined (reading
+'input')` raised from inside the module while the test passed a spread harness, and the session ran out of
+room to diagnose it. The tree is back at `cd9b950`, clean, suite 1191 pass. **What the next pass should
+check first, because it is the likely cause:** the harness in `quick-run-surface.test.mjs` builds elements
+from a `fakeElement()` helper that has no `addEventListener`; the mounting test needs `addEventListener` and
+a `fire(type, event)` on that mock (the wiring is only reachable through listeners), and the failure mode
+above is what a missing/differently-shaped harness produces rather than a fault in the module. Everything
+the module needs already exists and is tested: `paintQuickRunSurface` (committed at `cd9b950`), the four
+elements (`27485d8`) and the six pure modules beneath them.
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
