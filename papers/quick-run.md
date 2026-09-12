@@ -168,13 +168,13 @@ Links
 Layout Items
 ```
 
-- [ ] Tab cycles forward.
-- [ ] Shift+Tab cycles backward.
+- [x] Tab cycles forward. — `c0737a2` @ `2026-09-12T09:53:00+07:00` *(the **rule** is implemented and tested in `public/app/quick-run/quick-run-types.js` and its suite; the surface that draws the chips is a later stage, so this tick claims the rule and not the pixels.)*
+- [x] Shift+Tab cycles backward. — `c0737a2` @ `2026-09-12T09:53:00+07:00` *(the **rule** is implemented and tested in `public/app/quick-run/quick-run-types.js` and its suite; the surface that draws the chips is a later stage, so this tick claims the rule and not the pixels.)*
 - [ ] Chips appear above the result list.
-- [ ] Only result types with at least one current query match receive type chips.
-- [ ] All is shown whenever there is at least one result.
-- [ ] If the active type filter loses all matches after another keystroke, immediately fall back to All.
-- [ ] After that fallback, highlight the first All result.
+- [x] Only result types with at least one current query match receive type chips. — `c0737a2` @ `2026-09-12T09:53:00+07:00` *(the **rule** is implemented and tested in `public/app/quick-run/quick-run-types.js` and its suite; the surface that draws the chips is a later stage, so this tick claims the rule and not the pixels.)*
+- [x] All is shown whenever there is at least one result. — `c0737a2` @ `2026-09-12T09:53:00+07:00` *(the **rule** is implemented and tested in `public/app/quick-run/quick-run-types.js` and its suite; the surface that draws the chips is a later stage, so this tick claims the rule and not the pixels.)*
+- [x] If the active type filter loses all matches after another keystroke, immediately fall back to All. — `c0737a2` @ `2026-09-12T09:53:00+07:00` *(the **rule** is implemented and tested in `public/app/quick-run/quick-run-types.js` and its suite; the surface that draws the chips is a later stage, so this tick claims the rule and not the pixels.)*
+- [x] After that fallback, highlight the first All result. — `0adc8fc` @ `2026-09-12T08:15:05+07:00` *(the two rules compose and the composition is asserted: `resolveFilter` hands back the `All` set when the active filter loses its matches, and `highlightAfterResults` given a key that is not in the set it is handed returns that set's first row — which is the case `0adc8fc` tests. The surface that performs it is a later stage.)*
 
 ## 1.5 Default Enter actions
 
