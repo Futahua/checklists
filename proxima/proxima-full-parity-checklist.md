@@ -3152,8 +3152,8 @@ The old compact template syntax is less important than the resulting operation.
 - [x] Preview produces a typed intended-operation plan. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(the return type is `TemplatePlan` - readonly tasks, readonly errors, lineCount - and the tests assert the plan object itself rather than a description of one. It is an intended-operation plan in the strict sense: nothing in the module can act on it.)*
 - [x] No mutation occurs on parse. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(structural rather than asserted: src/app/templateComposer.ts has no imports at all, so there is no store, no file system and no host in scope for a mutation to reach. The strongest form of the rule, and the test suite passes a string in and inspects a value out.)*
 - [x] Invalid template produces structured errors. — `d21f434` @ `2026-09-12T01:26:26+07:00` *(every refusal is a `TemplateComposerError` with a code from the `TemplateErrorCode` union and the line it happened on; the tests assert the codes and the line numbers for property-before-task, an unknown field, a duplicate field, a non-field line, an empty value and an invalid number.)*
-- [ ] Execution translates the plan into the same semantic actions normal UI/agents use.
-- [ ] Do not give TemplateExecutor direct RecordStore write authority.
+- [x] Execution translates the plan into the same semantic actions normal UI/agents use. — `d0993d9` @ `2026-09-12T09:47:21+07:00` *(the executor emits the same `CreateTaskRequest` the product task creation already takes, through the same `TaskCreateOperations` port the UI calls - asserted by comparing the exact emitted requests rather than by describing them. There is no template-specific creation path to drift from the ordinary one.)*
+- [x] Do not give TemplateExecutor direct RecordStore write authority. — `d0993d9` @ `2026-09-12T09:47:21+07:00` *(structural, and asserted by reading the module: src/app/templateExecution.ts has no import from ports/ at all, names no RecordStore or RecordMutationCoordinator, and allocates no ids of its own - a created id comes back from the port. The test strips comments before scanning, so the rule can still be explained in the file.)*
 - [ ] Batch creation uses stable opaque IDs.
 - [ ] Relations between simultaneously created records use those IDs.
 - [x] Project can contain both tasks and events. — `efdfa11` @ `2026-09-11T08:08:23+07:00` *(asserted, not assumed: tests/canonicalDataOwnership.test.ts carries a HARD GATE A fixture where one project simultaneously owns a task and an event, and checks both kinds and both project ids. It is the fixture half of the stage rather than the template half, which is why it closes here.)*
@@ -3176,7 +3176,7 @@ Prefer atomic plan semantics where required; do not report full success after pa
 ## Acceptance
 
 - [ ] Same semantic record set can be produced manually and through template execution.
-- [ ] Invalid plan causes no hidden partial writes.
+- [x] Invalid plan causes no hidden partial writes. — `d0993d9` @ `2026-09-12T09:47:21+07:00` *(an invalid plan is refused before the first call - the counting port records zero requests - and a refusal after a creation is reported as partial with the ids it did create, never as complete. Three tests cover it: invalid plan, refused first creation, refused second creation.)*
 - [ ] Agent can execute template without opening modal.
 - [ ] Restart reproduces created state.
 
