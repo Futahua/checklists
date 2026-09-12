@@ -141,6 +141,18 @@ product checkouts (As-you-Go, Proxima, Papers-3) and its recorded timestamp comp
 not an intention here but a checked fact: every ticked box names a commit that exists, and the timestamp
 beside it is the commit's own committer time rather than a number typed from memory. Re-sent, and the same pass now also checks that each checklist Status block still carries its required facts - heading, running totals, handoff and audit note for this file, and the four table rows for the Proxima parity list - because two separate edits of mine silently dropped a fact from a block while every content check kept passing (a suite row that vanished for seven rounds, and a 200-box-stale duplicate totals sentence). Both were found by checking structure rather than content, so the structure check is now part of the ritual; all four blocks passed it on 2026-09-12. Re-run both the same way
 after any future pass that ticks a box by hand.
+**Ctrl+Enter was the last key with no implementation, and it now has one that respects the boundary the
+section draws.** `a097264` @ `2026-09-12T09:31:31+07:00` adds `planQuickRunReveal`: the folder to navigate to
+is the last entry of the persisted ancestor chain the row already carries, the item to select is the folder
+itself, the shared shortcut record with its placement, or the containing layout with its member — and
+`hostReveal` is false on every branch, so a caller following the plan cannot reach the file manager that
+`reveal-selection` and `revealShortcut()` use. The mount hands the key to the entry file, which re-reads the
+row by its stable key and then navigates and selects with the workspace own commands, passing the visible
+ids those commands take. Six boxes close with it; the seventh, the acceptance twin that says
+*navigates-and-selects the exact occurrence*, stays open with the Enter twins because that one is a claim
+about the running app rather than about the code. Suite **1336** pass / 0 fail — the commit message for
+`a097264` says 1337, which is a miscount of mine, and since history is not rewritten the number is corrected
+here instead.
 **Twenty-six ticked boxes carry no commit reference, and an attempt to fix them all at once was
 reverted.** The audit that resolves every tick's SHA was run over the *ticked-with-a-reference* set, which
 is why this was not visible earlier: a scan of the whole document finds 26 boxes ending in a dangling
@@ -254,7 +266,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**251 ticked / 30 open.**
+**257 ticked / 24 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2098,10 +2110,10 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 - [x] Folder Enter navigates. — `a0c4266` @ `2026-09-12T08:46:36+07:00` and `e79e5f8` @ `2026-09-12T08:47:33+07:00` *(Enter re-reads the row by its stable key, plans the action, and hands the workspace item id to `commands.activateItem` — the same call workspace Enter makes, so a folder navigates rather than a second navigator existing. `quick-run-enter.test.mjs` drives a query to a folder row, through the plan and the id, into the real command object, and asserts the store is now in the folder that was searched for. The entry half is asserted by source shape, since the entry file boots from the document and cannot be imported; the acceptance-list twin at the foot of this file stays open until a run in the app.)*
 - [x] Shortcut Enter launches. — `a0c4266` @ `2026-09-12T08:46:36+07:00` and `e79e5f8` @ `2026-09-12T08:47:33+07:00` *(the same chain, asserted against the real command object: the shortcut record id reaches `activateItem`, the host launches that id, and nothing reveals it — the launch path and the reveal path stay separate, which is what § 1.6 requires.)*
 - [x] Link Enter opens URL. — `a0c4266` @ `2026-09-12T08:46:36+07:00` and `e79e5f8` @ `2026-09-12T08:47:33+07:00` *(a link is the shortcut record with a web target, so it takes the same item id; the test pins the https classification, asserts the URL is opened, and asserts nothing is launched as a program.)*
-- [ ] Ctrl+Enter Folder reveals exact folder occurrence.
-- [ ] Ctrl+Enter Shortcut reveals exact placement.
-- [ ] Ctrl+Enter Link reveals exact placement.
-- [ ] Ctrl+Enter Layout Item reveals containing layout + member.
+- [x] Ctrl+Enter Folder reveals exact folder occurrence. — `a097264` @ `2026-09-12T09:31:31+07:00` *(the plan navigates to the folder the occurrence lives in - the last entry of the persisted ancestor chain the row already carries - and selects the folder itself, with hostReveal false. quick-run-activation.test.mjs asserts the plan; quick-run-entry.test.mjs asserts the entry file follows it with the workspace own activateItem and selectItem, because the entry file cannot be imported here.)*
+- [x] Ctrl+Enter Shortcut reveals exact placement. — `a097264` @ `2026-09-12T09:31:31+07:00` *(the plan selects the shared record and carries the placement id with it, so the reader sees which occurrence was meant rather than the record alone.)*
+- [x] Ctrl+Enter Link reveals exact placement. — `a097264` @ `2026-09-12T09:31:31+07:00` *(a link is the same record with a web target and takes the same branch; classification decides the row type, not the reveal path.)*
+- [x] Ctrl+Enter Layout Item reveals containing layout + member. — `a097264` @ `2026-09-12T09:31:31+07:00` *(the plan selects the containing layout and carries the member id; the window itself is never touched, which keeps this inside the workspace where section 1.6 puts it.)*
 - [x] Shift+Enter disabled for Folder. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 - [x] Shift+Enter disabled for Shortcut. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 - [x] Shift+Enter disabled for Link. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
@@ -2112,7 +2124,7 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 ## Stale-index execution
 
 - [x] rename-before-Enter. — `616181f` @ `2026-09-12T09:02:42+07:00` *(the current row is executed and the indexed one is not; the test also states why a rename is the safe race - the occurrence identity is unchanged, so the re-read finds the same key with new content. These are the races between the index and the workspace, and every one of them is answered by revalidating the row by its stable key before planning anything; the five cases live in quick-run-enter.test.mjs beside the three Enter tests they extend.)*
-- [ ] move-before-Ctrl+Enter.
+- [x] move-before-Ctrl+Enter. — `a097264` @ `2026-09-12T09:31:31+07:00` *(the callback re-reads the row by its stable key before planning, so a placement that moved is revealed where it is now; the same revalidation the Enter races assert, applied to the other key.)*
 - [x] bin-before-Enter. — `616181f` @ `2026-09-12T09:02:42+07:00` *(the row is gone from the current state, so the answer is the reason and no action; the harness records no launch. These are the races between the index and the workspace, and every one of them is answered by revalidating the row by its stable key before planning anything; the five cases live in quick-run-enter.test.mjs beside the three Enter tests they extend.)*
 - [x] delete-before-Enter. — `616181f` @ `2026-09-12T09:02:42+07:00` *(the same shape, and the test asserts the harness launched nothing rather than only that a reason came back. These are the races between the index and the workspace, and every one of them is answered by revalidating the row by its stable key before planning anything; the five cases live in quick-run-enter.test.mjs beside the three Enter tests they extend.)*
 - [x] layout-member-remove-before-Enter. — `616181f` @ `2026-09-12T09:02:42+07:00` *(removing the member removes the row, so the deferred activation is not even planned. These are the races between the index and the workspace, and every one of them is answered by revalidating the row by its stable key before planning anything; the five cases live in quick-run-enter.test.mjs beside the three Enter tests they extend.)*
@@ -2235,7 +2247,7 @@ Quick Run is complete only when all conditions below are true.
 - [ ] Layout Item Enter uniquely resolves and activates/restores the exact native window.
 - [ ] Missing/ambiguous Layout Item remains visible and reports failure honestly.
 - [ ] Ctrl+Enter navigates-and-selects the exact As-you-Go occurrence.
-- [ ] Ctrl+Enter never invokes OS reveal.
+- [x] Ctrl+Enter never invokes OS reveal. — `a097264` @ `2026-09-12T09:31:31+07:00` *(structural rather than behavioural: every branch of the plan answers hostReveal false, the entry callback follows the plan and calls only the workspace own navigate and select commands, and the entry region is asserted not to contain the reveal command it would be tempting to reuse. No app run is needed for this particular claim.)*
 - [x] Shift+Enter only works for Layout Items. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(the plan answers only-layout-items for every other type, the mount only calls the caller when the plan is enabled, and the surface test drives a folder row and a link row through the real mount and asserts that nothing is called. The entry half is asserted by source shape, as with the Enter tests, because the entry file cannot be imported here.)*
 - [x] Shift+Enter never silently does nothing for unsupported result types. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(the reason is painted with the highlighted row before the key is pressed and stays on screen when it is, and the key is consumed rather than passed on - so the disabled case is visible rather than dead. This is the surface half of the rule; a run in the app is still what would confirm the wiring end to end.)*
 
