@@ -58,6 +58,17 @@ my own test setup rather than the rule (the "after" query still contained the ro
 have been dropped, so the preservation rule was never actually exercised), and a red suite is not
 something to leave on a branch. The rules are short and fully specified in § 1.3; the next pass adds them
 with two result sets that genuinely differ, then reruns `npm test`.
+**A deviation found in committed code, recorded before it is built on.** § 0.2 fixes the stable result shape
+as `{ resultKey, type, name, normalizedName, breadcrumb, breadcrumbIds, actionRef }`, plus type-specific
+authority references (a folder carries its group id; a shortcut/link carries the placement and the shared
+shortcut record). `quick-run-search.js` (`049f793`) emits rows named `{ kind, key, name, breadcrumb, … }`
+with the ids I needed at the time — so `key` should be `resultKey`, `kind` should be `type`, and
+`normalizedName`, `breadcrumbIds` and `actionRef` are missing. Nothing consumes the rows yet except the
+index's own tests, which is exactly why this is cheap to fix now and expensive later: the stages that read
+these fields have not been written. The alignment is a small slice with one wrinkle — `normalizedName` needs
+the pinned normalisation function, which currently lives in `quick-run-index.js`, so it should move into
+`quick-run-types.js` (the module every other one already imports) to avoid a circular import, and both the
+search and index tests need the field names updated with it.
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
