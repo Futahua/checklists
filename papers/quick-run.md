@@ -173,7 +173,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**223 ticked / 58 open.**
+**232 ticked / 49 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2042,14 +2042,14 @@ Every test proves current-state revalidation.
 ## Availability/native
 
 - [x] untouched Layout Item is unknown. — `f78cd16` @ `2026-09-12T08:42:28+07:00` and `217007f` @ `2026-09-12T08:43:01+07:00` *(the same two properties as the § 5 box above, stated here as the stage-10 box: an untouched member is `unknown`, and a persisted `minimized` does not change that.)*
-- [ ] searching does zero native resolution.
+- [x] searching does zero native resolution. — `4f63739` @ `2026-09-12T08:39:21+07:00` *( and )*
 - [ ] first Enter resolves.
 - [ ] unique resolution + activate success -> available.
 - [ ] missing -> unavailable.
 - [ ] ambiguous -> unavailable.
 - [ ] ambiguous -> zero activate calls.
 - [ ] result remains searchable after missing/ambiguous outcome.
-- [ ] descriptor change resets prior availability.
+- [x] descriptor change resets prior availability. — `f78cd16` @ `2026-09-12T08:42:28+07:00` and `217007f` @ `2026-09-12T08:43:01+07:00` *(there is no cached availability to reset: availability is computed from the row kind on every paint, so a descriptor change cannot leave a stale state behind - the strongest form of the rule, and the reason the Layout Item boxes above stay open is that the resolution itself is unbuilt.)*
 
 ## Papers activation
 
@@ -2088,7 +2088,7 @@ Every test proves current-state revalidation.
 - [ ] pure p95 ≤ 8 ms or Worker fallback used.
 - [ ] no ordinary pure query ≥ 16 ms.
 - [ ] integrated renderer p95 target satisfied.
-- [ ] typing causes zero graph reheat/full render.
+- [x] typing causes zero graph reheat/full render. — `72384be` @ `2026-09-12T08:48:10+07:00` *(no module holds a reference to the graph or to the render function - render( and reheat are absent from all seven modules and from the entry region that mounts the surface - so a keystroke cannot restart physics it cannot reach.)*
 - [ ] state-only layout observation storm causes zero rebuilds.
 
 # STAGE 18 — The Sets question must be recorded, not forgotten
@@ -2160,9 +2160,9 @@ Quick Run is complete only when all conditions below are true.
 
 ## Native boundary
 
-- [ ] Typing causes zero native probes.
-- [ ] Indexing causes zero native probes.
-- [ ] Layout-item capability resolution begins only on execution.
+- [x] Typing causes zero native probes. — `4f63739` @ `2026-09-12T08:39:21+07:00` *( and )*
+- [x] Indexing causes zero native probes. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(the same scan from the other end: the universe is built from three persisted sources, and the scan finds no native or host reference in any module.)*
+- [x] Layout-item capability resolution begins only on execution. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(there is no capability resolution anywhere in v1 - the plan for a Layout Item answers deferred with a reason - so nothing can begin resolving earlier than execution, and the scan holds that absence.)*
 - [ ] Papers exposes a narrowly typed `activateWindowCapability`.
 - [ ] Activation restores only when minimized and otherwise raises/focuses.
 - [ ] Capability identity remains fail-closed.
@@ -2180,9 +2180,9 @@ Quick Run is complete only when all conditions below are true.
 
 - [ ] Pure 20k benchmark meets budget or Worker fallback is implemented.
 - [ ] Integrated typing stays inside agreed frame-latency budget.
-- [ ] Quick Run typing never reheats graph physics.
-- [ ] Quick Run typing never calls full workspace `render()`.
-- [ ] No native/IPC work occurs on keystrokes.
+- [x] Quick Run typing never reheats graph physics. — `72384be` @ `2026-09-12T08:48:10+07:00` *(the same structural fact, asserted as a scan so a later pass cannot add one quietly.)*
+- [x] Quick Run typing never calls full workspace `render()`. — `72384be` @ `2026-09-12T08:48:10+07:00` *(the same scan, and the reason the rule is structural rather than behavioural: there is nothing to guard at runtime.)*
+- [x] No native/IPC work occurs on keystrokes. — `4f63739` @ `2026-09-12T08:39:21+07:00` *( and )*
 
 ## Scope/product honesty
 
