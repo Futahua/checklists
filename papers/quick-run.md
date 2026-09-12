@@ -141,6 +141,16 @@ product checkouts (As-you-Go, Proxima, Papers-3) and its recorded timestamp comp
 not an intention here but a checked fact: every ticked box names a commit that exists, and the timestamp
 beside it is the commit's own committer time rather than a number typed from memory. Re-sent, and the same pass now also checks that each checklist Status block still carries its required facts - heading, running totals, handoff and audit note for this file, and the four table rows for the Proxima parity list - because two separate edits of mine silently dropped a fact from a block while every content check kept passing (a suite row that vanished for seven rounds, and a 200-box-stale duplicate totals sentence). Both were found by checking structure rather than content, so the structure check is now part of the ritual; all four blocks passed it on 2026-09-12. Re-run both the same way
 after any future pass that ticks a box by hand.
+**The browser AUTHOR was consulted on 2026-09-12, over the tab on `https://chatgpt.com/` in the Hermes
+Chrome profile, and two of its rulings changed this document.** First: the four acceptance twins about the
+running app stay **open** — source-shape evidence is strong implementation evidence, but evidence does not
+confer acceptance, and an automated app or browser harness would be enough to close them, a manual click
+would not. Second: the chip-cycle box is **re-opened**, because the AUTHOR read § 1.4 the other way — the
+five names fix the vocabulary and its order, the chips fix the available subset, and Tab/Shift+Tab must
+traverse that subset, skipping the types with no current match; the fallback-to-All rule covers a filter
+that becomes unavailable because the query changed, not a traversal that should skip it. Implementing that
+skip is now the smallest open piece of work in this document. The same exchange scoped Proxima's next slice
+(executor core and preflight, with its acceptance conditions recorded in that checklist's Status).
 **Ctrl+Enter was the last key with no implementation, and it now has one that respects the boundary the
 section draws.** `a097264` @ `2026-09-12T09:31:31+07:00` adds `planQuickRunReveal`: the folder to navigate to
 is the last entry of the persisted ancestor chain the row already carries, the item to select is the folder
@@ -266,7 +276,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**257 ticked / 24 open.**
+**256 ticked / 25 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2236,7 +2246,7 @@ Quick Run is complete only when all conditions below are true.
 
 - [x] All/Folders/Shortcuts/Links/Layout Items behave exactly as specified. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(each filter shows its own kind and All keeps the ranked order, asserted over the five names the contract fixes.)*
 - [x] Only types with matches produce chips. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(same rule as the first case, asserted from the other direction: no match, no chip.)*
-- [x] Tab/Shift+Tab cycles only available chips. — `03bf9d0` @ `2026-09-12T09:13:34+07:00` *(read against the section that defines it: § 1.4's own boxes say Tab cycles forward and Shift+Tab backward over the five fixed names, that only types with a match receive chips, and that an active filter losing its matches falls back to All immediately — which is exactly what is implemented and tested. So "only available chips" is read here as the chips being only the types that matched, with the cycle over the five names and the fallback covering a name with none. If the intent was a cycle that skips unavailable names, this box re-opens and the change is small but it is a product choice, not a test.)*
+- [ ] Tab/Shift+Tab cycles only available chips. *(**Re-opened on the AUTHOR ruling of 2026-09-12.** It was ticked on the reading that the cycle runs over the five fixed names with the no-matches fallback to All; the AUTHOR resolved the ambiguity the other way: the five names define the vocabulary and their order, the chips define the currently available subset, and Tab/Shift+Tab must traverse that subset in canonical order, **skipping** the types with no current match. The fallback rule exists for a filter that becomes unavailable because the query changed, not to make keyboard traversal bounce through unavailable names. So the rule is now skipping, it is unimplemented, and the box re-opens until it is.)*
 - [x] Disappearing active filter falls back to All. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(the active filter losing its matches falls back to All and says that it did, so the fallback is visible rather than silent.)*
 
 ## Actions
