@@ -72,6 +72,16 @@ these fields have not been written. The alignment is a small slice with one wrin
 the pinned normalisation function, which currently lives in `quick-run-index.js`, so it should move into
 `quick-run-types.js` (the module every other one already imports) to avoid a circular import, and both the
 search and index tests need the field names updated with it.
+**STAGE 5.1, and a correction.** `362a00d` put `workspace.quick-run` in the hotkey catalog with the
+creator's `Alt+Shift+X`; `28ee3ad` added the module-scoped half — an optional `openQuickRun` callback on
+`keyboard-controller.js` (defaulting to a no-op, like its other optional callbacks) and one branch that
+matches the action, prevents the default and calls it. The controller still opens nothing: the entry file
+is STAGE 5's next step, and the test asserts the chord reaches the callback, that the key is consumed, and
+that nothing else in the workspace moves. Suite **1174 pass / 0 fail** — the commit message for `28ee3ad`
+says 1176, which is wrong; the run printed 1174 (1173 plus the one new case), and since history is not
+rewritten the number is corrected here instead. Nothing in this document ticked for either step: § 5.1's
+text is not a checkbox, and "A configurable As-you-Go workspace hotkey opens Quick Run" stays open until
+the entry file actually opens the surface.
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
