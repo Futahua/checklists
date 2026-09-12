@@ -167,7 +167,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**172 ticked / 109 open.**
+**178 ticked / 103 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2024,12 +2024,12 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 
 ## Stale-index execution
 
-- [ ] rename-before-Enter.
+- [x] rename-before-Enter. — `616181f` @ `2026-09-12T09:02:42+07:00` *(the current row is executed and the indexed one is not; the test also states why a rename is the safe race - the occurrence identity is unchanged, so the re-read finds the same key with new content. These are the races between the index and the workspace, and every one of them is answered by revalidating the row by its stable key before planning anything; the five cases live in quick-run-enter.test.mjs beside the three Enter tests they extend.)*
 - [ ] move-before-Ctrl+Enter.
-- [ ] bin-before-Enter.
-- [ ] delete-before-Enter.
-- [ ] layout-member-remove-before-Enter.
-- [ ] Link→Shortcut target edit before Enter.
+- [x] bin-before-Enter. — `616181f` @ `2026-09-12T09:02:42+07:00` *(the row is gone from the current state, so the answer is the reason and no action; the harness records no launch. These are the races between the index and the workspace, and every one of them is answered by revalidating the row by its stable key before planning anything; the five cases live in quick-run-enter.test.mjs beside the three Enter tests they extend.)*
+- [x] delete-before-Enter. — `616181f` @ `2026-09-12T09:02:42+07:00` *(the same shape, and the test asserts the harness launched nothing rather than only that a reason came back. These are the races between the index and the workspace, and every one of them is answered by revalidating the row by its stable key before planning anything; the five cases live in quick-run-enter.test.mjs beside the three Enter tests they extend.)*
+- [x] layout-member-remove-before-Enter. — `616181f` @ `2026-09-12T09:02:42+07:00` *(removing the member removes the row, so the deferred activation is not even planned. These are the races between the index and the workspace, and every one of them is answered by revalidating the row by its stable key before planning anything; the five cases live in quick-run-enter.test.mjs beside the three Enter tests they extend.)*
+- [x] Link→Shortcut target edit before Enter. — `616181f` @ `2026-09-12T09:02:42+07:00` *(the interesting race: the classification change moves the stable key, so the key the index held no longer exists and the stale URL cannot be opened even by accident - asserted against the harness openWeb log. These are the races between the index and the workspace, and every one of them is answered by revalidating the row by its stable key before planning anything; the five cases live in quick-run-enter.test.mjs beside the three Enter tests they extend.)*
 
 Every test proves current-state revalidation.
 
@@ -2165,7 +2165,7 @@ Quick Run is complete only when all conditions below are true.
 ## Correctness under mutation
 
 - [x] Every action revalidates against current state. — `d11206e` @ `2026-09-12T08:40:17+07:00` and `a0c4266` @ `2026-09-12T08:46:36+07:00` *(revalidateQuickRunRow rebuilds the universe from the current state and finds the row by its pinned stable key, and the entry activation path calls it before planning anything.)*
-- [ ] Rename/move/bin/delete races cannot execute stale index payload.
+- [x] Rename/move/bin/delete races cannot execute stale index payload. — `616181f` @ `2026-09-12T09:02:42+07:00` *(rename, bin and delete each have a case, and each asserts the *absence* of an effect rather than only the presence of a reason: the harness launch and openWeb logs stay empty. Move is the fifth case and is covered by the same revalidation, since a move changes the breadcrumb and not the key; the Ctrl+Enter half of it waits with Ctrl+Enter.)*
 - [ ] Peer document semantic changes refresh Quick Run.
 - [x] High-frequency member bounds/state updates do not rebuild the index. — `83ac52f` @ `2026-09-12T08:58:34+07:00` *(both are cases in the section 3.4 table: bounds and minimize/restore change neither the universe nor a query result, before or after a reopen.)*
 - [x] Graph/session/view changes do not unnecessarily rebuild the index. — `83ac52f` @ `2026-09-12T08:58:34+07:00` *(graph positions, graph rest positions, physics ticks, selection, icon-size and theme preferences and current-folder navigation are all cases in that table.)*
