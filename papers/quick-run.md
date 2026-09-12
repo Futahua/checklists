@@ -349,7 +349,7 @@ Classification: HARD LAUNCH CRITERIA
 - [ ] Query interaction does not restart/reheat graph physics.
 - [ ] Search-index rebuilding is not triggered by layout-member state/bounds observation.
 - [ ] The Papers addition is exactly a narrow already-resolved capability activation primitive; Papers does not own Quick Run search/index/ranking in v1.
-- [ ] OS-global hotkey registration is not added as part of v1.
+- [x] OS-global hotkey registration is not added as part of v1. — `362a00d` @ `2026-09-12T08:19:15+07:00` *(checked rather than assumed: the tree has no global-shortcut registration of any kind (no `globalShortcut`, `registerHotkey`, `global-hotkey` or `accelerator` call in the app or entry sources), and the action this pass added to the catalog is **workspace-scoped** (`HOTKEY_SCOPE_WORKSPACE`), which is exactly the boundary the box draws. It stays ticked only while that remains true, and a future global binding is what would re-open it.)*
 
 # 6. Do NOT attempt in v1
 
@@ -2053,7 +2053,7 @@ Quick Run is complete only when all conditions below are true.
 - [ ] No whole layouts.
 - [ ] No Bin.
 - [ ] Sets decision explicitly recorded (excluded; confirmed 2026-09-08).
-- [ ] No OS-global hotkey in v1.
+- [x] No OS-global hotkey in v1. — `362a00d` @ `2026-09-12T08:19:15+07:00` *(the acceptance side of the same prohibition, on the same evidence: nothing in the tree registers a global shortcut, and Quick Run's catalog entry is workspace-scoped. The hotkey opens the surface only while the As-you-Go window can receive keyboard input, which is the v1 scope the surrounding boxes state.)*
 - [ ] No Papers-level universal search architecture.
 - [ ] No live window availability scanning.
 
