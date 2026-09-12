@@ -120,20 +120,28 @@ a `fire(type, event)` on that mock (the wiring is only reachable through listene
 above is what a missing/differently-shaped harness produces rather than a fault in the module. Everything
 the module needs already exists and is tested: `paintQuickRunSurface` (committed at `cd9b950`), the four
 elements (`27485d8`) and the six pure modules beneath them.
-**§ 1.5 read, and it splits the remaining work into one autonomous slice and one that is not.** The four
-default Enter actions are fixed: *Folder → navigate into that folder; Shortcut → launch it; Link → open its
-web URL; Layout Item → activate/focus that exact external application window, restoring it first if
-minimized.* The first three are implementable here and route through commands the workspace already has —
-the keyboard controller owns `workspace.open-selection` (Enter) and `workspace.reveal-selection`
-(Ctrl+Enter, which § 1.6 defines as *"reveal this exact occurrence inside As-you-Go"*, explicitly not an OS
-file-manager reveal) — so Quick Run's activation must call those same commands for a row's target rather
-than grow a second launch implementation, and the row's `type` plus its authority ids (`groupId`,
-`shortcutId`/`placementId`, `layoutId`/`memberId`) are exactly what a caller needs to do it. **The fourth is
-not autonomous work:** activating and focusing a live foreign application window — restoring it if
-minimized — is the class of thing the two window checklists already refuse to attempt without the creator
-present, because moving or focusing another program's window is not reversible by a later commit. So the
-layout-item row's default action waits for a session with the creator at the machine, exactly like those
-173 + 172 boxes, and the other three do not.
+**§ 1.5 and § 1.6 read, and they split the remaining work three ways — with one correction to what an earlier
+note here said.** Section 1.5's four default Enter actions are fixed: *Folder → navigate into that folder;
+Shortcut → launch it; Link → open its web URL; Layout Item → activate/focus that exact external application
+window, restoring it if first minimized.* For the first three the workspace already owns the execution path
+Enter uses — the keyboard controller handles `workspace.open-selection` — so Quick Run's activation must name
+that command rather than grow a second launch implementation, and the row already carries what it needs
+(`type`, `groupId`, `shortcutId`/`placementId`, `layoutId`/`memberId`).
+
+**Corrected:** an earlier paragraph in this block said Ctrl+Enter should reuse `workspace.reveal-selection`.
+§ 1.6 forbids exactly that — *"It must not reuse the existing `workspace.reveal-selection` behavior or
+`revealShortcut()`, because the existing command explicitly reveals shortcut targets through the
+host/file manager"* — because Ctrl+Enter means *reveal this exact occurrence **inside As-you-Go***, explicitly
+not an OS file-manager reveal. So the reveal path is Quick Run's own: it navigates the workspace to the
+occurrence, and it must not call the host reveal. That is a defect a next pass would have shipped if it had
+followed the note I wrote rather than the section.
+
+**The third part is not autonomous work:** activating and focusing a live foreign application window —
+restoring it if minimized — is not reversible by a commit, so the layout-item row's default action waits for
+a session with the creator at the machine, exactly like the two window checklists. Section 1.6's Shift+Enter
+rules (enabled only for Layout Items, visibly disabled for the other three, never silently ignored, disabled
+with a visible reason when there is no active layout, and reported rather than duplicated when the window is
+already in that layout) are model-and-surface rules and *are* implementable here.
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
