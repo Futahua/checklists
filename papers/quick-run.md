@@ -134,6 +134,15 @@ binned layout and a layout under the bin — with prompts and Sets present in th
 asserted rather than assumed. Removing the filter fails two of the five cases; that was checked, not
 claimed. Seven section 6 boxes tick with it: whole layouts, prompts, bin contents, items under a binned
 folder, binned placements, binned layouts with their members, and Sets.
+**A second verification pass, on boxes that committed tests already held.** Five more needed no new code:
+one shortcut placement is one result and one layout-member occurrence is one result (both directions
+asserted, including three placements of one record and the same descriptor in two layouts), links are the
+shortcut index classified rather than duplicated, and the two Shift+Enter acceptance boxes whose rule is
+already surface-tested — enabled only for Layout Items, and visibly disabled with a reason rather than
+silently dead. What remains open in this document is now almost entirely work that cannot be done from
+here: live window activation and its resolution, the Papers-hosted capability, the Ctrl+Enter reveal path
+that § 1.6 gives its own implementation, and two integrated-app measurements. The two window checklists and
+the Proxima parity list are the same shape of remainder.
 **The pure-query budget is measured, and the first measurement was a miss.** `22f68dd` adds the benchmark
 the checklist asks for — 10k and 20k corpora, seven queries, thirty runs each — and it found the 20k p95 at
 9.4 ms against a budget of 8 ms. The cause was in the hot loop rather than the algorithm: `tierForName`
@@ -185,7 +194,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**240 ticked / 41 open.**
+**245 ticked / 36 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2147,9 +2156,9 @@ Quick Run is complete only when all conditions below are true.
 - [x] Exact > prefix > word-prefix > fuzzy subsequence. — `828d475` @ `2026-09-12T09:03:51+07:00` *(the four tiers, in one ranked answer and then pair by pair.)*
 - [x] Recency/frequency only break ties inside a tier. — `828d475` @ `2026-09-12T09:03:51+07:00` *(stronger than the box asks, and stated as what is true: v1 has no recency or frequency input anywhere in the ranking, so they cannot break a tie inside a tier either - the tie-break is the universe order. If usage metadata is ever added, this box is where the rule will need re-asserting.)*
 - [x] Result ordering is deterministic. — `828d475` @ `2026-09-12T09:03:51+07:00` *(the ranking is a function of the universe and the query, and the universe itself is pinned by the index-domain and invalidation tests, so the same state and query are the same list every time.)*
-- [ ] One shortcut placement = one result.
-- [ ] One layout-member occurrence = one result.
-- [ ] Links use the shortcut index and are classified, not duplicated.
+- [x] One shortcut placement = one result. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(, )*
+- [x] One layout-member occurrence = one result. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(two layouts holding the same window descriptor are two results, one per layout, with keys that differ by layout and breadcrumbs that name their layout - the duplicate name is kept rather than collapsed, which is what the contract says to expect.)*
+- [x] Links use the shortcut index and are classified, not duplicated. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(a link is the same record with a web target: the row key is link:<placementId>, there is exactly one row per placement, and http and https are classified as Links while a filesystem target stays a Shortcut - so classification chooses the type rather than adding a second index.)*
 
 ## Filters
 
@@ -2167,8 +2176,8 @@ Quick Run is complete only when all conditions below are true.
 - [ ] Missing/ambiguous Layout Item remains visible and reports failure honestly.
 - [ ] Ctrl+Enter navigates-and-selects the exact As-you-Go occurrence.
 - [ ] Ctrl+Enter never invokes OS reveal.
-- [ ] Shift+Enter only works for Layout Items.
-- [ ] Shift+Enter never silently does nothing for unsupported result types.
+- [x] Shift+Enter only works for Layout Items. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(the plan answers only-layout-items for every other type, the mount only calls the caller when the plan is enabled, and the surface test drives a folder row and a link row through the real mount and asserts that nothing is called. The entry half is asserted by source shape, as with the Enter tests, because the entry file cannot be imported here.)*
+- [x] Shift+Enter never silently does nothing for unsupported result types. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(the reason is painted with the highlighted row before the key is pressed and stays on screen when it is, and the key is consumed rather than passed on - so the disabled case is visible rather than dead. This is the surface half of the rule; a run in the app is still what would confirm the wiring end to end.)*
 
 ## Native boundary
 
