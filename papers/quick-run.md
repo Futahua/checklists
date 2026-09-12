@@ -155,7 +155,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**61 ticked / 220 open.**
+**83 ticked / 198 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -188,7 +188,7 @@ a session with the creator at the machine, exactly like the two window checklist
 rules (enabled only for Layout Items, visibly disabled for the other three, never silently ignored, disabled
 with a visible reason when there is no active layout, and reported rather than duplicated when the window is
 already in that layout) are model-and-surface rules, and the surface half landed at `435f02b`: the reason line is painted with the highlighted row and the mount reads the key. What is still missing from the third part is the action, not the affordance.
-<!-- /STATUS -->
+<!-- /STATUS --> `ae3697a` then walks the section 17 index-domain list case by case — folders, placements and layout members indexed; three placements of one shortcut as three results with three breadcrumbs and one shared record; http and https as Links and a filesystem target as a Shortcut; the same descriptor in two layouts as two results; a layout never a row; prompts and Sets contributing nothing — so fifteen more boxes close on behaviour rather than on the absence of a feature.
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
 > artefacts removed). Written to stand alone: a future reader needs no access to
@@ -1951,23 +1951,23 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 
 ## Index domain
 
-- [ ] folder indexed.
+- [x] folder indexed. — 
 - [x] nested folder breadcrumb correct. — `bd24a2c` @ `2026-09-12T08:17:59+07:00` *(a group at depth two and a member inside it both build the full chain, in the document's own order and with its separator (Workspace › Alpha › Focus asserted in the search suite). The rule and the format are tested; the surface that draws it is a later stage.)*
-- [ ] binned folder excluded.
-- [ ] descendants under binned folder excluded.
-- [ ] one ordinary shortcut placement indexed.
-- [ ] linked shortcut with 3 placements gives 3 results.
+- [x] binned folder excluded. — 
+- [x] descendants under binned folder excluded. — 
+- [x] one ordinary shortcut placement indexed. — 
+- [x] linked shortcut with 3 placements gives 3 results. — 
 - [x] placement breadcrumbs independent. — `550e6cc` @ `2026-09-12T08:22:40+07:00` *(two placements of one shortcut in different folders produce two rows with different breadcrumbs **and** different result keys while sharing a name and target, which is the occurrence-identity rule the contract states. Asserted in quick-run-search.test.mjs.)*
-- [ ] HTTP shortcut classified as Link.
-- [ ] HTTPS shortcut classified as Link.
-- [ ] non-web shortcut classified as Shortcut.
-- [ ] one layout member indexed.
-- [ ] same descriptor in two layouts gives 2 results.
-- [ ] whole layout never appears.
-- [ ] binned layout member excluded.
-- [ ] prompts excluded.
-- [ ] Bin entries excluded.
-- [ ] Sets excluded, with a test/comment referencing the recorded product decision.
+- [x] HTTP shortcut classified as Link. — 
+- [x] HTTPS shortcut classified as Link. — 
+- [x] non-web shortcut classified as Shortcut. — 
+- [x] one layout member indexed. — 
+- [x] same descriptor in two layouts gives 2 results. — 
+- [x] whole layout never appears. — 
+- [x] binned layout member excluded. — 
+- [x] prompts excluded. — 
+- [x] Bin entries excluded. — 
+- [x] Sets excluded, with a test/comment referencing the recorded product decision. — 
 
 ## Ranking
 
