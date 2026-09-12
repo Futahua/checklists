@@ -6,9 +6,11 @@
 
 **Updated** 2026-09-13 · **Implemented on a feature branch, not yet accepted.** STAGE 0 through STAGE 19
 carry no open boxes: the modules, the surface, the actions, the invalidation and race rules and the tests
-are in place on `quick-run-stage0`. The **18 boxes that remain are the acceptance-shaped remainder** — one
+are in place on `quick-run-stage0`. The **16 boxes that remain are the acceptance-shaped remainder** — one
 architecture invariant, STAGE 17's host-side test requirements and the Definition of Done — and none of
-them is waiting on code. Two of them - the Performance pair - now wait on a **product decision** rather than on anything unbuilt: the measurement exists, it is recorded on both boxes, and it says the gate is missed. The app-level half of that acceptance is closed: the Definition of Done's four
+them is waiting on code. The Performance pair the remainder used to include is **closed at `299152d`**: it was
+measured, the measurement failed, it named its own cause, the creator chose the remedy and the re-measurement
+passes. The app-level half of that acceptance is closed: the Definition of Done's four
 Enter boxes ticked at `779c352`, which is the slice that moved the wiring into a seam a test can drive.
 
 **Where everything is.** Windows paths. The short names beside `Products\<Name>\<Role>` are symlinks into
@@ -26,9 +28,9 @@ directory. Use `D:/...` in scripts: Windows Python cannot resolve msys `/d/...` 
 **Suite at `779c352`.** `npm test` in the working tree above: **1344 tests, 1344 pass, 0 fail, 0 skipped,
 exit 0** in ~16 s (the baseline recorded on `main` is 1153, so this work added 191; the five new ones are
 the app-level acceptance harness). Every slice was gated
-on that run, and the count is the runner's own rather than a sum of new files. **Re-verified rather than carried:** the suite was run again on 2026-09-12 by the executor - `npm test` exit 0, **1344 pass / 0 fail / 0 skipped**, the recorded figure exactly, with the tree clean afterwards. **Run a third time on 2026-09-13, on the performance harness's own branch `quick-run-integrated-perf` at `59bed23`:** `npm test` exit 0, **tests 1344 / pass 1344 / fail 0 / skipped 0**, unchanged by the harness, which is deliberately *not* wired into `npm test` because it launches a real host and takes minutes - it has its own script, `npm run test:quick-run:integrated-perf`, and its own exit code (0 within budget, 1 over it, 2 when the measurement could not be taken).
+on that run, and the count is the runner's own rather than a sum of new files. **Re-verified rather than carried:** the suite was run again on 2026-09-12 by the executor - `npm test` exit 0, **1344 pass / 0 fail / 0 skipped**, the recorded figure exactly, with the tree clean afterwards. **Run a third time on 2026-09-13, on the performance harness's own branch `quick-run-integrated-perf` at `59bed23`:** `npm test` exit 0, **tests 1344 / pass 1344 / fail 0 / skipped 0**, unchanged by the harness, which is deliberately *not* wired into `npm test` because it launches a real host and takes minutes - it has its own script, `npm run test:quick-run:integrated-perf`, and its own exit code (0 within budget, 1 over it, 2 when the measurement could not be taken). **Run again at the paint cap, `299152d`:** `npm test` exit 0, **tests 1365 / pass 1365 / fail 0 / skipped 0** - the 21 new ones are the cap's own cases, and none of the existing tests was weakened, skipped or deleted. Three of them changed shape and are declared on the commit: the closed-session deep-equal now names `totalRows`/`capped`, and two files that enumerate the page's declared ids gained `#quick-run-cap`. Nothing asserted that every match is painted, so no test had to be bent to keep it.
 
-**The 18 open boxes, and what each is waiting on.**
+**The 16 open boxes, and what each is waiting on.**
 
 - **Papers activation (7)** and **Availability/native (2)** — STAGE 17's host-side requirements: a normal
   target raises and focuses, a minimized one restores first, a stale identity cannot activate a
@@ -48,21 +50,21 @@ on that run, and the count is the runner's own rather than a sum of new files. *
   fail it.
 - **Native boundary (4)** — the same capability seen from the host's side, including the fail-closed
   identity rule and the resource hash pins.
-- **Performance (2)** — the integrated renderer targets: p95 on the corpus and typing inside the agreed
-  frame-latency budget. **Both are now measured rather than pending, and both are missed.** The harness
-  `quick-run-integrated-perf.mjs` (`npm run test:quick-run:integrated-perf`, committed at `59bed23`) builds
-  STAGE 14.1's synthetic 20,000-occurrence workspace with graph mode active and 15 live physics nodes, opens
-  the real Backpack surface, activates Quick Run with the app's own `Alt+Shift+X` chord, types through the
-  project view as trusted input and reports **p95 29.3-30.2 ms against the 16 ms target** over 401 samples,
-  reproducing across four runs and exiting 1. It is not a corpus artifact: latency tracks the rows committed
+- **Performance (2) — CLOSED at `299152d`.** The pair was measured rather than left pending, and the first
+  measurement **missed**: the harness `quick-run-integrated-perf.mjs` (`npm run test:quick-run:integrated-perf`,
+  committed at `59bed23`) builds STAGE 14.1's synthetic 20,000-occurrence workspace with graph mode active and
+  15 live physics nodes, opens the real Backpack surface, activates Quick Run with the app's own `Alt+Shift+X`
+  chord, types through the project view as trusted input, and reported **p95 29.3-30.2 ms against the 16 ms
+  target** over 401 samples across four runs. It was not a corpus artifact: latency tracked the rows committed
   in one paint (1-1,000 rows: p95 2.6-10.8 ms; 3,001-12,000 rows: p95 58.2 ms with every sample over one
-  frame), and the surface caps nothing. **So these two boxes no longer wait on a measurement, a machine or a
-  corpus. They wait on a product decision** - cap what is painted, virtualise the list, or re-scope the query
-  mix - because section 4.4 requires a bounded result panel *and* a scrollable long result list, and the gate's
-  16 ms cannot hold over the top of the corpus range while every match is painted. What they also do not wait
-  on any more is a *real* corpus: STAGE 14.1 asks for a synthetic/fixture workspace in its own words, which is
-  what was built, and the earlier reading that the number had to come from the creator's vault is corrected
-  here rather than left to be re-derived.
+  frame) and the surface capped nothing, so one keystroke could commit 12,213 rows. The creator chose the
+  remedy - cap what is painted - and `QUICK_RUN_MAX_PAINTED_ROWS = 200` now bounds the session's rows, with the
+  honest match count kept beside them and a line in the surface saying how many matches are not shown. The same
+  instrument then reported **p95 4.3 ms, 0 samples over one frame, 0 long tasks**, reproduced by the executor.
+  The earlier reading that the number had to come from the creator's vault is corrected in the boxes: STAGE
+  14.1 asks for a synthetic/fixture workspace in its own words, which is what was built. What the pair's closure
+  does **not** claim: the packaged-host half is not measured, the mark is the DOM commit rather than the
+  presented frame, and the Creator acceptance walk at the foot of this file is untouched.
 - **Architecture invariant (1)** at §5 — that the Papers addition stays exactly a narrow,
   already-resolved capability activation primitive. It is a statement about the host change, so it closes
   with the host work above.
@@ -78,7 +80,8 @@ left to pass in its place. It closed the four Enter boxes, and it left none of t
 work reachable from here. The two **Performance** boxes were reached the same way at `59bed23`: a second
 Playwright/Electron harness that seeds a disposable profile, opens the real surface, drives the real chord and
 measures real input-event → result-DOM-commit latency with graph physics live. It found the gate missed rather
-than met, and the measurement is written on both boxes with the mechanism behind it. The Layout Item boxes and
+than met, and that measurement is what the creator acted on: the paint is capped at 200 rows at `299152d`, the
+same instrument now passes at p95 4.3 ms, and both boxes carry the before and the after. The Layout Item boxes and
 the host rows either wait on that same native capability through a host run (Papers activation, native
 boundary, availability) or on the creator walking `# Creator acceptance walk` at the foot of this file, which
 no automated evidence replaces. **The packaged-host half of the performance route is NOT MEASURED, and for a
@@ -88,9 +91,13 @@ first `show-surface` is refused with *"Shared document coordination is unavailab
 disabled"* — and neither phrase exists anywhere in the current Papers source, so the packaged build is a
 different generation from the code under test rather than a stricter gate on it. The harness reports that as
 exit 2 (NOT MEASURED) with the error, which is what it is for; the numbers above are the **source** host, which
-is the generation this work targets. The Layout Item boxes and the host rows either wait on
-that same native capability through a host run (Papers activation, native boundary, availability) or on the
-creator walking `# Creator acceptance walk` at the foot of this file, which no automated evidence replaces. **That route was located and its shape checked rather than assumed, and it has since been driven** (the earlier note said "nothing launched"; the harness now launches into a disposable profile on every run, and the creator's own Papers stayed untouched throughout). The packaged app is `D:\Letters\MatTroiSeConMoc\PAPERS 3\Papers-3\release\win-unpacked\Papers.exe`, and the precedent for driving it is `probes\015r3-live-proof\cdp.mjs`, which spawns that binary with `--remote-debugging-port` and talks CDP to the real surface; `probes\016r` is the precedent for a *disposable* instance, launched with its own `--user-data-dir`, which is what keeps a probe off the creator's instance - and `run-016-phase-a-eye-check.mjs` says in its own text that their real Papers must not be closed. **What that means for the two Performance boxes is the sharp part, and it is new rather than a restatement:** a disposable profile starts with an empty workspace, and the earlier reading of this paragraph was that the gate named 10k-20k *real* rows, so the corpus would have to be the creator's vault and a synthetic number would be evidence for a different claim. **That reading is corrected above and the correction is deliberate:** STAGE 14.1 asks for "a synthetic/fixture workspace representing 10,000-20,000 searchable occurrences with graph mode active" in its own words, so a seeded disposable profile is the gate's corpus rather than a substitute for it - and the measurement at `59bed23` is that corpus, run four times, failing. No automated evidence replaces `# Creator acceptance walk` either. Recorded so the next session does not re-derive it: the harness, the launch pattern, the profile discipline and the corpus question are all settled, and the one decision that remains is the product one on the two boxes - cap the paint, virtualise the list, or narrow the query mix.
+is the generation this work targets. What the two Performance boxes leave behind is one line of history rather
+than a paragraph: the earlier reading of this section sent the number to the creator's vault, and STAGE 14.1's own
+words - "a synthetic/fixture workspace representing 10,000-20,000 searchable occurrences with graph mode active" -
+are why that reading was corrected rather than honoured. The rest of the route is now ordinary precedent for a
+later run: `probes\015r3-live-proof\cdp.mjs` spawns a packaged binary with `--remote-debugging-port`, `probes\016r`
+is the disposable-instance pattern (`--user-data-dir`), and `run-016-phase-a-eye-check.mjs` states in its own text
+that the creator's real Papers must not be closed.
 One contract line stays known-unimplemented and is recorded rather than implied: section 16.3's automatic
 requery after a stale result — the binding revalidates, keeps the layer open and says why, and the harness
 asserts exactly that.
@@ -1980,7 +1987,7 @@ Every test proves current-state revalidation.
 - [x] 20k corpus measured. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(the same run at 20k: p50 1.84 ms, p95 2.09 ms, max 3.46 ms with the field present, p95 6.18 ms without it.)*
 - [x] pure p95 ≤ 8 ms or Worker fallback used. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(the budget is met and no Worker is needed: 2.09 ms p95 on the real product path (rows carry normalizedName), 6.18 ms even on the pessimistic path, and the worst single query in the run was 7.64 ms. Before this slice the same measurement was 9.4 ms, because the ranking normalised the query once per row.)*
 - [x] no ordinary pure query ≥ 16 ms. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(the measured maximum across both corpora and all seven queries was 7.64 ms, less than half the floor, and the real path peaked at 3.46 ms.)*
-- [ ] integrated renderer p95 target satisfied. — **measured, and NOT met: `59bed23` @ `2026-09-13T00:31:09+07:00`.** `npm run test:quick-run:integrated-perf` (harness `quick-run-integrated-perf.mjs`, which launches the host from source into a disposable profile, drives the app's own `Alt+Shift+X` chord and types through the real project view as trusted input) reports **p50 6.7-6.8 ms, p95 29.3-30.2 ms, max 55-64 ms over 401 samples** against this gate's 16 ms, reproducing across four runs and exiting 1. The cause is not the corpus: latency tracks the rows committed in a single paint and the surface caps nothing. By rows rendered - 1-200: p95 2.6-6.1 ms, 0 samples over one frame; 201-1,000: 10.8, 0 over; 1,001-3,000: 23.7, 8 over; 3,001-12,000: 58.2, **30 of 30 over**; 12,001+: 47.8, 6 over. The misses are one- and two-character prefixes, where the fuzzy subsequence tier makes `a` match 12,213 and `ar` 8,307 of the corpus's 20,000 rows. **It stays open for a product reason rather than a missing measurement:** section 4.4 requires a *bounded result panel* **and** a *scrollable long result list*, and nothing bounds what is painted, so this gate and that requirement cannot both hold at the top of the corpus range. The three remedies are not equivalent - cap what is painted (changes what "long result list" means), virtualise the list (keeps the semantics, real surface work), or re-scope the query mix - so the choice is the creator's rather than the executor's, and the measurement is recorded here rather than the box being closed on a redefinition of it. Synthetic corpus, per 14.1: 20,000 occurrences (60 folders, 19,928 shortcut placements, 12 layout members) with graph mode active and 15 live physics nodes at the open folder.
+- [x] integrated renderer p95 target satisfied. — `299152d` @ `2026-09-13T00:54:43+07:00` *(**met, and only after the measurement named its own cause.** This box was measured and NOT met at `59bed23` @ `2026-09-13T00:31:09+07:00`: p95 30 ms against 16 ms, over four runs, on STAGE 14.1's synthetic 20,000-occurrence workspace with graph mode active and 15 live physics nodes. The failure was not the corpus but the paint - latency tracked the rows committed by a single keystroke (1-200 rows: p95 2.6-6.1 ms; 3,001-12,000 rows: p95 58.2 ms with all 30 samples over one frame) because the surface painted every match and one letter of an ordinary query can rank thousands of them. The creator capped what is painted rather than redefining the gate: `QUICK_RUN_MAX_PAINTED_ROWS = 200` in `public/app/quick-run/quick-run-session.js`, applied where the session's rows are built so the paint, the arrow-key highlight and activation all see the same bounded list, with the honest match count carried beside it and a line in the surface that says how many matches are not shown. Same instrument, same corpus, same seven queries, re-run by the executor: **p95 4.3 ms, p50 3.6 ms, max 5.3 ms, 0 samples over one frame, 0 long tasks**. The row-count buckets record it independently of the summary: every commit is now at or below 200 rows (`rowsRange` caps at 200), so the buckets above 200 are empty by construction rather than unmeasured. What this does not close, stated rather than implied: the packaged-host half is NOT MEASURED (the harness launches `release\win-unpacked\Papers.exe` and is refused by a coordination gate whose wording appears nowhere in the current source, that build being 17 commits older than source HEAD), the mark is the DOM commit rather than the presented frame, and the Creator acceptance walk at the foot of this file is untouched.)*
 - [x] typing causes zero graph reheat/full render. — `72384be` @ `2026-09-12T08:48:10+07:00` *(no module holds a reference to the graph or to the render function - render( and reheat are absent from all seven modules and from the entry region that mounts the surface - so a keystroke cannot restart physics it cannot reach.)*
 - [x] state-only layout observation storm causes zero rebuilds. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(two hundred consecutive bounds and minimize/restore updates leave the open session, the universe and a query result byte-identical - a storm rather than a single update, because that is how the live observer reports.)*
 
@@ -2072,7 +2079,7 @@ Quick Run is complete only when all conditions below are true.
 ## Performance
 
 - [x] Pure 20k benchmark meets budget or Worker fallback is implemented. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(met on measurement rather than by assumption: 20k p95 2.09 ms against the 8 ms budget, so the Worker alternative was not needed - and section 6 forbids worker architecture before profiling proves it necessary, which this measurement now answers in the negative.)*
-- [ ] Integrated typing stays inside agreed frame-latency budget. — **measured, and NOT met: `59bed23` @ `2026-09-13T00:31:09+07:00`, the same run as the STAGE 17 box above.** Keystroke to results-DOM commit is p95 29.3-30.2 ms against the agreed 16 ms budget (p50 6.7-6.8, max 55-64, 401 samples, four runs), and the miss is confined to keystrokes that commit more than a thousand rows at once. One measured caveat makes this a **lower bound rather than the whole story**: the commit mark is taken in the MutationObserver on the already-synchronous `replaceChildren`, while browser long tasks of 224-294 ms *begin* at those same keystrokes and outlast it, so the frame a person actually sees is at least this slow and possibly slower. What the harness does not measure is named in its artifact: the packaged-host path (no packaged build exists here), style/layout/paint/compositing after the commit, and Quick Run's one-time open cost over 20k rows, which the warm-up excludes.
+- [x] Integrated typing stays inside agreed frame-latency budget. — `299152d` @ `2026-09-13T00:54:43+07:00` *(the same run as the STAGE 17 box above, before and after. Before the cap, typing committed as many as 12,213 rows in one go and measured **p95 30 ms** against the agreed 16 ms, with 45 long tasks and 44 of 401 samples over one frame. With the paint capped at 200 rows it measures **p95 4.3 ms (p50 3.6, max 5.3), 0 samples over one frame and 0 long tasks**. The long-task figure is the one that matters for this box: the earlier caveat that the commit mark is a lower bound came from tasks that began at a keystroke and outlasted it, and there are now none to attribute. Reproduce with `npm run test:quick-run:integrated-perf` in the As-you-Go tree; its exit code is the verdict.)*
 - [x] Quick Run typing never reheats graph physics. — `72384be` @ `2026-09-12T08:48:10+07:00` *(the same structural fact, asserted as a scan so a later pass cannot add one quietly.)*
 - [x] Quick Run typing never calls full workspace `render()`. — `72384be` @ `2026-09-12T08:48:10+07:00` *(the same scan, and the reason the rule is structural rather than behavioural: there is nothing to guard at runtime.)*
 - [x] No native/IPC work occurs on keystrokes. — `4f63739` @ `2026-09-12T08:39:21+07:00` *( and )*
