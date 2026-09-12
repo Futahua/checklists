@@ -210,7 +210,7 @@ Duplicate names are allowed and expected when breadcrumbs differ.
 
 ## 1.3 Highlight
 
-- [ ] First matching result starts highlighted.
+- [x] First matching result starts highlighted. — `66fd5f4` @ `2026-09-12T08:32:47+07:00` *(the session's rule: resolving results sets the highlight to the first row of the set it just produced (`quick-run-session.js`), the surface paints that row with `data-quick-run-highlighted="true"`, and the surface test asserts exactly one row carries it. **Residual:** the entry file that opens the session is not importable in a test, so the paint is asserted through the surface rather than through a key press.)*
 - [x] ArrowDown moves highlight one result down. — `0adc8fc` @ `2026-09-12T08:15:05+07:00` *(the **rule** is implemented and tested — `src`-side in `public/app/quick-run/quick-run-index.js`, exercised by `quick-run-index.test.mjs` in the suite that runs 1173 cases — while the surface that calls it is a later stage, so this tick claims the rule and not the visible highlight.)*
 - [x] ArrowUp moves highlight one result up. — `0adc8fc` @ `2026-09-12T08:15:05+07:00` *(the **rule** is implemented and tested — `src`-side in `public/app/quick-run/quick-run-index.js`, exercised by `quick-run-index.test.mjs` in the suite that runs 1173 cases — while the surface that calls it is a later stage, so this tick claims the rule and not the visible highlight.)*
 - [x] Mouse wheel/scroll updates which result is highlighted according to the agreed list behavior. — `7f60ecb` @ `2026-09-12T08:31:51+07:00` *(the contract answers this itself in § 6.3, which is what "the agreed list behavior" points at: *"scrolling list changes viewport normally"*, *"when a row becomes selected by intended scroll behavior, its selection is deterministic"*, and *"keyboard highlight never points to an off-list stale row"* — with `:hover` explicitly not authoritative. Implemented as exactly that and nothing more: **no wheel handler is registered at all** (asserted, and firing a wheel event leaves the highlight where it was), the highlight is always a member of the displayed set across a query sequence including a no-match one (asserted), and the keyboard is the only thing that moves it.)*
@@ -1918,7 +1918,7 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 - [ ] Tab forward.
 - [ ] Shift+Tab backward.
 - [ ] zero-match active filter falls back to All.
-- [ ] fallback highlights first All row.
+- [x] fallback highlights first All row. — `66fd5f4` @ `2026-09-12T08:32:47+07:00` *(when the active type filter loses its matches, the session falls back to `All`, reports `fellBack: true`, and sets the highlight to the first row of the fallback set — asserted in the session suite (`fellBack` plus `highlightKey === rows[0].resultKey`) and reached through the mount test's Tab handling.)*
 
 ## Empty query
 
