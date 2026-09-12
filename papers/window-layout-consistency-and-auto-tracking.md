@@ -12,8 +12,8 @@
 "remove invalidated processes immediately", or a Chrome tab switch will silently delete
 Chrome and Obsidian from the creator's layouts during ordinary use.
 
-**Reachability** (recon 2026-09-12, one item since answered). Host baseline is green: `Futahua/Papers-3` at
-`d2a3c74`, 99 files (98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The **171** open
+**Reachability** (recon 2026-09-12, two reviewer items since answered). Host baseline is green: `Futahua/Papers-3` at
+`d2a3c74`, 99 files (98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The **170** open
 boxes are prohibitions (23), stage work (4 + 6 + 15), STAGE 22 test requirements (80) and Definition of Done
 (41). **One of the two blockers that stood before any stage begins is now closed by measurement** rather than
 by judgement: the reviewer's first item, "Resolve the window-tag lifetime contradiction … record the answer
@@ -21,9 +21,10 @@ before Stage 1", is answered at `825154a` @ `2026-09-13T01:04:44+07:00` — a wi
 its value survives the writer process's death and is destroyed with the window, while a pointer-valued property
 and `GWLP_USERDATA` each fail for a recorded reason. The remaining blocker is unchanged and is the one that
 cannot be worked around: the feature manipulates **live foreign windows** (moving, hiding, Z-ordering them),
-which must not be attempted autonomously on the creator's desktop overnight. Two reviewer items also remain
-open — the startup/reboot transition table and the mandatory-versus-recommended separation — and both are
-document work rather than machine work.
+which must not be attempted autonomously on the creator's desktop overnight. **One reviewer item also remains
+open** — separating mandatory gates from recommendations where a stage mixes both — and it is document work
+rather than machine work; the startup/reboot transition table closed at `c29cc40` @ `2026-09-13T01:09:32+07:00`
+as ten cited rows plus the five combinations the document does not state.
 
 <!-- /STATUS -->
 
@@ -2059,7 +2060,7 @@ The feature is done only when this complete acceptance walk passes and ordinary 
 # Open items flagged by the reviewer
 
 - [x] **Resolve the window-tag lifetime contradiction.** — `825154a` @ `2026-09-13T01:04:44+07:00` *(answered by measurement, in "The window-tag lifetime question, answered by measurement" below these items. A window property carrying the tag **in its value** gives both halves: a third process read it back verbatim after the writer process had died, including a full 64-bit value exactly, and after `DestroyWindow` the same read returned 0 with `IsWindow` false. A pointer-valued property cannot carry a tag (the reader gets an address into a dead process) and `GWLP_USERDATA`, though it did work cross-process here, is one shared slot that the owning application may use for its own data. The consequence for Stage 1 is that the handle alone is not identity, so a cached HWND must be revalidated against the live window and its tag. Measured with `.dsh\win-tag-probe.py` on windows the probe created and destroyed itself; no foreign window was read, moved, hidden or activated.)*
-- [ ] **Define exact startup and reboot state transitions** as a single table, rather than leaving them distributed across Stages 11 and 15.
+- [x] **Define exact startup and reboot state transitions** as a single table, rather than leaving them distributed across Stages 11 and 15. — `c29cc40` @ `2026-09-13T01:09:32+07:00` *(done in "The startup and reboot transitions, in one table" below these items: ten rows, each citing the section that already states it, plus the five combinations the document does **not** state, listed so Stage 1 inherits a visible gap rather than an invented rule. No new policy was written — every row is a citation of 3.2, 3.3, 4.1-4.3, 5, 10, 11.1-11.4, 13 and 15.1-15.6, and the unstated cases are named rather than decided.)*
 - [ ] **Separate mandatory gates from recommendations** where a stage mixes both.
 
 ## The window-tag lifetime question, answered by measurement (2026-09-13)
