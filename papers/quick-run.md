@@ -82,6 +82,17 @@ says 1176, which is wrong; the run printed 1174 (1173 plus the one new case), an
 rewritten the number is corrected here instead. Nothing in this document ticked for either step: § 5.1's
 text is not a checkbox, and "A configurable As-you-Go workspace hotkey opens Quick Run" stays open until
 the entry file actually opens the surface.
+**The boundary the next step hits, recorded before it is hit.** STAGE 5's third step is the entry file —
+pass a real `openQuickRun` into the controller and mount the surface — and the surface's markup is
+**genuinely unspecified**: a search of this document finds no `data-*`, `aria-*` or class-name contract for
+Quick Run's line, chips or rows. Only content is fixed (§ 1.2: icon, primary name, faint trailing
+breadcrumb, one flat list) and behaviour (§ 1.1–1.4). So the markup is the implementer's to design, and the
+guide for it is **the repository's own conventions**, not invention: how the other surfaces mount in
+`public/workspace-20260730b.js`, what `public/app/dom.js` offers, and what the existing `*.test.mjs` files
+assert about the workspace's DOM. A pass that skips that reading will produce selectors the repo's own tests
+then contradict, which is the failure I stopped short of twice already (a module written before
+`ARCHITECTURE.md` was read, and rows written before § 0.2 was). Everything upstream of it is now in place
+and green: three pure modules, the row shape, the catalog entry and the controller intent.
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
