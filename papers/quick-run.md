@@ -416,8 +416,8 @@ Classification: HARD LAUNCH CRITERIA
 - [ ] An untouched Layout Item starts availability=unknown, not "Not running."
 - [ ] Missing/ambiguous native targets remain searchable because their persisted member still exists.
 - [ ] A failed native resolution never silently substitutes a different matching window.
-- [ ] Enter re-reads the selected object from the current state by stable IDs before acting.
-- [ ] Indexed result payloads are never treated as current authority.
+- [x] Enter re-reads the selected object from the current state by stable IDs before acting. — `d11206e` @ `2026-09-12T08:40:17+07:00` *(`revalidateQuickRunRow` rebuilds the universe from the current state and finds the row by the pinned stable key, at `d11206e` @ `2026-09-12T08:40:17+07:00` — the test renames the shortcut under the index and asserts the re-read carries the new name while the indexed row keeps the old one, and that a removed occurrence answers a reason instead of an action. The entry-file slice that runs the plan is expected to call this first, which is why it is a function rather than a comment.)*
+- [x] Indexed result payloads are never treated as current authority. — `d11206e` @ `2026-09-12T08:40:17+07:00` *(`revalidateQuickRunRow` rebuilds the universe from the current state and finds the row by the pinned stable key, at `d11206e` @ `2026-09-12T08:40:17+07:00` — the test renames the shortcut under the index and asserts the re-read carries the new name while the indexed row keeps the old one, and that a removed occurrence answers a reason instead of an action. The entry-file slice that runs the plan is expected to call this first, which is why it is a function rather than a comment.)*
 - [ ] Quick Run does not invoke the normal full workspace render() on every keystroke.
 - [ ] Query interaction does not restart/reheat graph physics.
 - [ ] Search-index rebuilding is not triggered by layout-member state/bounds observation.
