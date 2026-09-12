@@ -6,9 +6,10 @@
 
 **Updated** 2026-09-12 · **Implemented on a feature branch, not yet accepted.** STAGE 0 through STAGE 19
 carry no open boxes: the modules, the surface, the actions, the invalidation and race rules and the tests
-are in place on `quick-run-stage0`. The **22 boxes that remain are the acceptance-shaped remainder** — one
+are in place on `quick-run-stage0`. The **18 boxes that remain are the acceptance-shaped remainder** — one
 architecture invariant, STAGE 17's host-side test requirements and the Definition of Done — and none of
-them is waiting on code.
+them is waiting on code. The app-level half of that acceptance is closed: the Definition of Done's four
+Enter boxes ticked at `779c352`, which is the slice that moved the wiring into a seam a test can drive.
 
 **Where everything is.** Windows paths. The short names beside `Products\<Name>\<Role>` are symlinks into
 those directories and both forms work, so a tool reporting one when you typed the other is not a wrong
@@ -16,31 +17,35 @@ directory. Use `D:/...` in scripts: Windows Python cannot resolve msys `/d/...` 
 
 | | |
 | --- | --- |
-| Working tree | `D:\Letters\MatTroiSeConMoc\Products\Papers\Runtime\Backpack projects\As you Go` — remote `Futahua/as-you-go-backpack`, branch **`quick-run-stage0`**, HEAD **`4db1254`** @ `2026-09-12T10:01:10+07:00`, clean tree, pushed |
+| Working tree | `D:\Letters\MatTroiSeConMoc\Products\Papers\Runtime\Backpack projects\As you Go` — remote `Futahua/as-you-go-backpack`, branch **`quick-run-stage0`**, HEAD **`779c352`** @ `2026-09-12T15:45:12+07:00`, clean tree, pushed |
 | Untouched baseline | `main` at `8000c88` @ `2026-09-08T18:23:53+07:00` — the anchor this work must not disturb, and has not |
 | Papers host | `D:\Letters\MatTroiSeConMoc\PAPERS 3\Papers-3` (canonical) and `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — **read-only reference for this checklist**. STAGE 9's host half names the files a Papers-side change would touch; no Papers change is claimed by this branch |
 | This checklist | `D:\Letters\MatTroiSeConMoc\LongHorizon` — `Futahua/long-horizon`, branch `codex/reviewer-send-verification` |
 | Old Proxima plugin | `D:\LapSlop brotherhood\Local\.obsidian\plugins\proxima` — **read-only; it is live inside the creator's vault** |
 
-**Suite at `4db1254`.** `npm test` in the working tree above: **1339 tests, 1339 pass, 0 fail, 0 skipped,
-exit 0** in ~16 s (the baseline recorded on `main` is 1153, so this work added 186). Every slice was gated
+**Suite at `779c352`.** `npm test` in the working tree above: **1344 tests, 1344 pass, 0 fail, 0 skipped,
+exit 0** in ~16 s (the baseline recorded on `main` is 1153, so this work added 191; the five new ones are
+the app-level acceptance harness). Every slice was gated
 on that run, and the count is the runner's own rather than a sum of new files.
 
-**The 22 open boxes, and what each is waiting on.**
+**The 18 open boxes, and what each is waiting on.**
 
 - **Papers activation (7)** and **Availability/native (2)** — STAGE 17's host-side requirements: a normal
   target raises and focuses, a minimized one restores first, a stale identity cannot activate a
   replacement window, a malformed capability is rejected, a page cannot supply HWND/PID/path, the
   helper-unavailable failure is typed, and the helper SHA-256 pins are updated and validated. These need
   the Papers host with the helper present.
-- **Actions (6)** — the Definition-of-Done acceptance twins for Folder, Shortcut and Link Enter, the honest
-  failure a missing or ambiguous Layout Item reports, Layout Item Enter itself, and Ctrl+Enter's
-  navigate-and-select. Source shape is not acceptance; an app-level harness that drives the real workspace
-  closes **four** of them — Folder, Shortcut, Link and Ctrl+Enter. **The two Layout Item boxes cannot close
-  that way at this revision, and the browser AUTHOR said so on 2026-09-12:** `planQuickRunActivation()` still
-  declares Layout Item activation deferred and the resolver says native enumeration and activation wait for
-  the Papers capability, so a fake command object cannot prove that the exact native window is
-  activated or restored.
+- **Actions (2)** — the two Layout Item boxes: that Enter uniquely resolves and activates/restores the exact
+  native window, and that a missing or ambiguous one stays visible and reports failure honestly. **Neither
+  can close with the app-level harness, and the browser AUTHOR said so on 2026-09-12:**
+  `planQuickRunActivation()` still declares Layout Item activation deferred and the resolver says native
+  enumeration and activation wait for the Papers capability, so a fake command object cannot prove that the
+  exact native window is activated or restored. The other four twins closed at `779c352`:
+  `quick-run-workspace.test.mjs` types into the production markup's input, presses the key on the drawn row,
+  and asserts the real store's session, the launcher's log and the host's web-opener log — the wiring moved
+  out of the entry file into `public/app/quick-run/quick-run-workspace.js` so the harness drives the
+  production line rather than a copy of it, and six mutations (removing the binding's hand-off among them)
+  fail it.
 - **Native boundary (4)** — the same capability seen from the host's side, including the fail-closed
   identity rule and the resource hash pins.
 - **Performance (2)** — the integrated renderer targets: p95 on the real corpus and typing inside the
@@ -49,22 +54,23 @@ on that run, and the count is the runner's own rather than a sum of new files.
   already-resolved capability activation primitive. It is a statement about the host change, so it closes
   with the host work above.
 
-**Next operation.** Nothing here is blocked on code. The next slice that can move without the creator is the
-**app-level acceptance harness, scoped by the browser AUTHOR on 2026-09-12**: extract the smallest Quick Run
-workspace binding/composition seam out of the booting entry file, have the real entry use it, and have the
-harness use that same binding with the production workspace markup, a real store and the real
-`createWorkspaceCommands`. Its acceptance is DOM input → a real ranked row → Enter on a Folder changing
-authoritative workspace navigation and closing Quick Run, Shortcut and Link calling their exact and mutually
-exclusive effects, Ctrl+Enter driving the real navigation/selection path and resolving a duplicated placement
-to the requested occurrence rather than to the shared shortcut record, at least one stale-result mutation
-between render and keypress proving the binding revalidates current state, and no test-side copy of the
-entry's activation algorithm — removing the production binding must break the harness. The two integrated
-**Performance** boxes are not closed by it: their gate is real input-event → result-DOM-commit latency with
-graph mode active on a 10k–20k corpus, so they need a real browser/Electron renderer — this repository already
-has a packaged-Papers Playwright/Electron acceptance route that executes JavaScript inside the real Backpack
-surface, which is the appropriate foundation. Everything else waits on a host run (Papers activation, native
-boundary, availability) or on the creator walking `# Creator acceptance walk` at the foot of this file, which
-no automated evidence replaces.
+**Next operation.** The app-level harness the browser AUTHOR scoped on 2026-09-12 is **built, at `779c352`**:
+the composition seam is `public/app/quick-run/quick-run-workspace.js`, the entry composes it, and
+`quick-run-workspace.test.mjs` drives it on the production markup's ids with a real store and the real
+`createWorkspaceCommands` — DOM input to a real ranked row, Enter on a Folder navigating the store's session
+and closing the layer, Shortcut and Link calling their exact and mutually exclusive effects, Ctrl+Enter
+resolving a doubled placement to the requested occurrence, one stale-result mutation between render and
+keypress, and six mutations of the production binding that all fail the harness, so there is no test-side copy
+left to pass in its place. It closed the four Enter boxes, and it left none of the remaining four kinds of
+work reachable from here. The two **Performance** boxes need a real browser/Electron renderer — their gate is
+real input-event → result-DOM-commit latency with graph mode active on a 10k–20k corpus — and this repository
+already has a packaged-Papers Playwright/Electron acceptance route that executes JavaScript inside the real
+Backpack surface, which is the appropriate foundation. The Layout Item boxes and the host rows either wait on
+that same native capability through a host run (Papers activation, native boundary, availability) or on the
+creator walking `# Creator acceptance walk` at the foot of this file, which no automated evidence replaces.
+One contract line stays known-unimplemented and is recorded rather than implied: section 16.3's automatic
+requery after a stale result — the binding revalidates, keeps the layer open and says why, and the harness
+asserts exactly that.
 
 **The hotkey chord is chosen and bound.** The creator chose **`Alt+Shift+X`** for the workspace scope on
 2026-09-12 — recorded on the open item at the foot of this file, which was the item waiting for it — and it is
@@ -2012,12 +2018,12 @@ Quick Run is complete only when all conditions below are true.
 
 ## Actions
 
-- [ ] Folder Enter navigates.
-- [ ] Shortcut Enter launches.
-- [ ] Link Enter opens web link.
+- [x] Folder Enter navigates. — `779c352` @ `2026-09-12T15:45:12+07:00` *(acceptance rather than source shape: `quick-run-workspace.test.mjs` types a query into the production markup's input element, fires Enter at the layer, and the real store's session is in the folder that was searched for. The wiring moved out of the entry file into `public/app/quick-run/quick-run-workspace.js` so the harness drives the production line instead of a copy of it, and section 16.1's close-on-success - written in the contract and never implemented - now closes the layer after the hand-off. Removing the hand-off, or the re-read guard, fails the harness.)*
+- [x] Shortcut Enter launches. — `779c352` @ `2026-09-12T15:45:12+07:00` *(the drawn row's Enter reaches the real `activateItem`, the launcher records the shared record id and nothing else: the web opener and the reveal path both stay empty, which is the mutual exclusivity section 1.6 asks for, and the layer closes.)*
+- [x] Link Enter opens web link. — `779c352` @ `2026-09-12T15:45:12+07:00` *(the same path with the other classification: the host's web opener records the https URL and the launcher records nothing, so "opened" and "launched" are distinguished by which effect ran rather than by which branch was taken.)*
 - [ ] Layout Item Enter uniquely resolves and activates/restores the exact native window.
 - [ ] Missing/ambiguous Layout Item remains visible and reports failure honestly.
-- [ ] Ctrl+Enter navigates-and-selects the exact As-you-Go occurrence.
+- [x] Ctrl+Enter navigates-and-selects the exact As-you-Go occurrence. — `779c352` @ `2026-09-12T15:45:12+07:00` *(the doubled record is the test: one shortcut placed in two folders draws two rows, the arrow key asks for the second, and Ctrl+Enter navigates to **that** occurrence's folder and selects the shared record - the plan's `navigateTo` comes from the row's own ancestor chain, so navigating to the record instead fails the harness, and so does selecting the placement rather than the record. The OS reveal path stays empty.)*
 - [x] Ctrl+Enter never invokes OS reveal. — `a097264` @ `2026-09-12T09:31:31+07:00` *(structural rather than behavioural: every branch of the plan answers hostReveal false, the entry callback follows the plan and calls only the workspace own navigate and select commands, and the entry region is asserted not to contain the reveal command it would be tempting to reuse. No app run is needed for this particular claim.)*
 - [x] Shift+Enter only works for Layout Items. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(the plan answers only-layout-items for every other type, the mount only calls the caller when the plan is enabled, and the surface test drives a folder row and a link row through the real mount and asserts that nothing is called. The entry half is asserted by source shape, as with the Enter tests, because the entry file cannot be imported here.)*
 - [x] Shift+Enter never silently does nothing for unsupported result types. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(the reason is painted with the highlighted row before the key is pressed and stays on screen when it is, and the key is consumed rather than passed on - so the disabled case is visible rather than dead. This is the surface half of the rule; a run in the app is still what would confirm the wiring end to end.)*
