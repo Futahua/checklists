@@ -25,7 +25,8 @@ other is not a wrong directory. Use `D:/...` in scripts: Windows Python cannot r
 | Accepted host Gate 10.1 | `Futahua/Papers-3` branch `gate10-native-presentation-reconcile` @ `5451bbf` — pushed, creator-accepted |
 | Accepted host Gate 10.2 | `Futahua/Papers-3` branch `gate10-host-truth` @ `9e6304b` — pushed, creator-accepted |
 | Accepted host Gate 10.3 | `Futahua/Papers-3` branch `gate10-relay` @ `d2a3c74` — pushed, creator-accepted |
-| Unaccepted work | none |
+| Unaccepted work | none |
+| Next operation | Stage 16 template execution, as its own session: a parser that produces a typed intended-operation plan without mutating anything, structured errors for an invalid template, an injected clock for relative dates, and opaque stable IDs for records created together and the relations between them. That is the pure half of the stage and closes five of its eighteen boxes plus the two preview boxes; the executor half then reuses the workspace's existing semantic actions rather than taking RecordStore authority, which is what the remaining boxes and Stage 17's "for every row above" matrix are waiting on. Read src/app/templateComposer.ts and 	ests/templateComposer.test.ts first: the composer already exists and the executor must extend its seam rather than start a second one. |
 | Suite at `c2ef9f1` | fixture generation 0, source/test typecheck 0, build 0, `git diff --check` 0, vitest 0 under **default parallelism**, 220 files / 1456 tests in 11.3 s, re-run 2026-09-12 at this SHA (the previous row quoted `425a631` and 217 files, which was true then and is now one baseline behind)
 
 **Done** Stage 0's spine, HARD GATE 0 closed at `5d5cebf`. Stage 1 at `2450828`. Stage 2,
