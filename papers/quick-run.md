@@ -108,20 +108,31 @@ file passing a real `openQuickRun` into the keyboard controller and mounting the
 that finally makes the chord open something a reader can see. Nothing in that list requires inventing a
 selector convention: the ids are the implementer's to name, and everything they must contain is already
 decided.
-**Steps 1–4 of the mounting plan are done, and the diagnosis recorded with the revert was right.** `cd9b950`
-paints the four elements, `aaab87d` adds the mounting half (`mountQuickRun({ document, elements, getState })`
-— the input listener, Escape, the arrows, Tab/Shift+Tab, and `open` handed to the keyboard controller), and
-`10f8ae6` makes the chord open the surface; the failure that forced the earlier revert was the harness after
-all, and `quick-run-surface.test.mjs` now gives `fakeElement()` both `addEventListener` and `fire`. The
-branch `quick-run-stage0` is at `217007f`, suite **1205 pass / 0 fail** against the `8000c88` baseline of
-1153, `main` untouched. **What is left of STAGE 5 is the entry file's activation callback, and it is the one
-part of this feature that lives in the composition root:** Enter has to run § 1.5's plan —
-`planQuickRunActivation`, calling `revalidateQuickRunRow` first — by naming the workspace's own
-`workspace.open-selection` command rather than growing a second launch path, has to surface the deferred
-reason a layout-item row receives instead of showing nothing, and has to render Shift+Enter's affordance and
-its reasons; Ctrl+Enter stays unimplemented, because § 1.6 gives it its own reveal path and forbids reusing
-`reveal-selection` or `revealShortcut()`.
+**STAGE 5 is complete, including the step that lives in the composition root.** Steps 1–4 landed at `cd9b950`
+(the surface paints the four elements), `aaab87d` (`mountQuickRun` wires the input listener, Escape, the
+arrows, Tab/Shift+Tab) and `10f8ae6` (the chord opens the surface); the earlier revert was the test harness,
+which now carries `addEventListener` and `fire`. `a0c4266` is the activation half: Enter — and a click, since
+§ 6.4 wants one implementation reached from both — re-reads the row by its stable key, plans the action, and
+names the workspace's own `commands.activateItem` rather than growing a second launcher, with a row that
+cannot run saying why in the status line instead of appearing to do nothing. `e79e5f8` proves the three § 1.5
+default actions end to end against the real command object (folder navigates, shortcut launches, link opens
+its URL), `72384be` asserts what Quick Run structurally cannot do (render the workspace, reheat the graph,
+observe anything, poll on a timer), and `quick-run-entry.test.mjs` holds the entry wiring's shape, including
+the § 1.6 prohibition: no `revealShortcut`, `revealSelection`, `launchShortcut`, `openWebLink` or direct host
+call may appear beside the activation. Branch `quick-run-stage0` is at `72384be`, suite **1212 pass / 0 fail**
+against the `8000c88` baseline of 1153, `main` untouched.
 
+**What is still open in STAGE 5 and why.** Three things, and only one of them is autowork: **Shift+Enter has
+no surface wiring yet** — the rules exist and are tested (`56b2fe1`: never nothing, disabled with a reason for
+the three non-Layout-Item types and for no active layout), but the mount does not read the key and there is no
+element to show a disabled affordance in, so in the running app the key is still ignored, and the boxes that
+require it visibly disabled stay open until the surface carries them. **Ctrl+Enter is deliberately
+unimplemented**, because § 1.6 gives it its own in-workspace reveal path and forbids reusing `reveal-selection`
+or `revealShortcut()`; the entry wiring is asserted *not* to contain them. **Layout Item Enter waits for the
+creator at the machine** — activation and focus of a live foreign window is not reversible by a commit, and
+the row's plan already answers `deferred` with a reason rather than pretending, which is why the § Availability
+outcome boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this
+pass: **57 ticked / 224 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -430,9 +441,9 @@ Classification: HARD LAUNCH CRITERIA
 - [ ] A failed native resolution never silently substitutes a different matching window.
 - [x] Enter re-reads the selected object from the current state by stable IDs before acting. — `d11206e` @ `2026-09-12T08:40:17+07:00` *(`revalidateQuickRunRow` rebuilds the universe from the current state and finds the row by the pinned stable key, at `d11206e` @ `2026-09-12T08:40:17+07:00` — the test renames the shortcut under the index and asserts the re-read carries the new name while the indexed row keeps the old one, and that a removed occurrence answers a reason instead of an action. The entry-file slice that runs the plan is expected to call this first, which is why it is a function rather than a comment.)*
 - [x] Indexed result payloads are never treated as current authority. — `d11206e` @ `2026-09-12T08:40:17+07:00` *(`revalidateQuickRunRow` rebuilds the universe from the current state and finds the row by the pinned stable key, at `d11206e` @ `2026-09-12T08:40:17+07:00` — the test renames the shortcut under the index and asserts the re-read carries the new name while the indexed row keeps the old one, and that a removed occurrence answers a reason instead of an action. The entry-file slice that runs the plan is expected to call this first, which is why it is a function rather than a comment.)*
-- [ ] Quick Run does not invoke the normal full workspace render() on every keystroke.
-- [ ] Query interaction does not restart/reheat graph physics.
-- [ ] Search-index rebuilding is not triggered by layout-member state/bounds observation.
+- [x] Quick Run does not invoke the normal full workspace render() on every keystroke. — `72384be` @ `2026-09-12T08:48:10+07:00` *(structural rather than behavioural, because there is nothing to guard at runtime: none of the seven modules contains `render(`, and neither does the entry region that mounts the surface. A keystroke cannot render the workspace that Quick Run holds no reference to, and the scan is the test so a later pass cannot add one quietly.)*
+- [x] Query interaction does not restart/reheat graph physics. — `72384be` @ `2026-09-12T08:48:10+07:00` *(the same scan: no module and no part of the entry wiring mentions `reheat` or reaches the graph at all.)*
+- [x] Search-index rebuilding is not triggered by layout-member state/bounds observation. — `72384be` @ `2026-09-12T08:48:10+07:00` *(nothing in the seven modules observes anything — no `MutationObserver`, no `ResizeObserver`, no `setInterval`, no `requestAnimationFrame` — and the index is built once at open, which `4f63739` already counts as exactly one workspace read across a run of keystrokes.)*
 - [ ] The Papers addition is exactly a narrow already-resolved capability activation primitive; Papers does not own Quick Run search/index/ranking in v1.
 - [x] OS-global hotkey registration is not added as part of v1. — `362a00d` @ `2026-09-12T08:19:15+07:00` *(checked rather than assumed: the tree has no global-shortcut registration of any kind (no `globalShortcut`, `registerHotkey`, `global-hotkey` or `accelerator` call in the app or entry sources), and the action this pass added to the catalog is **workspace-scoped** (`HOTKEY_SCOPE_WORKSPACE`), which is exactly the boundary the box draws. It stays ticked only while that remains true, and a future global binding is what would re-open it.)*
 
@@ -1962,9 +1973,9 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 
 ## Actions
 
-- [ ] Folder Enter navigates.
-- [ ] Shortcut Enter launches.
-- [ ] Link Enter opens URL.
+- [x] Folder Enter navigates. — `a0c4266` @ `2026-09-12T08:46:36+07:00` and `e79e5f8` @ `2026-09-12T08:47:33+07:00` *(Enter re-reads the row by its stable key, plans the action, and hands the workspace item id to `commands.activateItem` — the same call workspace Enter makes, so a folder navigates rather than a second navigator existing. `quick-run-enter.test.mjs` drives a query to a folder row, through the plan and the id, into the real command object, and asserts the store is now in the folder that was searched for. The entry half is asserted by source shape, since the entry file boots from the document and cannot be imported; the acceptance-list twin at the foot of this file stays open until a run in the app.)*
+- [x] Shortcut Enter launches. — `a0c4266` @ `2026-09-12T08:46:36+07:00` and `e79e5f8` @ `2026-09-12T08:47:33+07:00` *(the same chain, asserted against the real command object: the shortcut record id reaches `activateItem`, the host launches that id, and nothing reveals it — the launch path and the reveal path stay separate, which is what § 1.6 requires.)*
+- [x] Link Enter opens URL. — `a0c4266` @ `2026-09-12T08:46:36+07:00` and `e79e5f8` @ `2026-09-12T08:47:33+07:00` *(a link is the shortcut record with a web target, so it takes the same item id; the test pins the https classification, asserts the URL is opened, and asserts nothing is launched as a program.)*
 - [ ] Ctrl+Enter Folder reveals exact folder occurrence.
 - [ ] Ctrl+Enter Shortcut reveals exact placement.
 - [ ] Ctrl+Enter Link reveals exact placement.
