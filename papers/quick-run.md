@@ -288,7 +288,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**257 ticked / 24 open.**
+**259 ticked / 22 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2139,9 +2139,9 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 - [x] Shift+Enter disabled for Folder. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 - [x] Shift+Enter disabled for Shortcut. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 - [x] Shift+Enter disabled for Link. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
-- [ ] Shift+Enter Layout Item adds new membership when valid.
+- [x] Shift+Enter Layout Item adds new membership when valid. — `4db1254` @ `2026-09-12T10:01:10+07:00` *(the entry re-reads the row, asks the plan whether the key is available, finds the member in its source layout and the active layout in the current state, and writes through the model own `addWindowLayoutMember` - not a second implementation of the add - then repaints. The duplicate check runs **before** the write rather than relying on the model same-id guard, because two different members can describe one window. Source assertions hold the wiring, and the helper that decides the comparison is tested directly. The residual is honest and stated: the entry file cannot be imported here, so the last mile is asserted by shape plus the model-level behaviour.)*
 - [x] no active layout disables Shift+Enter. — `435f02b` @ `2026-09-12T08:52:20+07:00` *(asserted against the mounted surface: the plan is disabled for every non-layout type and the reason is painted with the highlighted row. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
-- [ ] duplicate destination membership reports visible status.
+- [x] duplicate destination membership reports visible status. — `4db1254` @ `2026-09-12T10:01:10+07:00` *(refused with a reason rather than silently ignored: the status line says the window is already in the active layout, and the count of writes stays at zero because the refusal happens before `store.replace`. The comparison itself is the AUTHOR ruling of 2026-09-12 - the persisted descriptor is the durable native identity, so a member is the same window when it agrees on every field the descriptor declares (`title`, and `executableFingerprint` when present), while `memberId` and the source layout are occurrence and provenance. Tested for both directions: a declared fingerprint that differs is a different window, and a title-only descriptor matches the first member with that title.)*
 
 ## Stale-index execution
 
