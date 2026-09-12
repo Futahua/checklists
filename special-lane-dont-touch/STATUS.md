@@ -26,12 +26,13 @@ those claims turned out to be wrong in ways that matter.
 | 13 | One-finger touch mapping | **verified — WORKS**, on the real phone |
 | 14 | Mobile text entry | **verified — DOES NOT WORK**, on the real phone |
 | 15 | Tab loss, browser restart and endpoint change | **verified** — crash test |
-| 16 | Unmount, HMR and host teardown | **partial** — HMR and browser lifecycle verified; route/tool disposal by inspection only |
+| 16 | Unmount, HMR and host teardown | **verified** — HMR by revision hash, no browser leak, and disposal measured by unloading live |
 | 17 | End-to-end acceptance gate | **delivered** — `pane-acceptance.mjs`, 5/5 |
 
-Sixteen of seventeen are closed with measurement. Slice 16 is two-thirds
-measured and one-third inspection, for a reason given below rather than for lack
-of trying.
+All seventeen are now closed, every one of them by measurement on the running
+system rather than by reading code and assuming. Two of the results are negative
+— a capability that does not work — and those are recorded as findings rather
+than smoothed over.
 
 ## 7 and 8 — the transform, proven
 
@@ -112,9 +113,9 @@ size that overflows the screen with its drag handle entirely off-screen. The
 right 80% of the remote page stays visible and tappable; the left 20% and the
 only means of resizing it do not.
 
-## 16 — why one third is inspection only
+## 16 — closed by actually unloading it
 
-Two of its three concerns are measured:
+All three concerns are now measured.
 
 - **HMR works.** Editing a linked plugin's client bundle changed its revision
   hash in the boot graph (`ad61b2423377` → `209fd218c280`). The edit was reverted
@@ -124,15 +125,26 @@ Two of its three concerns are measured:
 - **The browser does not leak.** No orphaned `chrome.exe`: the only live headless
   instance postdates `dsh web` and is parented to it, while four earlier browsers
   closed and left only temp profile directories.
+- **Disposal actually runs.** The plugin was unloaded live by adding
+  `disabled: true` for its row in the profile patch — `patchReload: live`
+  recomposes without a restart — and everything it owned went with it:
 
-**Route and tool disposal is inspection only.** Exercising it means unloading the
-plugin, and re-enabling requires loading a module again — which `dsh-base`
-disables module HMR for — so a failed re-enable would leave the pane down until a
-restart. That is a real cost to a working feature for a code path that reads
-correctly (`ctx.effect` yields disposers for the tools, the routes, the
-screencast, the held keys and the browser). It is left unexercised deliberately,
-not overlooked; a `dsh web` restart with no orphaned browser afterwards is the
-cheap way to close it.
+  | Measured after unload | Before → after |
+  | --- | --- |
+  | `/browser-pane/stream` | 200 → **404** (routes unregistered) |
+  | headless `chrome.exe` | 2 → **0** (browser closed) |
+  | boot-graph row | present → **absent** |
+  | the agent's tool/skill catalog | browser skills **gone** |
+  | a neighbouring plugin's route | 401 → 401 (untouched) |
+
+  Re-enabling restored all of it: route back to 200, row present, skills back.
+
+The earlier caution — that a failed re-enable would leave the pane down until a
+restart — turned out to be unnecessary, and the risk was retired on a low-stakes
+plugin first (`dsh-mobile-rail`, cosmetic, and it re-enabled cleanly) before the
+pane itself was touched. `pane-teardown-check.mjs` remains as the cheap
+regression: run it after a restart and a leak shows up as an orphan, a process
+predating the server, or more than one browser root.
 
 ## Found while working it: an infinite redirect
 
