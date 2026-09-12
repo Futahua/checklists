@@ -3157,7 +3157,7 @@ The old compact template syntax is less important than the resulting operation.
 - [ ] Batch creation uses stable opaque IDs.
 - [ ] Relations between simultaneously created records use those IDs.
 - [x] Project can contain both tasks and events. — `efdfa11` @ `2026-09-11T08:08:23+07:00` *(asserted, not assumed: tests/canonicalDataOwnership.test.ts carries a HARD GATE A fixture where one project simultaneously owns a task and an event, and checks both kinds and both project ids. It is the fixture half of the stage rather than the template half, which is why it closes here.)*
-- [ ] Relative dates use injected clock.
+- [x] Relative dates use injected clock. — `4f6d953` @ `2026-09-12T09:51:14+07:00` *(**closed as a decision, not as an implementation**: the AUTHOR ruled on 2026-09-12 that Stage 16 carries no relative-date forms at all - `start` and `deadline` accept only the parser's absolute grammar, with no `today`, `+3d`, `-1w` or start-relative deadline - so "which clock, which timezone, which month boundary" are questions with no computation behind them. The consequence is in the code rather than in a promise: `executeTemplatePlan` takes **no clock at all**. Its first version accepted one, unused, on the theory that the seam should exist before the feature; the AUTHOR rejected an intentionally dead argument and it was removed. Recorded as D68 in `docs/DECISIONS.md`, with what would reverse it: a creator-facing relative form would arrive as a parser change first, and only then as clock-dependent resolution here.)*
 
 ## Agent action
 
