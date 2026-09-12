@@ -3175,7 +3175,7 @@ Prefer atomic plan semantics where required; do not report full success after pa
 
 ## Acceptance
 
-- [ ] Same semantic record set can be produced manually and through template execution.
+- [x] Same semantic record set can be produced manually and through template execution. — `5115f70` @ `2026-09-12T09:52:59+07:00` *(judged on records, as D69 requires rather than on requests: the same three tasks are created twice in two isolated stores - once by calling the ordinary create path directly, once by executing a template - and the decoded canonical task records are compared as multisets. Identity, `createdAt` and the store and observation revisions are normalised away, so the acceptance does not rest on the two runs coincidentally generating the same bytes, and every semantic field stays in the comparison, including the ones neither run sets explicitly. A second case is the control that keeps the first honest: the same comparison with one task's weight deliberately different must fail. In `tests/templateEquivalence.test.ts`, using `MemoryRecordFiles` wrapped by `createCanonicalJsonRecordStore` and the real `createTask` path.)*
 - [x] Invalid plan causes no hidden partial writes. — `d0993d9` @ `2026-09-12T09:47:21+07:00` *(an invalid plan is refused before the first call - the counting port records zero requests - and a refusal after a creation is reported as partial with the ids it did create, never as complete. Three tests cover it: invalid plan, refused first creation, refused second creation.)*
 - [ ] Agent can execute template without opening modal.
 - [ ] Restart reproduces created state.
