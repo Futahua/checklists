@@ -155,7 +155,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**131 ticked / 150 open.**
+**151 ticked / 130 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -940,31 +940,31 @@ Every local mutation that changes Quick Run semantics routes through that seam.
 
 ### Folders
 
-- [ ] create folder;
-- [ ] delete/permanently remove folder;
-- [ ] rename folder;
-- [ ] move folder;
-- [ ] bin folder;
-- [ ] restore folder;
-- [ ] any mutation changing its parent.
+- [x] create folder; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(a new folder is a row with its own breadcrumb, from quick-run-mutation-coverage.test.mjs.)*
+- [x] delete/permanently remove folder; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(deleting a folder takes its descendants with it, and the test names the rows that remain.)*
+- [x] rename folder; — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(the reopen shows the new name and the children breadcrumb follows it, from quick-run-invalidation.test.mjs.)*
+- [x] move folder; — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(the moved folder and the placement inside it take the new ancestor chain, asserted by breadcrumb.)*
+- [x] bin folder; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(binning is the same disappearance as deletion, and the test follows it with a restore.)*
+- [x] restore folder; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(unbinning returns exactly the universe that was there before, compared as a key set rather than by count.)*
+- [x] any mutation changing its parent. — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(covered by the folder-move and placement-move cases, plus a layout moved through its parent in the coverage file: the breadcrumb is rebuilt from the persisted ancestry every time.)*
 
 Folder rename/move can change breadcrumbs for every descendant, so full rebuild is appropriate.
 
 ### Shortcuts/Links
 
-- [ ] create shortcut;
-- [ ] create link;
-- [ ] delete shared shortcut record;
-- [ ] rename shortcut;
-- [ ] target change;
-- [ ] URL/non-URL classification change;
-- [ ] create placement;
-- [ ] remove placement;
-- [ ] move placement;
-- [ ] bin placement;
-- [ ] restore placement;
-- [ ] fork placement where occurrence identity changes;
-- [ ] collapse placements where occurrence identity changes.
+- [x] create shortcut; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(a record with no placement adds no row, and becomes one the moment it is placed - the occurrence is the placement, which the fixture makes explicit with an unplaced record.)*
+- [x] create link; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(the same creation path, classified by target: a placed https record arrives as a Link row.)*
+- [x] delete shared shortcut record; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(every placement leaves with the record, asserted for both of its occurrences.)*
+- [x] rename shortcut; — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(the placement row carries the new record name.)*
+- [x] target change; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(a non-web retarget keeps the occurrence key and carries the new target, which is the distinction the classification case turns on.)*
+- [x] URL/non-URL classification change; — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(the row changes type and the stable key moves with it, because the prefix is the type; asserted rather than glossed.)*
+- [x] create placement; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(a second occurrence of one record, with its own breadcrumb and the shared record id.)*
+- [x] remove placement; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(the row leaves and the record stays.)*
+- [x] move placement; — `2c9bec6` @ `2026-09-12T08:59:38+07:00` *(the moved placement takes the new breadcrumb and the folder it left is untouched.)*
+- [x] bin placement; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(only that occurrence disappears; its sibling is asserted untouched.)*
+- [x] restore placement; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(the universe returns to exactly its previous key set.)*
+- [x] fork placement where occurrence identity changes; — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(a fork is a new placement id, so it is a new row with a new key, sharing the record with the occurrence it was forked from.)*
+- [x] collapse placements where occurrence identity changes. — `e8a7c03` @ `2026-09-12T09:00:49+07:00` *(the collapsed occurrences leave the universe and the surviving one keeps its identity.)*
 
 ### Window layouts relevant to members
 
