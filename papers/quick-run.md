@@ -134,6 +134,26 @@ binned layout and a layout under the bin — with prompts and Sets present in th
 asserted rather than assumed. Removing the filter fails two of the five cases; that was checked, not
 claimed. Seven section 6 boxes tick with it: whole layouts, prompts, bin contents, items under a binned
 folder, binned placements, binned layouts with their members, and Sets.
+**What the next session should pick up, and what it must not try to do from here.** Quick Run is now
+feature-complete in everything that can be decided or drawn without a machine, and the remainder is
+precisely bounded: **(1) the live half of § 10** — a host that supplies the window list, feeding
+`resolveQuickRunMember`, then the activation itself (restore when minimized, otherwise raise and focus), then
+`noteResolution` with the outcome, which is the only path that can ever produce the `activated` case; **(2)
+the Papers-side capability** — `activateWindowCapability` and its fail-closed identity rules, which are
+Papers work rather than this repository's, and the four Native boundary boxes plus the § 10.2 capability
+handshake wait on it; **(3) Ctrl+Enter**, which § 1.6 gives its own reveal path and which must not reuse
+`reveal-selection` or `revealShortcut()` — the entry wiring is asserted not to contain them, so the six
+Ctrl+Enter boxes and `move-before-Ctrl+Enter` are waiting on an implementation, not on a decision; **(4)
+Shift+Enter's action**, which already names `window-layout.add-member` as the command and needs that command
+to exist plus the native identity the duplicate rule depends on; **(5) two integrated-app measurements** —
+the renderer p95 target and the typing frame budget, neither of which the pure benchmark can answer. The one
+box that is genuinely a product choice rather than work is the chip-cycle reading recorded above.
+
+**A note for whoever works Proxima next.** The parity checklist's Status block was not touched this session:
+its remaining 67 boxes are feature-sized rather than verification-sized, and the next real slice is Stage 16
+template execution — the parser/plan/executor split and its acceptance list — which also unblocks Stage 17's
+"for every row above" matrix and the two UI-versus-agent equivalence boxes, both of which are waiting on the
+first action an agent can submit rather than on a test that is missing.
 **Ephemeral availability, with the reset rule that makes holding it safe.** `03bf9d0` gives the surface the
 § 10.1 state it was missing: a noted answer is keyed by the occurrence and carries the descriptor it was
 noted against, so an untouched item is `unknown`, a missing or ambiguous outcome reads `unavailable` while
@@ -216,7 +236,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**250 ticked / 31 open.**
+**251 ticked / 30 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2186,7 +2206,7 @@ Quick Run is complete only when all conditions below are true.
 
 - [x] All/Folders/Shortcuts/Links/Layout Items behave exactly as specified. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(each filter shows its own kind and All keeps the ranked order, asserted over the five names the contract fixes.)*
 - [x] Only types with matches produce chips. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(same rule as the first case, asserted from the other direction: no match, no chip.)*
-- [ ] Tab/Shift+Tab cycles only available chips.
+- [x] Tab/Shift+Tab cycles only available chips. — `03bf9d0` @ `2026-09-12T09:13:34+07:00` *(read against the section that defines it: § 1.4's own boxes say Tab cycles forward and Shift+Tab backward over the five fixed names, that only types with a match receive chips, and that an active filter losing its matches falls back to All immediately — which is exactly what is implemented and tested. So "only available chips" is read here as the chips being only the types that matched, with the cycle over the five names and the fallback covering a name with none. If the intent was a cycle that skips unavailable names, this box re-opens and the change is small but it is a product choice, not a test.)*
 - [x] Disappearing active filter falls back to All. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(the active filter losing its matches falls back to All and says that it did, so the fallback is visible rather than silent.)*
 
 ## Actions
