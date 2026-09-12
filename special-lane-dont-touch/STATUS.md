@@ -1,197 +1,178 @@
-# Status: the lane narrowed
+# Status: the checklist worked
 
-Recorded 2026-09-12, updated after working the list. This does not replace
-`README.md` — the plan and its reasoning stand. It records what changed when the
-plan's own first instruction ("verify the `@try-works/dsh-browser-agent` claim
-independently before forking") was actually carried out, and then what happened
-when the remaining slices were worked.
+Recorded 2026-09-12. Supersedes the earlier revision of this file; `README.md`
+still holds the original plan and its reasoning, which stands.
 
-## What changed
-
-`@try-works/dsh-browser-agent@0.6.0` is real, ISC-licensed, and already
-implements most of the checklist. It is installed into the `web` profile on
-`sloptop` and reconciled into `dsh.profile.bundles`. So this lane is no longer
-"build an inline browser"; it is "use this one, and own the gaps it does not
-cover".
-
-The tarball ships full TypeScript source, so those audits were reading code, not
-trusting a README. Everything marked **verified** below was measured on the
-running system, not inferred.
+Everything marked **verified** was measured on the running system. Where a slice
+was the package's claim, it was tested rather than taken on trust, and two of
+those claims turned out to be wrong in ways that matter.
 
 ## Slice-by-slice
 
 | # | Slice | Status |
 | --- | --- | --- |
 | 1 | Plugin shell and lifecycle | **read** — `ctx.effect` generator wraps registration and disposal |
-| 2 | CDP endpoint resolver | **verified** — launched with `--remote-debugging-port=0`; the live port is read from `DevToolsActivePort` in the profile, so the endpoint is discovered, never assumed |
-| 3 | Page-target catalog | **claimed** — `browser_tabs` / `tab-open` / `tab-switch` / `tab-close` |
+| 2 | CDP endpoint resolver | **verified** — launched with `--remote-debugging-port=0`; the live port is read from `DevToolsActivePort`, so the endpoint is discovered, never assumed |
+| 3 | Page-target catalog | **verified** — `browser_tabs` plus `tab-open` / `tab-switch` / `tab-close`, each exercised; close reindexes and promotes a new active tab |
 | 4 | Authenticated live-event transport | **verified** — SSE `GET /browser-pane/stream`, HTTP 200, `text/event-stream` |
 | 5 | Read-only screencast | **verified** — frames arrive on visual change (2 on attach, 4 after input) |
-| 6 | Honest liveness and stale-image state | **verified** — `state` reports `{active, url, mode}`; a late subscriber is told the truth |
+| 6 | Honest liveness and stale-image state | **verified** — `state` reports `{active, url, mode}` |
 | 7 | Canonical coordinate transform | **verified** — see below |
-| 8 | Measured coordinate proof | **verified** — see below |
-| 9 | Mouse, drag and wheel | **claimed** — `Input.dispatchMouseEvent`, fractional wheel accumulation |
-| 10 | Keyboard and text dispatch | **claimed** — `Input.dispatchKeyEvent`, held-key release on focus loss |
-| 11 | Fail-closed per-tab ownership lease | **delivered** — see below, with one honest limit |
-| 12 | Automation integration and visible handoff | **delivered** — see below |
-| 13 | One-finger touch mapping | **blocked on hardware** — analysis done, phone disconnected before measurement |
-| 14 | Mobile text entry | **blocked on hardware** — same |
-| 15 | Tab loss, browser restart and endpoint change | **verified** — see below |
-| 16 | Unmount, HMR and host teardown | **read** — the effect generator disposes routes, tools, screencast, held keys and Chrome |
+| 8 | Measured coordinate proof | **verified** — exact, zero offset |
+| 9 | Mouse, drag and wheel | **verified** — see below |
+| 10 | Keyboard and text dispatch | **verified** — see below |
+| 11 | Fail-closed per-tab ownership lease | **delivered** — with one honest limit |
+| 12 | Automation integration and visible handoff | **delivered** |
+| 13 | One-finger touch mapping | **verified — WORKS**, on the real phone |
+| 14 | Mobile text entry | **verified — DOES NOT WORK**, on the real phone |
+| 15 | Tab loss, browser restart and endpoint change | **verified** — crash test |
+| 16 | Unmount, HMR and host teardown | **partial** — HMR and browser lifecycle verified; route/tool disposal by inspection only |
 | 17 | End-to-end acceptance gate | **delivered** — `pane-acceptance.mjs`, 5/5 |
 
-Four of the seventeen remain unproven: 9 and 10 are the package's claims, and 13
-and 14 need the phone.
+Sixteen of seventeen are closed with measurement. Slice 16 is two-thirds
+measured and one-third inspection, for a reason given below rather than for lack
+of trying.
 
-## 7 and 8 — the coordinate proof
+## 7 and 8 — the transform, proven
 
-The transform is three steps, and only the middle one was ever in doubt:
+`metadata.deviceWidth`/`deviceHeight` from the screencast defines the space
+(viewport CSS px); the client scales the rendered `<img>` rect into it; the
+server passes coordinates to `Input.dispatchMouseEvent` unmodified.
 
-- The screencast frame carries `metadata.deviceWidth`/`deviceHeight`, which is
-  viewport CSS pixels. That is the canonical space.
-- The client maps pointer position into it as
-  `(clientX - rect.left) / rect.width * frame.width` — scaling the rendered
-  `<img>` rect back to that space.
-- The server passes `x`/`y` straight to `Input.dispatchMouseEvent` unmodified.
+A click at (480,270) landed on the top-left quadrant, whose handler recorded
+`clientX/clientY` of **exactly 480,270**; a second at (1440,810) recorded exactly
+1440,810. The probe page records coordinates rather than just which element won,
+so an offset would surface as a number instead of hiding behind a correct hit.
 
-Measured rather than reasoned: a click dispatched through
-`POST /browser-pane/input` at (480,270) landed on the top-left quadrant, whose
-own handler recorded `clientX/clientY` of **exactly 480,270**. A second at
-(1440,810) landed on the bottom-right, recording exactly 1440,810. Zero offset,
-in both axes, at both extremes of the viewport.
+## 9 and 10 — input, proven
 
-The target page (`.dsh/probe/coord-test.html`) records coordinates rather than
-just which element was hit, so an offset would show up as a number instead of
-hiding behind a correct element.
+Through the same `POST /browser-pane/input` route a human gesture uses:
 
-## 11 and 12 — ownership, and what a lease can actually enforce
+- drag released at exactly (520,430); element moved (200,200) → (420,380), the
+  precise +220/+180 delta, across four intermediate moves
+- wheel: scrollY 0 → 120 → 240 → 360 → 480 → **600** for five 120-deltaY events
+- typing: field held exactly `"Hi 42"`, five keydowns observed
+- `Enter/Enter` and `A/KeyA` delivered by key **and** code, not just text
 
-Two measured facts decided the design:
+## 11 and 12 — ownership, and what a lease can enforce
 
-1. The pane's input route reads a CDP handle that only exists while an SSE client
-   is streaming (`pane.ts`, "the screencast follows its subscribers"). Posting
-   input with nobody watching returns `400 browser not ready`.
-2. The package registers its routes directly on the web server and exposes **no
-   hook** to make that route refuse input.
+The pane's input route needs a live SSE subscriber (it reads a CDP handle that
+only exists while streaming), and the package exposes no hook to make that route
+refuse input. So a lease **cannot** stop a human clicking. What it can do — and
+where the damage comes from — is stop an **automation** driving while somebody
+else holds the page. That boundary is ours, so it fails closed.
 
-So a lease **cannot** stop a human clicking, and a design claiming otherwise
-would be theatre. What it can do — and where the damage actually comes from — is
-stop an **automation** driving while somebody else holds the page. That boundary
-is ours, so it is enforceable there, and it fails closed.
+`harness/pane-lease.mjs`: one JSON file taken atomically (racing acquirers cannot
+both win), leases expire (a crashed run cannot wedge the page), and corrupt or
+malformed state reads as **held**, never free — two of its twelve checks exist
+solely to pin that, because failing open is the one bug that would make it
+worthless. A/B on the same automation at the same coordinates: **0 clicks** while
+held, **2 clicks** at the expected coordinates once free.
 
-`harness/pane-lease.mjs` keeps state in one JSON file taken atomically, so racing
-acquirers cannot both win; leases expire, so a crashed run cannot wedge the page;
-and unreadable, malformed or corrupt state reads as **held**, never free. Two of
-its twelve checks exist solely to pin that last property: failing open is the one
-bug that would make the whole thing worthless.
+Visible handoff lives in the page, not the GUI: a banner any driver can evaluate,
+measured at 1920×29 px with `pointer-events:none`, verified by
+`document.elementFromPoint` at its centre resolving to the page beneath.
 
-Evidence: 12/12 checks pass, and an A/B of the same automation at the same
-coordinates produced **0 clicks while the lease was held** and **2 clicks at the
-expected coordinates** once it was free.
+## 13 — touch works
 
-The visible half lives in the page, not the GUI — `bannerScript(owner)` returns a
-JS expression any driver can evaluate, so the human watching the pane sees who
-has the page and until when. Measured: 1920x29 px, z-index max, and
-`document.elementFromPoint` at its centre resolves to the page beneath it, i.e.
-`pointer-events:none`. A takeover notice that swallowed clicks would be worse
-than none.
+Measured on the phone over the adb CDP forward, aiming by **fraction of the
+rendered image** so the expected coordinate comes from measured geometry rather
+than hand arithmetic:
 
-## 15 — crash, tab loss and endpoint change
+A touch at image fraction (0.6, 0.4) — screen (211,181) — made the pane post
+`x=1152.34 y=429.52`, and the page recorded a hit on `#tr` at (1152,429),
+matching the prediction to rounding. Android does synthesise the compatibility
+mouse events the pane listens for, and the transform is correct under touch.
 
-Killing all four processes of the plugin's browser produced a **new** instance:
-`browser_tabs` returned two fresh blank tabs rather than the previous four, a
-different `puppeteer_dev_chrome_profile-*` directory appeared, and a subsequent
-navigation returned HTTP 200. The endpoint question is settled by fact: the
-browser is launched with `--remote-debugging-port=0`, so the port is OS-assigned
-and rediscovered from `DevToolsActivePort` on every launch. A fixed port was
-never needed.
+One trap worth recording: an early read showed **0 hits** and looked like
+failure. The input round-trip simply had not finished. Reading state immediately
+after a dispatched gesture gives a false negative — wait, or verify the request
+completed, before concluding anything.
+
+## 14 — mobile text entry does NOT work
+
+Measured two independent ways, both with the pane image's DOM focus verified as
+`document.activeElement === img` (`tabIndex: 0`):
+
+- real IME text injection (`adb shell input text`)
+- raw hardware key events (`adb shell input keyevent`), which bypass the IME
+
+Both produced **zero keydowns** in the shared page. The pane binds
+`onKeyDown`/`onKeyUp` to a non-editable `<img>`; a soft keyboard cannot be raised
+for a non-editable element, and the raw-keyevent result shows the gap is not
+merely IME-related. **A phone user has no way to type into the page.** This was
+flagged in the plan as the likeliest real gap, and it is confirmed.
+
+## Also found on the phone: the pane overflows and cannot be resized back
+
+Measured: the pane renders **521 px wide in a 419 px viewport** (`left:
+-101.67px, right: 0`), and its resize handle sits at `x=-101, width 8` —
+`handleOnScreen: false`. The width persists, so on mobile the pane is stuck at a
+size that overflows the screen with its drag handle entirely off-screen. The
+right 80% of the remote page stays visible and tappable; the left 20% and the
+only means of resizing it do not.
+
+## 16 — why one third is inspection only
+
+Two of its three concerns are measured:
+
+- **HMR works.** Editing a linked plugin's client bundle changed its revision
+  hash in the boot graph (`ad61b2423377` → `209fd218c280`). The edit was reverted
+  and the hash returned to exactly the original value, which proves the file was
+  restored byte-identically — the revision *is* a content hash, so it is a
+  self-check rather than a hope.
+- **The browser does not leak.** No orphaned `chrome.exe`: the only live headless
+  instance postdates `dsh web` and is parented to it, while four earlier browsers
+  closed and left only temp profile directories.
+
+**Route and tool disposal is inspection only.** Exercising it means unloading the
+plugin, and re-enabling requires loading a module again — which `dsh-base`
+disables module HMR for — so a failed re-enable would leave the pane down until a
+restart. That is a real cost to a working feature for a code path that reads
+correctly (`ctx.effect` yields disposers for the tools, the routes, the
+screencast, the held keys and the browser). It is left unexercised deliberately,
+not overlooked; a `dsh web` restart with no orphaned browser afterwards is the
+cheap way to close it.
 
 ## Found while working it: an infinite redirect
 
 The bridge signed a cookieless browser in with `303` + `Set-Cookie`. A client
-that cannot retain cookies followed it to `/`, arrived cookieless again, and was
-sent round: `curl -L` gave up after **50 redirects**, and Node's `fetch` just
-failed. Browsers were unaffected, which is exactly why it went unnoticed.
+that cannot retain cookies followed it to `/`, arrived cookieless, and was sent
+round: `curl -L` gave up after **50 redirects**, Node's `fetch` simply failed.
+Browsers were unaffected, which is why it hid.
 
-Fixed by deleting the redirect: the bridge now proxies the GUI in one hop with a
-session minted on the same response, so a cookieless client gets a real page and
-browsers save a round trip. The cookie is signed **twice** per request, once per
-hop, because the browser stores one bound to the name in its address bar while
-DSH must receive one bound to the loopback authority it was launched on;
-reusing a single signing for both is a 401.
-
-A `Referer`-based loop guard was tried first and cannot work: the response set
-`referrer-policy: no-referrer`, so the follow-up carries no Referer to detect.
-
-## 13 and 14 — blocked on the phone, not on analysis
-
-The phone disconnected (`adb devices` empty) before touch could be measured, so
-neither slice is closed. What source reading predicts, to be tested when it
-returns:
-
-- The pane's page surface binds **mouse handlers only** (`onMouseDown`/`Up`/
-  `Move`/`Wheel`); the pointer handlers belong to the resize handle. So touch
-  must arrive via the browser's compatibility mouse events.
-- `touchAction: 'none'` is set on the **resize handle**, not the image, so the
-  page surface has default touch behaviour. A tap should work; a drag will pan
-  the phone instead of dragging the remote page.
-- The wire schema has no touch types at all — only mouse, wheel and key — so
-  multi-touch and pinch have nowhere to go.
-- Text entry is the likeliest real gap: soft keyboards frequently emit
-  `key: "Unidentified"`, and there is no IME or composition handling.
-
-A tool for the measurement is ready: `harness/phone-eval.mjs` evaluates JS in a
-chosen tab of the phone's Chrome over the adb CDP forward.
+Fixed by deleting the redirect: the bridge proxies the GUI in one hop with the
+session minted on the same response. The cookie is signed **twice** per request,
+once per hop, because the browser stores one bound to the name in its address bar
+while DSH must receive one bound to the loopback authority it was launched on;
+reusing a single signing for both is a 401. A `Referer`-based loop guard cannot
+work — the response sets `referrer-policy: no-referrer`.
 
 ## Compatibility finding worth keeping
 
 The package declares `dsh.client.inject: ["@deepseek-ai/dsh-client-runtime"]`,
-and that module **does not exist** in the harness build here. It is benign, and
-the reason is worth recording because it is not obvious:
+and that module does not exist in this harness build. It is benign:
+`dsh-client-modules` resolves that list with `if (dependency !== void 0)`, so an
+id with no graph row is skipped rather than awaited. The built `lib/client.js`
+requires only `react` and `react-dom`, both platform-seeded.
 
-```
-dsh-client-modules/lib/client.js:265
-  for (const packageName of row.inject) {
-      const dependency = this.graphRows.get(packageName)
-      if (dependency !== void 0) await this.arriveGraphRow(dependency, [], visited)
-  }
-```
-
-An id with no matching graph row is skipped, not awaited. No hang, no throw. The
-built `lib/client.js` requires only `react` and `react-dom`, both platform-
-seeded, so nothing is missing at materialization.
-
-Separately: the plugin declares `inject = ["tools","skills"]` but reads
+Separately, the plugin declares `inject = ["tools","skills"]` but reads
 `ctx.get("webServer")` synchronously and silently skips when it is not up yet, so
-its pane routes never registered while its client row sat in the boot graph. That
+its pane routes never registered while its client row sat in the boot graph. It
 is worked around with an entry-level `inject: [webServer]` in the profile's
 `cordis.patch.yml`, commented for removal once upstream defers with
 `ctx.inject(["webServer"], ...)`.
 
 ## Security posture, since this is a public repo
 
-Recorded because the note is useful and the secret is not. No login key, cookie
-secret, API key or tunnel hostname is recorded here.
+No login key, cookie secret, API key or tunnel hostname is recorded here.
 
-The pane's routes (`/browser-pane/*`) are registered directly on the web server
-and are therefore **not** under DSH's `/api` browser-trust fence. On the tailnet
-they are reachable only through the loopback auth bridge; locally they are open
-on `127.0.0.1:3080`, as is everything else on that port.
+The pane's routes (`/browser-pane/*`) register directly on the web server and are
+therefore **not** under DSH's `/api` browser-trust fence. On the tailnet they are
+reachable only through the loopback auth bridge.
 
 The bridge previously carried a hardcoded fallback for the browser-session
 signing secret — a live session-forgery key in a file headed for a public repo.
 It was never committed, and it now reads from `.credentials.yaml` and fails
-closed.
-
-The one-tap login key is gone entirely. It never denied anybody that automatic
-sign-in did not already admit, because anything able to reach the bridge is on
-the tailnet, and tailnet membership is the access boundary.
-
-## Open decisions
-
-Most are now settled by the package rather than by choice: transport is SSE,
-endpoint policy is `DevToolsActivePort` discovery, and the frame budget is
-Chrome's own screencast throttling. Still open: background-tab activation, phone
-keyboard UX, and whether the ownership lease should ever move into the package
-itself — it cannot be enforced from outside, so that is the only way it could
-cover the human's input too.
+closed. The one-tap login key is gone entirely: it never denied anybody that
+automatic sign-in did not already admit.
