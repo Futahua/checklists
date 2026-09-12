@@ -51,6 +51,14 @@ and Ctrl+Enter against the same command object the surface calls — and the two
 boxes want that harness to exist first. Everything else waits on a host run (Papers activation, native
 boundary, availability) or on the creator walking `# Creator acceptance walk` at the foot of this file.
 
+**The hotkey chord is chosen and bound.** The creator chose **`Alt+Shift+X`** for the workspace scope on
+2026-09-12 — recorded on the open item at the foot of this file, which was the item waiting for it — and it is
+implemented as an explicit configured value rather than an invented default: `362a00d` @
+`2026-09-12T08:19:15+07:00` put `workspace.quick-run` in the hotkey catalog, `28ee3ad` @
+`2026-09-12T08:21:05+07:00` gave the keyboard controller a module-scoped hook that matches the action,
+prevents the default and calls it, and `10f8ae6` @ `2026-09-12T08:29:36+07:00` made the chord open the
+surface.
+
 **The checkout's own rules, which bind anything written there.** Elements are declared in
 `public/workspace-20260730b.html`; `public/app/dom.js`'s `getWorkspaceElements` registers them through
 `requiredElement`, which **throws**, so the markup and the registry stay in lockstep by construction rather
