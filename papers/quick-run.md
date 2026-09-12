@@ -122,17 +122,28 @@ the § 1.6 prohibition: no `revealShortcut`, `revealSelection`, `launchShortcut`
 call may appear beside the activation. Branch `quick-run-stage0` is at `72384be`, suite **1212 pass / 0 fail**
 against the `8000c88` baseline of 1153, `main` untouched.
 
-**What is still open in STAGE 5 and why.** Three things, and only one of them is autowork: **Shift+Enter has
-no surface wiring yet** — the rules exist and are tested (`56b2fe1`: never nothing, disabled with a reason for
-the three non-Layout-Item types and for no active layout), but the mount does not read the key and there is no
-element to show a disabled affordance in, so in the running app the key is still ignored, and the boxes that
-require it visibly disabled stay open until the surface carries them. **Ctrl+Enter is deliberately
-unimplemented**, because § 1.6 gives it its own in-workspace reveal path and forbids reusing `reveal-selection`
-or `revealShortcut()`; the entry wiring is asserted *not* to contain them. **Layout Item Enter waits for the
-creator at the machine** — activation and focus of a live foreign window is not reversible by a commit, and
-the row's plan already answers `deferred` with a reason rather than pretending, which is why the § Availability
-outcome boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this
-pass: **57 ticked / 224 open.**
+**Shift+Enter now has its visible half.** `435f02b` adds the line the reason is shown in — markup, the
+`dom.js` registry and the entry file adapter, so the entry test lockstep check covers all three files at
+once — and the mount reads the key: enabled only for a Layout Item in an active layout, decided by
+`planQuickRunShiftEnter` in the entry file rather than guessed in the surface. A disabled key is visibly
+disabled before it is pressed and keeps its reason on screen when it is, which is what never-silently-
+ignored means; an enabled press reaches the caller, which reports that adding a window to a layout is not
+wired up yet instead of pretending. The duplicate check is deliberately not answered: it needs native
+identity, and claiming not-present would be a guess. The highlighted row comes out of the session rather
+than the tree, so this added no workspace read per keystroke — the section 5 test still counts exactly one.
+`dom.test.mjs` caught the new element as designed, which is why the registry moved from 42 entries to 43.
+
+**What is still open in STAGE 5 and why.** Three things, and two of them are not autonomous: **the
+Shift+Enter action itself** — `planQuickRunShiftEnter` already names `window-layout.add-member` as the
+command, but nothing implements that command, and the duplicate rule needs native window identity, so the
+box that says a valid press adds membership stays open. **Ctrl+Enter is deliberately unimplemented**,
+because § 1.6 gives it its own in-workspace reveal path and forbids reusing `reveal-selection` or
+`revealShortcut()`; the entry wiring is asserted *not* to contain them, so a later pass cannot quietly
+satisfy the key with the command the section forbids. **Layout Item Enter waits for the creator at the
+machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
+already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
+boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
+**61 ticked / 220 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -164,7 +175,7 @@ restoring it if minimized — is not reversible by a commit, so the layout-item 
 a session with the creator at the machine, exactly like the two window checklists. Section 1.6's Shift+Enter
 rules (enabled only for Layout Items, visibly disabled for the other three, never silently ignored, disabled
 with a visible reason when there is no active layout, and reported rather than duplicated when the window is
-already in that layout) are model-and-surface rules and *are* implementable here.
+already in that layout) are model-and-surface rules, and the surface half landed at `435f02b`: the reason line is painted with the highlighted row and the mount reads the key. What is still missing from the third part is the action, not the affordance.
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
@@ -1980,11 +1991,11 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 - [ ] Ctrl+Enter Shortcut reveals exact placement.
 - [ ] Ctrl+Enter Link reveals exact placement.
 - [ ] Ctrl+Enter Layout Item reveals containing layout + member.
-- [ ] Shift+Enter disabled for Folder.
-- [ ] Shift+Enter disabled for Shortcut.
-- [ ] Shift+Enter disabled for Link.
+- [x] Shift+Enter disabled for Folder. — 
+- [x] Shift+Enter disabled for Shortcut. — 
+- [x] Shift+Enter disabled for Link. — 
 - [ ] Shift+Enter Layout Item adds new membership when valid.
-- [ ] no active layout disables Shift+Enter.
+- [x] no active layout disables Shift+Enter. — 
 - [ ] duplicate destination membership reports visible status.
 
 ## Stale-index execution
