@@ -134,6 +134,18 @@ binned layout and a layout under the bin — with prompts and Sets present in th
 asserted rather than assumed. Removing the filter fails two of the five cases; that was checked, not
 claimed. Seven section 6 boxes tick with it: whole layouts, prompts, bin contents, items under a binned
 folder, binned placements, binned layouts with their members, and Sets.
+**The pure-query budget is measured, and the first measurement was a miss.** `22f68dd` adds the benchmark
+the checklist asks for — 10k and 20k corpora, seven queries, thirty runs each — and it found the 20k p95 at
+9.4 ms against a budget of 8 ms. The cause was in the hot loop rather than the algorithm: `tierForName`
+normalised the *query* inside the per-row call, so twenty thousand rows re-normalised the same short string
+on every keystroke on top of re-normalising every name. The split is now explicit
+(`tierForNormalizedName` takes both sides already normalised, `tierForName` keeps its signature) and the
+ranking uses the row's pinned `normalizedName` instead of re-deriving it. Measured after: 20k p95 2.09 ms on
+the real path, 6.18 ms without the field, worst single query 7.64 ms — the budget met with room, so no
+Worker fallback is needed, which also answers section 6's worker prohibition in the negative. Two
+performance boxes remain open and both need the app rather than the pure layer: the integrated renderer p95
+target and the integrated typing frame budget. The benchmark is a script rather than a test on purpose — the
+checklist asks for numbers, and a time-bound assertion would be a flake on a busy machine.
 **Section 6 is closed as absence rather than as intent.** `e38d55d` scans the seven modules and the entry
 region that mounts them for a network, a native or host call, an observer, a timer, a worker, a thumbnail,
 an embedding, a global accelerator and a relaunch path, and scans the query path separately for verb or
@@ -173,7 +185,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**232 ticked / 49 open.**
+**239 ticked / 42 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2083,13 +2095,13 @@ Every test proves current-state revalidation.
 
 ## Performance
 
-- [ ] 10k corpus measured.
-- [ ] 20k corpus measured.
-- [ ] pure p95 ≤ 8 ms or Worker fallback used.
-- [ ] no ordinary pure query ≥ 16 ms.
+- [x] 10k corpus measured. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(measured, not estimated: 210 runs over seven queries, p50 0.90 ms, p95 1.33 ms, max 2.03 ms with the row field present, and p95 3.07 ms when a caller hands rows without it. Reproduce with node quick-run-benchmark.mjs in the As-you-Go checkout.)*
+- [x] 20k corpus measured. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(the same run at 20k: p50 1.84 ms, p95 2.09 ms, max 3.46 ms with the field present, p95 6.18 ms without it.)*
+- [x] pure p95 ≤ 8 ms or Worker fallback used. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(the budget is met and no Worker is needed: 2.09 ms p95 on the real product path (rows carry normalizedName), 6.18 ms even on the pessimistic path, and the worst single query in the run was 7.64 ms. Before this slice the same measurement was 9.4 ms, because the ranking normalised the query once per row.)*
+- [x] no ordinary pure query ≥ 16 ms. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(the measured maximum across both corpora and all seven queries was 7.64 ms, less than half the floor, and the real path peaked at 3.46 ms.)*
 - [ ] integrated renderer p95 target satisfied.
 - [x] typing causes zero graph reheat/full render. — `72384be` @ `2026-09-12T08:48:10+07:00` *(no module holds a reference to the graph or to the render function - render( and reheat are absent from all seven modules and from the entry region that mounts the surface - so a keystroke cannot restart physics it cannot reach.)*
-- [ ] state-only layout observation storm causes zero rebuilds.
+- [x] state-only layout observation storm causes zero rebuilds. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(two hundred consecutive bounds and minimize/restore updates leave the open session, the universe and a query result byte-identical - a storm rather than a single update, because that is how the live observer reports.)*
 
 # STAGE 18 — The Sets question must be recorded, not forgotten
 
@@ -2131,7 +2143,7 @@ Quick Run is complete only when all conditions below are true.
 - [x] Hotkey opens one empty focused Quick Run line. — `10f8ae6` @ `2026-09-12T08:29:36+07:00` *(one line, empty, and focused: `open()` resets the session to an empty query, paints (which draws no rows and no chips for an empty query), and calls `focus()` on the input — guarded with `?.` because a caller may mount without a focusable field, and asserted in the surface test. **Same residual as the box above:** the key press itself is not exercised, because the entry file is not importable and this loop has no browser.)*
 - [x] Empty query shows no results. — `8bfc829` @ `2026-09-12T08:13:29+07:00` *( and )*
 - [x] First keystroke produces ranked results. — `8bfc829` @ `2026-09-12T08:13:29+07:00` *(the index ranks the snapshot on the first non-empty query; the session captures that snapshot once at open, which is what makes the first keystroke a ranking rather than a scan.)*
-- [ ] Search remains responsive with 10k–20k searchable occurrences.
+- [x] Search remains responsive with 10k–20k searchable occurrences. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(responsiveness is now a number rather than an adjective: 10k ranks in 1.33 ms p95 and 20k in 2.09 ms p95, both far inside a frame.)*
 - [x] Exact > prefix > word-prefix > fuzzy subsequence. — `828d475` @ `2026-09-12T09:03:51+07:00` *(the four tiers, in one ranked answer and then pair by pair.)*
 - [x] Recency/frequency only break ties inside a tier. — `828d475` @ `2026-09-12T09:03:51+07:00` *(stronger than the box asks, and stated as what is true: v1 has no recency or frequency input anywhere in the ranking, so they cannot break a tie inside a tier either - the tie-break is the universe order. If usage metadata is ever added, this box is where the rule will need re-asserting.)*
 - [x] Result ordering is deterministic. — `828d475` @ `2026-09-12T09:03:51+07:00` *(the ranking is a function of the universe and the query, and the universe itself is pinned by the index-domain and invalidation tests, so the same state and query are the same list every time.)*
@@ -2178,7 +2190,7 @@ Quick Run is complete only when all conditions below are true.
 
 ## Performance
 
-- [ ] Pure 20k benchmark meets budget or Worker fallback is implemented.
+- [x] Pure 20k benchmark meets budget or Worker fallback is implemented. — `22f68dd` @ `2026-09-12T09:08:38+07:00` *(met on measurement rather than by assumption: 20k p95 2.09 ms against the 8 ms budget, so the Worker alternative was not needed - and section 6 forbids worker architecture before profiling proves it necessary, which this measurement now answers in the negative.)*
 - [ ] Integrated typing stays inside agreed frame-latency budget.
 - [x] Quick Run typing never reheats graph physics. — `72384be` @ `2026-09-12T08:48:10+07:00` *(the same structural fact, asserted as a scan so a later pass cannot add one quietly.)*
 - [x] Quick Run typing never calls full workspace `render()`. — `72384be` @ `2026-09-12T08:48:10+07:00` *(the same scan, and the reason the rule is structural rather than behavioural: there is nothing to guard at runtime.)*
