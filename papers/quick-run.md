@@ -276,7 +276,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**256 ticked / 25 open.**
+**257 ticked / 24 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2246,7 +2246,7 @@ Quick Run is complete only when all conditions below are true.
 
 - [x] All/Folders/Shortcuts/Links/Layout Items behave exactly as specified. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(each filter shows its own kind and All keeps the ranked order, asserted over the five names the contract fixes.)*
 - [x] Only types with matches produce chips. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(same rule as the first case, asserted from the other direction: no match, no chip.)*
-- [ ] Tab/Shift+Tab cycles only available chips. *(**Re-opened on the AUTHOR ruling of 2026-09-12.** It was ticked on the reading that the cycle runs over the five fixed names with the no-matches fallback to All; the AUTHOR resolved the ambiguity the other way: the five names define the vocabulary and their order, the chips define the currently available subset, and Tab/Shift+Tab must traverse that subset in canonical order, **skipping** the types with no current match. The fallback rule exists for a filter that becomes unavailable because the query changed, not to make keyboard traversal bounce through unavailable names. So the rule is now skipping, it is unimplemented, and the box re-opens until it is.)*
+- [x] Tab/Shift+Tab cycles only available chips. — `5be5cdd` @ `2026-09-12T09:39:46+07:00` *(the AUTHOR ruling of 2026-09-12, implemented. The five names are the vocabulary and its order; the chips are the subset with a current match; a step moves to the next offered chip in canonical order and never lands on a name the query has emptied - the fallback-to-All rule is for a filter that becomes unavailable because the query changed, not for traversal. `nextAvailableFilter` holds the step, `quickRunSessionAfterTab` gives it the chips the session already computed, and the mount calls it. The surface test asserts the ruling through the real mount (with the query "docs" one Tab from All lands on Links with no fallback, the next wraps to All, Shift+Tab reverses it) and the types test pins both edges: nothing on offer means nothing moves, and a filter that is not on offer lands on the first chip rather than nowhere.)*
 - [x] Disappearing active filter falls back to All. — `c0737a2` @ `2026-09-12T08:09:53+07:00` *(the active filter losing its matches falls back to All and says that it did, so the fallback is visible rather than silent.)*
 
 ## Actions
