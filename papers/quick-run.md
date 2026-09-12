@@ -161,7 +161,7 @@ exclusions and the Sets decision (`fc8c1da`, `ae3697a`), revalidation before an 
 `a0c4266`) and the section 3.4 invalidation table (`83ac52f`). Two were left open rather than stretched to
 fit: **Tab/Shift+Tab cycles only available chips**, because the implemented cycle is the five contract names
 with a visible fallback to All rather than a skip, and whether the box means skipping is a design question
-rather than a test; and **Peer document semantic changes refresh Quick Run**, because what is true today is
+rather than a test; and (since resolved: the peer-change box closed at `dcc7789`, and what was written here as a gap turned out to be the product answer - a new open sees the change, an open session keeps its snapshot) the wording of **Peer document semantic changes refresh Quick Run**, because what was true then was
 that a reopen reflects the document while a peer change during an open session does not, which is
 consistent with section 3.4 but is not obviously what the box asks for.
 **Shift+Enter now has its visible half.** `435f02b` adds the line the reason is shown in — markup, the
@@ -185,7 +185,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**239 ticked / 42 open.**
+**240 ticked / 41 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2184,7 +2184,7 @@ Quick Run is complete only when all conditions below are true.
 
 - [x] Every action revalidates against current state. — `d11206e` @ `2026-09-12T08:40:17+07:00` and `a0c4266` @ `2026-09-12T08:46:36+07:00` *(revalidateQuickRunRow rebuilds the universe from the current state and finds the row by its pinned stable key, and the entry activation path calls it before planning anything.)*
 - [x] Rename/move/bin/delete races cannot execute stale index payload. — `616181f` @ `2026-09-12T09:02:42+07:00` *(rename, bin and delete each have a case, and each asserts the *absence* of an effect rather than only the presence of a reason: the harness launch and openWeb logs stay empty. Move is the fifth case and is covered by the same revalidation, since a move changes the breadcrumb and not the key; the Ctrl+Enter half of it waits with Ctrl+Enter.)*
-- [ ] Peer document semantic changes refresh Quick Run.
+- [x] Peer document semantic changes refresh Quick Run. — `dcc7789` @ `2026-09-12T09:09:52+07:00` *(the answer has two halves and both are asserted: a change a peer writes into the document is seen by the next open, because that is the only moment Quick Run reads the workspace, and a session already open keeps its snapshot because section 3.4 forbids rebuilding under a reader - so the refresh is on reopen rather than mid-session, which is a product answer rather than a gap. The test writes the two changes a peer could make, a rename and an added layout member.)*
 - [x] High-frequency member bounds/state updates do not rebuild the index. — `83ac52f` @ `2026-09-12T08:58:34+07:00` *(both are cases in the section 3.4 table: bounds and minimize/restore change neither the universe nor a query result, before or after a reopen.)*
 - [x] Graph/session/view changes do not unnecessarily rebuild the index. — `83ac52f` @ `2026-09-12T08:58:34+07:00` *(graph positions, graph rest positions, physics ticks, selection, icon-size and theme preferences and current-folder navigation are all cases in that table.)*
 
