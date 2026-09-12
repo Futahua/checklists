@@ -4,347 +4,73 @@
 
 ## Status
 
-**Updated** 2026-09-12 · **Not started, and now workable.** No implementation exists yet. Design only. **The default
-workspace hotkey chord is chosen: Alt+Shift+X** (creator, 2026-09-12). It is recorded here and on the
-open item at the foot of this file, which was the item waiting for it, and the binding stays an
-explicit configured value rather than a hard-coded one.
+**Updated** 2026-09-12 · **Implemented on a feature branch, not yet accepted.** STAGE 0 through STAGE 19
+carry no open boxes: the modules, the surface, the actions, the invalidation and race rules and the tests
+are in place on `quick-run-stage0`. The **22 boxes that remain are the acceptance-shaped remainder** — one
+architecture invariant, STAGE 17's host-side test requirements and the Definition of Done — and none of
+them is waiting on code.
 
-**Where it would land** `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — `Futahua/Papers-3`.
+**Where everything is.** Windows paths. The short names beside `Products\<Name>\<Role>` are symlinks into
+those directories and both forms work, so a tool reporting one when you typed the other is not a wrong
+directory. Use `D:/...` in scripts: Windows Python cannot resolve msys `/d/...` and fails *silently*.
 
-**Reachability** (recon 2026-09-12). Host baseline is green: `Futahua/Papers-3` at `d2a3c74`, 99 files
-(98 passed | 1 skipped), 942 passed + 4 skipped / 946 collected, 5.4s. The 280 open boxes are feature
-acceptance criteria (28 in §1), prohibitions (31 across §3 and §6), architecture invariants (19), STAGE 3
-index work (62), STAGE 17 test requirements (92) and Definition of Done (47); STAGE 0's pure-search
-sections carry **no** boxes. Implementation was gated by the unchecked item at the foot of this file — the
-hotkey chord — and the creator has now chosen it (Alt+Shift+X), so that gate is open. What still gates
-implementation is the missing landing tree recorded below: STAGE 0's pure modules need no chord and no
-native capability, but they do need the As-you-Go Backpack checkout they land in.
+| | |
+| --- | --- |
+| Working tree | `D:\Letters\MatTroiSeConMoc\Products\Papers\Runtime\Backpack projects\As you Go` — remote `Futahua/as-you-go-backpack`, branch **`quick-run-stage0`**, HEAD **`4db1254`** @ `2026-09-12T10:01:10+07:00`, clean tree, pushed |
+| Untouched baseline | `main` at `8000c88` @ `2026-09-08T18:23:53+07:00` — the anchor this work must not disturb, and has not |
+| Papers host | `D:\Letters\MatTroiSeConMoc\PAPERS 3\Papers-3` (canonical) and `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — **read-only reference for this checklist**. STAGE 9's host half names the files a Papers-side change would touch; no Papers change is claimed by this branch |
+| This checklist | `D:\Letters\MatTroiSeConMoc\LongHorizon` — `Futahua/long-horizon`, branch `codex/reviewer-send-verification` |
+| Old Proxima plugin | `D:\LapSlop brotherhood\Local\.obsidian\plugins\proxima` — **read-only; it is live inside the creator's vault** |
 
-**STAGE 0's landing tree IS on this machine** (corrected 2026-09-12; the previous entry here said it
-was not, and that was wrong). The As-you-Go Backpack is a working checkout at
-`D:\Letters\MatTroiSeConMoc\Products\Papers\Runtime\Backpack projects\As you Go` — the same parent as the
-Proxima backpack project — with remote `Futahua/as-you-go-backpack`, branch `main`, HEAD `8000c88`
-committed `2026-09-08T18:23:53+07:00`, and a clean working tree. That is **exactly the baseline this
-document already records** ("as-you-go-backpack main: 8000c88"), which is how the correction was checked
-rather than assumed. § 0.1's landing paths sit under `public/app/`: `public/app` exists today, and
-`public/app/quick-run/` — the directory the three modules are created in — does not yet, because creating
-it is STAGE 0's first act. The state file at
-`D:\Letters\MatTroiSeConMoc\Backups\as-you-go\as-you-go-state-20260901-093748.json` is a separate thing and
-was never the checkout; it is why the earlier check concluded the tree was absent.
+**Suite at `4db1254`.** `npm test` in the working tree above: **1339 tests, 1339 pass, 0 fail, 0 skipped,
+exit 0** in ~16 s (the baseline recorded on `main` is 1153, so this work added 186). Every slice was gated
+on that run, and the count is the runner's own rather than a sum of new files.
 
-**So STAGE 0 is not blocked.** It needs neither the hotkey chord (chosen: `Alt+Shift+X`) nor a native
-capability — it is three pure modules and their tests — and the tree it lands in is present and green
-against its own suite. **Two rules apply when work begins there, and they are not negotiable:** a
-**feature branch**, never `main`, and no force-push; and the same vault safety this repository's other
-work follows, because that checkout is ordinary product code and this loop does not write to the
-creator's vault or to real data from it.
-**Baseline verified and the branch exists** (2026-09-12, this pass). `npm test` in that checkout runs its
-own suite: **1153 tests, 1153 pass, 0 fail, exit 0** in ~16 s, on `main` at `8000c88` — so the anchor every
-module added here must keep green is a real number rather than a claim. The work has been started on a
-**feature branch, `quick-run-stage0`**, cut from that exact baseline with a clean tree; nothing has been
-written yet, and `main` is untouched. Two path facts were checked rather than assumed: the canonical Papers
-repository that checkout's own `AGENTS.md` names is `D:\Letters\MatTroiSeConMoc\PAPERS 3\Papers-3`, and the
-path this document's own block names (`D:\Letters\MatTroiSeConMoc\Products\Papers\Source`) also exists —
-both are present, and the discrepancy is recorded here rather than resolved by guessing. The next act is
-STAGE 0's first module under `public/app/quick-run/`, with its test, verified by the suite above. **Where to start reading, so the next pass does not have to find it:** the three landing paths are named in this document at L377–379 (`public/app/quick-run/quick-run-index.js`, `-search.js`, `-types.js`), and the sections a module has to satisfy are **§ 0 Product contract** (L76: hotkey → one search line → flat ranked results → highlight → Enter/Ctrl+Enter/Shift+Enter → Escape, with no empty-query home screen, no prompts and no whole-layout result), **§ 1.2 Result presentation** (L123), **§ 2 Searchable universe** (L204, with § 2.1's four included types at L212), **§ 5 Non-negotiable architecture invariants** (L309) and **§ 6 Do NOT attempt in v1** (L333). STAGE 0's own sections carry no acceptance boxes — the boxes live in the stages that depend on the modules — so the order is module first, suite green, then the boxes that consume it. **The first unit of work, read off the contract rather than invented:** the filter cycle is fully specified and pure — § 1.4 fixes the five names **All, Folders, Shortcuts, Links, Layout Items** in that order, Tab cycles forward and Shift+Tab backward, a chip appears only for a type with at least one current match, `All` is shown whenever there is at least one result, and an active filter that loses its matches falls back to `All` with the first result highlighted. That is `public/app/quick-run/quick-run-types.js`'s first export (the vocabulary plus the cycle), with its test, which is why it goes first: it needs no DOM, no host and no hotkey, and every later stage consumes it. § 1.2 fixes the row shape the search module then fills — icon, primary name, faint trailing breadcrumb, one flat list, no grouped sections, duplicate names expected when breadcrumbs differ — and § 2.1 fixes the sources: one result per active folder from `state.groups`, one per active **placement** from `state.shortcuts[].placements[]` rather than per shortcut record. **§ 2.1 read in full, so the next module does not have to re-derive it:** *Folders* come one result per active folder from `state.groups`. *Shortcuts* come **one result per active placement** from `state.shortcuts[].placements[]` — the same shortcut linked into three folders is three rows, with the same name and target but different placement ids and breadcrumbs, and the document says that is intentional because "the workspace itself already treats placement IDs as the selectable/movable occurrence identity". *Links* are **not a record kind**: a Link is a shortcut whose target parses as `http:`/`https:` (`createWebLink()` delegates to `createShortcut()`, `isWebLink()` classifies the URL), so the instruction is explicit — **one shortcut index, each occurrence classified link or non-web shortcut, and no second Link store**. *Layout Items* come one result per member occurrence from `state.windowLayouts[].arrangement.members[]`, so one native window in two layouts is two rows, each carrying its containing layout in the breadcrumb; a member's durable native identity is the persisted descriptor (`member.id`, `descriptor.version`, `descriptor.title`, `descriptor.executableFingerprint`, `bounds`, `state`) and **not** an HWND or runtime token. Rows then take § 1.2's shape (icon, primary name, faint trailing breadcrumb, one flat list) and must carry the **stable result key** § 1.3 names, because the highlight is preserved by that key when the result set changes. **What the module still needs before it is written, and it is a lookup rather than a decision:** the real field names for "active" on a group and on a placement, and the name/target fields a placement exposes — those live in `public/workspace-model-20260730b.js` and `public/app/workspace-store.js`, and inventing them would put field names into a module that the store does not have. **The lookup done, so the next module starts from real names.** A group is `{ id, parentId, ... }`; a placement is `{ id, parentId, bin, ... }` and the model's rule for an active one is simply **`!placement.bin`** — `activePlacements(shortcut)` is exactly that filter — so *binned* is how this workspace retires an occurrence and Quick Run must use that rule rather than invent a parallel `active` flag. The model's own activeness helper `activeItem` is **not exported**, so the module cannot import it; what *is* exported, and is therefore the seam to build on, is **`itemsIn(state, parentId)`** (the document's own words: "the itemsIn seam every downstream consumer" uses), alongside **`isWebLink`** and **`createShortcut`** — which is what § 2.1's "no second Link store" instruction needs, since classifying an occurrence uses the model's own predicate rather than a copy of the URL test. A row's breadcrumb is then the `parentId` chain above the placement's parent, which is why two placements of one shortcut can share a name and target and still differ in breadcrumb.
+**The 22 open boxes, and what each is waiting on.**
 
-**Where the module work stands after this pass.** The branch is at `362a00d` with six commits: `2ab3bf7` names
-the three modules in `ARCHITECTURE.md` before any of them existed, `c0737a2` adds
-`quick-run-types.js`, `049f793` `quick-run-search.js`, `8bfc829` `quick-run-index.js`, `bd24a2c` aligns the
-rows with § 0.2–0.4 (resultKey/type/normalizedName/breadcrumbIds/actionRef and the pinned key scheme),
-and `362a00d` puts `workspace.quick-run` in the hotkey catalog with the creator's `Alt+Shift+X`. Suite
-**1173 pass / 0 fail**, `main` untouched. A
-follow-on slice adding § 1.3's highlight rules — preserve the highlighted result by stable result key if it
-still exists, otherwise the first result; ArrowUp/ArrowDown step one row and clamp rather than wrap — was
-written this pass and **reverted rather than committed**: eight of its nine cases passed and the ninth was
-my own test setup rather than the rule (the "after" query still contained the row whose key it expected to
-have been dropped, so the preservation rule was never actually exercised), and a red suite is not
-something to leave on a branch. The rules are short and fully specified in § 1.3; the next pass adds them
-with two result sets that genuinely differ, then reruns `npm test`.
-**A deviation found in committed code, recorded before it is built on.** § 0.2 fixes the stable result shape
-as `{ resultKey, type, name, normalizedName, breadcrumb, breadcrumbIds, actionRef }`, plus type-specific
-authority references (a folder carries its group id; a shortcut/link carries the placement and the shared
-shortcut record). `quick-run-search.js` (`049f793`) emits rows named `{ kind, key, name, breadcrumb, … }`
-with the ids I needed at the time — so `key` should be `resultKey`, `kind` should be `type`, and
-`normalizedName`, `breadcrumbIds` and `actionRef` are missing. Nothing consumes the rows yet except the
-index's own tests, which is exactly why this is cheap to fix now and expensive later: the stages that read
-these fields have not been written. The alignment is a small slice with one wrinkle — `normalizedName` needs
-the pinned normalisation function, which currently lives in `quick-run-index.js`, so it should move into
-`quick-run-types.js` (the module every other one already imports) to avoid a circular import, and both the
-search and index tests need the field names updated with it.
-**STAGE 5.1, and a correction.** `362a00d` put `workspace.quick-run` in the hotkey catalog with the
-creator's `Alt+Shift+X`; `28ee3ad` added the module-scoped half — an optional `openQuickRun` callback on
-`keyboard-controller.js` (defaulting to a no-op, like its other optional callbacks) and one branch that
-matches the action, prevents the default and calls it. The controller still opens nothing: the entry file
-is STAGE 5's next step, and the test asserts the chord reaches the callback, that the key is consumed, and
-that nothing else in the workspace moves. Suite **1174 pass / 0 fail** — the commit message for `28ee3ad`
-says 1176, which is wrong; the run printed 1174 (1173 plus the one new case), and since history is not
-rewritten the number is corrected here instead. Nothing in this document ticked for either step: § 5.1's
-text is not a checkbox, and "A configurable As-you-Go workspace hotkey opens Quick Run" stays open until
-the entry file actually opens the surface.
-**The boundary the next step hits, recorded before it is hit.** STAGE 5's third step is the entry file —
-pass a real `openQuickRun` into the controller and mount the surface — and the surface's markup is
-**genuinely unspecified**: a search of this document finds no `data-*`, `aria-*` or class-name contract for
-Quick Run's line, chips or rows. Only content is fixed (§ 1.2: icon, primary name, faint trailing
-breadcrumb, one flat list) and behaviour (§ 1.1–1.4). So the markup is the implementer's to design, and the
-guide for it is **the repository's own conventions**, not invention: how the other surfaces mount in
-`public/workspace-20260730b.js`, what `public/app/dom.js` offers, and what the existing `*.test.mjs` files
-assert about the workspace's DOM. A pass that skips that reading will produce selectors the repo's own tests
-then contradict, which is the failure I stopped short of twice already (a module written before
-`ARCHITECTURE.md` was read, and rows written before § 0.2 was). Everything upstream of it is now in place
-and green: three pure modules, the row shape, the catalog entry and the controller intent.
-**How the surface mounts here, read from the repository rather than guessed.** This product does not build
-its DOM in modules: elements are declared in **`public/workspace-20260730b.html`** with plain ids, registered
-in **`public/app/dom.js`**'s `getWorkspaceElements(document)` as `requiredElement(document, '#id')`, and handed
-to controllers, which drive them (`classList`, `hidden`, `textContent`) and never create markup. So Quick
-Run's surface is four edits, in this order: **(1)** the elements in `workspace-20260730b.html` (a line input,
-a chip strip, a result list, a layer to show/hide); **(2)** their ids in `getWorkspaceElements`, whose own
-comment is the rule to obey — *"this registry must stay in lockstep … a missing ID here means the interface is
-broken, not an optional enhancement"*, and `requiredElement` **throws**, so an id added to one file and not
-the other breaks the whole workspace mount rather than failing quietly; **(3)** a `quick-run-surface.js` that
-takes those element handles and paints `quickRunRowViews`/`quickRunChipViews` — the five pure modules already
-hand it every value it needs, including which row is highlighted and which chip is active; **(4)** the entry
-file passing a real `openQuickRun` into the keyboard controller and mounting the surface, which is the step
-that finally makes the chord open something a reader can see. Nothing in that list requires inventing a
-selector convention: the ids are the implementer's to name, and everything they must contain is already
-decided.
-**STAGE 5 is complete, including the step that lives in the composition root.** Steps 1–4 landed at `cd9b950`
-(the surface paints the four elements), `aaab87d` (`mountQuickRun` wires the input listener, Escape, the
-arrows, Tab/Shift+Tab) and `10f8ae6` (the chord opens the surface); the earlier revert was the test harness,
-which now carries `addEventListener` and `fire`. `a0c4266` is the activation half: Enter — and a click, since
-§ 6.4 wants one implementation reached from both — re-reads the row by its stable key, plans the action, and
-names the workspace's own `commands.activateItem` rather than growing a second launcher, with a row that
-cannot run saying why in the status line instead of appearing to do nothing. `e79e5f8` proves the three § 1.5
-default actions end to end against the real command object (folder navigates, shortcut launches, link opens
-its URL), `72384be` asserts what Quick Run structurally cannot do (render the workspace, reheat the graph,
-observe anything, poll on a timer), and `quick-run-entry.test.mjs` holds the entry wiring's shape, including
-the § 1.6 prohibition: no `revealShortcut`, `revealSelection`, `launchShortcut`, `openWebLink` or direct host
-call may appear beside the activation. Branch `quick-run-stage0` is at `72384be`, suite **1212 pass / 0 fail**
-against the `8000c88` baseline of 1153, `main` untouched.
+- **Papers activation (7)** and **Availability/native (2)** — STAGE 17's host-side requirements: a normal
+  target raises and focuses, a minimized one restores first, a stale identity cannot activate a
+  replacement window, a malformed capability is rejected, a page cannot supply HWND/PID/path, the
+  helper-unavailable failure is typed, and the helper SHA-256 pins are updated and validated. These need
+  the Papers host with the helper present.
+- **Actions (6)** — the Definition-of-Done acceptance twins for Folder, Shortcut, Link and Layout Item
+  Enter, the honest failure a missing or ambiguous Layout Item reports, and Ctrl+Enter's
+  navigate-and-select. Source shape is not acceptance; an app-level harness that drives the real workspace
+  would close them.
+- **Native boundary (4)** — the same capability seen from the host's side, including the fail-closed
+  identity rule and the resource hash pins.
+- **Performance (2)** — the integrated renderer targets: p95 on the real corpus and typing inside the
+  agreed frame-latency budget. STAGE 0.10's synthetic gate is met; these two are about the real app.
+- **Architecture invariant (1)** at §5 — that the Papers addition stays exactly a narrow,
+  already-resolved capability activation primitive. It is a statement about the host change, so it closes
+  with the host work above.
 
-**The searchable universe is asserted, and one real defect came out of asserting it.** Folders and
-placements arrive through the model `itemsIn`, which already applies the model active rule, so the bin was
-honoured for them. Layout members are reached through their layout instead, and that loop walked every
-layout in state: `fc8c1da` fixes it, so a binned layout or a layout under a binned folder no longer offers
-its members to a query. `activeItem` was exported from the model for exactly this, because a caller that
-reaches a record by another route must ask the rule rather than re-derive it. The new
-`quick-run-universe.test.mjs` holds both halves — the active tree is searched, with the four row types and
-their keys pinned, and the exclusions hold for a binned folder with descendants, a binned placement, a
-binned layout and a layout under the bin — with prompts and Sets present in the fixture so their absence is
-asserted rather than assumed. Removing the filter fails two of the five cases; that was checked, not
-claimed. Seven section 6 boxes tick with it: whole layouts, prompts, bin contents, items under a binned
-folder, binned placements, binned layouts with their members, and Sets.
-**The ticks were audited, and the audit is the point of the convention.** Every commit reference in this
-file and in `proxima/proxima-full-parity-checklist.md` — 786 of them — was resolved against the three
-product checkouts (As-you-Go, Proxima, Papers-3) and its recorded timestamp compared with
-`git show -s --format=%cI`: **zero unresolvable, zero mismatched**. So the discipline the loop asks for is
-not an intention here but a checked fact: every ticked box names a commit that exists, and the timestamp
-beside it is the commit's own committer time rather than a number typed from memory. Re-sent, and the same pass now also checks that each checklist Status block still carries its required facts - heading, running totals, handoff and audit note for this file, and the four table rows for the Proxima parity list - because two separate edits of mine silently dropped a fact from a block while every content check kept passing (a suite row that vanished for seven rounds, and a 200-box-stale duplicate totals sentence). Both were found by checking structure rather than content, so the structure check is now part of the ritual; all four blocks passed it on 2026-09-12. Re-run both the same way
-after any future pass that ticks a box by hand.
-**Shift+Enter's duplicate rule is now decided, and asking for it exposed a defect in shipped code.** The
-AUTHOR ruled on 2026-09-12 that the **persisted descriptor is the durable native identity**, not an
-approximation of one, and named the two fields it carries: `title`, and `executableFingerprint` when present
-— `memberId` and `sourceLayoutId` are occurrence and provenance, not identity. Comparing those fields exactly
-and refusing with `already-in-the-active-layout` is therefore what § 1.6 asks for, so the entry no longer has
-to pass a guess that the member is absent. Checking the model against that ruling found that
-`quick-run-resolution.js` compared `executable` and `fingerprint`, names a persisted member never carries, so
-a member whose fingerprint differed would have matched on title alone; `20b3af0` fixes the vocabulary and
-rebuilds the tests from the shape the model actually writes. The write itself — `addWindowLayoutMember` on an
-exact non-match, refusal otherwise — is the next slice here, and the seam is already identified. The same
-exchange scoped Proxima's next slice away from its composer panel and onto a canonical `template.execute`
-submission path.
-**The browser AUTHOR was consulted on 2026-09-12, over the tab on `https://chatgpt.com/` in the Hermes
-Chrome profile, and two of its rulings changed this document.** First: the four acceptance twins about the
-running app stay **open** — source-shape evidence is strong implementation evidence, but evidence does not
-confer acceptance, and an automated app or browser harness would be enough to close them, a manual click
-would not. Second: the chip-cycle box is **re-opened**, because the AUTHOR read § 1.4 the other way — the
-five names fix the vocabulary and its order, the chips fix the available subset, and Tab/Shift+Tab must
-traverse that subset, skipping the types with no current match; the fallback-to-All rule covers a filter
-that becomes unavailable because the query changed, not a traversal that should skip it. Implementing that
-skip is now the smallest open piece of work in this document. The same exchange scoped Proxima's next slice
-(executor core and preflight, with its acceptance conditions recorded in that checklist's Status).
-**Ctrl+Enter was the last key with no implementation, and it now has one that respects the boundary the
-section draws.** `a097264` @ `2026-09-12T09:31:31+07:00` adds `planQuickRunReveal`: the folder to navigate to
-is the last entry of the persisted ancestor chain the row already carries, the item to select is the folder
-itself, the shared shortcut record with its placement, or the containing layout with its member — and
-`hostReveal` is false on every branch, so a caller following the plan cannot reach the file manager that
-`reveal-selection` and `revealShortcut()` use. The mount hands the key to the entry file, which re-reads the
-row by its stable key and then navigates and selects with the workspace own commands, passing the visible
-ids those commands take. Six boxes close with it; the seventh, the acceptance twin that says
-*navigates-and-selects the exact occurrence*, stays open with the Enter twins because that one is a claim
-about the running app rather than about the code. Suite **1336** pass / 0 fail — the commit message for
-`a097264` says 1337, which is a miscount of mine, and since history is not rewritten the number is corrected
-here instead.
-**Twenty-six ticked boxes carry no commit reference, and an attempt to fix them all at once was
-reverted.** The audit that resolves every tick's SHA was run over the *ticked-with-a-reference* set, which
-is why this was not visible earlier: a scan of the whole document finds 26 boxes ending in a dangling
-dash. Most are historical and the convention permits that — existing boxes need not be rewritten, only new
-ones must name their commit. Some are this session's, though, and those are real losses: the section 6
-prohibitions ticked at `e38d55d` @ `2026-09-12T09:05:10+07:00` and the universe boxes whose evidence is
-`fc8c1da` @ `2026-09-12T08:54:24+07:00` with `ae3697a` @ `2026-09-12T08:55:55+07:00` depend on those
-annotations for their reversibility. **A bulk re-annotation of all 26 was written and reverted uncommitted**
-because it classified boxes by guessing from their text, which put the wrong SHA on about nineteen of them
-— a fabricated reference is worse than a missing one. The next pass should restore them **section by
-section**, reading each section's own history, not by pattern-matching prose.
-**What the next session should pick up, and what it must not try to do from here.** Quick Run is now
-feature-complete in everything that can be decided or drawn without a machine, and the remainder is
-precisely bounded: **(1) the live half of § 10** — a host that supplies the window list, feeding
-`resolveQuickRunMember`, then the activation itself (restore when minimized, otherwise raise and focus), then
-`noteResolution` with the outcome, which is the only path that can ever produce the `activated` case; **(2)
-the Papers-side capability** — `activateWindowCapability` and its fail-closed identity rules, which are
-Papers work rather than this repository's, and the four Native boundary boxes plus the § 10.2 capability
-handshake wait on it; **(3) Ctrl+Enter**, which § 1.6 gives its own reveal path and which must not reuse
-`reveal-selection` or `revealShortcut()` — the entry wiring is asserted not to contain them, so the six
-Ctrl+Enter boxes and `move-before-Ctrl+Enter` are waiting on an implementation, not on a decision; **(4)
-Shift+Enter's action**, which already names `window-layout.add-member` as the command and needs that command
-to exist plus the native identity the duplicate rule depends on; **(5) two integrated-app measurements** —
-the renderer p95 target and the typing frame budget, neither of which the pure benchmark can answer. The one
-box that is genuinely a product choice rather than work is the chip-cycle reading recorded above.
+**Next operation.** Nothing here is blocked on code. The next slice that can move without the creator is
+the **acceptance harness for the six Actions boxes** — a drive of the real workspace that exercises Enter
+and Ctrl+Enter against the same command object the surface calls — and the two integrated performance
+boxes want that harness to exist first. Everything else waits on a host run (Papers activation, native
+boundary, availability) or on the creator walking `# Creator acceptance walk` at the foot of this file.
 
-**A note for whoever works Proxima next.** The parity checklist's Status block was not touched this session:
-its remaining 67 boxes are feature-sized rather than verification-sized, and the next real slice is Stage 16
-template execution — the parser/plan/executor split and its acceptance list — which also unblocks Stage 17's
-"for every row above" matrix and the two UI-versus-agent equivalence boxes, both of which are waiting on the
-first action an agent can submit rather than on a test that is missing.
-**Ephemeral availability, with the reset rule that makes holding it safe.** `03bf9d0` gives the surface the
-§ 10.1 state it was missing: a noted answer is keyed by the occurrence and carries the descriptor it was
-noted against, so an untouched item is `unknown`, a missing or ambiguous outcome reads `unavailable` while
-the row stays exactly where it was, a unique resolution that was activated reads `available`, and a member
-whose descriptor changed reads `unknown` again — § 10.5's reset, now a rule with a test rather than a
-property that held because nothing was ever cached. The descriptor box ticked on that vacuous reasoning
-earlier carries a correction rather than a rewrite: the reading is superseded, and the box now rests on the
-test. A noted answer belongs to one occurrence: two layouts holding the same descriptor do not share it.
-What still cannot happen is the `activated` case, because no host supplies windows and nothing activates
-yet; that, plus the § 10.2 capability handshake, is the live half and it needs the machine.
-**Resolution now exists as a decision, which is the half that does not need the machine.** `4541f19` adds
-`quick-run-resolution.js`: matching compares only the descriptor fields a member declares, every declared
-field must agree exactly, a descriptor that declares nothing matches nothing, and a host that reported no
-windows resolves nothing — so a failed resolution is a typed missing or ambiguous rather than a plausible
-substitute, which is the invariant the section 5 box states. The plan authorises an activation in exactly
-one case (unique), which is the strongest available form of the ambiguous-zero-activate rule while there is
-no call site. What is deliberately **not** claimed: `availabilityAfterResolution` maps outcomes to
-available/unavailable and is tested, but nothing consumes it into a row yet, so the § 10 boxes that say
-*missing -> unavailable*, *ambiguous -> unavailable* and *result remains searchable after an outcome* stay
-open until the surface carries an ephemeral availability the way § 10.1 describes. That consumption, plus
-the host that supplies windows and the activation itself, is what the next session at the machine should
-build.
-**A second verification pass, on boxes that committed tests already held.** Five more needed no new code:
-one shortcut placement is one result and one layout-member occurrence is one result (both directions
-asserted, including three placements of one record and the same descriptor in two layouts), links are the
-shortcut index classified rather than duplicated, and the two Shift+Enter acceptance boxes whose rule is
-already surface-tested — enabled only for Layout Items, and visibly disabled with a reason rather than
-silently dead. What remains open in this document is now almost entirely work that cannot be done from
-here: live window activation and its resolution, the Papers-hosted capability, the Ctrl+Enter reveal path
-that § 1.6 gives its own implementation, and two integrated-app measurements. The two window checklists and
-the Proxima parity list are the same shape of remainder.
-**The pure-query budget is measured, and the first measurement was a miss.** `22f68dd` adds the benchmark
-the checklist asks for — 10k and 20k corpora, seven queries, thirty runs each — and it found the 20k p95 at
-9.4 ms against a budget of 8 ms. The cause was in the hot loop rather than the algorithm: `tierForName`
-normalised the *query* inside the per-row call, so twenty thousand rows re-normalised the same short string
-on every keystroke on top of re-normalising every name. The split is now explicit
-(`tierForNormalizedName` takes both sides already normalised, `tierForName` keeps its signature) and the
-ranking uses the row's pinned `normalizedName` instead of re-deriving it. Measured after: 20k p95 2.09 ms on
-the real path, 6.18 ms without the field, worst single query 7.64 ms — the budget met with room, so no
-Worker fallback is needed, which also answers section 6's worker prohibition in the negative. Two
-performance boxes remain open and both need the app rather than the pure layer: the integrated renderer p95
-target and the integrated typing frame budget. The benchmark is a script rather than a test on purpose — the
-checklist asks for numbers, and a time-bound assertion would be a flake on a busy machine.
-**Section 6 is closed as absence rather than as intent.** `e38d55d` scans the seven modules and the entry
-region that mounts them for a network, a native or host call, an observer, a timer, a worker, a thumbnail,
-an embedding, a global accelerator and a relaunch path, and scans the query path separately for verb or
-command syntax — whole words for those two tokens, which is how the scan nearly failed on the word
-*verbatim*. All twenty-four prohibitions tick with it, each naming in its own line what holds it, so a
-later pass that adds one of those facilities fails the first test instead of quietly keeping a box.
-**A verification pass over boxes that were already closed by committed tests.** Twenty-one boxes needed no
-new code, only the mapping from the box to the test that holds it: the filter vocabulary and its cycle
-(`c0737a2`), the session empty-query and fallback rules (`550e6cc`), the index rule that an empty query
-shows nothing because there is no home screen (`8bfc829`), the single workspace read across a run of
-keystrokes (`4f63739`), the scan that finds no observer or timer in any module (`72384be`), the universe
-exclusions and the Sets decision (`fc8c1da`, `ae3697a`), revalidation before an action (`d11206e`,
-`a0c4266`) and the section 3.4 invalidation table (`83ac52f`). Two were left open rather than stretched to
-fit: **Tab/Shift+Tab cycles only available chips**, because the implemented cycle is the five contract names
-with a visible fallback to All rather than a skip, and whether the box means skipping is a design question
-rather than a test; and (since resolved: the peer-change box closed at `dcc7789`, and what was written here as a gap turned out to be the product answer - a new open sees the change, an open session keeps its snapshot) the wording of **Peer document semantic changes refresh Quick Run**, because what was true then was
-that a reopen reflects the document while a peer change during an open session does not, which is
-consistent with section 3.4 but is not obviously what the box asks for.
-**Shift+Enter now has its visible half.** `435f02b` adds the line the reason is shown in — markup, the
-`dom.js` registry and the entry file adapter, so the entry test lockstep check covers all three files at
-once — and the mount reads the key: enabled only for a Layout Item in an active layout, decided by
-`planQuickRunShiftEnter` in the entry file rather than guessed in the surface. A disabled key is visibly
-disabled before it is pressed and keeps its reason on screen when it is, which is what never-silently-
-ignored means; an enabled press reaches the caller, which reports that adding a window to a layout is not
-wired up yet instead of pretending. The duplicate check is deliberately not answered: it needs native
-identity, and claiming not-present would be a guess. The highlighted row comes out of the session rather
-than the tree, so this added no workspace read per keystroke — the section 5 test still counts exactly one.
-`dom.test.mjs` caught the new element as designed, which is why the registry moved from 42 entries to 43.
+**The checkout's own rules, which bind anything written there.** Elements are declared in
+`public/workspace-20260730b.html`; `public/app/dom.js`'s `getWorkspaceElements` registers them through
+`requiredElement`, which **throws**, so the markup and the registry stay in lockstep by construction rather
+than by care; modules are handed element handles and never build markup. New features belong in named
+modules under `public/app/`, not in the entry file. `ARCHITECTURE.md` is the map, and a module missing
+from it is a map that has drifted.
 
-**What is still open in STAGE 5 and why.** Three things, and two of them are not autonomous: **the
-Shift+Enter action itself** — `planQuickRunShiftEnter` already names `window-layout.add-member` as the
-command, but nothing implements that command, and the duplicate rule needs native window identity, so the
-box that says a valid press adds membership stays open. **Ctrl+Enter is deliberately unimplemented**,
-because § 1.6 gives it its own in-workspace reveal path and forbids reusing `reveal-selection` or
-`revealShortcut()`; the entry wiring is asserted *not* to contain them, so a later pass cannot quietly
-satisfy the key with the command the section forbids. **Layout Item Enter waits for the creator at the
-machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
-already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
-boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**259 ticked / 22 open.**
-**Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
-per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
-can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
-member persisted as `minimized` is still `unknown`, because normal/minimized is arrangement state and not
-whether a window exists right now (§ 10.1), and a member whose executable no host reports stays searchable,
-because what is searched is the persisted member and not its native resolvability. Four § 5/§ 10.1 boxes are
-ticked with those two SHAs. What they do **not** claim is the resolution path: nothing yet resolves a member
-to a live window, so § Availability/native's outcome boxes — `first Enter resolves`, `missing ->
-unavailable`, `ambiguous -> unavailable`, `ambiguous -> zero activate calls` — stay open until that module
-exists.
-**§ 1.5 and § 1.6 read, and they split the remaining work three ways — with one correction to what an earlier
-note here said.** Section 1.5's four default Enter actions are fixed: *Folder → navigate into that folder;
-Shortcut → launch it; Link → open its web URL; Layout Item → activate/focus that exact external application
-window, restoring it if first minimized.* For the first three the workspace already owns the execution path
-Enter uses — the keyboard controller handles `workspace.open-selection` — so Quick Run's activation must name
-that command rather than grow a second launch implementation, and the row already carries what it needs
-(`type`, `groupId`, `shortcutId`/`placementId`, `layoutId`/`memberId`).
+**Tick audit.** Every ticked box names the commit that closed it. The audit is
+`D:\Letters\MatTroiSeConMoc\.dsh\audit-checklist-ticks.ps1` (box-level, so an annotation wrapped across
+lines is read whole; short SHAs resolve against Proxima, this checkout, Papers-3 and this repository). At
+the revision before the one carrying this block: 281 boxes, 259 ticked, 297 references, **0 unresolved**,
+**0 false timestamps**, and four boxes without a SHA. Two of those were empty annotations a tick script had
+dropped — `folder indexed.` and `linked shortcut with 3 placements gives 3 results.` — restored in this
+revision from `fc8c1da` and `ae3697a`. The other two are deliberate and stay: the **Sets decision**
+(resolved 2026-09-08) and the **hotkey chord** (chosen by the creator on 2026-09-12), whose evidence is a
+decision by date rather than a commit.
 
-**Corrected:** an earlier paragraph in this block said Ctrl+Enter should reuse `workspace.reveal-selection`.
-§ 1.6 forbids exactly that — *"It must not reuse the existing `workspace.reveal-selection` behavior or
-`revealShortcut()`, because the existing command explicitly reveals shortcut targets through the
-host/file manager"* — because Ctrl+Enter means *reveal this exact occurrence **inside As-you-Go***, explicitly
-not an OS file-manager reveal. So the reveal path is Quick Run's own: it navigates the workspace to the
-occurrence, and it must not call the host reveal. That is a defect a next pass would have shipped if it had
-followed the note I wrote rather than the section.
-
-**The third part is not autonomous work:** activating and focusing a live foreign application window —
-restoring it if minimized — is not reversible by a commit, so the layout-item row's default action waits for
-a session with the creator at the machine, exactly like the two window checklists. Section 1.6's Shift+Enter
-rules (enabled only for Layout Items, visibly disabled for the other three, never silently ignored, disabled
-with a visible reason when there is no active layout, and reported rather than duplicated when the window is
-already in that layout) are model-and-surface rules, and the surface half landed at `435f02b`: the reason line is painted with the highlighted row and the mount reads the key. What is still missing from the third part is the action, not the affordance.
-<!-- /STATUS --> `ae3697a` then walks the section 17 index-domain list case by case — folders, placements and layout members indexed; three placements of one shortcut as three results with three breadcrumbs and one shared record; http and https as Links and a filesystem target as a Shortcut; the same descriptor in two layouts as two results; a layout never a row; prompts and Sets contributing nothing — so fifteen more boxes close on behaviour rather than on the absence of a feature.
-
-> Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
-> artefacts removed). Written to stand alone: a future reader needs no access to
-> the conversation that produced it.
->
-> **Sets decision — RESOLVED.** The document below marks the Sets question as
-> open pending creator confirmation. The creator confirmed on 2026-09-08:
-> **Sets are OUT for v1**, keeping exactly the five chips
-> `All · Folders · Shortcuts · Links · Layout Items`. Treat every "pending
-> creator confirmation" note about Sets as settled — excluded by decision, not
-> by oversight.
-
-Feature: As-you-Go Quick Run
-Owner: As-you-Go Backpack, with one narrow Papers native capability addition
-Starting baselines:
-
-- Papers-3 main: cbe2a75
-- Papers-3 docs-only follow-up: 0397d48
-- as-you-go-backpack main: 8000c88
-
-Status: Future feature.
-
-This document is intended to stand alone. A future implementation agent should read it from beginning to end before changing code.
+**History.** The pass-by-pass narrative this block used to carry — every slice, a slice written and
+reverted rather than committed, a suite number corrected after the fact — lives in
+`git log -p -- papers/quick-run.md`. Status is current state only; history costs nothing to ignore in git.
 
 # 0. Product contract
 
@@ -2084,12 +1810,12 @@ Classification: HARD DEFINITION-OF-DONE REQUIREMENTS
 
 ## Index domain
 
-- [x] folder indexed. — 
+- [x] folder indexed. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` *(the universe case `the active tree is searched: folders, placements and layout members (section 2.1)` asserts the folder names the search returns, built from the model's `itemsIn` rather than from a directory walk. The annotation was empty - a tick script had dropped it - and is restored here from the commit that added the case.)*
 - [x] nested folder breadcrumb correct. — `bd24a2c` @ `2026-09-12T08:17:59+07:00` *(a group at depth two and a member inside it both build the full chain, in the document's own order and with its separator (Workspace › Alpha › Focus asserted in the search suite). The rule and the format are tested; the surface that draws it is a later stage.)*
 - [x] binned folder excluded. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs: the exclusion is proved, with the excluded shape present in the fixture. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 - [x] descendants under binned folder excluded. — `fc8c1da` @ `2026-09-12T08:54:24+07:00` and `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs: the exclusion is proved, with the excluded shape present in the fixture. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 - [x] one ordinary shortcut placement indexed. — `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs, which pins the row type or the occurrence count for this case. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
-- [x] linked shortcut with 3 placements gives 3 results. — 
+- [x] linked shortcut with 3 placements gives 3 results. — `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted directly rather than by analogy: three placements of one shortcut produce three rows that share a name and one `shortcutId` while carrying three different breadcrumbs, which is the occurrence-identity rule of §0.3. The annotation was empty - a tick script had dropped it - and is restored here from the commit that added the case.)*
 - [x] placement breadcrumbs independent. — `550e6cc` @ `2026-09-12T08:22:40+07:00` *(two placements of one shortcut in different folders produce two rows with different breadcrumbs **and** different result keys while sharing a name and target, which is the occurrence-identity rule the contract states. Asserted in quick-run-search.test.mjs.)*
 - [x] HTTP shortcut classified as Link. — `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs, which pins the row type or the occurrence count for this case. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
 - [x] HTTPS shortcut classified as Link. — `ae3697a` @ `2026-09-12T08:55:55+07:00` *(asserted in quick-run-universe.test.mjs, which pins the row type or the occurrence count for this case. Re-annotated 2026-09-12 - a tick script dropped the original annotation.)*
