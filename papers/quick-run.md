@@ -4,7 +4,7 @@
 
 ## Status
 
-**Updated** 2026-09-12 · **Not started.** No implementation exists. Design only. **The default
+**Updated** 2026-09-12 · **Not started, and now workable.** No implementation exists yet. Design only. **The default
 workspace hotkey chord is chosen: Alt+Shift+X** (creator, 2026-09-12). It is recorded here and on the
 open item at the foot of this file, which was the item waiting for it, and the binding stays an
 explicit configured value rather than a hard-coded one.
@@ -20,14 +20,24 @@ hotkey chord — and the creator has now chosen it (Alt+Shift+X), so that gate i
 implementation is the missing landing tree recorded below: STAGE 0's pure modules need no chord and no
 native capability, but they do need the As-you-Go Backpack checkout they land in.
 
-**STAGE 0's landing tree is not on this machine** (checked 2026-09-12). § 0.1 names
-`public/app/quick-run/quick-run-index.js`, `-search.js` and `-types.js` — that is the **As-you-Go
-Backpack** tree, not Papers: this document's own baselines list `as-you-go-backpack main: 8000c88`
-alongside `Papers-3 main: cbe2a75`. The only trace of that product here is
-`D:\Letters\MatTroiSeConMoc\Backups\as-you-go\as-you-go-state-20260901-093748.json` — a state file, not a
-checkout (no `.git`, no `public/`). So STAGE 0 cannot begin until the As-you-Go Backpack is cloned to a
-working tree and named in this block; whoever does that should record its path, branch and baseline SHA
-here before writing the first module.
+**STAGE 0's landing tree IS on this machine** (corrected 2026-09-12; the previous entry here said it
+was not, and that was wrong). The As-you-Go Backpack is a working checkout at
+`D:\Letters\MatTroiSeConMoc\Products\Papers\Runtime\Backpack projects\As you Go` — the same parent as the
+Proxima backpack project — with remote `Futahua/as-you-go-backpack`, branch `main`, HEAD `8000c88`
+committed `2026-09-08T18:23:53+07:00`, and a clean working tree. That is **exactly the baseline this
+document already records** ("as-you-go-backpack main: 8000c88"), which is how the correction was checked
+rather than assumed. § 0.1's landing paths sit under `public/app/`: `public/app` exists today, and
+`public/app/quick-run/` — the directory the three modules are created in — does not yet, because creating
+it is STAGE 0's first act. The state file at
+`D:\Letters\MatTroiSeConMoc\Backups\as-you-go\as-you-go-state-20260901-093748.json` is a separate thing and
+was never the checkout; it is why the earlier check concluded the tree was absent.
+
+**So STAGE 0 is not blocked.** It needs neither the hotkey chord (chosen: `Alt+Shift+X`) nor a native
+capability — it is three pure modules and their tests — and the tree it lands in is present and green
+against its own suite. **Two rules apply when work begins there, and they are not negotiable:** a
+**feature branch**, never `main`, and no force-push; and the same vault safety this repository's other
+work follows, because that checkout is ordinary product code and this loop does not write to the
+creator's vault or to real data from it.
 
 <!-- /STATUS -->
 
