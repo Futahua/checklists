@@ -134,6 +134,12 @@ binned layout and a layout under the bin — with prompts and Sets present in th
 asserted rather than assumed. Removing the filter fails two of the five cases; that was checked, not
 claimed. Seven section 6 boxes tick with it: whole layouts, prompts, bin contents, items under a binned
 folder, binned placements, binned layouts with their members, and Sets.
+**Section 6 is closed as absence rather than as intent.** `e38d55d` scans the seven modules and the entry
+region that mounts them for a network, a native or host call, an observer, a timer, a worker, a thumbnail,
+an embedding, a global accelerator and a relaunch path, and scans the query path separately for verb or
+command syntax — whole words for those two tokens, which is how the scan nearly failed on the word
+*verbatim*. All twenty-four prohibitions tick with it, each naming in its own line what holds it, so a
+later pass that adds one of those facilities fails the first test instead of quietly keeping a box.
 **A verification pass over boxes that were already closed by committed tests.** Twenty-one boxes needed no
 new code, only the mapping from the box to the test that holds it: the filter vocabulary and its cycle
 (`c0737a2`), the session empty-query and fallback rules (`550e6cc`), the index rule that an empty query
@@ -167,7 +173,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**188 ticked / 93 open.**
+**212 ticked / 69 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -488,30 +494,30 @@ This section exists to stop scope creep.
 
 Do not add:
 
-- [ ] Papers-level universal command palette.
-- [ ] Cross-Backpack aggregated search.
-- [ ] OS-global accelerator.
-- [ ] Quick Run invocation while another unrelated desktop application has focus.
-- [ ] Prompt search.
-- [ ] Whole-layout search.
-- [ ] Bin search.
-- [ ] Live "which applications are running" scanning.
-- [ ] Native availability polling in the background.
-- [ ] Thumbnail generation for Quick Run rows.
-- [ ] Desktop enumeration while typing.
-- [ ] Automatic relaunch of a missing layout member.
-- [ ] "Best guess" resolution for ambiguous window descriptors.
-- [ ] Folder/shortcut semantic search through descriptions or file contents.
-- [ ] Search inside file contents.
-- [ ] Search through link page titles fetched from the network.
-- [ ] Search by URL target unless separately approved later.
-- [ ] AI ranking.
-- [ ] Embeddings/vector search.
-- [ ] Prompt/verb syntax in the query.
-- [ ] Command verbs inside the Tab filter cycle.
-- [ ] Launch-a-shortcut-and-then-capture-its-new-window behavior for Shift+Enter.
-- [ ] Worker architecture before profiling proves it necessary.
-- [ ] New search dependency/library before the pure matcher has been measured.
+- [x] Papers-level universal command palette. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(no palette, registry or command discovery exists; the universe is groups, shortcuts and layout members. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Cross-Backpack aggregated search. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(quickRunRows takes one workspace state and there is no second Backpack to aggregate. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] OS-global accelerator. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(the chord is workspace-scoped in the catalog and registered by the workspace keydown seam; the scan finds no globalShortcut, registerHotkey or accelerator. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Quick Run invocation while another unrelated desktop application has focus. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(follows from the same fact: the binding is workspace-scoped, so another application having focus cannot reach it. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Prompt search. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(prompts are not a source, and a populated prompt library is asserted to contribute no row. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Whole-layout search. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(a layout appears only inside a member breadcrumb; the four row types are pinned. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Bin search. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(all four bin shapes are excluded from the universe. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Live "which applications are running" scanning. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(no observer, timer or host reference in any module; availability is computed from the row kind. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Native availability polling in the background. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(the same scan, plus the section 3.4 table: nothing observes and nothing polls. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Thumbnail generation for Quick Run rows. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(no thumbnail source, and the scan finds no capturePage, toDataURL, screenshot or thumbnail. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Desktop enumeration while typing. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(opening reads the workspace once and typing reads it no further, and no native module is reachable. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Automatic relaunch of a missing layout member. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(activation is planned and then deferred; the scan finds no relaunch path. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] "Best guess" resolution for ambiguous window descriptors. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(there is no resolution at all yet, and the plan answers deferred with a reason rather than guessing. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Folder/shortcut semantic search through descriptions or file contents. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(matching reads the display name only, which quick-run-index.test.mjs asserts directly. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Search inside file contents. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(no module reads a file or a host, so there is no content to search. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Search through link page titles fetched from the network. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(there is no network facility of any kind in the modules or in the wiring that mounts them. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Search by URL target unless separately approved later. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(matching reads the display name only; a target rides on the row for the action and never for the query. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] AI ranking. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(no model, service or prompt reference anywhere in the ranking. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Embeddings/vector search. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(no embedding, vector, cosine or similarity reference. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Prompt/verb syntax in the query. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(the query is normalised text matched against names; the query path is scanned for verb and command syntax, whole words, which is how the scan nearly failed on the word verbatim. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Command verbs inside the Tab filter cycle. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(the cycle is the five fixed contract names, asserted in quick-run-types.test.mjs. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Launch-a-shortcut-and-then-capture-its-new-window behavior for Shift+Enter. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(Shift+Enter plans a layout membership and nothing captures a window. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] Worker architecture before profiling proves it necessary. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(no worker, thread or message passing anywhere in the feature. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
+- [x] New search dependency/library before the pure matcher has been measured. — `e38d55d` @ `2026-09-12T09:05:10+07:00` *(the modules import each other and two model helpers, and nothing else. The scan that holds it is quick-run-prohibitions.test.mjs, which covers the seven modules and the entry region and names this prohibition in its holder list.)*
 
 # STAGE 0 — Pure search viability proof
 
