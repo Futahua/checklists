@@ -38,6 +38,15 @@ against its own suite. **Two rules apply when work begins there, and they are no
 **feature branch**, never `main`, and no force-push; and the same vault safety this repository's other
 work follows, because that checkout is ordinary product code and this loop does not write to the
 creator's vault or to real data from it.
+**Baseline verified and the branch exists** (2026-09-12, this pass). `npm test` in that checkout runs its
+own suite: **1153 tests, 1153 pass, 0 fail, exit 0** in ~16 s, on `main` at `8000c88` — so the anchor every
+module added here must keep green is a real number rather than a claim. The work has been started on a
+**feature branch, `quick-run-stage0`**, cut from that exact baseline with a clean tree; nothing has been
+written yet, and `main` is untouched. Two path facts were checked rather than assumed: the canonical Papers
+repository that checkout's own `AGENTS.md` names is `D:\Letters\MatTroiSeConMoc\PAPERS 3\Papers-3`, and the
+path this document's own block names (`D:\Letters\MatTroiSeConMoc\Products\Papers\Source`) also exists —
+both are present, and the discrepancy is recorded here rather than resolved by guessing. The next act is
+STAGE 0's first module under `public/app/quick-run/`, with its test, verified by the suite above.
 
 <!-- /STATUS -->
 
