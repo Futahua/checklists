@@ -6,7 +6,8 @@
 
 **Updated** 2026-09-13 · **Implemented on a feature branch, not yet accepted.** STAGE 0 through STAGE 19
 carry no open boxes: the modules, the surface, the actions, the invalidation and race rules and the tests
-are in place on `quick-run-stage0`. The **16 boxes that remain are the acceptance-shaped remainder** — one
+are in place on `quick-run-stage0`, and the two slices since that branch — the STAGE 14 performance harness and the
+paint cap — are on `quick-run-integrated-perf`. The **16 boxes that remain are the acceptance-shaped remainder** — one
 architecture invariant, STAGE 17's host-side test requirements and the Definition of Done — and none of
 them is waiting on code. The Performance pair the remainder used to include is **closed at `299152d`**: it was
 measured, the measurement failed, it named its own cause, the creator chose the remedy and the re-measurement
@@ -19,7 +20,7 @@ directory. Use `D:/...` in scripts: Windows Python cannot resolve msys `/d/...` 
 
 | | |
 | --- | --- |
-| Working tree | `D:\Letters\MatTroiSeConMoc\Products\Papers\Runtime\Backpack projects\As you Go` — remote `Futahua/as-you-go-backpack`, branch **`quick-run-stage0`**, HEAD **`779c352`** @ `2026-09-12T15:45:12+07:00`, clean tree, pushed |
+| Working tree | `D:\Letters\MatTroiSeConMoc\Products\Papers\Runtime\Backpack projects\As you Go` — remote `Futahua/as-you-go-backpack`, branch **`quick-run-integrated-perf`**, HEAD **`086ac42`** @ `2026-09-13T00:58:56+07:00`, clean tree, pushed. It was cut from `quick-run-stage0` @ `779c352`, which remains the branch the modules, surface, actions and tests listed above were written on; the two slices since are the STAGE 14 harness (`59bed23`, with a text-only correction at `086ac42`) and the paint cap (`299152d`) |
 | Untouched baseline | `main` at `8000c88` @ `2026-09-08T18:23:53+07:00` — the anchor this work must not disturb, and has not |
 | Papers host | `D:\Letters\MatTroiSeConMoc\PAPERS 3\Papers-3` (canonical) and `D:\Letters\MatTroiSeConMoc\Products\Papers\Source` — **read-only reference for this checklist**. STAGE 9's host half names the files a Papers-side change would touch; no Papers change is claimed by this branch |
 | This checklist | `D:\Letters\MatTroiSeConMoc\LongHorizon` — `Futahua/long-horizon`, branch `codex/reviewer-send-verification` |
