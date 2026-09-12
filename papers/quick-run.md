@@ -50,7 +50,7 @@ STAGE 0's first module under `public/app/quick-run/`, with its test, verified by
 
 **Where the module work stands after this pass.** The three STAGE 0 modules are committed and green on
 branch `quick-run-stage0` at `8bfc829`: `quick-run-types.js` (`c0737a2`), `quick-run-search.js`
-(`049f793`) and `quick-run-index.js` (`8bfc829`), suite **1171 pass / 0 fail**, `main` untouched. A
+(`049f793`) and `quick-run-index.js` (`8bfc829`), suite **1173 pass / 0 fail**, `main` untouched. A
 follow-on slice adding § 1.3's highlight rules — preserve the highlighted result by stable result key if it
 still exists, otherwise the first result; ArrowUp/ArrowDown step one row and clamp rather than wrap — was
 written this pass and **reverted rather than committed**: eight of its nine cases passed and the ninth was
@@ -149,12 +149,12 @@ Duplicate names are allowed and expected when breadcrumbs differ.
 ## 1.3 Highlight
 
 - [ ] First matching result starts highlighted.
-- [ ] ArrowDown moves highlight one result down.
-- [ ] ArrowUp moves highlight one result up.
+- [x] ArrowDown moves highlight one result down. — `0adc8fc` @ `2026-09-12T08:15:05+07:00` *(the **rule** is implemented and tested — `src`-side in `public/app/quick-run/quick-run-index.js`, exercised by `quick-run-index.test.mjs` in the suite that runs 1173 cases — while the surface that calls it is a later stage, so this tick claims the rule and not the visible highlight.)*
+- [x] ArrowUp moves highlight one result up. — `0adc8fc` @ `2026-09-12T08:15:05+07:00` *(the **rule** is implemented and tested — `src`-side in `public/app/quick-run/quick-run-index.js`, exercised by `quick-run-index.test.mjs` in the suite that runs 1173 cases — while the surface that calls it is a later stage, so this tick claims the rule and not the visible highlight.)*
 - [ ] Mouse wheel/scroll updates which result is highlighted according to the agreed list behavior.
-- [ ] Highlight never points to an item not present in the currently displayed filtered result set.
-- [ ] When the current result set changes, preserve the highlighted result by stable result key if it still exists.
-- [ ] Otherwise select the first result.
+- [x] Highlight never points to an item not present in the currently displayed filtered result set. — `0adc8fc` @ `2026-09-12T08:15:05+07:00` *(the **rule** is implemented and tested — `src`-side in `public/app/quick-run/quick-run-index.js`, exercised by `quick-run-index.test.mjs` in the suite that runs 1173 cases — while the surface that calls it is a later stage, so this tick claims the rule and not the visible highlight.)*
+- [x] When the current result set changes, preserve the highlighted result by stable result key if it still exists. — `0adc8fc` @ `2026-09-12T08:15:05+07:00` *(the **rule** is implemented and tested — `src`-side in `public/app/quick-run/quick-run-index.js`, exercised by `quick-run-index.test.mjs` in the suite that runs 1173 cases — while the surface that calls it is a later stage, so this tick claims the rule and not the visible highlight.)*
+- [x] Otherwise select the first result. — `0adc8fc` @ `2026-09-12T08:15:05+07:00` *(the **rule** is implemented and tested — `src`-side in `public/app/quick-run/quick-run-index.js`, exercised by `quick-run-index.test.mjs` in the suite that runs 1173 cases — while the surface that calls it is a later stage, so this tick claims the rule and not the visible highlight.)*
 
 ## 1.4 Type filters
 
