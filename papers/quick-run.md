@@ -93,6 +93,21 @@ assert about the workspace's DOM. A pass that skips that reading will produce se
 then contradict, which is the failure I stopped short of twice already (a module written before
 `ARCHITECTURE.md` was read, and rows written before § 0.2 was). Everything upstream of it is now in place
 and green: three pure modules, the row shape, the catalog entry and the controller intent.
+**How the surface mounts here, read from the repository rather than guessed.** This product does not build
+its DOM in modules: elements are declared in **`public/workspace-20260730b.html`** with plain ids, registered
+in **`public/app/dom.js`**'s `getWorkspaceElements(document)` as `requiredElement(document, '#id')`, and handed
+to controllers, which drive them (`classList`, `hidden`, `textContent`) and never create markup. So Quick
+Run's surface is four edits, in this order: **(1)** the elements in `workspace-20260730b.html` (a line input,
+a chip strip, a result list, a layer to show/hide); **(2)** their ids in `getWorkspaceElements`, whose own
+comment is the rule to obey — *"this registry must stay in lockstep … a missing ID here means the interface is
+broken, not an optional enhancement"*, and `requiredElement` **throws**, so an id added to one file and not
+the other breaks the whole workspace mount rather than failing quietly; **(3)** a `quick-run-surface.js` that
+takes those element handles and paints `quickRunRowViews`/`quickRunChipViews` — the five pure modules already
+hand it every value it needs, including which row is highlighted and which chip is active; **(4)** the entry
+file passing a real `openQuickRun` into the keyboard controller and mounting the surface, which is the step
+that finally makes the chord open something a reader can see. Nothing in that list requires inventing a
+selector convention: the ids are the implementer's to name, and everything they must contain is already
+decided.
 <!-- /STATUS -->
 
 > Authored by the audit reviewer on 2026-09-08 and saved here (only rendering
