@@ -134,6 +134,16 @@ binned layout and a layout under the bin — with prompts and Sets present in th
 asserted rather than assumed. Removing the filter fails two of the five cases; that was checked, not
 claimed. Seven section 6 boxes tick with it: whole layouts, prompts, bin contents, items under a binned
 folder, binned placements, binned layouts with their members, and Sets.
+**Ephemeral availability, with the reset rule that makes holding it safe.** `03bf9d0` gives the surface the
+§ 10.1 state it was missing: a noted answer is keyed by the occurrence and carries the descriptor it was
+noted against, so an untouched item is `unknown`, a missing or ambiguous outcome reads `unavailable` while
+the row stays exactly where it was, a unique resolution that was activated reads `available`, and a member
+whose descriptor changed reads `unknown` again — § 10.5's reset, now a rule with a test rather than a
+property that held because nothing was ever cached. The descriptor box ticked on that vacuous reasoning
+earlier carries a correction rather than a rewrite: the reading is superseded, and the box now rests on the
+test. A noted answer belongs to one occurrence: two layouts holding the same descriptor do not share it.
+What still cannot happen is the `activated` case, because no host supplies windows and nothing activates
+yet; that, plus the § 10.2 capability handshake, is the live half and it needs the machine.
 **Resolution now exists as a decision, which is the half that does not need the machine.** `4541f19` adds
 `quick-run-resolution.js`: matching compares only the descriptor fields a member declares, every declared
 field must agree exactly, a descriptor that declares nothing matches nothing, and a host that reported no
@@ -206,7 +216,7 @@ satisfy the key with the command the section forbids. **Layout Item Enter waits 
 machine** — activating and focusing a live foreign window is not reversible by a commit, and the row plan
 already answers `deferred` with a reason rather than pretending, which is why the § Availability outcome
 boxes and the acceptance-list twins near the foot of this file stay open. Running totals after this pass:
-**247 ticked / 34 open.**
+**250 ticked / 31 open.**
 **Availability landed as a property rather than a placeholder.** `f78cd16` gives `quickRunRowViews` a
 per-row `availability` of `unknown` for Layout Items and `null` for every other row kind, so no other kind
 can render a state it cannot have, and `217007f` asserts the two cases that make the difference real: a
@@ -2078,12 +2088,12 @@ Every test proves current-state revalidation.
 - [x] searching does zero native resolution. — `4f63739` @ `2026-09-12T08:39:21+07:00` *( and )*
 - [ ] first Enter resolves.
 - [ ] unique resolution + activate success -> available.
-- [ ] missing -> unavailable.
-- [ ] ambiguous -> unavailable.
+- [x] missing -> unavailable. — `03bf9d0` @ `2026-09-12T09:13:34+07:00` *(a noted missing outcome reads unavailable on that occurrence, the row stays in the list, and an untouched item is still unknown - the three states section 10.1 distinguishes, asserted in quick-run-availability.test.mjs.)*
+- [x] ambiguous -> unavailable. — `03bf9d0` @ `2026-09-12T09:13:34+07:00` *(the same shape, and the assertion also covers that nothing about which window was meant appears on the row: an ambiguous resolution reports candidates to the caller and says only unavailable here.)*
 - [x] ambiguous -> zero activate calls. — `4541f19` @ `2026-09-12T09:11:59+07:00` *(the plan is the only thing that can authorise an activation, and it authorises exactly one outcome: ambiguous comes back with activate false and the candidate list. There is no call site yet, which is why this is the strongest available form of the rule: zero calls follow from the only authoriser saying no, and the live half stays open with the boxes that need the machine.)*
-- [ ] result remains searchable after missing/ambiguous outcome.
+- [x] result remains searchable after missing/ambiguous outcome. — `03bf9d0` @ `2026-09-12T09:13:34+07:00` *(after either outcome the occurrence is still exactly where it was, with its name and breadcrumb - a failed resolution is not a removal, which is the rule the box names.)*
 - [x] descriptor change resets prior availability. — `f78cd16` @ `2026-09-12T08:42:28+07:00` and `217007f` @ `2026-09-12T08:43:01+07:00` *(there is no cached availability to reset: availability is computed from the row kind on every paint, so a descriptor change cannot leave a stale state behind - the strongest form of the rule, and the reason the Layout Item boxes above stay open is that the resolution itself is unbuilt.)*
-
+ **Corrected at `03bf9d0` @ `2026-09-12T09:13:34+07:00`:** the original reasoning here was that no availability is cached, so the rule held vacuously. That is no longer the case - availability is now held ephemerally per occurrence - so the reset is a real rule with a test: a noted answer carries the descriptor it was seen with, and a member whose title changed reads unknown again.
 ## Papers activation
 
 - [ ] normal target raises/focuses.
